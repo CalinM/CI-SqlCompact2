@@ -26,10 +26,17 @@ $RECYCLE.BIN/
 ###################
 *.com
 *.class
-*.dll
 *.exe
+*.dll
+!MediaInfo.dll
+!NReco.VideoConverter.dll
+!Microsoft.Win32.Primitives.dll
+!Aga.Controls.dll
+!System.Data.SqlServerCe.dll
 *.o
 *.so
+
+!/_Tools/*
 
 # Packages #
 ############
