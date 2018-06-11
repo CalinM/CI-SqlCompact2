@@ -37,6 +37,7 @@ $RECYCLE.BIN/
 *.so
 
 !/_Tools/*
+!Desene/*
 
 # Packages #
 ############
