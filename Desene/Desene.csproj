@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AA6A65AD-D67E-4704-8BA4-80AF2E5C7B02}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Desene</RootNamespace>
+    <AssemblyName>Desene</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataTableTreeModel.cs" />
+    <Compile Include="DetailFormsAndUserControls\Episodes\ucSubtitleStreamDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Episodes\ucSubtitleStreamDetail.Designer.cs">
+      <DependentUpon>ucSubtitleStreamDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Episodes\ucAudioStreamDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Episodes\ucAudioStreamDetail.Designer.cs">
+      <DependentUpon>ucAudioStreamDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Episodes\ucVideoStreamDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Episodes\ucVideoStreamDetail.Designer.cs">
+      <DependentUpon>ucVideoStreamDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Episodes\ucGenericStreamsWrapper.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Episodes\ucGenericStreamsWrapper.Designer.cs">
+      <DependentUpon>ucGenericStreamsWrapper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Series\FrmEditSeriesBaseInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Series\FrmEditSeriesBaseInfo.designer.cs">
+      <DependentUpon>FrmEditSeriesBaseInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Series\ucEditSeriesBaseInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Series\ucEditSeriesBaseInfo.Designer.cs">
+      <DependentUpon>ucEditSeriesBaseInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Episodes\ucEpisodeDetails.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Episodes\ucEpisodeDetails.Designer.cs">
+      <DependentUpon>ucEpisodeDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Series\ucSeriesEpisodes.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Series\ucSeriesEpisodes.Designer.cs">
+      <DependentUpon>ucSeriesEpisodes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMain.Designer.cs">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ucFileDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucFileDetail.Designer.cs">
+      <DependentUpon>ucFileDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucMovies.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucMovies.Designer.cs">
+      <DependentUpon>ucMovies.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ucSeries.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucSeries.Designer.cs">
+      <DependentUpon>ucSeries.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="DetailFormsAndUserControls\Episodes\ucSubtitleStreamDetail.resx">
+      <DependentUpon>ucSubtitleStreamDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DetailFormsAndUserControls\Episodes\ucAudioStreamDetail.resx">
+      <DependentUpon>ucAudioStreamDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DetailFormsAndUserControls\Episodes\ucVideoStreamDetail.resx">
+      <DependentUpon>ucVideoStreamDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DetailFormsAndUserControls\Episodes\ucGenericStreamsWrapper.resx">
+      <DependentUpon>ucGenericStreamsWrapper.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DetailFormsAndUserControls\Series\FrmEditSeriesBaseInfo.resx">
+      <DependentUpon>FrmEditSeriesBaseInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DetailFormsAndUserControls\Series\ucEditSeriesBaseInfo.resx">
+      <DependentUpon>ucEditSeriesBaseInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DetailFormsAndUserControls\Episodes\ucEpisodeDetails.resx">
+      <DependentUpon>ucEpisodeDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DetailFormsAndUserControls\Series\ucSeriesEpisodes.resx">
+      <DependentUpon>ucSeriesEpisodes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmMain.resx">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="ucFileDetail.resx">
+      <DependentUpon>ucFileDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucMovies.resx">
+      <DependentUpon>ucMovies.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucSeries.resx">
+      <DependentUpon>ucSeries.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Aga.Controls\Aga.Controls.csproj">
+      <Project>{E73BB233-D88B-44A7-A98F-D71EE158381D}</Project>
+      <Name>Aga.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{5611942b-e0e9-45ce-88aa-8a8cac8c075b}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{cc677dcd-ad19-4425-80db-29733acdda03}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{614aa75b-3382-485b-8eb0-466b65149ddc}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\add.png" />
+    <Content Include="Images\cancel.png" />
+    <Content Include="Images\delete.png" />
+    <Content Include="Images\exit.png" />
+    <Content Include="Images\image.png" />
+    <Content Include="Images\import.png" />
+    <None Include="Images\save.png" />
+    <Content Include="Images\save_as.png" />
+    <None Include="Images\generateHtml.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
