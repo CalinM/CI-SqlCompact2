@@ -20,31 +20,11 @@ namespace Desene.DetailFormsAndUserControls.Episodes
             RefreshControls(subtitleStreamInfo);
         }
 
-        private void LoadControls(SubtitleStreamInfo subtitleStreamInfo)
-        {
-            /*
-            lbIndexResolution.Text = @"Position " + subtitleStreamInfo.Index;
-            cbLanguage.Text = subtitleStreamInfo.Language;
-            tbFormat.Text = subtitleStreamInfo.Format;
-            tbStreamSize.Text = subtitleStreamInfo.StreamSize;
-            cbTitle.Checked = !string.IsNullOrEmpty(subtitleStreamInfo.Title);
-            */
-            /*
-            lbIndexResolution.Text = @"Position " + subtitleStreamInfo.Index;
-
-            if (cbLanguage.DataBindings.Count > 0) return;
-
-            cbLanguage.DataBindings.Add("Text", subtitleStreamInfo, "Language");
-            tbFormat.DataBindings.Add("Text", subtitleStreamInfo, "Format");
-            tbStreamSize.DataBindings.Add("Text", subtitleStreamInfo, "StreamSize");
-
-            cbTitle.DataBindings.Add("Checked", subtitleStreamInfo, "HasTitle");*/
-        }
-
         private void InitControls()
         {
             _bsControlsData = new BindingSource();
 
+            lbIndex.DataBindings.Add("Text", _bsControlsData, "Index");
             cbLanguage.DataBindings.Add("Text", _bsControlsData, "Language");
             tbFormat.DataBindings.Add("Text", _bsControlsData, "Format");
             tbStreamSize.DataBindings.Add("Text", _bsControlsData, "StreamSize");

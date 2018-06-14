@@ -10,6 +10,8 @@ namespace Desene.DetailFormsAndUserControls
     //private
     public partial class ucSeriesEpisodes : UserControl
     {
+        private BindingSource _bsEpisodesGridData;
+
         public ucSeriesEpisodes()
         {
             InitializeComponent();
@@ -21,35 +23,25 @@ namespace Desene.DetailFormsAndUserControls
 
             dgvEpisodes.GetType().GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(dgvEpisodes, true, null);
             dgvEpisodes.AutoGenerateColumns = false;
+
+            _bsEpisodesGridData = new BindingSource();
+            dgvEpisodes.DataSource = _bsEpisodesGridData;
+
             LoadControls(seriesId);
         }
 
         public void LoadControls(int seriesId)
         {
-            //var rows = DAL.Series.Select("ParentId = " + seriesId);// + " and Id <> " + id);//.OrderBy(u => u["FileName"]).ToArray();
-            //var seasonsList = new List<string>();
-
-            //var seasons = rows.CopyToDataTable().DefaultView.ToTable(true, "Season");
-
-            //for (var i = 0; i < seasons.Rows.Count; i++)
-            //{
-            //    seasonsList.Add(seasons.Rows[i]["Season"].ToString());
-            //}
-
-            //foreach (var season in seasonsList.OrderBy(o => o))
-            //{
-            //    var episodesInSeason = DAL.Series.Select("ParentId = " + seriesId + " and Season = " + season).OrderBy(u => u["FileName"]).CopyToDataTable();
-            //}
-
-            //var rows = DAL.Series.Select("ParentId = " + seriesId).OrderBy(u => u["FileName"]).ToArray();
-            //foreach (var row in rows)
-            //{
-            //    Controls.Add(new ucEpisodeLine(row) { Dock = DockStyle.Top });
-            //}
-
             try
             {
-                dgvEpisodes.DataSource = DAL.Series.Select("ParentId = " + seriesId).OrderBy(u => u["Season"]).ThenBy(u => u["FileName"]).CopyToDataTable();
+                _bsEpisodesGridData.DataSource
+                    = DAL.Series
+                         .Select("ParentId = " + seriesId)
+                         .OrderBy(u => u["Season"])
+                         .ThenBy(u => u["FileName"])
+                         .CopyToDataTable();
+
+                _bsEpisodesGridData.ResetBindings(false);
             }
             catch (Exception e)
             {
@@ -61,6 +53,7 @@ namespace Desene.DetailFormsAndUserControls
         {
             //https://stackoverflow.com/questions/7412098/fit-datagridview-size-to-rows-and-columnss-total-size
             dgvEpisodes.Height = dgvEpisodes.Rows.GetRowsHeight(DataGridViewElementStates.None) + dgvEpisodes.ColumnHeadersHeight + 6;
+
             Size = new Size
             {
                 Height = dgvEpisodes.Height + dgvEpisodes.Location.Y + 10,

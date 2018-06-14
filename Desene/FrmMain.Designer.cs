@@ -41,7 +41,6 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnGenerateHtml = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnImportEpisodes = new System.Windows.Forms.ToolStripButton();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.pMainContainer = new System.Windows.Forms.Panel();
             this.button5 = new System.Windows.Forms.Button();
@@ -63,8 +62,7 @@
             this.btnDelete,
             this.toolStripSeparator2,
             this.btnGenerateHtml,
-            this.toolStripSeparator3,
-            this.btnImportEpisodes});
+            this.toolStripSeparator3});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.ShowItemToolTips = false;
@@ -89,7 +87,7 @@
             // miMovies
             // 
             this.miMovies.Name = "miMovies";
-            this.miMovies.Size = new System.Drawing.Size(112, 22);
+            this.miMovies.Size = new System.Drawing.Size(180, 22);
             this.miMovies.Tag = "1";
             this.miMovies.Text = "Movies";
             this.miMovies.Click += new System.EventHandler(this.miMovies_Click);
@@ -97,7 +95,7 @@
             // miSeries
             // 
             this.miSeries.Name = "miSeries";
-            this.miSeries.Size = new System.Drawing.Size(112, 22);
+            this.miSeries.Size = new System.Drawing.Size(180, 22);
             this.miSeries.Tag = "1";
             this.miSeries.Text = "Series";
             this.miSeries.Click += new System.EventHandler(this.miSeries_Click);
@@ -105,13 +103,13 @@
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(109, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
             // 
             // miExit
             // 
             this.miExit.Image = global::Desene.Properties.Resources.exit;
             this.miExit.Name = "miExit";
-            this.miExit.Size = new System.Drawing.Size(112, 22);
+            this.miExit.Size = new System.Drawing.Size(180, 22);
             this.miExit.Text = "Exit";
             // 
             // toolStripSeparator1
@@ -155,17 +153,6 @@
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btnImportEpisodes
-            // 
-            this.btnImportEpisodes.Enabled = false;
-            this.btnImportEpisodes.Image = global::Desene.Properties.Resources.import;
-            this.btnImportEpisodes.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnImportEpisodes.Name = "btnImportEpisodes";
-            this.btnImportEpisodes.Size = new System.Drawing.Size(112, 22);
-            this.btnImportEpisodes.Text = "Import episodes";
-            this.btnImportEpisodes.Visible = false;
-            this.btnImportEpisodes.Click += new System.EventHandler(this.btnImportEpisodes_Click);
             // 
             // statusStrip
             // 
@@ -276,8 +263,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-
-        public System.Windows.Forms.ToolStripButton btnImportEpisodes;
         private System.Windows.Forms.Button button5;
     }
 }

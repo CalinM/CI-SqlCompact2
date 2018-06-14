@@ -2,12 +2,12 @@
 {
     partial class ucVideoStreamDetail
     {
-        /// <summary> 
+        /// <summary>
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
+        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -22,32 +22,32 @@
 
         #region Component Designer generated code
 
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
+        /// <summary>
+        /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
             this.label5 = new System.Windows.Forms.Label();
-            this.tbHeight = new System.Windows.Forms.TextBox();
-            this.tbWidth = new System.Windows.Forms.TextBox();
+            this.tbHeight = new Utils.CustomTextBox();
+            this.tbWidth = new Utils.CustomTextBox();
             this.cbTitle = new System.Windows.Forms.CheckBox();
-            this.tbLanguage = new System.Windows.Forms.TextBox();
+            this.tbLanguage = new Utils.CustomTextBox();
             this.lbLanguage_Delay = new System.Windows.Forms.Label();
-            this.tbStreamSize = new System.Windows.Forms.TextBox();
+            this.tbStreamSize = new Utils.CustomTextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.tbDelay = new System.Windows.Forms.TextBox();
-            this.tbFrameRateMode = new System.Windows.Forms.TextBox();
-            this.tbFrameRate = new System.Windows.Forms.TextBox();
+            this.tbDelay = new Utils.CustomTextBox();
+            this.tbFrameRateMode = new Utils.CustomTextBox();
+            this.tbFrameRate = new Utils.CustomTextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.tbBitRateMode = new System.Windows.Forms.TextBox();
-            this.tbBitRate = new System.Windows.Forms.TextBox();
+            this.tbBitRateMode = new Utils.CustomTextBox();
+            this.tbBitRate = new Utils.CustomTextBox();
             this.lbBitRate = new System.Windows.Forms.Label();
-            this.tbFormatProfile = new System.Windows.Forms.TextBox();
-            this.tbFormat = new System.Windows.Forms.TextBox();
+            this.tbFormatProfile = new Utils.CustomTextBox();
+            this.tbFormat = new Utils.CustomTextBox();
             this.lbFormat = new System.Windows.Forms.Label();
-            this.lbIndexResolution = new System.Windows.Forms.Label();
+            this.lbIndex = new System.Windows.Forms.Label();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
@@ -196,15 +196,15 @@
             this.lbFormat.TabIndex = 22;
             this.lbFormat.Text = "Format / Profile:";
             // 
-            // lbIndexResolution
+            // lbIndex
             // 
-            this.lbIndexResolution.AutoSize = true;
-            this.lbIndexResolution.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbIndexResolution.Location = new System.Drawing.Point(23, 16);
-            this.lbIndexResolution.Name = "lbIndexResolution";
-            this.lbIndexResolution.Size = new System.Drawing.Size(59, 17);
-            this.lbIndexResolution.TabIndex = 21;
-            this.lbIndexResolution.Text = "lbIndex";
+            this.lbIndex.AutoSize = true;
+            this.lbIndex.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbIndex.Location = new System.Drawing.Point(23, 16);
+            this.lbIndex.Name = "lbIndex";
+            this.lbIndex.Size = new System.Drawing.Size(59, 17);
+            this.lbIndex.TabIndex = 21;
+            this.lbIndex.Text = "lbIndex";
             // 
             // ucVideoStreamDetail
             // 
@@ -229,7 +229,7 @@
             this.Controls.Add(this.tbFormatProfile);
             this.Controls.Add(this.tbFormat);
             this.Controls.Add(this.lbFormat);
-            this.Controls.Add(this.lbIndexResolution);
+            this.Controls.Add(this.lbIndex);
             this.Name = "ucVideoStreamDetail";
             this.Size = new System.Drawing.Size(410, 180);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
@@ -241,24 +241,24 @@
         #endregion
 
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox tbHeight;
-        private System.Windows.Forms.TextBox tbWidth;
+        private Utils.CustomTextBox tbHeight;
+        private Utils.CustomTextBox tbWidth;
         private System.Windows.Forms.CheckBox cbTitle;
-        private System.Windows.Forms.TextBox tbLanguage;
+        private Utils.CustomTextBox tbLanguage;
         private System.Windows.Forms.Label lbLanguage_Delay;
-        private System.Windows.Forms.TextBox tbStreamSize;
+        private Utils.CustomTextBox tbStreamSize;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox tbDelay;
-        private System.Windows.Forms.TextBox tbFrameRateMode;
-        private System.Windows.Forms.TextBox tbFrameRate;
+        private Utils.CustomTextBox tbDelay;
+        private Utils.CustomTextBox tbFrameRateMode;
+        private Utils.CustomTextBox tbFrameRate;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox tbBitRateMode;
-        private System.Windows.Forms.TextBox tbBitRate;
+        private Utils.CustomTextBox tbBitRateMode;
+        private Utils.CustomTextBox tbBitRate;
         private System.Windows.Forms.Label lbBitRate;
-        private System.Windows.Forms.TextBox tbFormatProfile;
-        private System.Windows.Forms.TextBox tbFormat;
+        private Utils.CustomTextBox tbFormatProfile;
+        private Utils.CustomTextBox tbFormat;
         private System.Windows.Forms.Label lbFormat;
-        private System.Windows.Forms.Label lbIndexResolution;
+        private System.Windows.Forms.Label lbIndex;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.BindingSource bindingSource1;
     }

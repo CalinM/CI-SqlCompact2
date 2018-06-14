@@ -124,6 +124,7 @@ namespace DAL
 
     public class VideoStreamInfo
     {
+        public int Id { get; set; }
         public int Index { get; set; }
         public string Format { get; set; }
         public string Format_Profile { get; set; }
@@ -151,7 +152,6 @@ namespace DAL
         }
 
         public bool HasTitle { get; set; }
-
         public string Language { get; set; }
 
         public override string ToString()
@@ -162,6 +162,7 @@ namespace DAL
 
     public class AudioStreamInfo
     {
+        public int Id { get; set; }
         public int Index { get; set; }
         public string Format { get; set; }
 
@@ -190,7 +191,6 @@ namespace DAL
         }
 
         public bool HasTitle { get; set; }
-
         public string Language { get; set; }
 
         public override string ToString()
@@ -201,6 +201,7 @@ namespace DAL
 
     public class SubtitleStreamInfo
     {
+        public int Id { get; set; }
         public int Index { get; set; }
         public string Format { get; set; }
         public string StreamSize { get; set; }

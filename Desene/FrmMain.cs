@@ -1,13 +1,6 @@
-﻿using Common;
-using DAL;
-using MediaInfoLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlServerCe;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using Utils;
 
@@ -16,7 +9,6 @@ namespace Desene
     public partial class FrmMain : Form
     {
         public event EventHandler OnAddButtonPress;
-        public event EventHandler OnImportEpisodesButtonPress;
 
         public FrmMain()
         {
@@ -111,7 +103,6 @@ namespace Desene
                 }
 
                 SetMainButtonsStates(senderItem.Checked);
-                btnImportEpisodes.Visible = false;
             }
             finally
             {
@@ -133,13 +124,11 @@ namespace Desene
 
                     pMainContainer.Controls.Clear();
                     pMainContainer.Controls.Add(new ucSeries(this) { Dock = DockStyle.Fill });
-                    btnImportEpisodes.Visible = true;
                 }
                 else
                 {
                     senderItem.Checked = false;
                     pMainContainer.Controls.Clear();
-                    btnImportEpisodes.Visible = false;
                 }
 
                 SetMainButtonsStates(senderItem.Checked);
@@ -409,15 +398,19 @@ namespace Desene
             OnAddButtonPress(sender, e);
         }
 
-        private void btnImportEpisodes_Click(object sender, EventArgs e)
-        {
-            if (OnImportEpisodesButtonPress is null) return;
-
-            OnImportEpisodesButtonPress(sender, e);
-        }
-
         private void button5_Click(object sender, EventArgs e)
         {
+            using (var openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Title = "Open Text File";
+                openFileDialog.Filter = "Video files (*.mkv, *.mp4, *.m4v, *.avi)|*.mkv;*.mp4;*.m4v;*.avi|All files (*.*)|*.*";
+                //openFileDialog.InitialDirectory = Settings.Default.LastPath;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+
+                }
+            }
         }
     }
 }

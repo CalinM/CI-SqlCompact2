@@ -4,6 +4,7 @@
     <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucEpisodeDetails.cs</string>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucEpisodeDetails.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucEpisodeDetails.Designer.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\ucSeries.cs</string>
@@ -22,6 +23,7 @@
     </ArrayOfString>
     <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Series\ucSeriesEpisodes.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Series\ucSeriesEpisodes.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\DAL\DAL.cs</string>
@@ -31,18 +33,33 @@
     </ArrayOfString>
     <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucGenericStreamsWrapper.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucGenericStreamsWrapper.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucVideoStreamDetail.cs</string>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucVideoStreamDetail.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucVideoStreamDetail.Designer.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\CustomFLP.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\CustomFLP.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucAudioStreamDetail.cs</string>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucAudioStreamDetail.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucAudioStreamDetail.Designer.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\CustomTextBox.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\CustomTextBox.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FrmEpisodeInfoFromFiles.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucSubtitleStreamDetail.cs</string>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucSubtitleStreamDetail.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucSubtitleStreamDetail.Designer.cs</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
   <ArrayOfArrayOfString>

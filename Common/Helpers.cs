@@ -4,9 +4,29 @@ namespace Common
 {
     public class Helpers
     {
-        public static bool UnsavedChanges { get; set; }
+        private static bool _unsavedChanges;
 
-        public delegate OperationResult SaveChanges();
+        public static bool UnsavedChanges
+        {
+            get
+            {
+                return _unsavedChanges;
+            }
+            set
+            {
+                _unsavedChanges = value;
+                GenericSetButtonsState2(value);
+            }
+        }
+
+        public static Func<Boolean, object> GenericSetButtonsState;
+        public static Action<Boolean> GenericSetButtonsState2;
+        //public delegate OperationResult SaveChanges();
         //public static event EventHandler OnInnerLoadPosterButtonPress;
+
+        public static void OnTextChanged(object sender, EventArgs eventArgs)
+        {
+            UnsavedChanges = true;
+        }
     }
 }

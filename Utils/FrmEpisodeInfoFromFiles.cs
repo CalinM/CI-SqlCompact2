@@ -31,6 +31,8 @@ namespace Utils
         {
             using (var folderBrowserDialog = new FolderBrowserDialog())
             {
+                folderBrowserDialog.Description = "Please select the episodes location (folder)";
+                folderBrowserDialog.ShowNewFolderButton = false;
                 folderBrowserDialog.SelectedPath = Settings.Default.LastPath;
 
                 if (folderBrowserDialog.ShowDialog() == DialogResult.OK)

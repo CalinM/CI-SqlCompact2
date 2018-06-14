@@ -14,6 +14,8 @@ namespace Desene.DetailFormsAndUserControls
 {
     public partial class ucEpisodeDetails : UserControl
     {
+        private BindingSource _bsControlsData;
+
         public ucEpisodeDetails()
         {
             InitializeComponent();
@@ -22,6 +24,8 @@ namespace Desene.DetailFormsAndUserControls
         public ucEpisodeDetails(int episodeId, int seriesId)
         {
             InitializeComponent();
+
+            InitControls();
             LoadControls(episodeId, seriesId);
         }
 
@@ -63,51 +67,8 @@ namespace Desene.DetailFormsAndUserControls
                     return;
                 }
 
-                /*
-                var fileInfoRow = DAL.Series.Select("Id = " + episodeId)[0];
-                tbEpisodeName.Text = fileInfoRow["FileName"].ToString();
-                cbQuality.Text = fileInfoRow["Quality"].ToString();
-                tbSeason.Text = fileInfoRow["Season"].ToString();
-                tbYear.Text = fileInfoRow["Year"].ToString();
-                tbSize.Text = fileInfoRow["FileSize2"].ToString();
-                tbmDuration.Text = ((DateTime)fileInfoRow["Duration"]).ToString("HH:mm:ss");
-                tbAudioSummary.Text = fileInfoRow["AudioLanguages"].ToString();
-                tbSubtitleSummary.Text = fileInfoRow["SubtitleLanguages"].ToString();
-                tbFormat.Text = fileInfoRow["Format"].ToString();
-                tbEncodedWith.Text = fileInfoRow["Encoded_Application"].ToString();
+                RefreshControls(DAL.CurrentMTD);
 
-                chbHasEmbeddedTitle.Checked = fileInfoRow["TitleEmbedded"].ToString().ToUpper() == "TRUE";
-                cbHasEmbeddedCover.Checked = fileInfoRow["CoverEmbedded"].ToString().ToUpper() == "TRUE";
-                */
-
-                if (tbEpisodeName.DataBindings.Count == 0)
-                {
-                tbEpisodeName.DataBindings.Add("Text", DAL.CurrentMTD, "FileName");
-                cbQuality.DataBindings.Add("Text", DAL.CurrentMTD, "Quality");
-                tbSeason.DataBindings.Add("Text", DAL.CurrentMTD, "Season");
-                tbYear.DataBindings.Add("Text", DAL.CurrentMTD, "Year");
-                tbSize.DataBindings.Add("Text", DAL.CurrentMTD, "FileSize2");
-                tbmDuration.DataBindings.Add("Text", DAL.CurrentMTD, "DurationFormatted");
-                tbAudioSummary.DataBindings.Add("Text", DAL.CurrentMTD, "AudioLanguages");
-                tbSubtitleSummary.DataBindings.Add("Text", DAL.CurrentMTD, "SubtitleLanguages");
-                tbFormat.DataBindings.Add("Text", DAL.CurrentMTD, "Format");
-                tbEncodedWith.DataBindings.Add("Text", DAL.CurrentMTD, "Encoded_Application");
-
-                chbHasEmbeddedTitle.DataBindings.Add("Checked", DAL.CurrentMTD, "HasTitle");
-                }
-
-
-                //foreach (var vsCtrl in Controls.OfType<ucGenericStreamsWrapper>())
-                //{
-                //    Controls.Remove(vsCtrl);
-                //}
-
-                //foreach (var vsCtrl in Controls.Cast<Control>().Where(c => c.Tag != null)) //.ToString() == "SectionHeader"
-                //{
-                //    Controls.Remove(vsCtrl);
-                //}
-
-                //var mtd = (MovieTechnicalDetails)opRes.AdditionalDataReturn;
 
                 var vsUC = Controls.OfType<UserControl>().FirstOrDefault(uc => uc.Tag != null && uc.Tag.ToString() == "videoStreams");
                 if (vsUC == null)
@@ -175,6 +136,30 @@ namespace Desene.DetailFormsAndUserControls
             }
         }
 
+        private void InitControls()
+        {
+            _bsControlsData = new BindingSource();
+
+            tbEpisodeName.DataBindings.Add("Text", _bsControlsData, "FileName");
+            cbQuality.DataBindings.Add("Text", _bsControlsData, "Quality");
+            tbSeason.DataBindings.Add("Text", _bsControlsData, "Season");
+            tbYear.DataBindings.Add("Text", _bsControlsData, "Year");
+            tbSize.DataBindings.Add("Text", _bsControlsData, "FileSize2");
+            tbmDuration.DataBindings.Add("Text", _bsControlsData, "DurationFormatted");
+            tbAudioSummary.DataBindings.Add("Text", _bsControlsData, "AudioLanguages");
+            tbSubtitleSummary.DataBindings.Add("Text", _bsControlsData, "SubtitleLanguages");
+            tbFormat.DataBindings.Add("Text", _bsControlsData, "Format");
+            tbEncodedWith.DataBindings.Add("Text", _bsControlsData, "Encoded_Application");
+
+            chbHasEmbeddedTitle.DataBindings.Add("Checked", _bsControlsData, "HasTitle");
+        }
+
+        public void RefreshControls(MovieTechnicalDetails mtd)
+        {
+            _bsControlsData.DataSource = mtd;
+            _bsControlsData.ResetBindings(false);
+        }
+
         private void AddSectionHeader(string caption)
         {
             var pHeader = new Panel();
@@ -219,11 +204,6 @@ namespace Desene.DetailFormsAndUserControls
                     pbMovieStill3.Image = Image.FromStream(ms);
                 }
             }
-        }
-
-        private void tbEpisodeName_TextChanged(object sender, EventArgs e)
-        {
-            Common.Helpers.UnsavedChanges = true;
         }
     }
 }

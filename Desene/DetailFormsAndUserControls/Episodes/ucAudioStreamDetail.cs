@@ -20,45 +20,11 @@ namespace Desene.DetailFormsAndUserControls.Episodes
             RefreshControls(audioStreamInfo);
         }
 
-        public void LoadControls(AudioStreamInfo audioStreamInfo)
-        {
-            /*
-            lbIndexResolution.Text = @"Position " + audioStreamInfo.Index;
-            cbLanguage.Text = audioStreamInfo.Language;
-            tbFormat.Text = audioStreamInfo.Format;
-            tbBitRate.Text = audioStreamInfo.BitRate;
-            tbChannels.Text = audioStreamInfo.Channel;
-            tbChannelsPosition.Text = audioStreamInfo.ChannelPosition;
-            tbSamplingRate.Text = audioStreamInfo.SamplingRate;
-            tbResolution.Text = audioStreamInfo.Resolution;
-            tbDelay.Text = audioStreamInfo.Delay;
-            tbVideoDelay.Text = audioStreamInfo.Video_Delay;
-            tbStreamSize.Text = audioStreamInfo.StreamSize;
-            cbTitle.Checked = !string.IsNullOrEmpty(audioStreamInfo.Title);
-            */
-            /*
-            lbIndexResolution.Text = @"Position " + audioStreamInfo.Index;
-
-            if (cbLanguage.DataBindings.Count > 0) return;
-
-            cbLanguage.DataBindings.Add("Text", audioStreamInfo, "Language");
-            tbFormat.DataBindings.Add("Text", audioStreamInfo, "Format");
-            tbBitRate.DataBindings.Add("Text", audioStreamInfo, "BitRate");
-            tbChannels.DataBindings.Add("Text", audioStreamInfo, "Channel");
-            tbChannelsPosition.DataBindings.Add("Text", audioStreamInfo, "ChannelPosition");
-            tbSamplingRate.DataBindings.Add("Text", audioStreamInfo, "SamplingRate");
-            tbResolution.DataBindings.Add("Text", audioStreamInfo, "Resolution");
-            tbDelay.DataBindings.Add("Text", audioStreamInfo, "Delay");
-            tbVideoDelay.DataBindings.Add("Text", audioStreamInfo, "Video_Delay");
-            tbStreamSize.DataBindings.Add("Text", audioStreamInfo, "StreamSize");
-
-            cbTitle.DataBindings.Add("Checked", audioStreamInfo, "HasTitle");*/
-        }
-
         private void InitControls()
         {
             _bsControlsData = new BindingSource();
 
+            lbIndex.DataBindings.Add("Text", _bsControlsData, "Index");
             cbLanguage.DataBindings.Add("Text", _bsControlsData, "Language");
             tbFormat.DataBindings.Add("Text", _bsControlsData, "Format");
             tbBitRate.DataBindings.Add("Text", _bsControlsData, "BitRate");

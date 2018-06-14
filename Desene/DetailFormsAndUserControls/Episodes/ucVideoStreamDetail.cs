@@ -20,58 +20,11 @@ namespace Desene.DetailFormsAndUserControls.Episodes
             RefreshControls(videoStreamInfo);
         }
 
-        public void LoadControls(VideoStreamInfo videoStreamInfo)
-        {
-            /*
-            lbIndexResolution.Text = @"Position " + videoStreamInfo.Index;
-            tbWidth.Text = videoStreamInfo.Width;
-            tbHeight.Text = videoStreamInfo.Height;
-            tbFormat.Text = videoStreamInfo.Format;
-            tbFormatProfile.Text = videoStreamInfo.Format_Profile;
-            tbBitRate.Text = videoStreamInfo.BitRate;
-            tbBitRateMode.Text = videoStreamInfo.BitRateMode;
-            tbFrameRate.Text = videoStreamInfo.FrameRate;
-            tbFrameRateMode.Text = videoStreamInfo.FrameRate_Mode;
-            tbLanguage.Text = videoStreamInfo.Language;
-            tbDelay.Text = videoStreamInfo.Delay;
-            tbStreamSize.Text = videoStreamInfo.StreamSize;
-
-            cbTitle.Checked = !string.IsNullOrEmpty(videoStreamInfo.Title);
-            */
-
-            lbIndexResolution.Text = @"Position " + videoStreamInfo.Index;
-
-            if (tbWidth.DataBindings.Count > 0)
-            {
-                //tbBitRate.DataBindings.Clear();
-                //tbBitRate.DataBindings.Add("Text", videoStreamInfo, "BitRate");
-                return;
-            }
-
-
-
-
-            /*
-            tbWidth.DataBindings.Add("Text", videoStreamInfo, "Width");
-            tbHeight.DataBindings.Add("Text", videoStreamInfo, "Height");
-            tbFormat.DataBindings.Add("Text", videoStreamInfo, "Format");
-            tbFormatProfile.DataBindings.Add("Text", videoStreamInfo, "Format_Profile");
-            tbBitRate.DataBindings.Add("Text", videoStreamInfo, "BitRate");
-            tbBitRateMode.DataBindings.Add("Text", videoStreamInfo, "BitRateMode");
-            tbFrameRate.DataBindings.Add("Text", videoStreamInfo, "FrameRate");
-            tbFrameRateMode.DataBindings.Add("Text", videoStreamInfo, "FrameRate_Mode");
-            tbLanguage.DataBindings.Add("Text", videoStreamInfo, "Language");
-            tbDelay.DataBindings.Add("Text", videoStreamInfo, "Delay");
-            tbStreamSize.DataBindings.Add("Text", videoStreamInfo, "StreamSize");
-
-            cbTitle.DataBindings.Add("Checked", videoStreamInfo, "HasTitle");
-            */
-        }
-
         private void InitControls()
         {
             _bsControlsData = new BindingSource();
 
+            lbIndex.DataBindings.Add("Text", _bsControlsData, "Index");
             tbWidth.DataBindings.Add("Text", _bsControlsData, "Width");
             tbHeight.DataBindings.Add("Text", _bsControlsData, "Height");
             tbFormat.DataBindings.Add("Text", _bsControlsData, "Format");

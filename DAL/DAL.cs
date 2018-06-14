@@ -389,6 +389,163 @@ namespace Desene
             return result;
         }
 
+        public static OperationResult SaveMTD()
+        {
+            var result = new OperationResult();
+
+            try
+            {
+                using (var conn = new SqlCeConnection(Constants.ConnectionString))
+                {
+                    conn.Open();
+
+                    #region FileDetail
+
+                    var updateString = @"
+                        UPDATE FileDetail
+                           SET FileName = @FileName,
+                               Year = @Year,
+                               Format = @Format,
+                               Encoded_Application = @Encoded_Application,
+                               FileSize = @FileSize,
+                               FileSize2 = @FileSize2,
+                               Duration = @Duration,
+                               TitleEmbedded = @TitleEmbedded,
+                               Season = @Season,
+                               Quality = @Quality,
+                               AudioLanguages = @AudioLanguages,
+                               SubtitleLanguages = @SubtitleLanguages,
+                               LastChangeDate = @LastChangeDate
+                         WHERE Id = @Id";
+
+                    var cmd = new SqlCeCommand(updateString, conn);
+                    cmd.Parameters.AddWithValue("@FileName", CurrentMTD.FileName);
+                    cmd.Parameters.AddWithValue("@Year", CurrentMTD.Year);
+                    cmd.Parameters.AddWithValue("@Format", CurrentMTD.Format);
+                    cmd.Parameters.AddWithValue("@Encoded_Application", CurrentMTD.Encoded_Application);
+                    cmd.Parameters.AddWithValue("@FileSize", CurrentMTD.FileSize);              //-----
+                    cmd.Parameters.AddWithValue("@FileSize2", CurrentMTD.FileSize2);            //-----
+                    cmd.Parameters.AddWithValue("@Duration", CurrentMTD.DurationAsDateTime);    //-----
+                    cmd.Parameters.AddWithValue("@TitleEmbedded", CurrentMTD.Title);
+                    cmd.Parameters.AddWithValue("@CoverEmbedded", CurrentMTD.Cover);
+                    cmd.Parameters.AddWithValue("@Season", CurrentMTD.Season);
+                    cmd.Parameters.AddWithValue("@Quality", CurrentMTD.Quality);
+                    cmd.Parameters.AddWithValue("@AudioLanguages", CurrentMTD.AudioLanguages);
+                    cmd.Parameters.AddWithValue("@SubtitleLanguages", CurrentMTD.SubtitleLanguages);
+                    cmd.Parameters.AddWithValue("@LastChangeDate", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@Id", CurrentMTD.Id);
+                    cmd.ExecuteNonQuery();
+
+                    #endregion
+
+                    #region VideoStream
+
+                    updateString = @"
+                        UPDATE VideoStream
+                           SET Format = @Format,
+                               Format_Profile = @Format_Profile,
+                               BitRateMode = @BitRateMode,
+                               BitRate = @BitRate,
+                               Width = @Width,
+                               Height = @Height,
+                               FrameRate_Mode = @FrameRate_Mode,
+                               FrameRate = @FrameRate,
+                               Delay = @Delay,
+                               StreamSize = @StreamSize,
+                               TitleEmbedded = @TitleEmbedded,
+                               Language = @Language
+                         WHERE Id = @Id";
+
+                    foreach (var videoStream in CurrentMTD.VideoStreams)
+                    {
+                        cmd = new SqlCeCommand(updateString, conn);
+                        cmd.Parameters.AddWithValue("@Format", videoStream.Format);
+                        cmd.Parameters.AddWithValue("@Format_Profile", videoStream.Format_Profile);
+                        cmd.Parameters.AddWithValue("@BitRateMode", videoStream.BitRateMode);
+                        cmd.Parameters.AddWithValue("@BitRate", videoStream.BitRate);
+                        cmd.Parameters.AddWithValue("@Width", videoStream.Width);
+                        cmd.Parameters.AddWithValue("@Height", videoStream.Height);
+                        cmd.Parameters.AddWithValue("@FrameRate_Mode", videoStream.FrameRate_Mode);
+                        cmd.Parameters.AddWithValue("@FrameRate", videoStream.FrameRate);
+                        cmd.Parameters.AddWithValue("@Delay", videoStream.Delay);
+                        cmd.Parameters.AddWithValue("@StreamSize", videoStream.StreamSize);
+                        cmd.Parameters.AddWithValue("@TitleEmbedded", videoStream.Title);
+                        cmd.Parameters.AddWithValue("@Language", videoStream.Language);
+                        cmd.Parameters.AddWithValue("@Id", videoStream.Id);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    #endregion
+
+                    #region AudioStreams
+
+                    updateString = @"
+                        UPDATE AudioStream
+                           SET Format = @Format,
+                               BitRate = @BitRate,
+                               Channel = @Channel,
+                               ChannelPosition = @ChannelPosition,
+                               SamplingRate = @SamplingRate,
+                               Resolution = @Resolution,
+                               Delay = @Delay,
+                               Video_Delay = @Video_Delay,
+                               StreamSize = @StreamSize,
+                               TitleEmbedded = @TitleEmbedded,
+                               Language = @Language
+                         WHERE Id = @Id";
+
+                    foreach (var audioStream in CurrentMTD.AudioStreams)
+                    {
+                        cmd = new SqlCeCommand(updateString, conn);
+                        cmd.Parameters.AddWithValue("@Format", audioStream.Format);
+                        cmd.Parameters.AddWithValue("@BitRate", audioStream.BitRate);
+                        cmd.Parameters.AddWithValue("@Channel", audioStream.Channel);
+                        cmd.Parameters.AddWithValue("@ChannelPosition", audioStream.ChannelPosition);
+                        cmd.Parameters.AddWithValue("@SamplingRate", audioStream.SamplingRate);
+                        cmd.Parameters.AddWithValue("@Resolution", audioStream.Resolution);
+                        cmd.Parameters.AddWithValue("@Delay", audioStream.Delay);
+                        cmd.Parameters.AddWithValue("@Video_Delay", audioStream.Video_Delay);
+                        cmd.Parameters.AddWithValue("@StreamSize", audioStream.StreamSize);
+                        cmd.Parameters.AddWithValue("@TitleEmbedded", audioStream.Title);;
+                        cmd.Parameters.AddWithValue("@Language", audioStream.Language);
+                        cmd.Parameters.AddWithValue("@Id", audioStream.Id);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    #endregion
+
+                    #region TextStream
+
+                    updateString = @"
+                        UPDATE SubtitleStream
+                           SET Format = @Format,
+                               StreamSize = @StreamSize,
+                               TitleEmbedded = @TitleEmbedded,
+                               Language = @Language
+                         WHERE Id = @Id";
+
+                    foreach (var subtitleStream in CurrentMTD.SubtitleStreams)
+                    {
+                        cmd = new SqlCeCommand(updateString, conn);
+                        cmd.Parameters.AddWithValue("@Format", subtitleStream.Format);
+                        cmd.Parameters.AddWithValue("@StreamSize", subtitleStream.StreamSize);
+                        cmd.Parameters.AddWithValue("@TitleEmbedded", subtitleStream.Title);;
+                        cmd.Parameters.AddWithValue("@Language", subtitleStream.Language);
+                        cmd.Parameters.AddWithValue("@Id", subtitleStream.Id);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    #endregion
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.FailWithMessage(ex);
+            }
+
+            return result;
+        }
+
         public static OperationResult LoadMTD(int fileDetailId)
         {
             var result = new OperationResult();
@@ -435,6 +592,7 @@ namespace Desene
                             mtd.VideoStreams.Add(
                                 new VideoStreamInfo
                                     {
+                                        Id = (int)reader["Id"],
                                         Index = (int)reader["Index"],
                                         Format = reader["Format"].ToString(),
                                         Format_Profile = reader["Format_Profile"].ToString(),
@@ -463,6 +621,7 @@ namespace Desene
                             mtd.AudioStreams.Add(
                                 new AudioStreamInfo
                                     {
+                                        Id = (int)reader["Id"],
                                         Index = (int)reader["Index"],
                                         Format = reader["Format"].ToString(),
                                         BitRate = reader["BitRate"].ToString(),
@@ -490,6 +649,7 @@ namespace Desene
                             mtd.SubtitleStreams.Add(
                                 new SubtitleStreamInfo
                                     {
+                                        Id = (int)reader["Id"],
                                         Index = (int)reader["Index"],
                                         Format = reader["Format"].ToString(),
                                         StreamSize = reader["StreamSize"].ToString(),

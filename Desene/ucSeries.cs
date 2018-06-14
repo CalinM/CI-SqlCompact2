@@ -6,9 +6,9 @@ using Desene.DetailFormsAndUserControls;
 using Desene.EditUserControls;
 using System;
 using System.Collections.Generic;
+using System.Data.Odbc;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
 using Utils;
 
@@ -20,6 +20,8 @@ namespace Desene
     {
         private FrmMain _parent;
         private int _prevSelectedSeriesId = -2;
+        private TreeNodeAdv _prevSelectedNode = null;
+        private bool _preventEvent = false;
 
         public ucSeries(FrmMain parent)
         {
@@ -27,9 +29,9 @@ namespace Desene
 
             _parent = parent;
             _parent.OnAddButtonPress += AddSeries;
-            _parent.OnImportEpisodesButtonPress += ImportEpisodes;
 
-            //pSeriesDetailsContainer.GetType().GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(pSeriesDetailsContainer, true, null);
+            Helpers.GenericSetButtonsState2 = SetButtonsState;
+            SetButtonsState(false);
         }
 
         private void ucSeries_Load(object sender, EventArgs e)
@@ -86,72 +88,37 @@ namespace Desene
             //treeViewAdv1.Focus();
         }
 
-        private void ImportEpisodes(object sender, EventArgs e)
-        {
-            var iParams = new FrmEpisodeInfoFromFiles(((FileInfoNode)tvSeries.SelectedNode.Tag).Id) { Owner = _parent };
-
-            if (iParams.ShowDialog() != DialogResult.OK)
-                return;
-
-
-            var files = Directory.GetFiles(iParams.EpisodesImportParams.Location, iParams.EpisodesImportParams.FilesExtension);
-
-            if (files.Length == 0)
-            {
-                MsgBox.Show("There are no files with the specified extension in the selected folder!", @"Error", MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                return;
-            }
-
-            if (MsgBox.Show(string.Format("Are you sure you want to import {0} episodes in the selected Series?", files.Length), @"Confirm",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-                return;
-
-            var opRes = FilesMetaData.GetFilesTechnicalDetails(files, iParams.EpisodesImportParams);
-
-            if (!opRes.Success)
-            {
-                MsgBox.Show(opRes.CustomErrorMessage, @"Import", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            var importResult = (KeyValuePair<List<TechnicalDetailsImportError>, List<MovieTechnicalDetails>>)opRes.AdditionalDataReturn;
-
-            if (importResult.Key.Any())
-            {
-                var frmIE = new FrmImportErrors(importResult.Key, importResult.Value.Any());
-
-                if (frmIE.ShowDialog() != DialogResult.OK)
-                    return;
-            }
-
-            opRes = FilesMetaData.SaveImportedEpisodes(new KeyValuePair<FilesImportParams, List<MovieTechnicalDetails>>(
-                iParams.EpisodesImportParams, importResult.Value));
-
-            var saveErrors = (List<TechnicalDetailsImportError>)opRes.AdditionalDataReturn;
-            if (saveErrors.Any())
-            {
-                var frmIE = new FrmImportErrors(saveErrors, true);
-                frmIE.ShowDialog();
-            }
-        }
-
         private void tvSeries_SelectionChanged(object sender, EventArgs e)
         {
-            _parent.btnImportEpisodes.Enabled = true;
-            //SetButtonsStates((FileInfoNode)tvSeries.SelectedNode.Tag);
-            ShowSeriesDetails();
-        }
+            if (_preventEvent) return;
 
-        private void SetButtonsStates(FileInfoNode nodeData)
-        {
-            btnLoadPoster.Enabled = !nodeData.IsEpisode;
-            btnSaveChanges.Enabled = false;
+            if (Helpers.UnsavedChanges)
+            {
+                if (MsgBox.Show("There are unsaved changes. You you want to continue and discard those changes?", "Confirm",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                {
+                    _preventEvent = true;
+                    tvSeries.SelectedNode = _prevSelectedNode;//tvSeries.AllNodes.FirstOrDefault(x => ((FileInfoNode)x.Tag).Id == _prevSelectedSeriesId);
+                    _preventEvent = false;
+
+                    return;
+                }
+            }
+
+            ShowSeriesDetails();
+
+            _prevSelectedNode = tvSeries.SelectedNode;
+
+            var fin = (FileInfoNode)_prevSelectedNode.Tag;
+            btnImportEpisodes.Enabled = !fin.IsEpisode;
+            btnLoadPoster.Enabled = !fin.IsEpisode;
+            btnRefreshEpisodeData.Enabled = fin.IsEpisode;
         }
 
         private void ShowSeriesDetails()
         {
             if (tvSeries.SelectedNode == null) return; //why??
+
             try
             {
                 Cursor = Cursors.WaitCursor;
@@ -222,14 +189,6 @@ namespace Desene
                     if (prevInstance.Any())
                         pSeriesDetailsContainer.Controls.Remove(prevInstance[0]);
 
-                    /*
-                    //when selecting an episode, the "ucEditSeriesBaseInfo" is always selected; refreshed only when needed
-                    if (_prevSelectedSeriesId != fileInfoNode.SeriesId)
-                        ((ucEditSeriesBaseInfo)prevInstance[0]).LoadControls(seriesFI);
-                    */
-
-                    //add
-                    //DAL.LoadMTD(fileInfoNode.Id);
 
                     prevInstance = pSeriesDetailsContainer.Controls.Find("ucEpisodeDetails", false);
                     if (prevInstance.Any())
@@ -249,13 +208,100 @@ namespace Desene
             }
         }
 
+        private void SetButtonsState(bool b)
+        {
+            btnSaveChanges.Enabled = b;
+            btnLoadPoster.Enabled = b && !((FileInfoNode)tvSeries.SelectedNode.Tag).IsEpisode;
+        }
+
+        //public IEnumerable<Control> GetAll(Control control,Type type)
+        //{
+        //    var controls = control.Controls.Cast<Control>();
+
+        //    return controls.SelectMany(ctrl => GetAll(ctrl,type))
+        //                              .Concat(controls)
+        //                              .Where(c => c.GetType() == type);
+        //}
+
         private void btnSaveChanges_Click(object sender, EventArgs e)
         {
-            var x = 1;
-            //OnAddButtonPress(sender, e);
+            var opRes = SaveChanges();
 
-            //if ( != null)
+            if (!opRes.Success)
+            {
+                MsgBox.Show(
+                    string.Format("The following error had occurred while saving the changes:{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
+                    "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                Helpers.UnsavedChanges = false;
+            }
         }
+
+        private OperationResult SaveChanges()
+        {
+            tvSeries.Focus(); //required to push all changes from editors into the DAL.CurrentMTD object
+            return DAL.SaveMTD();
+        }
+
+        private void btnImportEpisodes_Click(object sender, EventArgs e)
+        {
+            var iParams = new FrmEpisodeInfoFromFiles(((FileInfoNode)tvSeries.SelectedNode.Tag).Id) { Owner = _parent };
+
+            if (iParams.ShowDialog() != DialogResult.OK)
+                return;
+
+
+            var files = Directory.GetFiles(iParams.EpisodesImportParams.Location, iParams.EpisodesImportParams.FilesExtension);
+
+            if (files.Length == 0)
+            {
+                MsgBox.Show("There are no files with the specified extension in the selected folder!", @"Error", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            if (MsgBox.Show(string.Format("Are you sure you want to import {0} episodes in the selected Series?", files.Length), @"Confirm",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                return;
+
+            var opRes = FilesMetaData.GetFilesTechnicalDetails(files, iParams.EpisodesImportParams);
+
+            if (!opRes.Success)
+            {
+                MsgBox.Show(opRes.CustomErrorMessage, @"Import", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var importResult = (KeyValuePair<List<TechnicalDetailsImportError>, List<MovieTechnicalDetails>>)opRes.AdditionalDataReturn;
+
+            if (importResult.Key.Any())
+            {
+                var frmIE = new FrmImportErrors(importResult.Key, importResult.Value.Any());
+
+                if (frmIE.ShowDialog() != DialogResult.OK)
+                    return;
+            }
+
+            opRes = FilesMetaData.SaveImportedEpisodes(new KeyValuePair<FilesImportParams, List<MovieTechnicalDetails>>(
+                iParams.EpisodesImportParams, importResult.Value));
+
+            var saveErrors = (List<TechnicalDetailsImportError>)opRes.AdditionalDataReturn;
+            if (saveErrors.Any())
+            {
+                var frmIE = new FrmImportErrors(saveErrors, true);
+                frmIE.ShowDialog();
+            }
+        }
+
+        private void btnRefreshEpisodeData_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+
 
         //public void ImportSeriesFromDisk()
         //{

@@ -208,6 +208,7 @@
     <Content Include="Images\image.png" />
     <Content Include="Images\import.png" />
     <None Include="Images\save.png" />
+    <Content Include="Images\refresh.png" />
     <Content Include="Images\save_as.png" />
     <None Include="Images\generateHtml.png" />
   </ItemGroup>

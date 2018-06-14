@@ -12,5 +12,6 @@ C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.csprojAssemblyReference.cach
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmProgressIndicator.resources
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.csproj.GenerateResource.cache
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmImportErrors.resources
-C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmEpisodeInfoFromFiles.resources
 C:\Work\_Utils\CI SqlCompact2\Utils\bin\Debug\NReco.VideoConverter.xml
+C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmRefreshEpisodeInfoFromFile.resources
+C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmEpisodeInfoFromFiles.resources

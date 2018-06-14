@@ -30,11 +30,11 @@
         {
             this.components = new System.ComponentModel.Container();
             this.cbTitle = new System.Windows.Forms.CheckBox();
-            this.tbFormat = new System.Windows.Forms.TextBox();
+            this.tbFormat = new Utils.CustomTextBox();
             this.lbFormat = new System.Windows.Forms.Label();
-            this.lbIndexResolution = new System.Windows.Forms.Label();
+            this.lbIndex = new System.Windows.Forms.Label();
             this.cbLanguage = new System.Windows.Forms.ComboBox();
-            this.tbStreamSize = new System.Windows.Forms.TextBox();
+            this.tbStreamSize = new Utils.CustomTextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
@@ -65,15 +65,15 @@
             this.lbFormat.TabIndex = 22;
             this.lbFormat.Text = "Format / Stream size:";
             // 
-            // lbIndexResolution
+            // lbIndex
             // 
-            this.lbIndexResolution.AutoSize = true;
-            this.lbIndexResolution.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbIndexResolution.Location = new System.Drawing.Point(23, 16);
-            this.lbIndexResolution.Name = "lbIndexResolution";
-            this.lbIndexResolution.Size = new System.Drawing.Size(59, 17);
-            this.lbIndexResolution.TabIndex = 21;
-            this.lbIndexResolution.Text = "lbIndex";
+            this.lbIndex.AutoSize = true;
+            this.lbIndex.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbIndex.Location = new System.Drawing.Point(23, 16);
+            this.lbIndex.Name = "lbIndex";
+            this.lbIndex.Size = new System.Drawing.Size(59, 17);
+            this.lbIndex.TabIndex = 21;
+            this.lbIndex.Text = "lbIndex";
             // 
             // cbLanguage
             // 
@@ -100,7 +100,7 @@
             this.Controls.Add(this.tbStreamSize);
             this.Controls.Add(this.tbFormat);
             this.Controls.Add(this.lbFormat);
-            this.Controls.Add(this.lbIndexResolution);
+            this.Controls.Add(this.lbIndex);
             this.Name = "ucSubtitleStreamDetail";
             this.Size = new System.Drawing.Size(410, 81);
             this.ResumeLayout(false);
@@ -110,11 +110,11 @@
 
         #endregion
         private System.Windows.Forms.CheckBox cbTitle;
-        private System.Windows.Forms.TextBox tbFormat;
+        private Utils.CustomTextBox tbFormat;
         private System.Windows.Forms.Label lbFormat;
-        private System.Windows.Forms.Label lbIndexResolution;
+        private System.Windows.Forms.Label lbIndex;
         private System.Windows.Forms.ComboBox cbLanguage;
-        private System.Windows.Forms.TextBox tbStreamSize;
+        private Utils.CustomTextBox tbStreamSize;
         private System.Windows.Forms.ToolTip toolTip;
     }
 }
