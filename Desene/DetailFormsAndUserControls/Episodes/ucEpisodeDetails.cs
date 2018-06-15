@@ -67,17 +67,39 @@ namespace Desene.DetailFormsAndUserControls
                     return;
                 }
 
+                LoadControls2(false);
+            }
+            finally
+            {
+                ResumeLayout();
+                Cursor = Cursors.Default;
+            }
+        }
+
+        public void LoadControls2(bool suspendLayout)
+        {
+            try
+            {
+                if (suspendLayout)
+                {
+                    Cursor = Cursors.WaitCursor;
+                    SuspendLayout();
+                }
+
                 RefreshControls(DAL.CurrentMTD);
 
 
                 var vsUC = Controls.OfType<UserControl>().FirstOrDefault(uc => uc.Tag != null && uc.Tag.ToString() == "videoStreams");
                 if (vsUC == null)
                 {
-                    AddSectionHeader("Video stream(s)");
+                    AddSectionHeader("Video stream(s)", "V");
 
-                    //var ucVideoStreams = new ucGenericStreamsWrapper(mtd.VideoStreams) { Dock = DockStyle.Top };
-                    var ucVideoStreams = new ucGenericStreamsWrapper(DAL.CurrentMTD.VideoStreams) { Dock = DockStyle.Top };
-                    ucVideoStreams.Tag = "videoStreams";
+                    var ucVideoStreams = new ucGenericStreamsWrapper(DAL.CurrentMTD.VideoStreams)
+                                             {
+                                                 Dock = DockStyle.Top,
+                                                 Tag = "videoStreams"
+                                             };
+
                     Controls.Add(ucVideoStreams);
                     ucVideoStreams.BringToFront();
                 }
@@ -90,11 +112,14 @@ namespace Desene.DetailFormsAndUserControls
                 var asUC = Controls.OfType<UserControl>().FirstOrDefault(uc => uc.Tag != null && uc.Tag.ToString() == "audioStreams");
                 if (asUC == null)
                 {
-                    AddSectionHeader("Audio stream(s)");
+                    AddSectionHeader("Audio stream(s)", "A");
 
-                    //var ucAudioStreams = new ucGenericStreamsWrapper(mtd.AudioStreams) { Dock = DockStyle.Top };
-                    var ucAudioStreams = new ucGenericStreamsWrapper(DAL.CurrentMTD.AudioStreams) { Dock = DockStyle.Top };
-                    ucAudioStreams.Tag = "audioStreams";
+                    var ucAudioStreams = new ucGenericStreamsWrapper(DAL.CurrentMTD.AudioStreams)
+                                             {
+                                                 Dock = DockStyle.Top,
+                                                 Tag = "audioStreams"
+                                             };
+
                     Controls.Add(ucAudioStreams);
                     ucAudioStreams.BringToFront();
                 }
@@ -108,17 +133,20 @@ namespace Desene.DetailFormsAndUserControls
                 {
                     if (ssUC == null)
                     {
-                        AddSectionHeader("Subtitle stream(s)");
+                        AddSectionHeader("Subtitle stream(s)", "S");
 
-                        //var ucSubtitleStreams = new ucGenericStreamsWrapper(mtd.SubtitleStreams) { Dock = DockStyle.Top };
-                        var ucSubtitleStreams = new ucGenericStreamsWrapper(DAL.CurrentMTD.SubtitleStreams) { Dock = DockStyle.Top };
-                        ucSubtitleStreams.Tag = "subtitleStreams";
+                        var ucSubtitleStreams = new ucGenericStreamsWrapper(DAL.CurrentMTD.SubtitleStreams)
+                                                    {
+                                                        Dock = DockStyle.Top,
+                                                        Tag = "subtitleStreams"
+                                                    };
+
                         Controls.Add(ucSubtitleStreams);
                         ucSubtitleStreams.BringToFront();
                     }
                     else
                     {
-                        ((ucGenericStreamsWrapper)asUC).LoadControlsForSubtitleStreams(DAL.CurrentMTD.SubtitleStreams);
+                        ((ucGenericStreamsWrapper)ssUC).LoadControlsForSubtitleStreams(DAL.CurrentMTD.SubtitleStreams);
                     }
                 }
                 else
@@ -126,13 +154,20 @@ namespace Desene.DetailFormsAndUserControls
                     if (ssUC != null)
                     {
                         Controls.Remove(ssUC);
+
+                        var sHeader = Controls.OfType<Panel>().FirstOrDefault(uc => uc.Tag != null && uc.Tag.ToString() == "SectionHeader_S");
+                        if (sHeader != null)
+                            Controls.Remove(sHeader);
                     }
                 }
             }
             finally
             {
-                ResumeLayout();
-                Cursor = Cursors.Default;
+                if (suspendLayout)
+                {
+                    ResumeLayout();
+                    Cursor = Cursors.Default;
+                }
             }
         }
 
@@ -160,19 +195,22 @@ namespace Desene.DetailFormsAndUserControls
             _bsControlsData.ResetBindings(false);
         }
 
-        private void AddSectionHeader(string caption)
+        private void AddSectionHeader(string caption, string identifier)
         {
             var pHeader = new Panel();
             pHeader.Dock = DockStyle.Top;
             pHeader.BackColor = Color.DimGray;
-            pHeader.Size = new Size(250, 25);
-            pHeader.Tag = "SectionHeader";
+            pHeader.Size = new Size(350, 25);
+            pHeader.Tag = "SectionHeader_" + identifier;
 
             var lbHeaderText = new Label();
             lbHeaderText.ForeColor = Color.White;
             lbHeaderText.Font = new Font(lbHeaderText.Font, FontStyle.Bold);
             lbHeaderText.Location = new Point(9,6);
+            lbHeaderText.AutoSize = false;
+            lbHeaderText.Size = new Size(350, 15);
             lbHeaderText.Text = caption;
+
             pHeader.Controls.Add(lbHeaderText);
 
             Controls.Add(pHeader);

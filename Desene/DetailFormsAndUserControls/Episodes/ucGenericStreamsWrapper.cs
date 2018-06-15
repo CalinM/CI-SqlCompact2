@@ -71,16 +71,15 @@ namespace Desene.DetailFormsAndUserControls.Episodes
             for (var i = 0; i < audioStreams.Count; i++)
             {
                 var asData = audioStreams[i];
-                var vsDetUC = flpWrapper.Controls.OfType<UserControl>().FirstOrDefault(uc => uc.Tag != null && uc.Tag.ToString() == asData.Index.ToString());
+                var asDetUC = flpWrapper.Controls.OfType<UserControl>().FirstOrDefault(uc => uc.Tag != null && uc.Tag.ToString() == asData.Index.ToString());
 
-                if (vsDetUC == null)
+                if (asDetUC == null)
                 {
                     flpWrapper.Controls.Add(new ucAudioStreamDetail(asData) { Tag = asData.Index.ToString() });
                 }
                 else
                 {
-                    //((ucAudioStreamDetail)vsDetUC).LoadControls(asData);
-                    ((ucAudioStreamDetail)vsDetUC).RefreshControls(asData);
+                    ((ucAudioStreamDetail)asDetUC).RefreshControls(asData);
                 }
             }
         }
@@ -90,9 +89,31 @@ namespace Desene.DetailFormsAndUserControls.Episodes
             flpWrapper.Controls.Clear();
 
             foreach (var ssData in subtitleStreams)
-            {
                 flpWrapper.Controls.Add(new ucSubtitleStreamDetail(ssData));
-            }
+
+
+            //if (subtitleStreams.Count < flpWrapper.Controls.Count)
+            //{
+            //    for (var i = subtitleStreams.Count; i < flpWrapper.Controls.Count; i++)
+            //    {
+            //        flpWrapper.Controls.Remove(flpWrapper.Controls[i]);
+            //    }
+            //}
+
+            //for (var i = 0; i < subtitleStreams.Count; i++)
+            //{
+            //    var ssData = subtitleStreams[i];
+            //    var ssDetUC = flpWrapper.Controls.OfType<UserControl>().FirstOrDefault(uc => uc.Tag != null && uc.Tag.ToString() == ssData.Index.ToString());
+
+            //    if (ssDetUC == null)
+            //    {
+            //        flpWrapper.Controls.Add(new ucSubtitleStreamDetail(ssData) { Tag = ssData.Index.ToString() });
+            //    }
+            //    else
+            //    {
+            //        ((ucSubtitleStreamDetail)ssDetUC).RefreshControls(ssData);
+            //    }
+            //}
         }
     }
 }

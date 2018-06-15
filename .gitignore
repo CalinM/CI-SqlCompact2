@@ -28,6 +28,8 @@ $RECYCLE.BIN/
 *.class
 *.exe
 *.dll
+*.pdb
+*.cache
 !MediaInfo.dll
 !NReco.VideoConverter.dll
 !Microsoft.Win32.Primitives.dll
@@ -68,3 +70,6 @@ $RECYCLE.BIN/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+*.pdb
+*.cache

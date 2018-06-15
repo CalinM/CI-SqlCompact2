@@ -68,7 +68,7 @@ namespace Desene.EditUserControls
             return true;
         }
 
-        private void tbTitle_TextChanged(object sender, System.EventArgs e)
+        private void tbTitle_TextChanged(object sender, EventArgs e)
         {
             lbSeriesTitle.ForeColor = SystemColors.WindowText;
         }
@@ -88,6 +88,11 @@ namespace Desene.EditUserControls
                     pbCover.Image = Image.FromStream(ms);
                 }
             }
+        }
+
+        public void SetPoster(MemoryStream poster)
+        {
+            pbCover.Image = Image.FromStream(poster);
         }
     }
 }

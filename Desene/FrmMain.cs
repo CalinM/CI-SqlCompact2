@@ -400,17 +400,7 @@ namespace Desene
 
         private void button5_Click(object sender, EventArgs e)
         {
-            using (var openFileDialog = new OpenFileDialog())
-            {
-                openFileDialog.Title = "Open Text File";
-                openFileDialog.Filter = "Video files (*.mkv, *.mp4, *.m4v, *.avi)|*.mkv;*.mp4;*.m4v;*.avi|All files (*.*)|*.*";
-                //openFileDialog.InitialDirectory = Settings.Default.LastPath;
 
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-
-                }
-            }
         }
     }
 }

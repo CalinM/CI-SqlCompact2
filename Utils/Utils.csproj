@@ -62,11 +62,11 @@
     <Compile Include="FrmEpisodeInfoFromFiles.designer.cs">
       <DependentUpon>FrmEpisodeInfoFromFiles.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmRefreshEpisodeInfoFromFile.cs">
+    <Compile Include="FrmMTDFromFile.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmRefreshEpisodeInfoFromFile.designer.cs">
-      <DependentUpon>FrmRefreshEpisodeInfoFromFile.cs</DependentUpon>
+    <Compile Include="FrmMTDFromFile.designer.cs">
+      <DependentUpon>FrmMTDFromFile.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmImportErrors.cs">
       <SubType>Form</SubType>
@@ -106,8 +106,8 @@
     <EmbeddedResource Include="FrmEpisodeInfoFromFiles.resx">
       <DependentUpon>FrmEpisodeInfoFromFiles.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmRefreshEpisodeInfoFromFile.resx">
-      <DependentUpon>FrmRefreshEpisodeInfoFromFile.cs</DependentUpon>
+    <EmbeddedResource Include="FrmMTDFromFile.resx">
+      <DependentUpon>FrmMTDFromFile.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmImportErrors.resx">
       <DependentUpon>FrmImportErrors.cs</DependentUpon>

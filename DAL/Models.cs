@@ -55,8 +55,7 @@ namespace DAL
             }
             set
             {
-                _title = value;
-                HasTitle = !string.IsNullOrEmpty(value);
+                _durationFormatted = value;
             }
         }
 

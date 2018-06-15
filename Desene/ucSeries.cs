@@ -4,6 +4,7 @@ using Common;
 using DAL;
 using Desene.DetailFormsAndUserControls;
 using Desene.EditUserControls;
+using Desene.Properties;
 using System;
 using System.Collections.Generic;
 using System.Data.Odbc;
@@ -90,12 +91,11 @@ namespace Desene
 
         private void tvSeries_SelectionChanged(object sender, EventArgs e)
         {
-            if (_preventEvent) return;
+            if (_preventEvent || tvSeries.SelectedNode == null) return;
 
             if (Helpers.UnsavedChanges)
             {
-                if (MsgBox.Show("There are unsaved changes. You you want to continue and discard those changes?", "Confirm",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                if (!Utils.Helpers.ConfirmDiscardChanges())
                 {
                     _preventEvent = true;
                     tvSeries.SelectedNode = _prevSelectedNode;//tvSeries.AllNodes.FirstOrDefault(x => ((FileInfoNode)x.Tag).Id == _prevSelectedSeriesId);
@@ -225,24 +225,37 @@ namespace Desene
 
         private void btnSaveChanges_Click(object sender, EventArgs e)
         {
-            var opRes = SaveChanges();
-
-            if (!opRes.Success)
-            {
-                MsgBox.Show(
-                    string.Format("The following error had occurred while saving the changes:{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
-                    "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                Helpers.UnsavedChanges = false;
-            }
+            SaveChanges();
         }
 
         private OperationResult SaveChanges()
         {
-            tvSeries.Focus(); //required to push all changes from editors into the DAL.CurrentMTD object
-            return DAL.SaveMTD();
+            var selectedNodeData = (FileInfoNode)tvSeries.SelectedNode.Tag;
+
+            if (selectedNodeData.IsEpisode)
+            {
+                tvSeries.Focus(); //required to push all changes from editors into the DAL.CurrentMTD object
+
+                var opRes = DAL.SaveMTD();
+
+                if (!opRes.Success)
+                {
+                    MsgBox.Show(
+                        string.Format("The following error had occurred while saving the changes:{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
+                        "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    Helpers.UnsavedChanges = false; //this setter takes care of the buttons states!
+
+                    selectedNodeData.FileName = DAL.CurrentMTD.FileName;
+                    selectedNodeData.Quality = DAL.CurrentMTD.Quality;
+                }
+
+                return opRes;
+            }
+
+
         }
 
         private void btnImportEpisodes_Click(object sender, EventArgs e)
@@ -270,7 +283,7 @@ namespace Desene
 
             if (!opRes.Success)
             {
-                MsgBox.Show(opRes.CustomErrorMessage, @"Import", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MsgBox.Show(opRes.CustomErrorMessage, "Import", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -297,7 +310,63 @@ namespace Desene
 
         private void btnRefreshEpisodeData_Click(object sender, EventArgs e)
         {
+            if (!Utils.Helpers.ConfirmDiscardChanges()) return;
 
+            using (var rParam = new FrmMTDFromFile(true) { Owner = _parent })
+            {
+                if (rParam.ShowDialog() != DialogResult.OK)
+                    return;
+
+                var prevInstance = pSeriesDetailsContainer.Controls.Find("ucEpisodeDetails", false);
+                if (prevInstance.Any())
+                {
+                    var opRes = SaveChanges();
+
+                    if (opRes.Success)
+                        ((ucEpisodeDetails)prevInstance[0]).LoadControls2(true);
+                }
+                else
+                    MsgBox.Show("The previous UserControl instance could not be found!", "Error", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnLoadPoster_Click(object sender, EventArgs e)
+        {
+            var prevInstance = pSeriesDetailsContainer.Controls.Find("ucEditSeriesBaseInfo", false);
+            if (!prevInstance.Any())
+            {
+                MsgBox.Show("The previous UserControl instance could not be found!", "Error", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            using (var openFileDialog = new OpenFileDialog())
+            {
+                var selectedNodeData = (FileInfoNode)tvSeries.SelectedNode.Tag;
+
+                openFileDialog.Title = string.Format("Choose a poster for series '{0}'", selectedNodeData.FileName);
+                openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*";
+                openFileDialog.InitialDirectory = Settings.Default.LastPath;
+
+                if (openFileDialog.ShowDialog() != DialogResult.OK) return;
+
+                Settings.Default.LastPath = Path.GetFullPath(openFileDialog.FileName);
+                Settings.Default.Save();
+
+                using (var ms = new MemoryStream())
+                {
+                    using (var file = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
+                    {
+                        var bytes = new byte[file.Length];
+                        file.Read(bytes, 0, (int)file.Length);
+                        ms.Write(bytes, 0, (int)file.Length);
+                    }
+
+                    ((ucEditSeriesBaseInfo)prevInstance[0]).SetPoster(ms);
+                    Helpers.UnsavedChanges = true;
+                }
+            }
         }
 
 

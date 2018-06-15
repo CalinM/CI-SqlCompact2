@@ -66,7 +66,7 @@
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.ShowItemToolTips = false;
-            this.mainMenu.Size = new System.Drawing.Size(1015, 25);
+            this.mainMenu.Size = new System.Drawing.Size(1284, 25);
             this.mainMenu.TabIndex = 108;
             this.mainMenu.Text = "toolStrip1";
             // 
@@ -87,7 +87,7 @@
             // miMovies
             // 
             this.miMovies.Name = "miMovies";
-            this.miMovies.Size = new System.Drawing.Size(180, 22);
+            this.miMovies.Size = new System.Drawing.Size(112, 22);
             this.miMovies.Tag = "1";
             this.miMovies.Text = "Movies";
             this.miMovies.Click += new System.EventHandler(this.miMovies_Click);
@@ -95,7 +95,7 @@
             // miSeries
             // 
             this.miSeries.Name = "miSeries";
-            this.miSeries.Size = new System.Drawing.Size(180, 22);
+            this.miSeries.Size = new System.Drawing.Size(112, 22);
             this.miSeries.Tag = "1";
             this.miSeries.Text = "Series";
             this.miSeries.Click += new System.EventHandler(this.miSeries_Click);
@@ -103,13 +103,13 @@
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(109, 6);
             // 
             // miExit
             // 
             this.miExit.Image = global::Desene.Properties.Resources.exit;
             this.miExit.Name = "miExit";
-            this.miExit.Size = new System.Drawing.Size(180, 22);
+            this.miExit.Size = new System.Drawing.Size(112, 22);
             this.miExit.Text = "Exit";
             // 
             // toolStripSeparator1
@@ -156,9 +156,9 @@
             // 
             // statusStrip
             // 
-            this.statusStrip.Location = new System.Drawing.Point(0, 545);
+            this.statusStrip.Location = new System.Drawing.Point(0, 539);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(1015, 22);
+            this.statusStrip.Size = new System.Drawing.Size(1284, 22);
             this.statusStrip.TabIndex = 109;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -172,7 +172,7 @@
             this.pMainContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pMainContainer.Location = new System.Drawing.Point(0, 25);
             this.pMainContainer.Name = "pMainContainer";
-            this.pMainContainer.Size = new System.Drawing.Size(1015, 520);
+            this.pMainContainer.Size = new System.Drawing.Size(1284, 514);
             this.pMainContainer.TabIndex = 110;
             // 
             // button5
@@ -229,10 +229,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1015, 567);
+            this.ClientSize = new System.Drawing.Size(1284, 561);
             this.Controls.Add(this.pMainContainer);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.mainMenu);
+            this.MinimumSize = new System.Drawing.Size(1300, 600);
             this.Name = "FrmMain";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.FrmMain_Load);

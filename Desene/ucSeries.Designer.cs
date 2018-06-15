@@ -39,13 +39,13 @@
             this.pSeriesSecondToolbar = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.btnImportEpisodes = new System.Windows.Forms.ToolStripButton();
+            this.btnLoadPoster = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnSaveChanges = new System.Windows.Forms.ToolStripButton();
+            this.btnRefreshEpisodeData = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pSeriesDetailsContainer = new System.Windows.Forms.Panel();
-            this.btnSaveChanges = new System.Windows.Forms.ToolStripButton();
-            this.btnLoadPoster = new System.Windows.Forms.ToolStripButton();
-            this.btnRefreshEpisodeData = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnImportEpisodes = new System.Windows.Forms.ToolStripButton();
             this.pSeriesTreeWrapper.SuspendLayout();
             this.panel2.SuspendLayout();
             this.pFilters.SuspendLayout();
@@ -195,6 +195,55 @@
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // btnImportEpisodes
+            // 
+            this.btnImportEpisodes.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnImportEpisodes.Image = global::Desene.Properties.Resources.import;
+            this.btnImportEpisodes.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnImportEpisodes.Name = "btnImportEpisodes";
+            this.btnImportEpisodes.Size = new System.Drawing.Size(29, 20);
+            this.btnImportEpisodes.Text = "Import episodes data from files";
+            this.btnImportEpisodes.Click += new System.EventHandler(this.btnImportEpisodes_Click);
+            // 
+            // btnLoadPoster
+            // 
+            this.btnLoadPoster.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnLoadPoster.Enabled = false;
+            this.btnLoadPoster.Image = global::Desene.Properties.Resources.image;
+            this.btnLoadPoster.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnLoadPoster.Margin = new System.Windows.Forms.Padding(0, 5, 0, 2);
+            this.btnLoadPoster.Name = "btnLoadPoster";
+            this.btnLoadPoster.Size = new System.Drawing.Size(29, 20);
+            this.btnLoadPoster.Text = "Load Series poster";
+            this.btnLoadPoster.Click += new System.EventHandler(this.btnLoadPoster_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(29, 6);
+            // 
+            // btnSaveChanges
+            // 
+            this.btnSaveChanges.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnSaveChanges.Image = global::Desene.Properties.Resources.save;
+            this.btnSaveChanges.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnSaveChanges.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSaveChanges.Name = "btnSaveChanges";
+            this.btnSaveChanges.Size = new System.Drawing.Size(29, 20);
+            this.btnSaveChanges.Text = "Save changes";
+            this.btnSaveChanges.ToolTipText = "Save changes";
+            this.btnSaveChanges.Click += new System.EventHandler(this.btnSaveChanges_Click);
+            // 
+            // btnRefreshEpisodeData
+            // 
+            this.btnRefreshEpisodeData.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnRefreshEpisodeData.Image = global::Desene.Properties.Resources.refresh;
+            this.btnRefreshEpisodeData.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRefreshEpisodeData.Name = "btnRefreshEpisodeData";
+            this.btnRefreshEpisodeData.Size = new System.Drawing.Size(29, 20);
+            this.btnRefreshEpisodeData.Text = "Refresh episode data from file";
+            this.btnRefreshEpisodeData.Click += new System.EventHandler(this.btnRefreshEpisodeData_Click);
+            // 
             // panel1
             // 
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -213,54 +262,6 @@
             this.pSeriesDetailsContainer.Name = "pSeriesDetailsContainer";
             this.pSeriesDetailsContainer.Size = new System.Drawing.Size(681, 580);
             this.pSeriesDetailsContainer.TabIndex = 0;
-            // 
-            // btnSaveChanges
-            // 
-            this.btnSaveChanges.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnSaveChanges.Image = global::Desene.Properties.Resources.save;
-            this.btnSaveChanges.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnSaveChanges.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSaveChanges.Name = "btnSaveChanges";
-            this.btnSaveChanges.Size = new System.Drawing.Size(21, 20);
-            this.btnSaveChanges.Text = "Save changes";
-            this.btnSaveChanges.ToolTipText = "Save changes";
-            this.btnSaveChanges.Click += new System.EventHandler(this.btnSaveChanges_Click);
-            // 
-            // btnLoadPoster
-            // 
-            this.btnLoadPoster.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnLoadPoster.Enabled = false;
-            this.btnLoadPoster.Image = global::Desene.Properties.Resources.image;
-            this.btnLoadPoster.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnLoadPoster.Margin = new System.Windows.Forms.Padding(0, 5, 0, 2);
-            this.btnLoadPoster.Name = "btnLoadPoster";
-            this.btnLoadPoster.Size = new System.Drawing.Size(21, 20);
-            this.btnLoadPoster.Text = "Load Series poster";
-            // 
-            // btnRefreshEpisodeData
-            // 
-            this.btnRefreshEpisodeData.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnRefreshEpisodeData.Image = global::Desene.Properties.Resources.refresh;
-            this.btnRefreshEpisodeData.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnRefreshEpisodeData.Name = "btnRefreshEpisodeData";
-            this.btnRefreshEpisodeData.Size = new System.Drawing.Size(29, 20);
-            this.btnRefreshEpisodeData.Text = "Refresh episode data from file";
-            this.btnRefreshEpisodeData.Click += new System.EventHandler(this.btnRefreshEpisodeData_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(21, 6);
-            // 
-            // btnImportEpisodes
-            // 
-            this.btnImportEpisodes.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnImportEpisodes.Image = global::Desene.Properties.Resources.import;
-            this.btnImportEpisodes.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnImportEpisodes.Name = "btnImportEpisodes";
-            this.btnImportEpisodes.Size = new System.Drawing.Size(29, 20);
-            this.btnImportEpisodes.Text = "Import episodes data from files";
-            this.btnImportEpisodes.Click += new System.EventHandler(this.btnImportEpisodes_Click);
             // 
             // ucSeries
             // 

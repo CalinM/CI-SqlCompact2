@@ -2,69 +2,73 @@
 <ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ArrayOfArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucEpisodeDetails.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucEpisodeDetails.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucEpisodeDetails.Designer.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\ucSeries.cs</string>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\ucSeries.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Common\Helpers.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\FrmMain.cs</string>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\FrmMain.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Series\ucEditSeriesBaseInfo.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Series\ucEditSeriesBaseInfo.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Series\ucSeriesEpisodes.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Series\ucSeriesEpisodes.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\DAL\DAL.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FrmEpisodeInfoFromFiles.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FrmEpisodeInfoFromFiles.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\Utils\FilesMetaData.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucGenericStreamsWrapper.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucGenericStreamsWrapper.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucVideoStreamDetail.cs</string>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucVideoStreamDetail.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucVideoStreamDetail.Designer.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Utils\CustomFLP.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Utils\CustomFLP.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucEpisodeDetails.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucEpisodeDetails.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucEpisodeDetails.Designer.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucAudioStreamDetail.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucAudioStreamDetail.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucAudioStreamDetail.Designer.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FrmMTDFromFile.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FrmMTDFromFile.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FrmMTDFromFile.designer.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Utils\CustomTextBox.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Utils\CustomTextBox.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\DAL\DAL.cs</string>
     </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FrmEpisodeInfoFromFiles.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucSubtitleStreamDetail.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucSubtitleStreamDetail.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucSubtitleStreamDetail.Designer.cs</string>
-    </ArrayOfString>
-  </ArrayOfArrayOfString>
-  <ArrayOfArrayOfString>
     <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\DAL\Models.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucGenericStreamsWrapper.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucGenericStreamsWrapper.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucSubtitleStreamDetail.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucSubtitleStreamDetail.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucAudioStreamDetail.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Aga.Controls\Tree\TreeViewAdv.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DataTableTreeModel.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\Helpers.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Common\Helpers.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Series\ucEditSeriesBaseInfo.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Series\ucEditSeriesBaseInfo.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Series\FrmEditSeriesBaseInfo.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Series\FrmEditSeriesBaseInfo.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Common\Constants.cs</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>

@@ -173,23 +173,9 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@Season", eip.Season);
                     cmd.Parameters.AddWithValue("@InsertedDate", DateTime.Now);
 
-                    var firstVideoStream = mtd.VideoStreams.FirstOrDefault();
-                    if (firstVideoStream == null)
-                        throw new Exception("No video stream information retrieved!");
 
-                    var videHeight = 0;
-                    int.TryParse(firstVideoStream.Height, out videHeight);
 
-                    var q =
-                        videHeight == 0
-                            ? "NotSet"
-                            : videHeight > 900
-                                ? "FullHD"
-                                : videHeight < 710
-                                    ? "SD"
-                                    : "HD";
-
-                    cmd.Parameters.AddWithValue("@Quality", q);
+                    cmd.Parameters.AddWithValue("@Quality", GetQualityStrFromSize(mtd));
                     cmd.Parameters.AddWithValue("@ParentId", eip.ParentId);
                     //cmd.Parameters.AddWithValue("@Poster", mtd.Thumbnail ?? (object)DBNull.Value);
 
@@ -403,19 +389,20 @@ namespace Desene
 
                     var updateString = @"
                         UPDATE FileDetail
-                           SET FileName = @FileName,
-                               Year = @Year,
-                               Format = @Format,
-                               Encoded_Application = @Encoded_Application,
-                               FileSize = @FileSize,
-                               FileSize2 = @FileSize2,
-                               Duration = @Duration,
-                               TitleEmbedded = @TitleEmbedded,
-                               Season = @Season,
-                               Quality = @Quality,
-                               AudioLanguages = @AudioLanguages,
-                               SubtitleLanguages = @SubtitleLanguages,
-                               LastChangeDate = @LastChangeDate
+                           SET FileName = @FileName
+                               ,Year = @Year
+                               ,Format = @Format
+                               ,Encoded_Application = @Encoded_Application
+                               ,FileSize = @FileSize
+                               ,FileSize2 = @FileSize2
+                               ,Duration = @Duration
+                               ,TitleEmbedded = @TitleEmbedded
+                               ,Season = @Season
+                               ,Quality = @Quality
+                               ,AudioLanguages = @AudioLanguages
+                               ,SubtitleLanguages = @SubtitleLanguages
+                               ,LastChangeDate = @LastChangeDate
+                               //,Poster = @Poster
                          WHERE Id = @Id";
 
                     var cmd = new SqlCeCommand(updateString, conn);
@@ -433,6 +420,10 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@AudioLanguages", CurrentMTD.AudioLanguages);
                     cmd.Parameters.AddWithValue("@SubtitleLanguages", CurrentMTD.SubtitleLanguages);
                     cmd.Parameters.AddWithValue("@LastChangeDate", DateTime.Now);
+
+                    //NOT here ... separate save method for base movie info
+                    //cmd.Parameters.AddWithValue("@Poster", CurrentMTD.Poster ?? (object)DBNull.Value);
+
                     cmd.Parameters.AddWithValue("@Id", CurrentMTD.Id);
                     cmd.ExecuteNonQuery();
 
@@ -442,18 +433,18 @@ namespace Desene
 
                     updateString = @"
                         UPDATE VideoStream
-                           SET Format = @Format,
-                               Format_Profile = @Format_Profile,
-                               BitRateMode = @BitRateMode,
-                               BitRate = @BitRate,
-                               Width = @Width,
-                               Height = @Height,
-                               FrameRate_Mode = @FrameRate_Mode,
-                               FrameRate = @FrameRate,
-                               Delay = @Delay,
-                               StreamSize = @StreamSize,
-                               TitleEmbedded = @TitleEmbedded,
-                               Language = @Language
+                           SET Format = @Format
+                               ,Format_Profile = @Format_Profile
+                               ,BitRateMode = @BitRateMode
+                               ,BitRate = @BitRate
+                               ,Width = @Width
+                               ,Height = @Height
+                               ,FrameRate_Mode = @FrameRate_Mode
+                               ,FrameRate = @FrameRate
+                               ,Delay = @Delay
+                               ,StreamSize = @StreamSize
+                               ,TitleEmbedded = @TitleEmbedded
+                               ,Language = @Language
                          WHERE Id = @Id";
 
                     foreach (var videoStream in CurrentMTD.VideoStreams)
@@ -481,17 +472,17 @@ namespace Desene
 
                     updateString = @"
                         UPDATE AudioStream
-                           SET Format = @Format,
-                               BitRate = @BitRate,
-                               Channel = @Channel,
-                               ChannelPosition = @ChannelPosition,
-                               SamplingRate = @SamplingRate,
-                               Resolution = @Resolution,
-                               Delay = @Delay,
-                               Video_Delay = @Video_Delay,
-                               StreamSize = @StreamSize,
-                               TitleEmbedded = @TitleEmbedded,
-                               Language = @Language
+                           SET Format = @Format
+                               ,BitRate = @BitRate
+                               ,Channel = @Channel
+                               ,ChannelPosition = @ChannelPosition
+                               ,SamplingRate = @SamplingRate
+                               ,Resolution = @Resolution
+                               ,Delay = @Delay
+                               ,Video_Delay = @Video_Delay
+                               ,StreamSize = @StreamSize
+                               ,TitleEmbedded = @TitleEmbedded
+                               ,Language = @Language
                          WHERE Id = @Id";
 
                     foreach (var audioStream in CurrentMTD.AudioStreams)
@@ -518,10 +509,10 @@ namespace Desene
 
                     updateString = @"
                         UPDATE SubtitleStream
-                           SET Format = @Format,
-                               StreamSize = @StreamSize,
-                               TitleEmbedded = @TitleEmbedded,
-                               Language = @Language
+                           SET Format = @Format
+                               ,StreamSize = @StreamSize
+                               ,TitleEmbedded = @TitleEmbedded
+                               ,Language = @Language
                          WHERE Id = @Id";
 
                     foreach (var subtitleStream in CurrentMTD.SubtitleStreams)
@@ -576,6 +567,7 @@ namespace Desene
                 mtd.Poster = fileInfoRow["Poster"] == DBNull.Value ? null : (byte[])fileInfoRow["Poster"];
                 mtd.AudioLanguages = fileInfoRow["AudioLanguages"].ToString();
                 mtd.SubtitleLanguages = fileInfoRow["SubtitleLanguages"].ToString();
+                mtd.DurationFormatted = ((DateTime)fileInfoRow["Duration"]).ToString("HH:mm:ss");
 
                 using (var conn = new SqlCeConnection(Constants.ConnectionString))
                 {
@@ -653,7 +645,7 @@ namespace Desene
                                         Index = (int)reader["Index"],
                                         Format = reader["Format"].ToString(),
                                         StreamSize = reader["StreamSize"].ToString(),
-                                        Title = reader["Title"].ToString(),
+                                        Title = reader["TitleEmbedded"].ToString(),
                                         Language = reader["Language"].ToString()
                                     });
                         }
@@ -695,6 +687,25 @@ namespace Desene
             return result;
         }
 
+        public static string GetQualityStrFromSize(MovieTechnicalDetails mtd)
+        {
+            if (mtd == null || mtd.VideoStreams == null) return "Error!";
+
+            var firstVideoStream = mtd.VideoStreams.FirstOrDefault();
+            if (firstVideoStream == null)
+                throw new Exception("Unknown!");
+
+            int.TryParse(firstVideoStream.Height, out var videoHeight);
+
+            return
+                videoHeight == 0
+                    ? "NotSet"
+                    : videoHeight > 900
+                        ? "FullHD"
+                        : videoHeight < 710
+                            ? "SD"
+                            : "HD";
+        }
         //public static void InitConnection(string connectionString)
         //{
         //    dbConnection = new SqlCeConnection(ConnectionString);
