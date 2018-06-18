@@ -134,7 +134,7 @@
             // 
             this.tbStreamSize.Location = new System.Drawing.Point(147, 146);
             this.tbStreamSize.Name = "tbStreamSize";
-            this.tbStreamSize.Size = new System.Drawing.Size(75, 20);
+            this.tbStreamSize.Size = new System.Drawing.Size(90, 20);
             this.tbStreamSize.TabIndex = 34;
             // 
             // tbDelay

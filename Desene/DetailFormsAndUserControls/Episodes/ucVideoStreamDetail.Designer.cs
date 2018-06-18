@@ -30,26 +30,26 @@
         {
             this.components = new System.ComponentModel.Container();
             this.label5 = new System.Windows.Forms.Label();
-            this.tbHeight = new Utils.CustomTextBox();
-            this.tbWidth = new Utils.CustomTextBox();
             this.cbTitle = new System.Windows.Forms.CheckBox();
-            this.tbLanguage = new Utils.CustomTextBox();
             this.lbLanguage_Delay = new System.Windows.Forms.Label();
-            this.tbStreamSize = new Utils.CustomTextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.tbDelay = new Utils.CustomTextBox();
-            this.tbFrameRateMode = new Utils.CustomTextBox();
-            this.tbFrameRate = new Utils.CustomTextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.tbBitRateMode = new Utils.CustomTextBox();
-            this.tbBitRate = new Utils.CustomTextBox();
             this.lbBitRate = new System.Windows.Forms.Label();
-            this.tbFormatProfile = new Utils.CustomTextBox();
-            this.tbFormat = new Utils.CustomTextBox();
             this.lbFormat = new System.Windows.Forms.Label();
             this.lbIndex = new System.Windows.Forms.Label();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.tbHeight = new Utils.CustomTextBox();
+            this.tbWidth = new Utils.CustomTextBox();
+            this.tbLanguage = new Utils.CustomTextBox();
+            this.tbStreamSize = new Utils.CustomTextBox();
+            this.tbDelay = new Utils.CustomTextBox();
+            this.tbFrameRateMode = new Utils.CustomTextBox();
+            this.tbFrameRate = new Utils.CustomTextBox();
+            this.tbBitRateMode = new Utils.CustomTextBox();
+            this.tbBitRate = new Utils.CustomTextBox();
+            this.tbFormatProfile = new Utils.CustomTextBox();
+            this.tbFormat = new Utils.CustomTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -62,6 +62,72 @@
             this.label5.Size = new System.Drawing.Size(15, 17);
             this.label5.TabIndex = 40;
             this.label5.Text = "x";
+            // 
+            // cbTitle
+            // 
+            this.cbTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbTitle.AutoSize = true;
+            this.cbTitle.Location = new System.Drawing.Point(370, 149);
+            this.cbTitle.Name = "cbTitle";
+            this.cbTitle.Size = new System.Drawing.Size(15, 14);
+            this.cbTitle.TabIndex = 37;
+            this.toolTip.SetToolTip(this.cbTitle, "Has title specified!");
+            this.cbTitle.UseVisualStyleBackColor = true;
+            // 
+            // lbLanguage_Delay
+            // 
+            this.lbLanguage_Delay.AutoSize = true;
+            this.lbLanguage_Delay.Location = new System.Drawing.Point(23, 123);
+            this.lbLanguage_Delay.Name = "lbLanguage_Delay";
+            this.lbLanguage_Delay.Size = new System.Drawing.Size(96, 13);
+            this.lbLanguage_Delay.TabIndex = 35;
+            this.lbLanguage_Delay.Text = "Language / Delay:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(23, 149);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(64, 13);
+            this.label2.TabIndex = 33;
+            this.label2.Text = "Stream size:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(23, 97);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(94, 13);
+            this.label1.TabIndex = 28;
+            this.label1.Text = "Framerate / mode:";
+            // 
+            // lbBitRate
+            // 
+            this.lbBitRate.AutoSize = true;
+            this.lbBitRate.Location = new System.Drawing.Point(23, 71);
+            this.lbBitRate.Name = "lbBitRate";
+            this.lbBitRate.Size = new System.Drawing.Size(77, 13);
+            this.lbBitRate.TabIndex = 25;
+            this.lbBitRate.Text = "Bitrate / mode:";
+            // 
+            // lbFormat
+            // 
+            this.lbFormat.AutoSize = true;
+            this.lbFormat.Location = new System.Drawing.Point(23, 45);
+            this.lbFormat.Name = "lbFormat";
+            this.lbFormat.Size = new System.Drawing.Size(82, 13);
+            this.lbFormat.TabIndex = 22;
+            this.lbFormat.Text = "Format / Profile:";
+            // 
+            // lbIndex
+            // 
+            this.lbIndex.AutoSize = true;
+            this.lbIndex.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbIndex.Location = new System.Drawing.Point(23, 16);
+            this.lbIndex.Name = "lbIndex";
+            this.lbIndex.Size = new System.Drawing.Size(59, 17);
+            this.lbIndex.TabIndex = 21;
+            this.lbIndex.Text = "lbIndex";
             // 
             // tbHeight
             // 
@@ -77,17 +143,6 @@
             this.tbWidth.Size = new System.Drawing.Size(60, 20);
             this.tbWidth.TabIndex = 38;
             // 
-            // cbTitle
-            // 
-            this.cbTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbTitle.AutoSize = true;
-            this.cbTitle.Location = new System.Drawing.Point(367, 148);
-            this.cbTitle.Name = "cbTitle";
-            this.cbTitle.Size = new System.Drawing.Size(15, 14);
-            this.cbTitle.TabIndex = 37;
-            this.toolTip.SetToolTip(this.cbTitle, "Has title specified!");
-            this.cbTitle.UseVisualStyleBackColor = true;
-            // 
             // tbLanguage
             // 
             this.tbLanguage.Location = new System.Drawing.Point(147, 120);
@@ -95,30 +150,12 @@
             this.tbLanguage.Size = new System.Drawing.Size(147, 20);
             this.tbLanguage.TabIndex = 36;
             // 
-            // lbLanguage_Delay
-            // 
-            this.lbLanguage_Delay.AutoSize = true;
-            this.lbLanguage_Delay.Location = new System.Drawing.Point(23, 123);
-            this.lbLanguage_Delay.Name = "lbLanguage_Delay";
-            this.lbLanguage_Delay.Size = new System.Drawing.Size(96, 13);
-            this.lbLanguage_Delay.TabIndex = 35;
-            this.lbLanguage_Delay.Text = "Language / Delay:";
-            // 
             // tbStreamSize
             // 
             this.tbStreamSize.Location = new System.Drawing.Point(147, 146);
             this.tbStreamSize.Name = "tbStreamSize";
-            this.tbStreamSize.Size = new System.Drawing.Size(75, 20);
+            this.tbStreamSize.Size = new System.Drawing.Size(90, 20);
             this.tbStreamSize.TabIndex = 34;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 149);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(64, 13);
-            this.label2.TabIndex = 33;
-            this.label2.Text = "Stream size:";
             // 
             // tbDelay
             // 
@@ -141,15 +178,6 @@
             this.tbFrameRate.Size = new System.Drawing.Size(147, 20);
             this.tbFrameRate.TabIndex = 29;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(23, 97);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(94, 13);
-            this.label1.TabIndex = 28;
-            this.label1.Text = "Framerate / mode:";
-            // 
             // tbBitRateMode
             // 
             this.tbBitRateMode.Location = new System.Drawing.Point(300, 68);
@@ -164,15 +192,6 @@
             this.tbBitRate.Size = new System.Drawing.Size(147, 20);
             this.tbBitRate.TabIndex = 26;
             // 
-            // lbBitRate
-            // 
-            this.lbBitRate.AutoSize = true;
-            this.lbBitRate.Location = new System.Drawing.Point(23, 71);
-            this.lbBitRate.Name = "lbBitRate";
-            this.lbBitRate.Size = new System.Drawing.Size(77, 13);
-            this.lbBitRate.TabIndex = 25;
-            this.lbBitRate.Text = "Bitrate / mode:";
-            // 
             // tbFormatProfile
             // 
             this.tbFormatProfile.Location = new System.Drawing.Point(300, 42);
@@ -186,25 +205,6 @@
             this.tbFormat.Name = "tbFormat";
             this.tbFormat.Size = new System.Drawing.Size(150, 20);
             this.tbFormat.TabIndex = 23;
-            // 
-            // lbFormat
-            // 
-            this.lbFormat.AutoSize = true;
-            this.lbFormat.Location = new System.Drawing.Point(23, 45);
-            this.lbFormat.Name = "lbFormat";
-            this.lbFormat.Size = new System.Drawing.Size(82, 13);
-            this.lbFormat.TabIndex = 22;
-            this.lbFormat.Text = "Format / Profile:";
-            // 
-            // lbIndex
-            // 
-            this.lbIndex.AutoSize = true;
-            this.lbIndex.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbIndex.Location = new System.Drawing.Point(23, 16);
-            this.lbIndex.Name = "lbIndex";
-            this.lbIndex.Size = new System.Drawing.Size(59, 17);
-            this.lbIndex.TabIndex = 21;
-            this.lbIndex.Text = "lbIndex";
             // 
             // ucVideoStreamDetail
             // 

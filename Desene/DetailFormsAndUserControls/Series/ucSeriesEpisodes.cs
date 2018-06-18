@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -11,15 +10,18 @@ namespace Desene.DetailFormsAndUserControls
     public partial class ucSeriesEpisodes : UserControl
     {
         private BindingSource _bsEpisodesGridData;
+        private ucSeries _parent;
 
         public ucSeriesEpisodes()
         {
             InitializeComponent();
         }
 
-        public ucSeriesEpisodes(int seriesId)
+        public ucSeriesEpisodes(int seriesId, ucSeries parent)
         {
             InitializeComponent();
+
+            _parent = parent;
 
             dgvEpisodes.GetType().GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(dgvEpisodes, true, null);
             dgvEpisodes.AutoGenerateColumns = false;
@@ -32,20 +34,19 @@ namespace Desene.DetailFormsAndUserControls
 
         public void LoadControls(int seriesId)
         {
-            try
-            {
-                _bsEpisodesGridData.DataSource
-                    = DAL.Series
-                         .Select("ParentId = " + seriesId)
-                         .OrderBy(u => u["Season"])
-                         .ThenBy(u => u["FileName"])
-                         .CopyToDataTable();
+            var episodesInSeries = DAL.GetEpisodesInSeries(seriesId);
 
-                _bsEpisodesGridData.ResetBindings(false);
-            }
-            catch (Exception e)
+            if (episodesInSeries.Rows.Count > 0)
             {
-                //the series contains no episodes!
+                _bsEpisodesGridData.DataSource = episodesInSeries;
+                _bsEpisodesGridData.ResetBindings(false);
+                dgvEpisodes.Visible = true;
+                lbNoEpisodeWarning.Visible = false;
+            }
+            else
+            {
+                dgvEpisodes.Visible = false;
+                lbNoEpisodeWarning.Visible = true;
             }
         }
 
@@ -59,6 +60,17 @@ namespace Desene.DetailFormsAndUserControls
                 Height = dgvEpisodes.Height + dgvEpisodes.Location.Y + 10,
                 Width = 150
             };
+        }
+
+        private void dgvEpisodes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0) {
+                var row = (DataRowView)dgvEpisodes.Rows[e.RowIndex].DataBoundItem;
+
+                if (row != null) {
+                    _parent.TryLocateEpisodeInTree((int)row["Id"]);
+                }
+            }
         }
     }
 }

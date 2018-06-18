@@ -46,6 +46,7 @@
             this.colDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colQuality = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAutio = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lbNoEpisodeWarning = new System.Windows.Forms.Label();
             this.pSeparator_Caption.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEpisodes)).BeginInit();
             this.SuspendLayout();
@@ -124,6 +125,7 @@
             this.dgvEpisodes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvEpisodes.Size = new System.Drawing.Size(795, 107);
             this.dgvEpisodes.TabIndex = 1;
+            this.dgvEpisodes.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEpisodes_CellDoubleClick);
             this.dgvEpisodes.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvEpisodes_DataBindingComplete);
             // 
             // colSeason
@@ -193,6 +195,17 @@
             this.colAutio.ReadOnly = true;
             this.colAutio.Width = 200;
             // 
+            // lbNoEpisodeWarning
+            // 
+            this.lbNoEpisodeWarning.ForeColor = System.Drawing.Color.Gray;
+            this.lbNoEpisodeWarning.Location = new System.Drawing.Point(0, 31);
+            this.lbNoEpisodeWarning.Name = "lbNoEpisodeWarning";
+            this.lbNoEpisodeWarning.Size = new System.Drawing.Size(795, 19);
+            this.lbNoEpisodeWarning.TabIndex = 2;
+            this.lbNoEpisodeWarning.Text = "The selected series doesn\'t have episodes added!";
+            this.lbNoEpisodeWarning.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbNoEpisodeWarning.Visible = false;
+            // 
             // ucSeriesEpisodes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -200,6 +213,7 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.Controls.Add(this.lbNoEpisodeWarning);
             this.Controls.Add(this.dgvEpisodes);
             this.Controls.Add(this.pSeparator_Caption);
             this.Name = "ucSeriesEpisodes";
@@ -223,5 +237,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colDuration;
         private System.Windows.Forms.DataGridViewTextBoxColumn colQuality;
         private System.Windows.Forms.DataGridViewTextBoxColumn colAutio;
+        private System.Windows.Forms.Label lbNoEpisodeWarning;
     }
 }

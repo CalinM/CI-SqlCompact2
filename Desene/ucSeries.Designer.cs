@@ -2,12 +2,12 @@
 {
     partial class ucSeries
     {
-        /// <summary> 
+        /// <summary>
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
+        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -22,8 +22,8 @@
 
         #region Component Designer generated code
 
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
+        /// <summary>
+        /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
@@ -33,7 +33,7 @@
             this.tvSeries = new Aga.Controls.Tree.TreeViewAdv();
             this.pFilters = new System.Windows.Forms.Panel();
             this.lbFilter = new System.Windows.Forms.Label();
-            this.tbFilter = new System.Windows.Forms.TextBox();
+            this.tbFilter = new Utils.FilterTextBox();
             this.pSeriesDetailsWrapper = new System.Windows.Forms.Panel();
             this.scSeriesDetails = new System.Windows.Forms.SplitContainer();
             this.pSeriesSecondToolbar = new System.Windows.Forms.Panel();
@@ -46,6 +46,7 @@
             this.btnRefreshEpisodeData = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pSeriesDetailsContainer = new System.Windows.Forms.Panel();
+            this.btnDeleteSeasonEpisode = new System.Windows.Forms.ToolStripButton();
             this.pSeriesTreeWrapper.SuspendLayout();
             this.panel2.SuspendLayout();
             this.pFilters.SuspendLayout();
@@ -125,10 +126,14 @@
             // 
             this.tbFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.tbFilter.ForeColor = System.Drawing.Color.Silver;
             this.tbFilter.Location = new System.Drawing.Point(47, 9);
             this.tbFilter.Name = "tbFilter";
             this.tbFilter.Size = new System.Drawing.Size(347, 20);
             this.tbFilter.TabIndex = 14;
+            this.tbFilter.ButtonClick += new System.EventHandler(this.tbFilter_ButtonClick);
+            this.tbFilter.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbFilter_KeyDown);
             // 
             // pSeriesDetailsWrapper
             // 
@@ -188,7 +193,8 @@
             this.btnLoadPoster,
             this.toolStripSeparator1,
             this.btnSaveChanges,
-            this.btnRefreshEpisodeData});
+            this.btnRefreshEpisodeData,
+            this.btnDeleteSeasonEpisode});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(32, 540);
@@ -198,10 +204,11 @@
             // btnImportEpisodes
             // 
             this.btnImportEpisodes.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnImportEpisodes.Enabled = false;
             this.btnImportEpisodes.Image = global::Desene.Properties.Resources.import;
             this.btnImportEpisodes.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImportEpisodes.Name = "btnImportEpisodes";
-            this.btnImportEpisodes.Size = new System.Drawing.Size(29, 20);
+            this.btnImportEpisodes.Size = new System.Drawing.Size(21, 20);
             this.btnImportEpisodes.Text = "Import episodes data from files";
             this.btnImportEpisodes.Click += new System.EventHandler(this.btnImportEpisodes_Click);
             // 
@@ -225,11 +232,12 @@
             // btnSaveChanges
             // 
             this.btnSaveChanges.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnSaveChanges.Enabled = false;
             this.btnSaveChanges.Image = global::Desene.Properties.Resources.save;
             this.btnSaveChanges.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnSaveChanges.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSaveChanges.Name = "btnSaveChanges";
-            this.btnSaveChanges.Size = new System.Drawing.Size(29, 20);
+            this.btnSaveChanges.Size = new System.Drawing.Size(21, 20);
             this.btnSaveChanges.Text = "Save changes";
             this.btnSaveChanges.ToolTipText = "Save changes";
             this.btnSaveChanges.Click += new System.EventHandler(this.btnSaveChanges_Click);
@@ -237,10 +245,11 @@
             // btnRefreshEpisodeData
             // 
             this.btnRefreshEpisodeData.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnRefreshEpisodeData.Enabled = false;
             this.btnRefreshEpisodeData.Image = global::Desene.Properties.Resources.refresh;
             this.btnRefreshEpisodeData.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRefreshEpisodeData.Name = "btnRefreshEpisodeData";
-            this.btnRefreshEpisodeData.Size = new System.Drawing.Size(29, 20);
+            this.btnRefreshEpisodeData.Size = new System.Drawing.Size(21, 20);
             this.btnRefreshEpisodeData.Text = "Refresh episode data from file";
             this.btnRefreshEpisodeData.Click += new System.EventHandler(this.btnRefreshEpisodeData_Click);
             // 
@@ -262,6 +271,18 @@
             this.pSeriesDetailsContainer.Name = "pSeriesDetailsContainer";
             this.pSeriesDetailsContainer.Size = new System.Drawing.Size(681, 580);
             this.pSeriesDetailsContainer.TabIndex = 0;
+            // 
+            // btnDeleteSeasonEpisode
+            // 
+            this.btnDeleteSeasonEpisode.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnDeleteSeasonEpisode.Enabled = false;
+            this.btnDeleteSeasonEpisode.Image = global::Desene.Properties.Resources.delete;
+            this.btnDeleteSeasonEpisode.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnDeleteSeasonEpisode.Name = "btnDeleteSeasonEpisode";
+            this.btnDeleteSeasonEpisode.Size = new System.Drawing.Size(29, 20);
+            this.btnDeleteSeasonEpisode.Text = "Delete";
+            this.btnDeleteSeasonEpisode.ToolTipText = "Delete the selected Season/Episode";
+            this.btnDeleteSeasonEpisode.Click += new System.EventHandler(this.btnDeleteSeasonEpisode_Click);
             // 
             // ucSeries
             // 
@@ -298,7 +319,7 @@
         private Aga.Controls.Tree.TreeViewAdv tvSeries;
         private System.Windows.Forms.Panel pFilters;
         private System.Windows.Forms.Label lbFilter;
-        private System.Windows.Forms.TextBox tbFilter;
+        private Utils.FilterTextBox tbFilter;
         private System.Windows.Forms.Panel pSeriesDetailsWrapper;
         private System.Windows.Forms.SplitContainer scSeriesDetails;
         private System.Windows.Forms.Panel pSeriesDetailsContainer;
@@ -311,5 +332,6 @@
         private System.Windows.Forms.ToolStripButton btnRefreshEpisodeData;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton btnImportEpisodes;
+        private System.Windows.Forms.ToolStripButton btnDeleteSeasonEpisode;
     }
 }

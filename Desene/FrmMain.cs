@@ -402,5 +402,10 @@ namespace Desene
         {
 
         }
+
+        private void buttonTextBox1_ButtonClick(object sender, EventArgs e)
+        {
+            MessageBox.Show("aaaa");
+        }
     }
 }

@@ -2,7 +2,8 @@
 {
     public static class Constants
     {
-        public static string ConnectionString = "Data Source = CartoonsRepo.sdf;Persist Security Info=False";
+        //4091 is maximum for SQL CE !!!
+        public static string ConnectionString = "Data Source = CartoonsRepo.sdf;Max Database Size=4091;Persist Security Info=False";
 
         public static string[] DatabaseDef =
             {
@@ -27,12 +28,12 @@
                     Recommended nvarchar(5) NULL,--
                     RecommendedLink nvarchar(255) NULL,--
                     DescriptionLink nvarchar(255) NULL,--
-                    Notes nvarchar(255) NULL,--
+                    Notes ntext NULL,--
                     Poster image NULL,  -- for movies and series!!!
                     AudioLanguages nvarchar(255),
                     SubtitleLanguages nvarchar(255))",
 
-                @"ALTER TABLE FileDetail ADD CONSTRAINT PK_FileDetail PRIMARY KEY (Id)",
+                "ALTER TABLE FileDetail ADD CONSTRAINT PK_FileDetail PRIMARY KEY (Id)",
 
 
                 @"CREATE TABLE Thumbnails (
@@ -40,7 +41,7 @@
                     FileDetailId int NOT NULL,
                     MovieStill image NULL)",
 
-                @"ALTER TABLE Thumbnails ADD CONSTRAINT PK_Thumbnails PRIMARY KEY (Id)",
+                "ALTER TABLE Thumbnails ADD CONSTRAINT PK_Thumbnails PRIMARY KEY (Id)",
 
                 @"ALTER TABLE Thumbnails ADD CONSTRAINT FK_FileDetail_Thumbnails
                   FOREIGN KEY (FileDetailId) REFERENCES FileDetail(Id)",

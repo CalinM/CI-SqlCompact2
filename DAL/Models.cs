@@ -15,6 +15,20 @@ namespace DAL
         public bool HasPoster { get; set; }
     }
 
+    public class SeriesEpisodesShortInfo
+    {
+        public int Id { get; set; }
+        public string FileName { get; set; }
+        public string Theme { get; set; }
+        public string Quality { get; set; }
+        public int Season { get; set; }
+        public int SeriesId {get; set;}
+
+        public bool IsSeries { get; set; }
+        public bool IsSeason { get; set; }
+        public bool IsEpisode { get; set; }
+    }
+
     public class MovieTechnicalDetails
     {
         public int Id { get; set; }

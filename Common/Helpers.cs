@@ -15,14 +15,13 @@ namespace Common
             set
             {
                 _unsavedChanges = value;
-                GenericSetButtonsState2(value);
+                if (GenericSetButtonsState2 != null)
+                    GenericSetButtonsState2(value);
             }
         }
 
         public static Func<Boolean, object> GenericSetButtonsState;
         public static Action<Boolean> GenericSetButtonsState2;
-        //public delegate OperationResult SaveChanges();
-        //public static event EventHandler OnInnerLoadPosterButtonPress;
 
         public static void OnTextChanged(object sender, EventArgs eventArgs)
         {

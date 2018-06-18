@@ -12,9 +12,10 @@ namespace Desene
 {
     public static class DAL
     {
-        public static DataTable Series { get; set; }
+        //public static DataTable Series { get; set; }
         public static List<CachedMovieStills> CachedMoviesStills = new List<CachedMovieStills>();
         public static MovieTechnicalDetails CurrentMTD;
+
         public static BindingList<MovieShortInfo> GetMoviesGridData()
         {
             var result = new BindingList<MovieShortInfo>();
@@ -23,7 +24,7 @@ namespace Desene
             {
                 conn.Open();
 
-                var commandSource = new SqlCeCommand("select * from FileDetail where ParentId is null order by FileName", conn);
+                var commandSource = new SqlCeCommand("SELECT * FROM FileDetail WHERE ParentId IS NULL ORDER BY FileName", conn);
 
                 using (var reader = commandSource.ExecuteReader())
                 {
@@ -42,23 +43,232 @@ namespace Desene
             return result;
         }
 
-        public static void LoadSeriesData()
+        public static List<SeriesEpisodesShortInfo> GetSeriesInfo()
         {
-            Series = new DataTable();
+            var result = new List<SeriesEpisodesShortInfo>();
 
             using (var conn = new SqlCeConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                //loading Series AND Episodes!
-                var cmd = new SqlCeCommand("select * from FileDetail where ParentId is not null", conn);
+                var commandSource = new SqlCeCommand("SELECT * FROM FileDetail WHERE ParentId = -1 ORDER BY FileName", conn);
 
-                using (var reader = cmd.ExecuteReader())
+                using (var reader = commandSource.ExecuteReader())
                 {
-                    Series.Load(reader);
+                    while (reader.Read())
+                    {
+                        result.Add(new SeriesEpisodesShortInfo
+                                    {
+                                        Id = (int)reader["Id"],
+                                        FileName = reader["FileName"].ToString(),
+                                        Season = -1,
+                                        SeriesId = (int)reader["Id"],
+                                        IsSeries = true
+                                    });
+                    }
                 }
             }
+
+            return result;
         }
+
+        public static List<SeriesEpisodesShortInfo> GetSeasonsForSeries(int seriesId)
+        {
+            var result = new List<SeriesEpisodesShortInfo>();
+
+            using (var conn = new SqlCeConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                var commandSource = new SqlCeCommand(string.Format("SELECT DISTINCT Season FROM FileDetail WHERE ParentId = {0} order by Season", seriesId), conn);
+
+                using (var reader = commandSource.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var seasonVal = int.Parse(reader["Season"].ToString());
+
+                        result.Add(new SeriesEpisodesShortInfo
+                                    {
+                                        Id = seriesId,
+                                        FileName = string.Format("Season {0}", seasonVal),
+                                        Theme = string.Empty,
+                                        Quality = string.Empty,
+                                        Season = seasonVal,
+                                        SeriesId = seriesId,
+                                        IsSeason = true
+                                    });
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public static List<SeriesEpisodesShortInfo> GetEpisodesInSeason(int seriesId, int seasonVal)
+        {
+            var result = new List<SeriesEpisodesShortInfo>();
+
+            using (var conn = new SqlCeConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                var commandSource = new SqlCeCommand(string.Format("SELECT * FROM FileDetail WHERE ParentId = {0} AND Season = {1} ORDER BY FileName", seriesId, seasonVal), conn);
+
+                using (var reader = commandSource.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        result.Add(new SeriesEpisodesShortInfo
+                                    {
+                                        Id = (int)reader["Id"],
+                                        FileName = reader["FileName"].ToString(),
+                                        Theme = reader["Theme"].ToString(),
+                                        Quality = reader["Quality"].ToString(),
+                                        Season = seasonVal,
+                                        SeriesId = (int)reader["ParentId"],
+                                        IsEpisode = true
+                                    });
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public static DataTable GetEpisodesInSeries(int seriesId)
+        {
+            var result = new DataTable();
+
+            using (var conn = new SqlCeConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                var commandSource = new SqlCeCommand(string.Format("SELECT * FROM FileDetail WHERE ParentId = {0} ORDER BY Season, FileName", seriesId), conn);
+
+                using (var reader = commandSource.ExecuteReader())
+                {
+                    result.Load(reader);
+                }
+            }
+
+            return result;
+        }
+
+        public static List<SeriesEpisodesShortInfo> GetFilteredSeriesEpisodes(string filterBy)
+        {
+            var result = new List<SeriesEpisodesShortInfo>();
+
+            using (var conn = new SqlCeConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                var sqlString =
+                    string.Format(@"
+                        SELECT
+                            fd2.FileName AS SeriesName,
+                            fd.*
+                        FROM FileDetail fd
+                            LEFT OUTER JOIN FileDetail fd2 ON fd.ParentId = fd2.id
+                        WHERE fd.ParentId IS NOT NULL AND fd.FileName LIKE '%{0}%'
+                        ORDER BY ParentId DESC", filterBy);
+
+                var commandSource = new SqlCeCommand(sqlString, conn);
+
+                using (var reader = commandSource.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var parentId = (int)reader["ParentId"];
+
+                        if (parentId > 0)
+                        {
+                            if (!result.Any(r => r.IsSeries && r.Id == parentId))
+                            {
+                                result.Add(new SeriesEpisodesShortInfo
+                                            {
+                                                Id = parentId,
+                                                FileName = reader["SeriesName"].ToString(),
+                                                Season = -1,
+                                                SeriesId = parentId,
+                                                IsSeries = true
+                                            });
+                            }
+
+                            result.Add(new SeriesEpisodesShortInfo
+                                        {
+                                            Id = (int)reader["Id"],
+                                            FileName = reader["FileName"].ToString(),
+                                            Theme = reader["Theme"].ToString(),
+                                            Quality = reader["Quality"].ToString(),
+                                            Season = int.Parse(reader["Season"].ToString()),
+                                            SeriesId = parentId,
+                                            IsEpisode = true
+                                        });
+                        }
+                        else
+                        {
+                            var seriesId = (int)reader["Id"];
+
+                            if (!result.Any(r => r.IsSeries && r.Id == seriesId))
+                            {
+                                result.Add(new SeriesEpisodesShortInfo
+                                    {
+                                        Id = seriesId,
+                                        FileName = reader["FileName"].ToString(),
+                                        Season = -1,
+                                        SeriesId = seriesId,
+                                        IsSeries = true
+                                    });
+                            }
+                        }
+                    }
+                }
+
+                var seasonsInSeriesInFilterResult =
+                    result.Where(r => r.IsEpisode)
+                          .GroupBy(g => new
+                                {
+                                    g.SeriesId,
+                                    g.Season
+                                })
+                          .Select(g => g.FirstOrDefault())
+                          .ToList();
+
+                foreach (var seasonData in seasonsInSeriesInFilterResult)
+                {
+                    result.Add(new SeriesEpisodesShortInfo
+                        {
+                            Id = seasonData.SeriesId,
+                            FileName = string.Format("Season {0}", seasonData.Season),
+                            Season = seasonData.Season,
+                            SeriesId = seasonData.SeriesId,
+                            IsSeason = true
+                        });
+                }
+            }
+
+            return result.OrderBy(o => o.FileName).ThenBy(o => o.Season).ToList();
+        }
+
+        //to be removed
+        //public static void LoadSeriesData()
+        //{
+        //    Series = new DataTable();
+
+        //    using (var conn = new SqlCeConnection(Constants.ConnectionString))
+        //    {
+        //        conn.Open();
+
+        //        //loading Series AND Episodes!
+        //        var cmd = new SqlCeCommand("select * from FileDetail where ParentId is not null", conn);
+
+        //        using (var reader = cmd.ExecuteReader())
+        //        {
+        //            Series.Load(reader);
+        //        }
+        //    }
+        //}
 
         public static OperationResult InsertSeries(string title, string descriptionLink, string recommended,
             string recommendedLink, string notes, byte[] poster)
@@ -375,7 +585,7 @@ namespace Desene
             return result;
         }
 
-        public static OperationResult SaveMTD()
+        public static OperationResult SaveMTD(bool fullSave = true)
         {
             var result = new OperationResult();
 
@@ -402,7 +612,7 @@ namespace Desene
                                ,AudioLanguages = @AudioLanguages
                                ,SubtitleLanguages = @SubtitleLanguages
                                ,LastChangeDate = @LastChangeDate
-                               //,Poster = @Poster
+                               ,Poster = @Poster
                          WHERE Id = @Id";
 
                     var cmd = new SqlCeCommand(updateString, conn);
@@ -422,111 +632,114 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@LastChangeDate", DateTime.Now);
 
                     //NOT here ... separate save method for base movie info
-                    //cmd.Parameters.AddWithValue("@Poster", CurrentMTD.Poster ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Poster", CurrentMTD.Poster ?? (object)DBNull.Value);
 
                     cmd.Parameters.AddWithValue("@Id", CurrentMTD.Id);
                     cmd.ExecuteNonQuery();
 
                     #endregion
 
-                    #region VideoStream
-
-                    updateString = @"
-                        UPDATE VideoStream
-                           SET Format = @Format
-                               ,Format_Profile = @Format_Profile
-                               ,BitRateMode = @BitRateMode
-                               ,BitRate = @BitRate
-                               ,Width = @Width
-                               ,Height = @Height
-                               ,FrameRate_Mode = @FrameRate_Mode
-                               ,FrameRate = @FrameRate
-                               ,Delay = @Delay
-                               ,StreamSize = @StreamSize
-                               ,TitleEmbedded = @TitleEmbedded
-                               ,Language = @Language
-                         WHERE Id = @Id";
-
-                    foreach (var videoStream in CurrentMTD.VideoStreams)
+                    if (fullSave)
                     {
-                        cmd = new SqlCeCommand(updateString, conn);
-                        cmd.Parameters.AddWithValue("@Format", videoStream.Format);
-                        cmd.Parameters.AddWithValue("@Format_Profile", videoStream.Format_Profile);
-                        cmd.Parameters.AddWithValue("@BitRateMode", videoStream.BitRateMode);
-                        cmd.Parameters.AddWithValue("@BitRate", videoStream.BitRate);
-                        cmd.Parameters.AddWithValue("@Width", videoStream.Width);
-                        cmd.Parameters.AddWithValue("@Height", videoStream.Height);
-                        cmd.Parameters.AddWithValue("@FrameRate_Mode", videoStream.FrameRate_Mode);
-                        cmd.Parameters.AddWithValue("@FrameRate", videoStream.FrameRate);
-                        cmd.Parameters.AddWithValue("@Delay", videoStream.Delay);
-                        cmd.Parameters.AddWithValue("@StreamSize", videoStream.StreamSize);
-                        cmd.Parameters.AddWithValue("@TitleEmbedded", videoStream.Title);
-                        cmd.Parameters.AddWithValue("@Language", videoStream.Language);
-                        cmd.Parameters.AddWithValue("@Id", videoStream.Id);
-                        cmd.ExecuteNonQuery();
+                        #region VideoStream
+
+                        updateString = @"
+                            UPDATE VideoStream
+                               SET Format = @Format
+                                   ,Format_Profile = @Format_Profile
+                                   ,BitRateMode = @BitRateMode
+                                   ,BitRate = @BitRate
+                                   ,Width = @Width
+                                   ,Height = @Height
+                                   ,FrameRate_Mode = @FrameRate_Mode
+                                   ,FrameRate = @FrameRate
+                                   ,Delay = @Delay
+                                   ,StreamSize = @StreamSize
+                                   ,TitleEmbedded = @TitleEmbedded
+                                   ,Language = @Language
+                             WHERE Id = @Id";
+
+                        foreach (var videoStream in CurrentMTD.VideoStreams)
+                        {
+                            cmd = new SqlCeCommand(updateString, conn);
+                            cmd.Parameters.AddWithValue("@Format", videoStream.Format);
+                            cmd.Parameters.AddWithValue("@Format_Profile", videoStream.Format_Profile);
+                            cmd.Parameters.AddWithValue("@BitRateMode", videoStream.BitRateMode);
+                            cmd.Parameters.AddWithValue("@BitRate", videoStream.BitRate);
+                            cmd.Parameters.AddWithValue("@Width", videoStream.Width);
+                            cmd.Parameters.AddWithValue("@Height", videoStream.Height);
+                            cmd.Parameters.AddWithValue("@FrameRate_Mode", videoStream.FrameRate_Mode);
+                            cmd.Parameters.AddWithValue("@FrameRate", videoStream.FrameRate);
+                            cmd.Parameters.AddWithValue("@Delay", videoStream.Delay);
+                            cmd.Parameters.AddWithValue("@StreamSize", videoStream.StreamSize);
+                            cmd.Parameters.AddWithValue("@TitleEmbedded", videoStream.Title);
+                            cmd.Parameters.AddWithValue("@Language", videoStream.Language);
+                            cmd.Parameters.AddWithValue("@Id", videoStream.Id);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        #endregion
+
+                        #region AudioStreams
+
+                        updateString = @"
+                            UPDATE AudioStream
+                               SET Format = @Format
+                                   ,BitRate = @BitRate
+                                   ,Channel = @Channel
+                                   ,ChannelPosition = @ChannelPosition
+                                   ,SamplingRate = @SamplingRate
+                                   ,Resolution = @Resolution
+                                   ,Delay = @Delay
+                                   ,Video_Delay = @Video_Delay
+                                   ,StreamSize = @StreamSize
+                                   ,TitleEmbedded = @TitleEmbedded
+                                   ,Language = @Language
+                             WHERE Id = @Id";
+
+                        foreach (var audioStream in CurrentMTD.AudioStreams)
+                        {
+                            cmd = new SqlCeCommand(updateString, conn);
+                            cmd.Parameters.AddWithValue("@Format", audioStream.Format);
+                            cmd.Parameters.AddWithValue("@BitRate", audioStream.BitRate);
+                            cmd.Parameters.AddWithValue("@Channel", audioStream.Channel);
+                            cmd.Parameters.AddWithValue("@ChannelPosition", audioStream.ChannelPosition);
+                            cmd.Parameters.AddWithValue("@SamplingRate", audioStream.SamplingRate);
+                            cmd.Parameters.AddWithValue("@Resolution", audioStream.Resolution);
+                            cmd.Parameters.AddWithValue("@Delay", audioStream.Delay);
+                            cmd.Parameters.AddWithValue("@Video_Delay", audioStream.Video_Delay);
+                            cmd.Parameters.AddWithValue("@StreamSize", audioStream.StreamSize);
+                            cmd.Parameters.AddWithValue("@TitleEmbedded", audioStream.Title);;
+                            cmd.Parameters.AddWithValue("@Language", audioStream.Language);
+                            cmd.Parameters.AddWithValue("@Id", audioStream.Id);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        #endregion
+
+                        #region TextStream
+
+                        updateString = @"
+                            UPDATE SubtitleStream
+                               SET Format = @Format
+                                   ,StreamSize = @StreamSize
+                                   ,TitleEmbedded = @TitleEmbedded
+                                   ,Language = @Language
+                             WHERE Id = @Id";
+
+                        foreach (var subtitleStream in CurrentMTD.SubtitleStreams)
+                        {
+                            cmd = new SqlCeCommand(updateString, conn);
+                            cmd.Parameters.AddWithValue("@Format", subtitleStream.Format);
+                            cmd.Parameters.AddWithValue("@StreamSize", subtitleStream.StreamSize);
+                            cmd.Parameters.AddWithValue("@TitleEmbedded", subtitleStream.Title);;
+                            cmd.Parameters.AddWithValue("@Language", subtitleStream.Language);
+                            cmd.Parameters.AddWithValue("@Id", subtitleStream.Id);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        #endregion
                     }
-
-                    #endregion
-
-                    #region AudioStreams
-
-                    updateString = @"
-                        UPDATE AudioStream
-                           SET Format = @Format
-                               ,BitRate = @BitRate
-                               ,Channel = @Channel
-                               ,ChannelPosition = @ChannelPosition
-                               ,SamplingRate = @SamplingRate
-                               ,Resolution = @Resolution
-                               ,Delay = @Delay
-                               ,Video_Delay = @Video_Delay
-                               ,StreamSize = @StreamSize
-                               ,TitleEmbedded = @TitleEmbedded
-                               ,Language = @Language
-                         WHERE Id = @Id";
-
-                    foreach (var audioStream in CurrentMTD.AudioStreams)
-                    {
-                        cmd = new SqlCeCommand(updateString, conn);
-                        cmd.Parameters.AddWithValue("@Format", audioStream.Format);
-                        cmd.Parameters.AddWithValue("@BitRate", audioStream.BitRate);
-                        cmd.Parameters.AddWithValue("@Channel", audioStream.Channel);
-                        cmd.Parameters.AddWithValue("@ChannelPosition", audioStream.ChannelPosition);
-                        cmd.Parameters.AddWithValue("@SamplingRate", audioStream.SamplingRate);
-                        cmd.Parameters.AddWithValue("@Resolution", audioStream.Resolution);
-                        cmd.Parameters.AddWithValue("@Delay", audioStream.Delay);
-                        cmd.Parameters.AddWithValue("@Video_Delay", audioStream.Video_Delay);
-                        cmd.Parameters.AddWithValue("@StreamSize", audioStream.StreamSize);
-                        cmd.Parameters.AddWithValue("@TitleEmbedded", audioStream.Title);;
-                        cmd.Parameters.AddWithValue("@Language", audioStream.Language);
-                        cmd.Parameters.AddWithValue("@Id", audioStream.Id);
-                        cmd.ExecuteNonQuery();
-                    }
-
-                    #endregion
-
-                    #region TextStream
-
-                    updateString = @"
-                        UPDATE SubtitleStream
-                           SET Format = @Format
-                               ,StreamSize = @StreamSize
-                               ,TitleEmbedded = @TitleEmbedded
-                               ,Language = @Language
-                         WHERE Id = @Id";
-
-                    foreach (var subtitleStream in CurrentMTD.SubtitleStreams)
-                    {
-                        cmd = new SqlCeCommand(updateString, conn);
-                        cmd.Parameters.AddWithValue("@Format", subtitleStream.Format);
-                        cmd.Parameters.AddWithValue("@StreamSize", subtitleStream.StreamSize);
-                        cmd.Parameters.AddWithValue("@TitleEmbedded", subtitleStream.Title);;
-                        cmd.Parameters.AddWithValue("@Language", subtitleStream.Language);
-                        cmd.Parameters.AddWithValue("@Id", subtitleStream.Id);
-                        cmd.ExecuteNonQuery();
-                    }
-
-                    #endregion
                 }
             }
             catch (Exception ex)
@@ -537,117 +750,130 @@ namespace Desene
             return result;
         }
 
-        public static OperationResult LoadMTD(int fileDetailId)
+        public static OperationResult LoadMTD(int fileDetailId, bool fullLoad)
         {
             var result = new OperationResult();
             var mtd = new MovieTechnicalDetails();
 
             try
             {
-                var fileInfoRow = Series.Select("Id = " + fileDetailId)[0];
-                mtd.Id = fileDetailId;
-                mtd.ParentId = fileInfoRow["ParentId"] == DBNull.Value ? (int?)null : (int)fileInfoRow["ParentId"];
-                mtd.FileName = fileInfoRow["FileName"].ToString();
-                mtd.Year = fileInfoRow["Year"].ToString();
-                mtd.Format = fileInfoRow["Format"].ToString();
-                mtd.Encoded_Application = fileInfoRow["Encoded_Application"].ToString();
-                mtd.FileSize = fileInfoRow["FileSize"].ToString();
-                mtd.FileSize2 = fileInfoRow["FileSize2"].ToString();
-                mtd.Title = fileInfoRow["TitleEmbedded"].ToString();
-                mtd.Cover = fileInfoRow["CoverEmbedded"].ToString();
-                mtd.Season = fileInfoRow["Season"].ToString();
-                mtd.Theme = fileInfoRow["Theme"].ToString();
-                mtd.StreamLink = fileInfoRow["StreamLink"].ToString();
-                mtd.InsertedDate = fileInfoRow["InsertedDate"] == DBNull.Value ? (DateTime?)null : (DateTime)fileInfoRow["InsertedDate"];
-                mtd.InsertedDate = fileInfoRow["LastChangeDate"] == DBNull.Value ? (DateTime?)null : (DateTime)fileInfoRow["LastChangeDate"];
-                mtd.Quality = fileInfoRow["Quality"].ToString();
-                mtd.Recommended = fileInfoRow["Recommended"].ToString();
-                mtd.RecommendedLink = fileInfoRow["RecommendedLink"].ToString();
-                mtd.DescriptionLink = fileInfoRow["DescriptionLink"].ToString();
-                mtd.Poster = fileInfoRow["Poster"] == DBNull.Value ? null : (byte[])fileInfoRow["Poster"];
-                mtd.AudioLanguages = fileInfoRow["AudioLanguages"].ToString();
-                mtd.SubtitleLanguages = fileInfoRow["SubtitleLanguages"].ToString();
-                mtd.DurationFormatted = ((DateTime)fileInfoRow["Duration"]).ToString("HH:mm:ss");
-
                 using (var conn = new SqlCeConnection(Constants.ConnectionString))
                 {
                     conn.Open();
 
-                    var cmd = new SqlCeCommand(string.Format("SELECT * FROM VideoStream WHERE FileDetailId = {0} ORDER BY [Index]", fileDetailId), conn);
+                    var cmd = new SqlCeCommand(string.Format("SELECT * FROM FileDetail WHERE Id = {0}", fileDetailId), conn);
 
                     using (var reader = cmd.ExecuteResultSet(ResultSetOptions.Scrollable))
                     {
-                        //if (reader.HasRows) return null;
-
                         while (reader.Read())
                         {
-                            mtd.VideoStreams.Add(
-                                new VideoStreamInfo
-                                    {
-                                        Id = (int)reader["Id"],
-                                        Index = (int)reader["Index"],
-                                        Format = reader["Format"].ToString(),
-                                        Format_Profile = reader["Format_Profile"].ToString(),
-                                        BitRateMode = reader["BitRateMode"].ToString(),
-                                        BitRate = reader["BitRate"].ToString(),
-                                        Width = reader["Width"].ToString(),
-                                        Height = reader["Height"].ToString(),
-                                        FrameRate_Mode = reader["FrameRate_Mode"].ToString(),
-                                        FrameRate = reader["FrameRate"].ToString(),
-                                        Delay = reader["Delay"].ToString(),
-                                        StreamSize = reader["StreamSize"].ToString(),
-                                        Title = reader["TitleEmbedded"].ToString(),
-                                        Language = reader["Language"].ToString()
-                                    });
+                            mtd.Id = fileDetailId;
+                            mtd.ParentId = reader["ParentId"] == DBNull.Value ? (int?)null : (int)reader["ParentId"];
+                            mtd.FileName = reader["FileName"].ToString();
+                            mtd.Year = reader["Year"].ToString();
+                            mtd.Format = reader["Format"].ToString();
+                            mtd.Encoded_Application = reader["Encoded_Application"].ToString();
+                            mtd.FileSize = reader["FileSize"].ToString();
+                            mtd.FileSize2 = reader["FileSize2"].ToString();
+                            mtd.Title = reader["TitleEmbedded"].ToString();
+                            mtd.Cover = reader["CoverEmbedded"].ToString();
+                            mtd.Season = reader["Season"].ToString();
+                            mtd.Theme = reader["Theme"].ToString();
+                            mtd.StreamLink = reader["StreamLink"].ToString();
+                            mtd.InsertedDate = reader["InsertedDate"] == DBNull.Value ? (DateTime?)null : (DateTime)reader["InsertedDate"];
+                            mtd.InsertedDate = reader["LastChangeDate"] == DBNull.Value ? (DateTime?)null : (DateTime)reader["LastChangeDate"];
+                            mtd.Quality = reader["Quality"].ToString();
+                            mtd.Recommended = reader["Recommended"].ToString();
+                            mtd.RecommendedLink = reader["RecommendedLink"].ToString();
+                            mtd.DescriptionLink = reader["DescriptionLink"].ToString();
+                            mtd.Poster = reader["Poster"] == DBNull.Value ? null : (byte[])reader["Poster"];
+                            mtd.AudioLanguages = reader["AudioLanguages"].ToString();
+                            mtd.SubtitleLanguages = reader["SubtitleLanguages"].ToString();
+                            mtd.DurationFormatted = reader["Duration"] == DBNull.Value
+                                                        ? "<not set>"
+                                                        : ((DateTime)reader["Duration"]).ToString("HH:mm:ss");
+                            break;
                         }
                     }
 
-                    cmd = new SqlCeCommand(string.Format("SELECT * FROM AudioStream WHERE FileDetailId = {0} ORDER BY [Index]", fileDetailId), conn);
-
-                    using (var reader = cmd.ExecuteResultSet(ResultSetOptions.Scrollable))
+                    if (fullLoad)
                     {
-                        //if (!reader.HasRows) return null;
+                        cmd = new SqlCeCommand(string.Format("SELECT * FROM VideoStream WHERE FileDetailId = {0} ORDER BY [Index]", fileDetailId), conn);
 
-                        while (reader.Read())
+                        using (var reader = cmd.ExecuteResultSet(ResultSetOptions.Scrollable))
                         {
-                            mtd.AudioStreams.Add(
-                                new AudioStreamInfo
-                                    {
-                                        Id = (int)reader["Id"],
-                                        Index = (int)reader["Index"],
-                                        Format = reader["Format"].ToString(),
-                                        BitRate = reader["BitRate"].ToString(),
-                                        Channel = reader["Channel"].ToString(),
-                                        ChannelPosition = reader["ChannelPosition"].ToString(),
-                                        SamplingRate = reader["SamplingRate"].ToString(),
-                                        Resolution = reader["Resolution"].ToString(),
-                                        Delay = reader["Delay"].ToString(),
-                                        Video_Delay = reader["Video_Delay"].ToString(),
-                                        StreamSize = reader["StreamSize"].ToString(),
-                                        Title = reader["TitleEmbedded"].ToString(),
-                                        Language = reader["Language"].ToString()
-                                    });
+                            //if (reader.HasRows) return null;
+
+                            while (reader.Read())
+                            {
+                                mtd.VideoStreams.Add(
+                                    new VideoStreamInfo
+                                        {
+                                            Id = (int)reader["Id"],
+                                            Index = (int)reader["Index"],
+                                            Format = reader["Format"].ToString(),
+                                            Format_Profile = reader["Format_Profile"].ToString(),
+                                            BitRateMode = reader["BitRateMode"].ToString(),
+                                            BitRate = reader["BitRate"].ToString(),
+                                            Width = reader["Width"].ToString(),
+                                            Height = reader["Height"].ToString(),
+                                            FrameRate_Mode = reader["FrameRate_Mode"].ToString(),
+                                            FrameRate = reader["FrameRate"].ToString(),
+                                            Delay = reader["Delay"].ToString(),
+                                            StreamSize = reader["StreamSize"].ToString(),
+                                            Title = reader["TitleEmbedded"].ToString(),
+                                            Language = reader["Language"].ToString()
+                                        });
+                            }
                         }
-                    }
 
-                    cmd = new SqlCeCommand(string.Format("SELECT * FROM SubtitleStream WHERE FileDetailId = {0} ORDER BY [Index]", fileDetailId), conn);
+                        cmd = new SqlCeCommand(string.Format("SELECT * FROM AudioStream WHERE FileDetailId = {0} ORDER BY [Index]", fileDetailId), conn);
 
-                    using (var reader = cmd.ExecuteResultSet(ResultSetOptions.Scrollable))
-                    {
-                        //if (!reader.HasRows) return null;
-
-                        while (reader.Read())
+                        using (var reader = cmd.ExecuteResultSet(ResultSetOptions.Scrollable))
                         {
-                            mtd.SubtitleStreams.Add(
-                                new SubtitleStreamInfo
-                                    {
-                                        Id = (int)reader["Id"],
-                                        Index = (int)reader["Index"],
-                                        Format = reader["Format"].ToString(),
-                                        StreamSize = reader["StreamSize"].ToString(),
-                                        Title = reader["TitleEmbedded"].ToString(),
-                                        Language = reader["Language"].ToString()
-                                    });
+                            //if (!reader.HasRows) return null;
+
+                            while (reader.Read())
+                            {
+                                mtd.AudioStreams.Add(
+                                    new AudioStreamInfo
+                                        {
+                                            Id = (int)reader["Id"],
+                                            Index = (int)reader["Index"],
+                                            Format = reader["Format"].ToString(),
+                                            BitRate = reader["BitRate"].ToString(),
+                                            Channel = reader["Channel"].ToString(),
+                                            ChannelPosition = reader["ChannelPosition"].ToString(),
+                                            SamplingRate = reader["SamplingRate"].ToString(),
+                                            Resolution = reader["Resolution"].ToString(),
+                                            Delay = reader["Delay"].ToString(),
+                                            Video_Delay = reader["Video_Delay"].ToString(),
+                                            StreamSize = reader["StreamSize"].ToString(),
+                                            Title = reader["TitleEmbedded"].ToString(),
+                                            Language = reader["Language"].ToString()
+                                        });
+                            }
+                        }
+
+                        cmd = new SqlCeCommand(string.Format("SELECT * FROM SubtitleStream WHERE FileDetailId = {0} ORDER BY [Index]", fileDetailId), conn);
+
+                        using (var reader = cmd.ExecuteResultSet(ResultSetOptions.Scrollable))
+                        {
+                            //if (!reader.HasRows) return null;
+
+                            while (reader.Read())
+                            {
+                                mtd.SubtitleStreams.Add(
+                                    new SubtitleStreamInfo
+                                        {
+                                            Id = (int)reader["Id"],
+                                            Index = (int)reader["Index"],
+                                            Format = reader["Format"].ToString(),
+                                            StreamSize = reader["StreamSize"].ToString(),
+                                            Title = reader["TitleEmbedded"].ToString(),
+                                            Language = reader["Language"].ToString()
+                                        });
+                            }
                         }
                     }
                 }
@@ -706,6 +932,99 @@ namespace Desene
                             ? "SD"
                             : "HD";
         }
+
+        public static OperationResult RemoveSeason(int seriesId, int seasonNo)
+        {
+            var result = new OperationResult();
+
+            using (var conn = new SqlCeConnection(Constants.ConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    var cmd = new SqlCeCommand(string.Format("SELECT Id FROM FileDetail WHERE ParentId = {0} AND Season = {1}", seriesId, seasonNo), conn);
+
+                    var episodeIds = new List<int>();
+
+                    using (var reader = cmd.ExecuteResultSet(ResultSetOptions.Scrollable))
+                    {
+                        while (reader.Read())
+                        {
+                            episodeIds.Add((int)reader["Id"]);
+                        }
+                    }
+
+                    result = RemoveEpisode(string.Join(",", episodeIds), conn);
+                }
+                catch (Exception ex)
+                {
+                    return result.FailWithMessage(ex);
+                }
+            }
+
+            return result;
+        }
+
+        public static OperationResult RemoveEpisode(int episodeId)
+        {
+            var result = new OperationResult();
+
+            using (var conn = new SqlCeConnection(Constants.ConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    result = RemoveEpisode(episodeId.ToString(), conn);
+                }
+                catch (Exception ex)
+                {
+                    return result.FailWithMessage(ex);
+                }
+            }
+
+            return result;
+        }
+
+        private static OperationResult RemoveEpisode(string episodeIds, SqlCeConnection conn)
+        {
+            var result = new OperationResult();
+
+            try
+            {
+                var tableNames = new[] { "VideoStream", "Thumbnails", "AudioStream", "SubtitleStream", "FileDetail" };
+
+                foreach (var tableName in tableNames)
+                {
+                    var cmd =
+                        new SqlCeCommand(
+                            string.Format("DELETE FROM {0} WHERE {1} IN ({2})",
+                                tableName,
+                                tableName == "FileDetail" ? "Id" : "FileDetailId",
+                                episodeIds),
+                            conn);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.FailWithMessage(ex);
+            }
+
+            return result;
+        }
+
+
+
+
+
+
+
+
+
+
         //public static void InitConnection(string connectionString)
         //{
         //    dbConnection = new SqlCeConnection(ConnectionString);

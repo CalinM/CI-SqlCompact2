@@ -4,10 +4,14 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
+using DAL;
+
 namespace Desene.EditUserControls
 {
     public partial class ucEditSeriesBaseInfo : UserControl
     {
+        private BindingSource _bsControlsData;
+
         public string Title
         {
             get { return tbTitle.Text; }
@@ -47,14 +51,33 @@ namespace Desene.EditUserControls
             }
         }
 
-        public ucEditSeriesBaseInfo()
+        public ucEditSeriesBaseInfo(bool isNew = true)
         {
             InitializeComponent();
+
+            if (!isNew)
+            {
+                InitControls();
+                RefreshControls();
+            }
         }
-        public ucEditSeriesBaseInfo(DataRow row)
+
+        private void InitControls()
         {
-            InitializeComponent();
-            LoadControls(row);
+            _bsControlsData = new BindingSource();
+
+            tbTitle.DataBindings.Add("Text", _bsControlsData, "FileName");
+            tbDescriptionLink.DataBindings.Add("Text", _bsControlsData, "DescriptionLink");
+            tbRecommended.DataBindings.Add("Text", _bsControlsData, "Recommended");
+            tbRecommendedLink.DataBindings.Add("Text", _bsControlsData, "RecommendedLink");
+            tbNotes.DataBindings.Add("Text", _bsControlsData, "Notes");
+            pbCover.DataBindings.Add("Image", _bsControlsData, "Poster", true);
+        }
+
+        public void RefreshControls(MovieTechnicalDetails mtd = null)
+        {
+            _bsControlsData.DataSource = mtd ?? DAL.CurrentMTD;
+            _bsControlsData.ResetBindings(false);
         }
 
         public bool ValidateInput()
@@ -73,26 +96,15 @@ namespace Desene.EditUserControls
             lbSeriesTitle.ForeColor = SystemColors.WindowText;
         }
 
-        public void LoadControls(DataRow row)
+        public void SetPoster(byte[] bytes)
         {
-            tbTitle.Text = row["FileName"].ToString();
-            tbDescriptionLink.Text = row["DescriptionLink"].ToString();
-            tbRecommended.Text = row["Recommended"].ToString();
-            tbRecommendedLink.Text = row["RecommendedLink"].ToString();
-            tbNotes.Text = row["Notes"].ToString();
-
-            if (row["Poster"] != DBNull.Value)
+            using (var ms = new MemoryStream())
             {
-                using (var ms = new MemoryStream((byte[])row["Poster"]))
-                {
-                    pbCover.Image = Image.FromStream(ms);
-                }
+                ms.Write(bytes, 0, bytes.Length);
+                pbCover.Image = Image.FromStream(ms);
             }
-        }
 
-        public void SetPoster(MemoryStream poster)
-        {
-            pbCover.Image = Image.FromStream(poster);
+            DAL.CurrentMTD.Poster = bytes;
         }
     }
 }

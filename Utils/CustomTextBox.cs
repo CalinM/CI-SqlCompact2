@@ -10,10 +10,5 @@ namespace Utils
 
             Common.Helpers.UnsavedChanges = true;
         }
-
-        //public void ResetChangesMarker()
-        //{
-        //    BorderStyle
-        //}
     }
 }

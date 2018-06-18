@@ -69,6 +69,8 @@
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.lbInfoMessage);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FrmProgressIndicator";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;

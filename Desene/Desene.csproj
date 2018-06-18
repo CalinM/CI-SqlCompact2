@@ -48,7 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataTableTreeModel.cs" />
+    <Compile Include="SeriesTreeModel.cs" />
+    <Compile Include="FilteredTreeModel.cs" />
     <Compile Include="DetailFormsAndUserControls\Episodes\ucSubtitleStreamDetail.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -55,16 +55,7 @@ namespace Desene.DetailFormsAndUserControls
 
                 if (seriesId != null)
                 {
-                    lbSeriesTitle_Value.Text = DAL.Series.Select("Id = " + seriesId)[0]["FileName"].ToString();
-                }
-
-                var opRes = DAL.LoadMTD(episodeId);
-
-                if (!opRes.Success)
-                {
-                    MsgBox.Show(string.Format("The following error occurred while loading the files details:{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
-                        @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    lbSeriesTitle_Value.Text = "comented!!!!"; //DAL.Series.Select("Id = " + seriesId)[0]["FileName"].ToString();
                 }
 
                 LoadControls2(false);
