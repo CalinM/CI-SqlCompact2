@@ -2,37 +2,36 @@
 <ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ArrayOfArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\ucSeries.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\ucSeries.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\ucSeries.Designer.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucAudioStreamDetail.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucAudioStreamDetail.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucVideoStreamDetail.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucVideoStreamDetail.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\DAL\Models.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Series\ucEditSeriesBaseInfo.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Common\LanguagesISO639.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\DAL\DAL.cs</string>
     </ArrayOfString>
     <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucSubtitleStreamDetail.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucSubtitleStreamDetail.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucVideoStreamDetail.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucVideoStreamDetail.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucEpisodeDetails.cs</string>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucEpisodeDetails.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucEpisodeDetails.Designer.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Series\FrmEditSeriesBaseInfo.designer.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Common\Constants.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Series\ucSeriesEpisodes.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Series\ucSeriesEpisodes.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Episodes\ucAudioStreamDetail.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\ucFileDetail.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\SeparatorCombobox.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\SeparatorCombobox.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\FrmMain.cs</string>
@@ -40,27 +39,8 @@
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\FrmMain.Designer.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Utils\CustomTextBox.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Utils\CustomTextBox.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Common\Helpers.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FilterTextBox.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FilterTextBox.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\SeriesTreeModel.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\FilteredTreeModel.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\DAL\Models.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Common\Constants.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\ucSeries.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\ucSeries.cs</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>

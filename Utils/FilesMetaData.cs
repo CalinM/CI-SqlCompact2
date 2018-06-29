@@ -34,7 +34,11 @@ namespace Utils
                                     Title = mi.Get(StreamKind.General, 0, "Title"),                     // to detect texts
                                     Encoded_Application = mi.Get(StreamKind.General, 0, "Encoded_Application"),
                                     Cover = mi.Get(StreamKind.General, 0, "Cover"),                     // to detect texts
-                                    Duration = mi.Get(StreamKind.General, 0, "Duration")               // recalculated in Duration2
+                                    Duration = mi.Get(StreamKind.General, 0, "Duration"),               // recalculated in Duration2
+
+                                    //no, not here, to it will look nicer (shorter)  as summary: ro, dut, eng
+                                    //AudioLanguages = mi.Get(StreamKind.General, 0, "Audio_Language_List").Replace(" / ", ", "),
+                                    //SubtitleLanguages = mi.Get(StreamKind.General, 0, "Text_Language_List").Replace(" / ", ", "),
                                 };
 
                 var vcStr = mi.Get(StreamKind.General, 0, "VideoCount");
@@ -57,7 +61,7 @@ namespace Utils
                                 Delay = mi.Get(StreamKind.Video, i, "Delay/String"),
                                 StreamSize = mi.Get(StreamKind.Video, i, "StreamSize/String"),
                                 Title = mi.Get(StreamKind.Video, i, "Title"),				        // to detect texts
-                                Language = mi.Get(StreamKind.Video, i, "Language/String"),
+                                Language = mi.Get(StreamKind.Video, i, "Language/String")
                             });
                 }
 
@@ -80,7 +84,7 @@ namespace Utils
                                 Video_Delay = mi.Get(StreamKind.Audio, i, "Video_Delay/String"),
                                 StreamSize = mi.Get(StreamKind.Audio, i, "StreamSize/String"),
                                 Title = mi.Get(StreamKind.Audio, i, "Title"),				        // to detect texts
-                                Language = mi.Get(StreamKind.Audio, i, "Language/String")
+                                Language = mi.Get(StreamKind.Audio, i, "Language") //Language/String
                             });
                 }
 
@@ -96,7 +100,7 @@ namespace Utils
                                 Format = mi.Get(StreamKind.Text, i, "Format"),
                                 StreamSize = mi.Get(StreamKind.Text, i, "StreamSize/String"),
                                 Title = mi.Get(StreamKind.Text, i, "Title"),    			        // to detect texts
-                                Language = mi.Get(StreamKind.Text, i, "Language/String")
+                                Language = mi.Get(StreamKind.Text, i, "Language")
                             });
                 }
 

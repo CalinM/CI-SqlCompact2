@@ -1,14 +1,19 @@
 ﻿using System;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+
+using Common;
 
 using DAL;
 
 using Desene.DetailFormsAndUserControls.Episodes;
 
 using Utils;
+
+using Helpers = Common.Helpers;
 
 namespace Desene.DetailFormsAndUserControls
 {
@@ -21,16 +26,24 @@ namespace Desene.DetailFormsAndUserControls
             InitializeComponent();
         }
 
-        public ucEpisodeDetails(int episodeId, int seriesId)
+        public ucEpisodeDetails(int episodeId, int seriesId, string seriesName)
         {
             InitializeComponent();
 
             InitControls();
-            LoadControls(episodeId, seriesId);
+            LoadControls(episodeId, seriesId, seriesName);
+
+            cbTheme.MouseWheel += Utils.Helpers.Combobox_OnMouseWheel;
+            cbQuality.MouseWheel += Utils.Helpers.Combobox_OnMouseWheel;
+        }
+
+        private void ucEpisodeDetails_Load(object sender, EventArgs e)
+        {
+            tbmDuration.ValidatingType = typeof(TimeSpan);
         }
 
         //"seriesId" can be null when the Episode is changed (in the same Series)
-        public void LoadControls(int episodeId, int? seriesId)
+        public void LoadControls(int episodeId, int? seriesId, string seriesName)
         {
             try
             {
@@ -45,17 +58,13 @@ namespace Desene.DetailFormsAndUserControls
                 else
                 {
                     cachedMovieStills = DAL.LoadMovieStills(episodeId);
-
-                    if (cachedMovieStills != null)
-                    {
-                        DAL.CachedMoviesStills.Add(cachedMovieStills);
-                        SetMovieStills(cachedMovieStills);
-                    }
+                    DAL.CachedMoviesStills.Add(cachedMovieStills);
+                    SetMovieStills(cachedMovieStills);
                 }
 
                 if (seriesId != null)
                 {
-                    lbSeriesTitle_Value.Text = "comented!!!!"; //DAL.Series.Select("Id = " + seriesId)[0]["FileName"].ToString();
+                    lbSeriesTitle_Value.Text = seriesName;
                 }
 
                 LoadControls2(false);
@@ -166,24 +175,68 @@ namespace Desene.DetailFormsAndUserControls
         {
             _bsControlsData = new BindingSource();
 
+            cbQuality.DataSource = Enum.GetValues(typeof(Quality));
+            LoadThemesInControl();
+
             tbEpisodeName.DataBindings.Add("Text", _bsControlsData, "FileName");
             cbQuality.DataBindings.Add("Text", _bsControlsData, "Quality");
             tbSeason.DataBindings.Add("Text", _bsControlsData, "Season");
             tbYear.DataBindings.Add("Text", _bsControlsData, "Year");
-            tbSize.DataBindings.Add("Text", _bsControlsData, "FileSize2");
             tbmDuration.DataBindings.Add("Text", _bsControlsData, "DurationFormatted");
+            tbSizeAsInt.DataBindings.Add("Text", _bsControlsData, "FileSize");
             tbAudioSummary.DataBindings.Add("Text", _bsControlsData, "AudioLanguages");
             tbSubtitleSummary.DataBindings.Add("Text", _bsControlsData, "SubtitleLanguages");
             tbFormat.DataBindings.Add("Text", _bsControlsData, "Format");
             tbEncodedWith.DataBindings.Add("Text", _bsControlsData, "Encoded_Application");
+            cbTheme.DataBindings.Add("Text", _bsControlsData, "Theme");
 
             chbHasEmbeddedTitle.DataBindings.Add("Checked", _bsControlsData, "HasTitle");
+        }
+
+        public void LoadThemesInControl(bool refreshText = false)
+        {
+            cbTheme.DataSource = null;
+            cbTheme.DataSource = DAL.MovieThemes;
+
+            if (refreshText)
+                cbTheme.Text = DAL.CurrentMTD.Theme;
+
+            //after a Save operation, it refreshed the AudioSummary and SubtitleSummary
+            if (tbAudioSummary.DataBindings.Count > 0 && refreshText)
+            {
+                tbAudioSummary.DataBindings[0].ReadValue();
+                tbSubtitleSummary.DataBindings[0].ReadValue();
+            }
         }
 
         public void RefreshControls(MovieTechnicalDetails mtd)
         {
             _bsControlsData.DataSource = mtd;
             _bsControlsData.ResetBindings(false);
+
+            ttTitleContent.RemoveAll();
+            if (mtd.HasTitle && !string.IsNullOrEmpty(mtd.Title))
+            {
+                ttTitleContent.SetToolTip(chbHasEmbeddedTitle, mtd.Title);
+                chbHasEmbeddedTitle.Cursor = Cursors.Help;
+            }
+            else
+            {
+                ttTitleContent.RemoveAll();
+                chbHasEmbeddedTitle.Cursor = Cursors.Default;
+            }
+
+            //having it on "InitControls" will cause a crash, the column being NOT recognized!
+            //only for this custom TextBox
+            //todo: why?
+            if (tbSize.DataBindings.Count == 0)
+            {
+                tbSize.DataBindings.Add("Text", _bsControlsData, "FileSize2");
+                tbSize.ButtonToolTip =
+                    "Size mismatch!" + Environment.NewLine +
+                    "Possible cause: a previously edited value was provided in a format that couldn't be transformed into a number representation." + Environment.NewLine +
+                    "Please revise the FileSize value!";
+            }
         }
 
         private void AddSectionHeader(string caption, string identifier)
@@ -233,6 +286,41 @@ namespace Desene.DetailFormsAndUserControls
                     pbMovieStill3.Image = Image.FromStream(ms);
                 }
             }
+
+            var anyVisible = cachedMovieStills.MovieStills.Count > 0;
+            tlpMovieStillsWrapper.Visible = anyVisible;
+            pEpisodeDetails.Size = new Size(pEpisodeDetails.Width, anyVisible ? 400 : 200);
+        }
+
+        private void tbSizeAsInt_TextChanged(object sender, EventArgs e)
+        {
+            tbSize.ButtonVisible = tbSizeAsInt.Text == "0" && tbSize.Text != string.Empty;
+        }
+
+        private void tbmDuration_KeyUp(object sender, KeyEventArgs e)
+        {
+            Helpers.UnsavedChanges = true;
+        }
+
+        private void tbmDuration_TypeValidationCompleted(object sender, TypeValidationEventArgs e)
+        {
+            if (!e.IsValidInput)
+            {
+                MsgBox.Show("The duration is not a valid Time!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //tbmDuration.SelectAll();
+                tbmDuration.Text = "00:00:00";
+                e.Cancel = true;
+            }
+        }
+
+        private void cbTheme_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            Helpers.UnsavedChanges = true;
+        }
+
+        private void chbHasEmbeddedTitle_MouseClick(object sender, MouseEventArgs e)
+        {
+            Helpers.UnsavedChanges = true;
         }
     }
 }

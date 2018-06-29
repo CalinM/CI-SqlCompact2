@@ -40,6 +40,9 @@ namespace Desene.DetailFormsAndUserControls
             {
                 _bsEpisodesGridData.DataSource = episodesInSeries;
                 _bsEpisodesGridData.ResetBindings(false);
+
+                //dgvEpisodes.ClearSelection();
+
                 dgvEpisodes.Visible = true;
                 lbNoEpisodeWarning.Visible = false;
             }

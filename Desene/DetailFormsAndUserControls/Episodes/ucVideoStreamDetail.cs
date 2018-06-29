@@ -1,6 +1,8 @@
 ﻿using DAL;
 using System.Windows.Forms;
 
+using Common;
+
 namespace Desene.DetailFormsAndUserControls.Episodes
 {
     public partial class ucVideoStreamDetail : UserControl
@@ -37,13 +39,30 @@ namespace Desene.DetailFormsAndUserControls.Episodes
             tbDelay.DataBindings.Add("Text", _bsControlsData, "Delay");
             tbStreamSize.DataBindings.Add("Text", _bsControlsData, "StreamSize");
 
-            cbTitle.DataBindings.Add("Checked", _bsControlsData, "HasTitle");
+            chbTitle.DataBindings.Add("Checked", _bsControlsData, "HasTitle");
         }
 
         public void RefreshControls(VideoStreamInfo videoStreamInfo)
         {
             _bsControlsData.DataSource = videoStreamInfo;
             _bsControlsData.ResetBindings(false);
+
+            ttTitleContent.RemoveAll();
+            if (videoStreamInfo.HasTitle && !string.IsNullOrEmpty(videoStreamInfo.Title))
+            {
+                ttTitleContent.SetToolTip(chbTitle, videoStreamInfo.Title);
+                chbTitle.Cursor = Cursors.Help;
+            }
+            else
+            {
+                ttTitleContent.RemoveAll();
+                chbTitle.Cursor = Cursors.Default;
+            }
+        }
+
+        private void chbTitle_MouseClick(object sender, MouseEventArgs e)
+        {
+            Helpers.UnsavedChanges = true;
         }
     }
 }

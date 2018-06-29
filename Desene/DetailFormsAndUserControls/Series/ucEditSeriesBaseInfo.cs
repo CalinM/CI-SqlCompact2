@@ -51,6 +51,11 @@ namespace Desene.EditUserControls
             }
         }
 
+        public ucEditSeriesBaseInfo()
+        {
+            InitializeComponent();
+        }
+
         public ucEditSeriesBaseInfo(bool isNew = true)
         {
             InitializeComponent();

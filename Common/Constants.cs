@@ -77,7 +77,7 @@
                     Format nvarchar(50) NULL,
                     BitRate nvarchar(50) NULL,
                     Channel nvarchar(50) NULL,
-                    ChannelPosition nvarchar(50) NULL,
+                    ChannelPosition nvarchar(255) NULL,
                     SamplingRate nvarchar(50) NULL,
                     Resolution nvarchar(50) NULL,
                     Delay nvarchar(50) NULL,

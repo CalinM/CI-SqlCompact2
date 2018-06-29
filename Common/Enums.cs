@@ -1,7 +1,7 @@
 ﻿
 namespace Common
 {
-    public enum Calitate
+    public enum Quality
     {
         NotSet = -1,
 
@@ -11,8 +11,8 @@ namespace Common
 
         SD = 2,
 
-        HD_up = 3, //la seriale,
+        HD_up = 3, //series
 
-        Mix = 4 //la seriale, SD cu HD
+        Mix = 4 //series
     }
 }

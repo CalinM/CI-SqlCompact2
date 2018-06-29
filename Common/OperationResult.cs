@@ -26,7 +26,7 @@ namespace Common
 
         public object AdditionalDataReturn { get; set; }
 
-        private string GetErrorMessage(Exception ex, bool includeStackTrace = false)
+        public static string GetErrorMessage(Exception ex, bool includeStackTrace = false)
         {
             var msg = new StringBuilder();
             BuildErrorMessage(ex, ref msg);

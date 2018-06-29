@@ -19,6 +19,8 @@ namespace Desene
         {
             if (DialogResult == DialogResult.None)
                 DialogResult = DialogResult.Cancel;
+
+            Common.Helpers.UnsavedChanges = false;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -36,7 +38,7 @@ namespace Desene
             {
                 MsgBox.Show(
                     string.Format("The following error had occurred while inserting the new Series into the database:{0}{0}{1}{0}{0}", Environment.NewLine, opRes.CustomErrorMessage),
-                    @"Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

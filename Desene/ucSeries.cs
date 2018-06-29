@@ -32,6 +32,8 @@ namespace Desene
             _parent.OnAddButtonPress += AddSeries;
 
             Helpers.GenericSetButtonsState2 = SetSaveButtonState;
+
+            pDummyMenuForShortCutKeys.SendToBack();
         }
 
         private void ucSeries_Load(object sender, EventArgs e)
@@ -39,17 +41,17 @@ namespace Desene
             //AutoSizeColumns? Where?
             //https://sourceforge.net/p/treeviewadv/discussion/568369/thread/b9e687fa/
 
-            var tcTitle = new TreeColumn { Header = @"Title", Width = 240 };
+            var tcTitle = new TreeColumn { Header = "Title", Width = 240 };
             var tbTitle = new NodeTextBox { DataPropertyName = "FileName", ParentColumn = tcTitle };
             tvSeries.Columns.Add(tcTitle);
             tvSeries.NodeControls.Add(tbTitle);
 
-            var tcTheme = new TreeColumn { Header = @"Theme", Width = 75 };
+            var tcTheme = new TreeColumn { Header = "Theme", Width = 75 };
             var tbTheme = new NodeTextBox { DataPropertyName = "Theme", ParentColumn = tcTheme };
             tvSeries.Columns.Add(tcTheme);
             tvSeries.NodeControls.Add(tbTheme);
 
-            var tcQuality = new TreeColumn { Header = @"Quality", Width = 35 };
+            var tcQuality = new TreeColumn { Header = "Quality", Width = 35 };
             var tbQuality = new NodeTextBox { DataPropertyName = "Quality", ParentColumn = tcQuality };
             tvSeries.Columns.Add(tcQuality);
             tvSeries.NodeControls.Add(tbQuality);
@@ -67,6 +69,9 @@ namespace Desene
 
         private void AddSeries(object sender, EventArgs e)
         {
+            if (!Utils.Helpers.ConfirmDiscardChanges())
+                return;
+
             var frmEditSeriesBaseInfo = new FrmEditSeriesBaseInfo { Owner = _parent };
 
             if (frmEditSeriesBaseInfo.ShowDialog() != DialogResult.OK) return;
@@ -109,7 +114,29 @@ namespace Desene
             SetButtonsState((SeriesEpisodesShortInfo)_prevSelectedNode.Tag);
         }
 
-        private void LoadSelectionDetails()
+        //private void DataToChildControls(SeriesEpisodesShortInfo seShortInfo, bool isUndo = false)
+        //{
+        //    try
+        //    {
+        //        if (isUndo)
+        //        {
+        //            Cursor = Cursors.WaitCursor;
+        //            pSeriesDetailsContainer.SuspendLayout();
+        //        }
+
+
+        //    }
+        //    finally
+        //    {
+        //        if (isUndo)
+        //        {
+        //            pSeriesDetailsContainer.ResumeLayout();
+        //            Cursor = Cursors.Default;
+        //        }
+        //    }
+        //}
+
+        private void LoadSelectionDetails(int scrollAt = -1)
         {
             if (tvSeries.SelectedNode == null) return; //why??
 
@@ -128,8 +155,6 @@ namespace Desene
                         "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-
-                //var seriesFI = SeriesEpisodesShortInfo.Row;
 
                 if (seShortInfo.IsSeason || seShortInfo.IsSeries)
                 {
@@ -205,12 +230,17 @@ namespace Desene
                         pSeriesDetailsContainer.Controls.Remove(prevInstance[0]);
 
 
+                    var seriesNode = tvSeries.AllNodes.FirstOrDefault(x => ((SeriesEpisodesShortInfo)x.Tag).Id == seShortInfo.SeriesId && ((SeriesEpisodesShortInfo)x.Tag).IsSeries);
+                    var seriesName = seriesNode == null
+                        ? "unknown !!!"
+                        : ((SeriesEpisodesShortInfo)seriesNode.Tag).FileName;
+
                     prevInstance = pSeriesDetailsContainer.Controls.Find("ucEpisodeDetails", false);
                     if (prevInstance.Any())
-                        ((ucEpisodeDetails)prevInstance[0]).LoadControls(seShortInfo.Id, null);
+                        ((ucEpisodeDetails)prevInstance[0]).LoadControls(seShortInfo.Id, null, seriesName);
                     else
                     {
-                        var ucEpisodeDetails = new ucEpisodeDetails(seShortInfo.Id, _prevSelectedSeriesId) { Dock = DockStyle.Top };
+                        var ucEpisodeDetails = new ucEpisodeDetails(seShortInfo.Id, _prevSelectedSeriesId, seriesName) { Dock = DockStyle.Top };
                         pSeriesDetailsContainer.Controls.Add(ucEpisodeDetails);
                         ucEpisodeDetails.BringToFront();
                     }
@@ -218,6 +248,9 @@ namespace Desene
             }
             finally
             {
+                if (scrollAt > -1)
+                    pSeriesDetailsContainer.VerticalScroll.Value = scrollAt;
+
                 pSeriesDetailsContainer.ResumeLayout();
                 Cursor = Cursors.Default;
             }
@@ -226,6 +259,7 @@ namespace Desene
         private void SetSaveButtonState(bool b)
         {
             btnSaveChanges.Enabled = b;
+            btnUndo.Enabled = b;
         }
 
         private void SetButtonsState(SeriesEpisodesShortInfo sesi)
@@ -249,6 +283,10 @@ namespace Desene
         private void btnSaveChanges_Click(object sender, EventArgs e)
         {
             SaveChanges();
+
+            var prevInstance = pSeriesDetailsContainer.Controls.Find("ucEpisodeDetails", false);
+            if (prevInstance.Any())
+                ((ucEpisodeDetails)prevInstance[0]).LoadThemesInControl(true);
         }
 
         private OperationResult SaveChanges()
@@ -270,6 +308,7 @@ namespace Desene
 
                 selectedNodeData.FileName = DAL.CurrentMTD.FileName;
                 selectedNodeData.Quality = DAL.CurrentMTD.Quality;
+                selectedNodeData.Theme = DAL.CurrentMTD.Theme;
             }
 
             return opRes;
@@ -393,9 +432,12 @@ namespace Desene
 
         public void TryLocateEpisodeInTree(int episodeId)
         {
-            tvSeries.SelectedNode.ExpandAll();
-            tvSeries.SelectedNode = tvSeries.AllNodes.FirstOrDefault(x => ((SeriesEpisodesShortInfo)x.Tag).Id == episodeId);
-            tvSeries.Focus();
+            if (tvSeries.SelectedNode != null)
+            {
+                tvSeries.SelectedNode.ExpandAll();
+                tvSeries.SelectedNode = tvSeries.AllNodes.FirstOrDefault(x => ((SeriesEpisodesShortInfo)x.Tag).Id == episodeId);
+                tvSeries.Focus();
+            }
         }
 
         private void tbFilter_ButtonClick(object sender, EventArgs e)
@@ -473,6 +515,12 @@ namespace Desene
 
                 LoadSelectionDetails();
             }
+        }
+
+        private void btnUndo_Click(object sender, EventArgs e)
+        {
+            LoadSelectionDetails(pSeriesDetailsContainer.VerticalScroll.Value);
+            Helpers.UnsavedChanges = false;
         }
 
 

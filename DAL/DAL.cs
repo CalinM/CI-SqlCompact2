@@ -12,9 +12,38 @@ namespace Desene
 {
     public static class DAL
     {
-        //public static DataTable Series { get; set; }
         public static List<CachedMovieStills> CachedMoviesStills = new List<CachedMovieStills>();
         public static MovieTechnicalDetails CurrentMTD;
+        public static List<string> MovieThemes = new List<string>();
+
+        public static OperationResult LoadBaseDbValues()
+        {
+            var result = new OperationResult();
+
+            try
+            {
+                using (var conn = new SqlCeConnection(Constants.ConnectionString))
+                {
+                    conn.Open();
+
+                    var commandSource = new SqlCeCommand("SELECT DISTINCT Theme FROM FileDetail WHERE Theme IS NOT NULL AND Theme <> ''ORDER BY Theme", conn);
+
+                    using (var reader = commandSource.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            MovieThemes.Add(reader["Theme"].ToString());
+                        }
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return result.FailWithMessage(ex);
+            }
+        }
 
         public static BindingList<MovieShortInfo> GetMoviesGridData()
         {
@@ -334,6 +363,22 @@ namespace Desene
                 {
                     conn.Open();
 
+                    #region Checks
+
+                    var checks = "select count(*) from FileDetail where ParentId = @ParentId AND FileName = @FileName AND FileSize = @FileSize";
+
+                    var cmd = new SqlCeCommand(checks, conn);
+                    cmd.Parameters.AddWithValue("@ParentId", eip.ParentId);
+                    cmd.Parameters.AddWithValue("@FileName", mtd.FileName);
+                    cmd.Parameters.AddWithValue("@FileSize", mtd.FileSize);
+
+                    var count = (int)cmd.ExecuteScalar();
+
+                    if (count > 0)
+                        return result.FailWithMessage("A file with exactly the same name and size already exists in the selected series. The file details were not added to the database!");
+
+                    #endregion
+
                     #region FileDetail
 
                     var insertString = @"
@@ -370,13 +415,13 @@ namespace Desene
                             @AudioLanguages,
                             @SubtitleLanguages)";
 
-                    var cmd = new SqlCeCommand(insertString, conn);
+                    cmd = new SqlCeCommand(insertString, conn);
                     cmd.Parameters.AddWithValue("@FileName", mtd.FileName);
                     cmd.Parameters.AddWithValue("@Year", eip.Year);
                     cmd.Parameters.AddWithValue("@Format", mtd.Format);
                     cmd.Parameters.AddWithValue("@Encoded_Application", mtd.Encoded_Application);
-                    cmd.Parameters.AddWithValue("@FileSize", mtd.FileSize);
-                    cmd.Parameters.AddWithValue("@FileSize2", mtd.FileSize2);
+                    cmd.Parameters.AddWithValue("@FileSize", mtd.FileSize);                                                 //as int value, for totals calculations
+                    cmd.Parameters.AddWithValue("@FileSize2", mtd.FileSize2.Replace("GiB", "Gb").Replace("MiB", "Mb"));     //GUI
                     cmd.Parameters.AddWithValue("@Duration", mtd.DurationAsDateTime);
                     cmd.Parameters.AddWithValue("@TitleEmbedded", mtd.Title);
                     cmd.Parameters.AddWithValue("@CoverEmbedded", mtd.Cover);
@@ -585,6 +630,39 @@ namespace Desene
             return result;
         }
 
+        private static int GetFileSize(string fileSize2)
+        {
+            var fileSize = 0;
+
+            try
+            {
+                if (fileSize2.Trim() != string.Empty && fileSize2.ToUpper().EndsWith("GB") || fileSize2.ToUpper().EndsWith("MB") )
+                {
+                    var isGb = fileSize2.ToUpper().IndexOf("GB") > 0;
+
+                    var valueAsString = fileSize2.ToUpper().Replace("GB", "").Replace("MB", "").Replace(" ", "");
+
+                    if (valueAsString != string.Empty)
+                    {
+                        var valueAsNumber = decimal.Parse(valueAsString);
+                        fileSize = (int)(valueAsNumber * 1024 * 1024);
+
+                        if (isGb)
+                            fileSize = fileSize * 1024;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //MsgBox.Show(
+                //    string.Format("An error had occurred while processing the file size changes! Please make sure you're using a compatible format, like 1,25Gb or 567Mb{0}{0}{1}",
+                //        Environment.NewLine, OperationResult.GetErrorMessage(ex, true)),
+                //    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return fileSize;
+        }
+
         public static OperationResult SaveMTD(bool fullSave = true)
         {
             var result = new OperationResult();
@@ -613,6 +691,11 @@ namespace Desene
                                ,SubtitleLanguages = @SubtitleLanguages
                                ,LastChangeDate = @LastChangeDate
                                ,Poster = @Poster
+                               ,Notes = @Notes
+                               ,DescriptionLink = @DescriptionLink
+                               ,Recommended = @Recommended
+                               ,RecommendedLink = @RecommendedLink
+                               ,Theme = @Theme
                          WHERE Id = @Id";
 
                     var cmd = new SqlCeCommand(updateString, conn);
@@ -620,19 +703,34 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@Year", CurrentMTD.Year);
                     cmd.Parameters.AddWithValue("@Format", CurrentMTD.Format);
                     cmd.Parameters.AddWithValue("@Encoded_Application", CurrentMTD.Encoded_Application);
-                    cmd.Parameters.AddWithValue("@FileSize", CurrentMTD.FileSize);              //-----
-                    cmd.Parameters.AddWithValue("@FileSize2", CurrentMTD.FileSize2);            //-----
-                    cmd.Parameters.AddWithValue("@Duration", CurrentMTD.DurationAsDateTime);    //-----
-                    cmd.Parameters.AddWithValue("@TitleEmbedded", CurrentMTD.Title);
+                    cmd.Parameters.AddWithValue("@FileSize", GetFileSize(CurrentMTD.FileSize2));     //as int value, for totals calculations
+                    cmd.Parameters.AddWithValue("@FileSize2", CurrentMTD.FileSize2);                 //GUI
+
+
+                    cmd.Parameters.AddWithValue("@Duration", new DateTime(1970, 1, 1).Add(TimeSpan.TryParse(CurrentMTD.DurationFormatted, out var durationAsTime) ? durationAsTime : new TimeSpan()));
+                    cmd.Parameters.AddWithValue("@TitleEmbedded", CurrentMTD.HasTitle ? CurrentMTD.Title : string.Empty);
                     cmd.Parameters.AddWithValue("@CoverEmbedded", CurrentMTD.Cover);
                     cmd.Parameters.AddWithValue("@Season", CurrentMTD.Season);
                     cmd.Parameters.AddWithValue("@Quality", CurrentMTD.Quality);
+
+                    CurrentMTD.AudioLanguages = string.Join(", ", CurrentMTD.AudioStreams.Select(a => a.Language == "" ? "?" : a.Language).Distinct());
                     cmd.Parameters.AddWithValue("@AudioLanguages", CurrentMTD.AudioLanguages);
+                    CurrentMTD.SubtitleLanguages = string.Join(", ", CurrentMTD.SubtitleStreams.Select(a => a.Language == "" ? "?" : a.Language).Distinct());
                     cmd.Parameters.AddWithValue("@SubtitleLanguages", CurrentMTD.SubtitleLanguages);
+
+                    //cmd.Parameters.AddWithValue("@AudioLanguages", CurrentMTD.AudioLanguages);
+                    //cmd.Parameters.AddWithValue("@SubtitleLanguages", CurrentMTD.SubtitleLanguages);
+
                     cmd.Parameters.AddWithValue("@LastChangeDate", DateTime.Now);
 
                     //NOT here ... separate save method for base movie info
                     cmd.Parameters.AddWithValue("@Poster", CurrentMTD.Poster ?? (object)DBNull.Value);
+
+                    cmd.Parameters.AddWithValue("@Notes", CurrentMTD.Notes ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@DescriptionLink", CurrentMTD.DescriptionLink ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Recommended", CurrentMTD.Recommended ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@RecommendedLink", CurrentMTD.RecommendedLink ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Theme", CurrentMTD.Theme);
 
                     cmd.Parameters.AddWithValue("@Id", CurrentMTD.Id);
                     cmd.ExecuteNonQuery();
@@ -672,7 +770,7 @@ namespace Desene
                             cmd.Parameters.AddWithValue("@FrameRate", videoStream.FrameRate);
                             cmd.Parameters.AddWithValue("@Delay", videoStream.Delay);
                             cmd.Parameters.AddWithValue("@StreamSize", videoStream.StreamSize);
-                            cmd.Parameters.AddWithValue("@TitleEmbedded", videoStream.Title);
+                            cmd.Parameters.AddWithValue("@TitleEmbedded", videoStream.HasTitle ?  videoStream.Title : string.Empty);
                             cmd.Parameters.AddWithValue("@Language", videoStream.Language);
                             cmd.Parameters.AddWithValue("@Id", videoStream.Id);
                             cmd.ExecuteNonQuery();
@@ -709,7 +807,7 @@ namespace Desene
                             cmd.Parameters.AddWithValue("@Delay", audioStream.Delay);
                             cmd.Parameters.AddWithValue("@Video_Delay", audioStream.Video_Delay);
                             cmd.Parameters.AddWithValue("@StreamSize", audioStream.StreamSize);
-                            cmd.Parameters.AddWithValue("@TitleEmbedded", audioStream.Title);;
+                            cmd.Parameters.AddWithValue("@TitleEmbedded", audioStream.HasTitle ?  audioStream.Title : string.Empty);
                             cmd.Parameters.AddWithValue("@Language", audioStream.Language);
                             cmd.Parameters.AddWithValue("@Id", audioStream.Id);
                             cmd.ExecuteNonQuery();
@@ -732,7 +830,7 @@ namespace Desene
                             cmd = new SqlCeCommand(updateString, conn);
                             cmd.Parameters.AddWithValue("@Format", subtitleStream.Format);
                             cmd.Parameters.AddWithValue("@StreamSize", subtitleStream.StreamSize);
-                            cmd.Parameters.AddWithValue("@TitleEmbedded", subtitleStream.Title);;
+                            cmd.Parameters.AddWithValue("@TitleEmbedded", subtitleStream.HasTitle ?  subtitleStream.Title : string.Empty);
                             cmd.Parameters.AddWithValue("@Language", subtitleStream.Language);
                             cmd.Parameters.AddWithValue("@Id", subtitleStream.Id);
                             cmd.ExecuteNonQuery();
@@ -740,6 +838,12 @@ namespace Desene
 
                         #endregion
                     }
+                }
+
+                if (!string.IsNullOrEmpty(CurrentMTD.Theme) && MovieThemes.IndexOf(CurrentMTD.Theme) == -1)
+                {
+                    MovieThemes.Add(CurrentMTD.Theme);
+                    MovieThemes = MovieThemes.OrderBy(o => o).ToList(); //in case of changing a Theme, the old one and new one will both be in the list
                 }
             }
             catch (Exception ex)
@@ -792,6 +896,8 @@ namespace Desene
                             mtd.DurationFormatted = reader["Duration"] == DBNull.Value
                                                         ? "<not set>"
                                                         : ((DateTime)reader["Duration"]).ToString("HH:mm:ss");
+                            mtd.Notes = reader["Notes"].ToString();
+
                             break;
                         }
                     }
@@ -901,7 +1007,7 @@ namespace Desene
 
                 using (var reader = cmd.ExecuteResultSet(ResultSetOptions.Scrollable))
                 {
-                    if (!reader.HasRows) return null;
+                    if (!reader.HasRows) return result;
 
                     while (reader.Read())
                     {

@@ -30,6 +30,10 @@
         {
             this.pSeriesTreeWrapper = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.pDummyMenuForShortCutKeys = new System.Windows.Forms.Panel();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.miSave_ForShortCutOnly = new System.Windows.Forms.ToolStripMenuItem();
+            this.miUndo_ForShortCutOnly = new System.Windows.Forms.ToolStripMenuItem();
             this.tvSeries = new Aga.Controls.Tree.TreeViewAdv();
             this.pFilters = new System.Windows.Forms.Panel();
             this.lbFilter = new System.Windows.Forms.Label();
@@ -43,12 +47,17 @@
             this.btnLoadPoster = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnSaveChanges = new System.Windows.Forms.ToolStripButton();
+            this.btnUndo = new System.Windows.Forms.ToolStripButton();
             this.btnRefreshEpisodeData = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnDeleteSeasonEpisode = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pSeriesDetailsContainer = new System.Windows.Forms.Panel();
-            this.btnDeleteSeasonEpisode = new System.Windows.Forms.ToolStripButton();
+            this.lbDoNotDelete = new System.Windows.Forms.Label();
             this.pSeriesTreeWrapper.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.pDummyMenuForShortCutKeys.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.pFilters.SuspendLayout();
             this.pSeriesDetailsWrapper.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scSeriesDetails)).BeginInit();
@@ -72,12 +81,50 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.pDummyMenuForShortCutKeys);
             this.panel2.Controls.Add(this.tvSeries);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 40);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(400, 540);
             this.panel2.TabIndex = 107;
+            // 
+            // pDummyMenuForShortCutKeys
+            // 
+            this.pDummyMenuForShortCutKeys.Controls.Add(this.lbDoNotDelete);
+            this.pDummyMenuForShortCutKeys.Controls.Add(this.menuStrip1);
+            this.pDummyMenuForShortCutKeys.Location = new System.Drawing.Point(98, 414);
+            this.pDummyMenuForShortCutKeys.Name = "pDummyMenuForShortCutKeys";
+            this.pDummyMenuForShortCutKeys.Size = new System.Drawing.Size(185, 94);
+            this.pDummyMenuForShortCutKeys.TabIndex = 119;
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miSave_ForShortCutOnly,
+            this.miUndo_ForShortCutOnly});
+            this.menuStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.menuStrip1.Size = new System.Drawing.Size(185, 46);
+            this.menuStrip1.TabIndex = 0;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // miSave_ForShortCutOnly
+            // 
+            this.miSave_ForShortCutOnly.Image = global::Desene.Properties.Resources.save;
+            this.miSave_ForShortCutOnly.Name = "miSave_ForShortCutOnly";
+            this.miSave_ForShortCutOnly.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.miSave_ForShortCutOnly.Size = new System.Drawing.Size(178, 20);
+            this.miSave_ForShortCutOnly.Click += new System.EventHandler(this.btnSaveChanges_Click);
+            // 
+            // miUndo_ForShortCutOnly
+            // 
+            this.miUndo_ForShortCutOnly.Image = global::Desene.Properties.Resources.undo;
+            this.miUndo_ForShortCutOnly.Name = "miUndo_ForShortCutOnly";
+            this.miUndo_ForShortCutOnly.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.miUndo_ForShortCutOnly.Size = new System.Drawing.Size(178, 20);
             // 
             // tvSeries
             // 
@@ -193,11 +240,13 @@
             this.btnLoadPoster,
             this.toolStripSeparator1,
             this.btnSaveChanges,
+            this.btnUndo,
             this.btnRefreshEpisodeData,
+            this.toolStripSeparator2,
             this.btnDeleteSeasonEpisode});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(32, 540);
+            this.toolStrip1.Size = new System.Drawing.Size(24, 540);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -220,14 +269,14 @@
             this.btnLoadPoster.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoadPoster.Margin = new System.Windows.Forms.Padding(0, 5, 0, 2);
             this.btnLoadPoster.Name = "btnLoadPoster";
-            this.btnLoadPoster.Size = new System.Drawing.Size(29, 20);
+            this.btnLoadPoster.Size = new System.Drawing.Size(21, 20);
             this.btnLoadPoster.Text = "Load Series poster";
             this.btnLoadPoster.Click += new System.EventHandler(this.btnLoadPoster_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(29, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(21, 6);
             // 
             // btnSaveChanges
             // 
@@ -239,8 +288,20 @@
             this.btnSaveChanges.Name = "btnSaveChanges";
             this.btnSaveChanges.Size = new System.Drawing.Size(21, 20);
             this.btnSaveChanges.Text = "Save changes";
-            this.btnSaveChanges.ToolTipText = "Save changes";
+            this.btnSaveChanges.ToolTipText = "Save changes\r\nCTRL+S";
             this.btnSaveChanges.Click += new System.EventHandler(this.btnSaveChanges_Click);
+            // 
+            // btnUndo
+            // 
+            this.btnUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnUndo.Enabled = false;
+            this.btnUndo.Image = global::Desene.Properties.Resources.undo;
+            this.btnUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnUndo.Name = "btnUndo";
+            this.btnUndo.Size = new System.Drawing.Size(21, 20);
+            this.btnUndo.Text = "Undo";
+            this.btnUndo.ToolTipText = "Undo changes\r\nCTRL+Z";
+            this.btnUndo.Click += new System.EventHandler(this.btnUndo_Click);
             // 
             // btnRefreshEpisodeData
             // 
@@ -252,6 +313,23 @@
             this.btnRefreshEpisodeData.Size = new System.Drawing.Size(21, 20);
             this.btnRefreshEpisodeData.Text = "Refresh episode data from file";
             this.btnRefreshEpisodeData.Click += new System.EventHandler(this.btnRefreshEpisodeData_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(21, 6);
+            // 
+            // btnDeleteSeasonEpisode
+            // 
+            this.btnDeleteSeasonEpisode.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnDeleteSeasonEpisode.Enabled = false;
+            this.btnDeleteSeasonEpisode.Image = global::Desene.Properties.Resources.delete;
+            this.btnDeleteSeasonEpisode.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnDeleteSeasonEpisode.Name = "btnDeleteSeasonEpisode";
+            this.btnDeleteSeasonEpisode.Size = new System.Drawing.Size(21, 20);
+            this.btnDeleteSeasonEpisode.Text = "Delete";
+            this.btnDeleteSeasonEpisode.ToolTipText = "Delete the selected Season/Episode";
+            this.btnDeleteSeasonEpisode.Click += new System.EventHandler(this.btnDeleteSeasonEpisode_Click);
             // 
             // panel1
             // 
@@ -272,17 +350,16 @@
             this.pSeriesDetailsContainer.Size = new System.Drawing.Size(681, 580);
             this.pSeriesDetailsContainer.TabIndex = 0;
             // 
-            // btnDeleteSeasonEpisode
+            // lbDoNotDelete
             // 
-            this.btnDeleteSeasonEpisode.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnDeleteSeasonEpisode.Enabled = false;
-            this.btnDeleteSeasonEpisode.Image = global::Desene.Properties.Resources.delete;
-            this.btnDeleteSeasonEpisode.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnDeleteSeasonEpisode.Name = "btnDeleteSeasonEpisode";
-            this.btnDeleteSeasonEpisode.Size = new System.Drawing.Size(29, 20);
-            this.btnDeleteSeasonEpisode.Text = "Delete";
-            this.btnDeleteSeasonEpisode.ToolTipText = "Delete the selected Season/Episode";
-            this.btnDeleteSeasonEpisode.Click += new System.EventHandler(this.btnDeleteSeasonEpisode_Click);
+            this.lbDoNotDelete.AutoSize = true;
+            this.lbDoNotDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbDoNotDelete.ForeColor = System.Drawing.Color.Red;
+            this.lbDoNotDelete.Location = new System.Drawing.Point(15, 57);
+            this.lbDoNotDelete.Name = "lbDoNotDelete";
+            this.lbDoNotDelete.Size = new System.Drawing.Size(153, 13);
+            this.lbDoNotDelete.TabIndex = 1;
+            this.lbDoNotDelete.Text = "Do Not Delete (design) !!!";
             // 
             // ucSeries
             // 
@@ -295,6 +372,10 @@
             this.Load += new System.EventHandler(this.ucSeries_Load);
             this.pSeriesTreeWrapper.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            this.pDummyMenuForShortCutKeys.ResumeLayout(false);
+            this.pDummyMenuForShortCutKeys.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.pFilters.ResumeLayout(false);
             this.pFilters.PerformLayout();
             this.pSeriesDetailsWrapper.ResumeLayout(false);
@@ -333,5 +414,12 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton btnImportEpisodes;
         private System.Windows.Forms.ToolStripButton btnDeleteSeasonEpisode;
+        private System.Windows.Forms.ToolStripButton btnUndo;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.Panel pDummyMenuForShortCutKeys;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem miSave_ForShortCutOnly;
+        private System.Windows.Forms.ToolStripMenuItem miUndo_ForShortCutOnly;
+        private System.Windows.Forms.Label lbDoNotDelete;
     }
 }

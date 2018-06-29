@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ButtonEdit.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="FilterTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -94,6 +97,9 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="SeparatorCombobox.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
@@ -118,6 +124,7 @@
     <EmbeddedResource Include="FrmProgressIndicator.resx">
       <DependentUpon>FrmProgressIndicator.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SeparatorCombobox.resx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Settings.settings">

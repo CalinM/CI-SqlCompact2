@@ -45,6 +45,7 @@
     <Compile Include="ExtensionMethods\ListExtensions.cs" />
     <Compile Include="ExtensionMethods\PrimitiveExtentions.cs" />
     <Compile Include="Helpers.cs" />
+    <Compile Include="LanguagesISO639.cs" />
     <Compile Include="OperationResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

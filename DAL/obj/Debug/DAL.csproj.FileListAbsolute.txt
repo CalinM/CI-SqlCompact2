@@ -2,8 +2,8 @@ C:\Work\_Utils\CI SqlCompact2\DAL\bin\Debug\DAL.dll
 C:\Work\_Utils\CI SqlCompact2\DAL\bin\Debug\DAL.pdb
 C:\Work\_Utils\CI SqlCompact2\DAL\bin\Debug\Common.dll
 C:\Work\_Utils\CI SqlCompact2\DAL\bin\Debug\Common.pdb
+C:\Work\_Utils\CI SqlCompact2\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
 C:\Work\_Utils\CI SqlCompact2\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
 C:\Work\_Utils\CI SqlCompact2\DAL\obj\Debug\DAL.csproj.CopyComplete
 C:\Work\_Utils\CI SqlCompact2\DAL\obj\Debug\DAL.dll
 C:\Work\_Utils\CI SqlCompact2\DAL\obj\Debug\DAL.pdb
-C:\Work\_Utils\CI SqlCompact2\DAL\obj\Debug\DAL.csprojAssemblyReference.cache

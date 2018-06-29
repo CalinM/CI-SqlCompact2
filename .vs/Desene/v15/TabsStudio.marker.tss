@@ -1,18 +1,2 @@
 <?xml version="1.0"?>
-<ArrayOfTabHighlightState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <TabHighlightState>
-    <extensions>
-      <string>Desene\ucSeries.cs</string>
-      <string>Desene\ucSeries.Designer.cs</string>
-      <string>Desene\ucSeries.cs</string>
-    </extensions>
-    <highlightIndex>1</highlightIndex>
-  </TabHighlightState>
-  <TabHighlightState>
-    <extensions>
-      <string>Desene\DetailFormsAndUserControls\Episodes\ucVideoStreamDetail.cs</string>
-      <string>Desene\DetailFormsAndUserControls\Episodes\ucVideoStreamDetail.cs</string>
-    </extensions>
-    <highlightIndex>1</highlightIndex>
-  </TabHighlightState>
-</ArrayOfTabHighlightState>
+<ArrayOfTabHighlightState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />

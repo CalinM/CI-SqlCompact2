@@ -208,6 +208,8 @@
     <Content Include="Images\exit.png" />
     <Content Include="Images\image.png" />
     <Content Include="Images\import.png" />
+    <Content Include="Images\undo.png" />
+    <None Include="Images\warning.png" />
     <None Include="Images\save.png" />
     <Content Include="Images\refresh.png" />
     <Content Include="Images\save_as.png" />

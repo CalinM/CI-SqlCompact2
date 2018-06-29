@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+
+using Common;
+
 using Utils;
 
 namespace Desene
@@ -28,13 +31,21 @@ namespace Desene
 
                     MessageBox.Show(
                         string.Format("The following error had occurred while creating the database:{0}{0}{1}{0}{0}The application will now close!", Environment.NewLine, opRes.CustomErrorMessage),
-                        @"Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     Close();
                 }
             }
 
-            //DAL.InitConnection("Data Source = Desene.sdf;Persist Security Info=False");
+            DAL.LoadBaseDbValues();
+
+            separatorComboBox1.DataSource = Languages.Iso639;
+            separatorComboBox1.DisplayMember = "Name";
+            separatorComboBox1.ValueMember = "Code";
+            separatorComboBox1.SetSeparator(3);
+            comboBox1.DataSource = Languages.Iso639;
+            comboBox1.DisplayMember = "Name";
+            comboBox1.ValueMember = "Code";
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -45,7 +56,7 @@ namespace Desene
             {
                 MessageBox.Show(
                     string.Format("The following error had occurred while importing data (1):{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
-                    @"Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
 
@@ -102,6 +113,10 @@ namespace Desene
                     pMainContainer.Controls.Clear();
                 }
 
+                //todo: check if necessary
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
                 SetMainButtonsStates(senderItem.Checked);
             }
             finally
@@ -129,7 +144,12 @@ namespace Desene
                 {
                     senderItem.Checked = false;
                     pMainContainer.Controls.Clear();
+
                 }
+
+                //todo: check if necessary
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
 
                 SetMainButtonsStates(senderItem.Checked);
             }
@@ -400,12 +420,17 @@ namespace Desene
 
         private void button5_Click(object sender, EventArgs e)
         {
-
+            //buttonEdit1.ButtonVisible = !buttonEdit1.ButtonVisible;
         }
 
         private void buttonTextBox1_ButtonClick(object sender, EventArgs e)
         {
             MessageBox.Show("aaaa");
+        }
+
+        private void pMainContainer_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

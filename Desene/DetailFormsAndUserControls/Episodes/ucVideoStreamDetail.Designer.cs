@@ -30,15 +30,14 @@
         {
             this.components = new System.ComponentModel.Container();
             this.label5 = new System.Windows.Forms.Label();
-            this.cbTitle = new System.Windows.Forms.CheckBox();
+            this.chbTitle = new System.Windows.Forms.CheckBox();
             this.lbLanguage_Delay = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lbBitRate = new System.Windows.Forms.Label();
             this.lbFormat = new System.Windows.Forms.Label();
             this.lbIndex = new System.Windows.Forms.Label();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.ttTitleContent = new System.Windows.Forms.ToolTip(this.components);
             this.tbHeight = new Utils.CustomTextBox();
             this.tbWidth = new Utils.CustomTextBox();
             this.tbLanguage = new Utils.CustomTextBox();
@@ -50,7 +49,6 @@
             this.tbBitRate = new Utils.CustomTextBox();
             this.tbFormatProfile = new Utils.CustomTextBox();
             this.tbFormat = new Utils.CustomTextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // label5
@@ -63,16 +61,17 @@
             this.label5.TabIndex = 40;
             this.label5.Text = "x";
             // 
-            // cbTitle
+            // chbTitle
             // 
-            this.cbTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbTitle.AutoSize = true;
-            this.cbTitle.Location = new System.Drawing.Point(370, 149);
-            this.cbTitle.Name = "cbTitle";
-            this.cbTitle.Size = new System.Drawing.Size(15, 14);
-            this.cbTitle.TabIndex = 37;
-            this.toolTip.SetToolTip(this.cbTitle, "Has title specified!");
-            this.cbTitle.UseVisualStyleBackColor = true;
+            this.chbTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chbTitle.AutoSize = true;
+            this.chbTitle.Location = new System.Drawing.Point(370, 149);
+            this.chbTitle.Name = "chbTitle";
+            this.chbTitle.Size = new System.Drawing.Size(15, 14);
+            this.chbTitle.TabIndex = 11;
+            this.ttTitleContent.SetToolTip(this.chbTitle, "Has title specified!");
+            this.chbTitle.UseVisualStyleBackColor = true;
+            this.chbTitle.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chbTitle_MouseClick);
             // 
             // lbLanguage_Delay
             // 
@@ -134,77 +133,77 @@
             this.tbHeight.Location = new System.Drawing.Point(234, 15);
             this.tbHeight.Name = "tbHeight";
             this.tbHeight.Size = new System.Drawing.Size(60, 20);
-            this.tbHeight.TabIndex = 39;
+            this.tbHeight.TabIndex = 1;
             // 
             // tbWidth
             // 
             this.tbWidth.Location = new System.Drawing.Point(147, 15);
             this.tbWidth.Name = "tbWidth";
             this.tbWidth.Size = new System.Drawing.Size(60, 20);
-            this.tbWidth.TabIndex = 38;
+            this.tbWidth.TabIndex = 0;
             // 
             // tbLanguage
             // 
             this.tbLanguage.Location = new System.Drawing.Point(147, 120);
             this.tbLanguage.Name = "tbLanguage";
             this.tbLanguage.Size = new System.Drawing.Size(147, 20);
-            this.tbLanguage.TabIndex = 36;
+            this.tbLanguage.TabIndex = 8;
             // 
             // tbStreamSize
             // 
             this.tbStreamSize.Location = new System.Drawing.Point(147, 146);
             this.tbStreamSize.Name = "tbStreamSize";
             this.tbStreamSize.Size = new System.Drawing.Size(90, 20);
-            this.tbStreamSize.TabIndex = 34;
+            this.tbStreamSize.TabIndex = 10;
             // 
             // tbDelay
             // 
             this.tbDelay.Location = new System.Drawing.Point(300, 120);
             this.tbDelay.Name = "tbDelay";
             this.tbDelay.Size = new System.Drawing.Size(85, 20);
-            this.tbDelay.TabIndex = 32;
+            this.tbDelay.TabIndex = 9;
             // 
             // tbFrameRateMode
             // 
             this.tbFrameRateMode.Location = new System.Drawing.Point(300, 94);
             this.tbFrameRateMode.Name = "tbFrameRateMode";
             this.tbFrameRateMode.Size = new System.Drawing.Size(85, 20);
-            this.tbFrameRateMode.TabIndex = 30;
+            this.tbFrameRateMode.TabIndex = 7;
             // 
             // tbFrameRate
             // 
             this.tbFrameRate.Location = new System.Drawing.Point(147, 94);
             this.tbFrameRate.Name = "tbFrameRate";
             this.tbFrameRate.Size = new System.Drawing.Size(147, 20);
-            this.tbFrameRate.TabIndex = 29;
+            this.tbFrameRate.TabIndex = 6;
             // 
             // tbBitRateMode
             // 
             this.tbBitRateMode.Location = new System.Drawing.Point(300, 68);
             this.tbBitRateMode.Name = "tbBitRateMode";
             this.tbBitRateMode.Size = new System.Drawing.Size(85, 20);
-            this.tbBitRateMode.TabIndex = 27;
+            this.tbBitRateMode.TabIndex = 5;
             // 
             // tbBitRate
             // 
             this.tbBitRate.Location = new System.Drawing.Point(147, 68);
             this.tbBitRate.Name = "tbBitRate";
             this.tbBitRate.Size = new System.Drawing.Size(147, 20);
-            this.tbBitRate.TabIndex = 26;
+            this.tbBitRate.TabIndex = 4;
             // 
             // tbFormatProfile
             // 
             this.tbFormatProfile.Location = new System.Drawing.Point(300, 42);
             this.tbFormatProfile.Name = "tbFormatProfile";
             this.tbFormatProfile.Size = new System.Drawing.Size(85, 20);
-            this.tbFormatProfile.TabIndex = 24;
+            this.tbFormatProfile.TabIndex = 3;
             // 
             // tbFormat
             // 
             this.tbFormat.Location = new System.Drawing.Point(147, 42);
             this.tbFormat.Name = "tbFormat";
             this.tbFormat.Size = new System.Drawing.Size(150, 20);
-            this.tbFormat.TabIndex = 23;
+            this.tbFormat.TabIndex = 2;
             // 
             // ucVideoStreamDetail
             // 
@@ -214,7 +213,7 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.tbHeight);
             this.Controls.Add(this.tbWidth);
-            this.Controls.Add(this.cbTitle);
+            this.Controls.Add(this.chbTitle);
             this.Controls.Add(this.tbLanguage);
             this.Controls.Add(this.lbLanguage_Delay);
             this.Controls.Add(this.tbStreamSize);
@@ -232,7 +231,6 @@
             this.Controls.Add(this.lbIndex);
             this.Name = "ucVideoStreamDetail";
             this.Size = new System.Drawing.Size(410, 180);
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -243,7 +241,7 @@
         private System.Windows.Forms.Label label5;
         private Utils.CustomTextBox tbHeight;
         private Utils.CustomTextBox tbWidth;
-        private System.Windows.Forms.CheckBox cbTitle;
+        private System.Windows.Forms.CheckBox chbTitle;
         private Utils.CustomTextBox tbLanguage;
         private System.Windows.Forms.Label lbLanguage_Delay;
         private Utils.CustomTextBox tbStreamSize;
@@ -259,7 +257,6 @@
         private Utils.CustomTextBox tbFormat;
         private System.Windows.Forms.Label lbFormat;
         private System.Windows.Forms.Label lbIndex;
-        private System.Windows.Forms.ToolTip toolTip;
-        private System.Windows.Forms.BindingSource bindingSource1;
+        private System.Windows.Forms.ToolTip ttTitleContent;
     }
 }

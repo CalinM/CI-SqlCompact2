@@ -18,5 +18,11 @@ namespace Utils
 
             return false;
         }
+
+
+        public static void Combobox_OnMouseWheel(object sender, MouseEventArgs mouseEventArgs)
+        {
+            ((HandledMouseEventArgs)mouseEventArgs).Handled = true;
+        }
     }
 }
