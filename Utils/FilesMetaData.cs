@@ -28,6 +28,7 @@ namespace Utils
                 var mtd = new MovieTechnicalDetails
                                 {
                                     FileName = mi.Get(StreamKind.General, 0, "FileName"),
+                                    InitialPath = filePath,
                                     Format = mi.Get(StreamKind.General, 0, "Format"),
                                     FileSize = mi.Get(StreamKind.General, 0, "FileSize"), 			    // to calculate totals
                                     FileSize2 = mi.Get(StreamKind.General, 0, "FileSize/String"),	    // for display
@@ -114,6 +115,7 @@ namespace Utils
             return result;
         }
         //using FilesImportParams as a DTO to pass GenerateThumbnail and ThumbnailImageSecond values
+
         public static OperationResult GetFilesTechnicalDetails(string[] files, FilesImportParams fileImportParams)
         {
             var result = new OperationResult();
@@ -173,21 +175,23 @@ namespace Utils
                 {
                     var mtdObj = (MovieTechnicalDetails)opRes.AdditionalDataReturn;
 
-                    if (ffMpegConverter != null && mtdObj.DurationAsInt > 0)
-                    {
-                        var durationInSec =  mtdObj.DurationAsInt / 1000;
+                    //if (ffMpegConverter != null && mtdObj.DurationAsInt > 0)
+                    //{
+                    //    var durationInSec =  mtdObj.DurationAsInt / 1000;
 
-                        for (var j = 1; j <= 3; j++)
-                        {
-                            var position = (durationInSec * (25 * j)) / 100; //%
+                    //    for (var j = 1; j <= 3; j++)
+                    //    {
+                    //        var position = (durationInSec * (25 * j)) / 100; //%
 
-                            using (var ms = new MemoryStream())
-                            {
-                                ffMpegConverter.GetVideoThumbnail(filePath, ms, position);
-                                mtdObj.MovieStills.Add(ms.ToArray());
-                            }
-                        }
-                    }
+                    //        using (var ms = new MemoryStream())
+                    //        {
+                    //            ffMpegConverter.GetVideoThumbnail(filePath, ms, position);
+                    //            mtdObj.MovieStills.Add(ms.ToArray());
+                    //        }
+                    //    }
+                    //}
+
+                    GetMovieStills(mtdObj, ffMpegConverter);
 
                     movieTechnicalDetailsBgw.Add(mtdObj);
                 }
@@ -207,6 +211,39 @@ namespace Utils
 
             e.Result = new KeyValuePair<List<TechnicalDetailsImportError>, List<MovieTechnicalDetails>>(
                 technicalDetailsImportErrorBgw, movieTechnicalDetailsBgw);
+        }
+
+        public static OperationResult GetMovieStills(MovieTechnicalDetails mtd, FFMpegConverter ffMpegConverter)
+        {
+            var result = new OperationResult();
+
+            try
+            {
+                if (ffMpegConverter == null)
+                    ffMpegConverter = new FFMpegConverter();
+
+                if (mtd.DurationAsInt > 0)
+                {
+                    var durationInSec =  mtd.DurationAsInt / 1000;
+
+                    for (var j = 1; j <= 3; j++)
+                    {
+                        var position = (durationInSec * (25 * j)) / 100; //%
+
+                        using (var ms = new MemoryStream())
+                        {
+                            ffMpegConverter.GetVideoThumbnail(mtd.InitialPath, ms, position);
+                            mtd.MovieStills.Add(ms.ToArray());
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.FailWithMessage(ex);
+            }
+
+            return result;
         }
 
         public static OperationResult SaveImportedEpisodes(KeyValuePair<FilesImportParams, List<MovieTechnicalDetails>> importParamsAndDetails)

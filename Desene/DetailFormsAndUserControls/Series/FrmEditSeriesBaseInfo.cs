@@ -27,7 +27,7 @@ namespace Desene
         {
             if (!ucEditSeriesBaseInfo.ValidateInput())
             {
-                MsgBox.Show(@"Please specify all required details!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MsgBox.Show("Please specify all required details!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -37,7 +37,7 @@ namespace Desene
             if (!opRes.Success)
             {
                 MsgBox.Show(
-                    string.Format("The following error had occurred while inserting the new Series into the database:{0}{0}{1}{0}{0}", Environment.NewLine, opRes.CustomErrorMessage),
+                    string.Format("The following error occurred while inserting the new Series into the database:{0}{0}{1}{0}{0}", Environment.NewLine, opRes.CustomErrorMessage),
                     "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }

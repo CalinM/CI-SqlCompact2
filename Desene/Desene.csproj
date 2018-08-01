@@ -48,30 +48,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DetailFormsAndUserControls\Movies\FrmAddMovie.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Movies\FrmAddMovie.Designer.cs">
+      <DependentUpon>FrmAddMovie.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Movies\ucMovieInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Movies\ucMovieInfo.designer.cs">
+      <DependentUpon>ucMovieInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="SeriesTreeModel.cs" />
     <Compile Include="FilteredTreeModel.cs" />
-    <Compile Include="DetailFormsAndUserControls\Episodes\ucSubtitleStreamDetail.cs">
+    <Compile Include="DetailFormsAndUserControls\Shared\ucSubtitleStreamDetail.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DetailFormsAndUserControls\Episodes\ucSubtitleStreamDetail.Designer.cs">
+    <Compile Include="DetailFormsAndUserControls\Shared\ucSubtitleStreamDetail.Designer.cs">
       <DependentUpon>ucSubtitleStreamDetail.cs</DependentUpon>
     </Compile>
-    <Compile Include="DetailFormsAndUserControls\Episodes\ucAudioStreamDetail.cs">
+    <Compile Include="DetailFormsAndUserControls\Shared\ucAudioStreamDetail.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DetailFormsAndUserControls\Episodes\ucAudioStreamDetail.Designer.cs">
+    <Compile Include="DetailFormsAndUserControls\Shared\ucAudioStreamDetail.Designer.cs">
       <DependentUpon>ucAudioStreamDetail.cs</DependentUpon>
     </Compile>
-    <Compile Include="DetailFormsAndUserControls\Episodes\ucVideoStreamDetail.cs">
+    <Compile Include="DetailFormsAndUserControls\Shared\ucVideoStreamDetail.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DetailFormsAndUserControls\Episodes\ucVideoStreamDetail.Designer.cs">
+    <Compile Include="DetailFormsAndUserControls\Shared\ucVideoStreamDetail.Designer.cs">
       <DependentUpon>ucVideoStreamDetail.cs</DependentUpon>
     </Compile>
-    <Compile Include="DetailFormsAndUserControls\Episodes\ucGenericStreamsWrapper.cs">
+    <Compile Include="DetailFormsAndUserControls\Shared\ucGenericStreamsWrapper.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DetailFormsAndUserControls\Episodes\ucGenericStreamsWrapper.Designer.cs">
+    <Compile Include="DetailFormsAndUserControls\Shared\ucGenericStreamsWrapper.Designer.cs">
       <DependentUpon>ucGenericStreamsWrapper.cs</DependentUpon>
     </Compile>
     <Compile Include="DetailFormsAndUserControls\Series\FrmEditSeriesBaseInfo.cs">
@@ -106,12 +118,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ucFileDetail.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ucFileDetail.Designer.cs">
-      <DependentUpon>ucFileDetail.cs</DependentUpon>
-    </Compile>
     <Compile Include="ucMovies.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -124,16 +130,22 @@
     <Compile Include="ucSeries.Designer.cs">
       <DependentUpon>ucSeries.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="DetailFormsAndUserControls\Episodes\ucSubtitleStreamDetail.resx">
+    <EmbeddedResource Include="DetailFormsAndUserControls\Movies\FrmAddMovie.resx">
+      <DependentUpon>FrmAddMovie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DetailFormsAndUserControls\Movies\ucMovieInfo.resx">
+      <DependentUpon>ucMovieInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DetailFormsAndUserControls\Shared\ucSubtitleStreamDetail.resx">
       <DependentUpon>ucSubtitleStreamDetail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DetailFormsAndUserControls\Episodes\ucAudioStreamDetail.resx">
+    <EmbeddedResource Include="DetailFormsAndUserControls\Shared\ucAudioStreamDetail.resx">
       <DependentUpon>ucAudioStreamDetail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DetailFormsAndUserControls\Episodes\ucVideoStreamDetail.resx">
+    <EmbeddedResource Include="DetailFormsAndUserControls\Shared\ucVideoStreamDetail.resx">
       <DependentUpon>ucVideoStreamDetail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DetailFormsAndUserControls\Episodes\ucGenericStreamsWrapper.resx">
+    <EmbeddedResource Include="DetailFormsAndUserControls\Shared\ucGenericStreamsWrapper.resx">
       <DependentUpon>ucGenericStreamsWrapper.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DetailFormsAndUserControls\Series\FrmEditSeriesBaseInfo.resx">
@@ -161,9 +173,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="ucFileDetail.resx">
-      <DependentUpon>ucFileDetail.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ucMovies.resx">
       <DependentUpon>ucMovies.cs</DependentUpon>
     </EmbeddedResource>

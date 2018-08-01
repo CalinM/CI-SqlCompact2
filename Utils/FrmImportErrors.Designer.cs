@@ -37,24 +37,24 @@
             this.lbWarningMessage2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvErrors)).BeginInit();
             this.SuspendLayout();
-            // 
+            //
             // lbWarningMessage
-            // 
+            //
             this.lbWarningMessage.AutoSize = true;
             this.lbWarningMessage.Location = new System.Drawing.Point(12, 25);
             this.lbWarningMessage.Name = "lbWarningMessage";
             this.lbWarningMessage.Size = new System.Drawing.Size(324, 13);
             this.lbWarningMessage.TabIndex = 0;
-            this.lbWarningMessage.Text = "The following errors had occurred while determining the files details:";
-            // 
+            this.lbWarningMessage.Text = "The following errors occurred while determining the files details:";
+            //
             // dgvErrors
-            // 
+            //
             this.dgvErrors.AllowUserToAddRows = false;
             this.dgvErrors.AllowUserToDeleteRows = false;
             this.dgvErrors.AllowUserToResizeColumns = false;
             this.dgvErrors.AllowUserToResizeRows = false;
-            this.dgvErrors.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgvErrors.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvErrors.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvErrors.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
@@ -73,15 +73,15 @@
             this.dgvErrors.RowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvErrors.Size = new System.Drawing.Size(657, 197);
             this.dgvErrors.TabIndex = 1;
-            // 
+            //
             // colFileAndError
-            // 
+            //
             this.colFileAndError.HeaderText = "FileAndError";
             this.colFileAndError.Name = "colFileAndError";
             this.colFileAndError.ReadOnly = true;
-            // 
+            //
             // btnConfirm
-            // 
+            //
             this.btnConfirm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnConfirm.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnConfirm.Location = new System.Drawing.Point(516, 259);
@@ -90,9 +90,9 @@
             this.btnConfirm.TabIndex = 2;
             this.btnConfirm.Text = "Continue";
             this.btnConfirm.UseVisualStyleBackColor = true;
-            // 
+            //
             // btnCancel
-            // 
+            //
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(597, 259);
@@ -101,9 +101,9 @@
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
-            // 
+            //
             // lbWarningMessage2
-            // 
+            //
             this.lbWarningMessage2.AutoSize = true;
             this.lbWarningMessage2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbWarningMessage2.ForeColor = System.Drawing.Color.DarkRed;
@@ -113,9 +113,9 @@
             this.lbWarningMessage2.TabIndex = 4;
             this.lbWarningMessage2.Text = "Errors occured for all files in the selected folder. The process cannot continue!" +
     "";
-            // 
+            //
             // FrmImportErrors
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(686, 294);

@@ -12,16 +12,24 @@ namespace Utils
     public partial class FrmMTDFromFile : Form
     {
         private string _filePath = string.Empty;
+        private bool _isNew;
+
+        public MovieTechnicalDetails mtd;
 
         public FrmMTDFromFile()
         {
             InitializeComponent();
         }
 
-        public FrmMTDFromFile(bool updatingEpisode)
+        public FrmMTDFromFile(bool isNew, bool isEpisode)
         {
             InitializeComponent();
-            cbGenerateThumbnails.Visible = updatingEpisode;
+
+            _isNew = isNew;
+
+            Text = isEpisode
+                ? "Refresh episode data from file"
+                : "Refresh movie data from file";
         }
 
         private void btnFolderSelector_Click(object sender, EventArgs e)
@@ -61,23 +69,40 @@ namespace Utils
                 return;
             }
 
+            btnOk.Text = "Working ...";
+            btnOk.Enabled = false;
+            Cursor.Current = Cursors.WaitCursor;
+
             var opRes = FilesMetaData.GetFileTechnicalDetails(_filePath);
 
             if (!opRes.Success)
             {
                 MsgBox.Show(opRes.CustomErrorMessage, "Import", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                btnOk.Text = "Ok";
+                btnOk.Enabled = true;
+                Cursor.Current = Cursors.Default;
                 return;
             }
 
-            var newMTD = (MovieTechnicalDetails)opRes.AdditionalDataReturn;
-            newMTD.Year = Desene.DAL.CurrentMTD.Year;
-            newMTD.Season = Desene.DAL.CurrentMTD.Season;
-            newMTD.Quality = Desene.DAL.GetQualityStrFromSize(newMTD);
-            newMTD.AudioLanguages = string.Join(", ", newMTD.AudioStreams.Select(a => a.Language == "" ? "?" : a.Language).Distinct());
-            newMTD.SubtitleLanguages = string.Join(", ", newMTD.SubtitleStreams.Select(a => a.Language == "" ? "?" : a.Language).Distinct());
+            mtd = (MovieTechnicalDetails)opRes.AdditionalDataReturn;
+            mtd.Quality = Desene.DAL.GetQualityStrFromSize(mtd);
+            mtd.AudioLanguages = string.Join(", ", mtd.AudioStreams.Select(a => a.Language == "" ? "?" : a.Language).Distinct());
+            mtd.SubtitleLanguages = string.Join(", ", mtd.SubtitleStreams.Select(a => a.Language == "" ? "?" : a.Language).Distinct());
 
-            Desene.DAL.CurrentMTD = newMTD;
+            if (cbGenerateThumbnails.Checked)
+            {
+                FilesMetaData.GetMovieStills(mtd, null);
+            }
 
+            if (!_isNew)
+            {
+                mtd.Year = Desene.DAL.CurrentMTD.Year;
+                mtd.Season = Desene.DAL.CurrentMTD.Season;
+
+                Desene.DAL.CurrentMTD = mtd;
+            }
+
+            Cursor.Current = Cursors.Default;
             DialogResult = DialogResult.OK;
             Close();
         }

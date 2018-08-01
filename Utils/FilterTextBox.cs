@@ -75,7 +75,7 @@ namespace Utils
         {
             ForeColor = !_clearButtonVisible ? Color.Silver : SystemColors.WindowText;
 
-            SendMessage(Handle, 0x1501, 1, "Type a filter criteria and press the Return key ...");
+            SendMessage(Handle, 0x1501, 1, "Type a filter criteria ...");
         }
 
         private void CancelSearchLabelOnMouseEnter(object sender, EventArgs eventArgs)

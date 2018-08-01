@@ -1,0 +1,10 @@
+C:\Work\_Utils\CI SqlCompact2\DAL\bin\Release\DAL.dll
+C:\Work\_Utils\CI SqlCompact2\DAL\bin\Release\DAL.pdb
+C:\Work\_Utils\CI SqlCompact2\DAL\bin\Release\Common.dll
+C:\Work\_Utils\CI SqlCompact2\DAL\bin\Release\System.Data.SqlServerCe.dll
+C:\Work\_Utils\CI SqlCompact2\DAL\bin\Release\Common.pdb
+C:\Work\_Utils\CI SqlCompact2\DAL\obj\Release\DAL.csprojAssemblyReference.cache
+C:\Work\_Utils\CI SqlCompact2\DAL\obj\Release\DAL.csproj.CoreCompileInputs.cache
+C:\Work\_Utils\CI SqlCompact2\DAL\obj\Release\DAL.csproj.CopyComplete
+C:\Work\_Utils\CI SqlCompact2\DAL\obj\Release\DAL.dll
+C:\Work\_Utils\CI SqlCompact2\DAL\obj\Release\DAL.pdb

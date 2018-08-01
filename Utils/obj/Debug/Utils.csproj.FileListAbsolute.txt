@@ -9,9 +9,9 @@ C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmEpisodeInfoFromFiles.reso
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmMTDFromFile.resources
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmImportErrors.resources
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmProgressIndicator.resources
+C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.SeparatorCombobox.resources
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.csproj.GenerateResource.cache
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.csproj.CoreCompileInputs.cache
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.csproj.CopyComplete
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.dll
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.pdb
-C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.SeparatorCombobox.resources

@@ -68,6 +68,7 @@ namespace Common
         {
             Success = false;
             Exception = ex;
+            CustomErrorMessage = GetErrorMessage(ex);
 
             return this;
         }

@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
 using Common;
-
 using DAL;
-
-using Desene.DetailFormsAndUserControls.Episodes;
-
+using Desene.DetailFormsAndUserControls.Shared;
 using Utils;
 
 using Helpers = Common.Helpers;
@@ -92,7 +88,7 @@ namespace Desene.DetailFormsAndUserControls
                 var vsUC = Controls.OfType<UserControl>().FirstOrDefault(uc => uc.Tag != null && uc.Tag.ToString() == "videoStreams");
                 if (vsUC == null)
                 {
-                    AddSectionHeader("Video stream(s)", "V");
+                    Utils.Helpers.AddSectionHeader(this, "Video stream(s)", "V");
 
                     var ucVideoStreams = new ucGenericStreamsWrapper(DAL.CurrentMTD.VideoStreams)
                                              {
@@ -112,7 +108,7 @@ namespace Desene.DetailFormsAndUserControls
                 var asUC = Controls.OfType<UserControl>().FirstOrDefault(uc => uc.Tag != null && uc.Tag.ToString() == "audioStreams");
                 if (asUC == null)
                 {
-                    AddSectionHeader("Audio stream(s)", "A");
+                    Utils.Helpers.AddSectionHeader(this, "Audio stream(s)", "A");
 
                     var ucAudioStreams = new ucGenericStreamsWrapper(DAL.CurrentMTD.AudioStreams)
                                              {
@@ -133,7 +129,7 @@ namespace Desene.DetailFormsAndUserControls
                 {
                     if (ssUC == null)
                     {
-                        AddSectionHeader("Subtitle stream(s)", "S");
+                        Utils.Helpers.AddSectionHeader(this, "Subtitle stream(s)", "S");
 
                         var ucSubtitleStreams = new ucGenericStreamsWrapper(DAL.CurrentMTD.SubtitleStreams)
                                                     {
@@ -189,6 +185,7 @@ namespace Desene.DetailFormsAndUserControls
             tbFormat.DataBindings.Add("Text", _bsControlsData, "Format");
             tbEncodedWith.DataBindings.Add("Text", _bsControlsData, "Encoded_Application");
             cbTheme.DataBindings.Add("Text", _bsControlsData, "Theme");
+            tbStreamLink.DataBindings.Add("Text", _bsControlsData, "StreamLink");
 
             chbHasEmbeddedTitle.DataBindings.Add("Checked", _bsControlsData, "HasTitle");
         }
@@ -239,28 +236,6 @@ namespace Desene.DetailFormsAndUserControls
             }
         }
 
-        private void AddSectionHeader(string caption, string identifier)
-        {
-            var pHeader = new Panel();
-            pHeader.Dock = DockStyle.Top;
-            pHeader.BackColor = Color.DimGray;
-            pHeader.Size = new Size(350, 25);
-            pHeader.Tag = "SectionHeader_" + identifier;
-
-            var lbHeaderText = new Label();
-            lbHeaderText.ForeColor = Color.White;
-            lbHeaderText.Font = new Font(lbHeaderText.Font, FontStyle.Bold);
-            lbHeaderText.Location = new Point(9,6);
-            lbHeaderText.AutoSize = false;
-            lbHeaderText.Size = new Size(350, 15);
-            lbHeaderText.Text = caption;
-
-            pHeader.Controls.Add(lbHeaderText);
-
-            Controls.Add(pHeader);
-            pHeader.BringToFront();
-        }
-
         private void SetMovieStills(CachedMovieStills cachedMovieStills)
         {
             if (cachedMovieStills.MovieStills.Count > 0)
@@ -289,7 +264,7 @@ namespace Desene.DetailFormsAndUserControls
 
             var anyVisible = cachedMovieStills.MovieStills.Count > 0;
             tlpMovieStillsWrapper.Visible = anyVisible;
-            pEpisodeDetails.Size = new Size(pEpisodeDetails.Width, anyVisible ? 400 : 200);
+            pEpisodeDetails.Size = new Size(pEpisodeDetails.Width, anyVisible ? 420 : 220);
         }
 
         private void tbSizeAsInt_TextChanged(object sender, EventArgs e)
@@ -304,6 +279,7 @@ namespace Desene.DetailFormsAndUserControls
 
         private void tbmDuration_TypeValidationCompleted(object sender, TypeValidationEventArgs e)
         {
+            //ValidatingType is set on UserControl Load event!
             if (!e.IsValidInput)
             {
                 MsgBox.Show("The duration is not a valid Time!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);

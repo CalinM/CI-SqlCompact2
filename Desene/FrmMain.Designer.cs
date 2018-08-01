@@ -37,7 +37,7 @@ namespace Desene
             this.miSeries = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.miExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.separatorMainButtons = new System.Windows.Forms.ToolStripSeparator();
             this.btnAdd = new System.Windows.Forms.ToolStripButton();
             this.btnDelete = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -45,18 +45,11 @@ namespace Desene
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.pMainContainer = new System.Windows.Forms.Panel();
-            this.separatorComboBox1 = new SeparatorComboBox();
-            this.buttonEdit2 = new Utils.ButtonEdit();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.mainMenu.SuspendLayout();
             this.pMainContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // mainMenu
@@ -64,7 +57,7 @@ namespace Desene
             this.mainMenu.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnCategory,
-            this.toolStripSeparator1,
+            this.separatorMainButtons,
             this.btnAdd,
             this.btnDelete,
             this.toolStripSeparator2,
@@ -92,7 +85,7 @@ namespace Desene
             // miMovies
             // 
             this.miMovies.Name = "miMovies";
-            this.miMovies.Size = new System.Drawing.Size(112, 22);
+            this.miMovies.Size = new System.Drawing.Size(180, 22);
             this.miMovies.Tag = "1";
             this.miMovies.Text = "Movies";
             this.miMovies.Click += new System.EventHandler(this.miMovies_Click);
@@ -100,7 +93,7 @@ namespace Desene
             // miSeries
             // 
             this.miSeries.Name = "miSeries";
-            this.miSeries.Size = new System.Drawing.Size(112, 22);
+            this.miSeries.Size = new System.Drawing.Size(180, 22);
             this.miSeries.Tag = "1";
             this.miSeries.Text = "Series";
             this.miSeries.Click += new System.EventHandler(this.miSeries_Click);
@@ -108,39 +101,42 @@ namespace Desene
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(109, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
             // 
             // miExit
             // 
             this.miExit.Image = global::Desene.Properties.Resources.exit;
             this.miExit.Name = "miExit";
-            this.miExit.Size = new System.Drawing.Size(112, 22);
+            this.miExit.Size = new System.Drawing.Size(180, 22);
             this.miExit.Text = "Exit";
+            this.miExit.Click += new System.EventHandler(this.miExit_Click);
             // 
-            // toolStripSeparator1
+            // separatorMainButtons
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.separatorMainButtons.Name = "separatorMainButtons";
+            this.separatorMainButtons.Size = new System.Drawing.Size(6, 25);
+            this.separatorMainButtons.Visible = false;
             // 
             // btnAdd
             // 
-            this.btnAdd.Enabled = false;
             this.btnAdd.Image = global::Desene.Properties.Resources.add;
             this.btnAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(119, 22);
-            this.btnAdd.Text = "Add movie/series";
+            this.btnAdd.Size = new System.Drawing.Size(49, 22);
+            this.btnAdd.Text = "Add";
+            this.btnAdd.Visible = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnDelete
             // 
-            this.btnDelete.Enabled = false;
             this.btnDelete.Image = global::Desene.Properties.Resources.delete;
             this.btnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(60, 22);
             this.btnDelete.Text = "Delete";
             this.btnDelete.ToolTipText = "Delete movie/series";
+            this.btnDelete.Visible = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // toolStripSeparator2
             // 
@@ -149,6 +145,7 @@ namespace Desene
             // 
             // btnGenerateHtml
             // 
+            this.btnGenerateHtml.Enabled = false;
             this.btnGenerateHtml.Image = global::Desene.Properties.Resources.generateHtml;
             this.btnGenerateHtml.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnGenerateHtml.Name = "btnGenerateHtml";
@@ -170,13 +167,7 @@ namespace Desene
             // 
             // pMainContainer
             // 
-            this.pMainContainer.Controls.Add(this.comboBox1);
-            this.pMainContainer.Controls.Add(this.separatorComboBox1);
-            this.pMainContainer.Controls.Add(this.buttonEdit2);
-            this.pMainContainer.Controls.Add(this.pictureBox1);
-            this.pMainContainer.Controls.Add(this.button5);
             this.pMainContainer.Controls.Add(this.button4);
-            this.pMainContainer.Controls.Add(this.button3);
             this.pMainContainer.Controls.Add(this.button2);
             this.pMainContainer.Controls.Add(this.button1);
             this.pMainContainer.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -184,82 +175,17 @@ namespace Desene
             this.pMainContainer.Name = "pMainContainer";
             this.pMainContainer.Size = new System.Drawing.Size(1284, 514);
             this.pMainContainer.TabIndex = 110;
-            this.pMainContainer.Paint += new System.Windows.Forms.PaintEventHandler(this.pMainContainer_Paint);
-            // 
-            // separatorComboBox1
-            // 
-            this.separatorComboBox1.AutoAdjustItemHeight = false;
-            this.separatorComboBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.separatorComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.separatorComboBox1.FormattingEnabled = true;
-            this.separatorComboBox1.ItemHeight = 15;
-            this.separatorComboBox1.Location = new System.Drawing.Point(808, 347);
-            this.separatorComboBox1.Name = "separatorComboBox1";
-            this.separatorComboBox1.SeparatorColor = System.Drawing.Color.Black;
-            this.separatorComboBox1.SeparatorMargin = 1;
-            this.separatorComboBox1.SeparatorStyle = System.Drawing.Drawing2D.DashStyle.Solid;
-            this.separatorComboBox1.SeparatorWidth = 1;
-            this.separatorComboBox1.Size = new System.Drawing.Size(207, 21);
-            this.separatorComboBox1.TabIndex = 117;
-            // 
-            // buttonEdit2
-            // 
-            this.buttonEdit2.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.buttonEdit2.ButtonImage = global::Desene.Properties.Resources.warning;
-            this.buttonEdit2.ButtonImageForceWidth = 16;
-            this.buttonEdit2.ButtonImageSizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.buttonEdit2.ButtonToolTip = "kkkkkkkkkkk";
-            this.buttonEdit2.ButtonVisible = true;
-            this.buttonEdit2.Location = new System.Drawing.Point(1101, 448);
-            this.buttonEdit2.Name = "buttonEdit2";
-            this.buttonEdit2.Size = new System.Drawing.Size(100, 20);
-            this.buttonEdit2.TabIndex = 116;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pictureBox1.Image = global::Desene.Properties.Resources.warning;
-            this.pictureBox1.Location = new System.Drawing.Point(1272, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 3, 10, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.pictureBox1.Size = new System.Drawing.Size(12, 514);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 114;
-            this.pictureBox1.TabStop = false;
-            // 
-            // button5
-            // 
-            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button5.Location = new System.Drawing.Point(855, 229);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 112;
-            this.button5.Text = "button5";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button4
             // 
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Image = global::Desene.Properties.Resources.cancel;
-            this.button4.Location = new System.Drawing.Point(855, 183);
+            this.button4.Location = new System.Drawing.Point(855, 129);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 110;
             this.button4.Text = "button4";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(855, 123);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 28);
-            this.button3.TabIndex = 109;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button2
             // 
@@ -281,14 +207,6 @@ namespace Desene
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(519, 347);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(206, 21);
-            this.comboBox1.TabIndex = 118;
-            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -299,13 +217,13 @@ namespace Desene
             this.Controls.Add(this.statusStrip);
             this.MinimumSize = new System.Drawing.Size(1300, 600);
             this.Name = "FrmMain";
-            this.Text = "Form1";
+            this.Text = "CartoonsRepo";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmMain_FormClosed);
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
             this.pMainContainer.ResumeLayout(false);
-            this.pMainContainer.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -318,23 +236,17 @@ namespace Desene
         private System.Windows.Forms.ToolStripMenuItem miSeries;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem miExit;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator separatorMainButtons;
         private System.Windows.Forms.ToolStripButton btnAdd;
         private System.Windows.Forms.ToolStripButton btnDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton btnGenerateHtml;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.Panel pMainContainer;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private Utils.ButtonEdit buttonEdit2;
-        private SeparatorComboBox separatorComboBox1;
-        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
 

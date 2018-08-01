@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
-using Common;
+using Desene.Properties;
 
 using Utils;
 
@@ -12,6 +12,7 @@ namespace Desene
     public partial class FrmMain : Form
     {
         public event EventHandler OnAddButtonPress;
+        public event EventHandler OnDeleteButtonPress;
 
         public FrmMain()
         {
@@ -30,7 +31,7 @@ namespace Desene
                         File.Delete("CartoonsRepo.sdf");
 
                     MessageBox.Show(
-                        string.Format("The following error had occurred while creating the database:{0}{0}{1}{0}{0}The application will now close!", Environment.NewLine, opRes.CustomErrorMessage),
+                        string.Format("The following error occurred while creating the database:{0}{0}{1}{0}{0}The application will now close!", Environment.NewLine, opRes.CustomErrorMessage),
                         "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     Close();
@@ -39,14 +40,183 @@ namespace Desene
 
             DAL.LoadBaseDbValues();
 
-            separatorComboBox1.DataSource = Languages.Iso639;
-            separatorComboBox1.DisplayMember = "Name";
-            separatorComboBox1.ValueMember = "Code";
-            separatorComboBox1.SetSeparator(3);
-            comboBox1.DataSource = Languages.Iso639;
-            comboBox1.DisplayMember = "Name";
-            comboBox1.ValueMember = "Code";
+            LoadMainWindowConfig();
         }
+
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = !Helpers.ConfirmDiscardChanges();
+        }
+
+        private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // Copy window location to app settings
+            Settings.Default.WindowLocation = Location;
+
+            // Copy window size to app settings
+            Settings.Default.WindowSize = WindowState == FormWindowState.Normal ? Size : RestoreBounds.Size;
+
+            // Save settings
+            Settings.Default.Save();
+        }
+
+        private void miExit_Click(object sender, EventArgs e)
+        {
+            if (!Helpers.ConfirmDiscardChanges())
+                return;
+
+            Close();
+        }
+
+        private void LoadMainWindowConfig()
+        {
+            if (Settings.Default.WindowLocation.X > -100 && Settings.Default.WindowLocation.Y > -100) //to auto-correct bad configuration
+            {
+                Location = Settings.Default.WindowLocation;
+            }
+
+            // Set window size
+            if (Settings.Default.WindowSize != null)
+            {
+                Size = Settings.Default.WindowSize;
+            }
+        }
+
+        private void miMovies_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                DrawingControl.SuspendDrawing(pMainContainer);
+                ClearAllDelegates();
+
+                var senderItem = (ToolStripMenuItem)sender;
+                if (!senderItem.Checked)
+                {
+                    MarkCurrentCategory(senderItem);
+
+                    pMainContainer.Controls.Clear();
+                    pMainContainer.Controls.Add(new ucMovies(this) { Dock = DockStyle.Fill });
+                }
+                else
+                {
+                    senderItem.Checked = false;
+                    pMainContainer.Controls.Clear();
+                }
+
+                SetMainCrudButtonsState(senderItem.Checked, "Add movie");
+
+                //todo: check if necessary
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+            finally
+            {
+                DrawingControl.ResumeDrawing(pMainContainer);
+                Cursor = Cursors.Default;
+            }
+        }
+        private void miSeries_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                DrawingControl.SuspendDrawing(pMainContainer);
+                ClearAllDelegates();
+
+                var senderItem = (ToolStripMenuItem)sender;
+                if (!senderItem.Checked)
+                {
+                    MarkCurrentCategory(senderItem);
+
+                    pMainContainer.Controls.Clear();
+                    pMainContainer.Controls.Add(new ucSeries(this) { Dock = DockStyle.Fill });
+                }
+                else
+                {
+                    senderItem.Checked = false;
+                    pMainContainer.Controls.Clear();
+                }
+
+                SetMainCrudButtonsState(senderItem.Checked, "Add series");
+
+                //todo: check if necessary
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+            finally
+            {
+                DrawingControl.ResumeDrawing(pMainContainer);
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            if (OnAddButtonPress is null) return;
+
+            OnAddButtonPress(sender, e);
+        }
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (OnDeleteButtonPress is null) return;
+
+            OnDeleteButtonPress(sender, e);
+        }
+
+        private void ClearAllDelegates()
+        {
+            if (OnAddButtonPress == null) return;
+
+            foreach (Delegate d in OnAddButtonPress.GetInvocationList())
+            {
+                OnAddButtonPress -= (EventHandler)d;
+            }
+
+            if (OnDeleteButtonPress == null) return;
+
+            foreach (Delegate d in OnDeleteButtonPress.GetInvocationList())
+            {
+                OnDeleteButtonPress -= (EventHandler)d;
+            }
+        }
+
+        void MarkCurrentCategory(ToolStripMenuItem currentSelected)
+        {
+            //var x1 = btnCategory.DropDownItems.Where<ToolStripDropDownItem>(x => x.GetType() is ToolStripSeparator);
+            foreach (var menuItem in btnCategory.DropDownItems)
+            {
+                if (menuItem is ToolStripMenuItem && ((ToolStripMenuItem)menuItem).Tag != null)
+                    ((ToolStripMenuItem)menuItem).Checked = false;
+            }
+
+            currentSelected.Checked = true;
+        }
+
+        void SetMainCrudButtonsState(bool b, string caption)
+        {
+            separatorMainButtons.Visible = b;
+            btnAdd.Visible = b;
+            btnDelete.Visible = b;
+
+            if (b) btnAdd.Text = caption;
+        }
+
+
+
+
+        //todo:
+        //https://stackoverflow.com/questions/826777/how-to-have-an-auto-incrementing-version-number-visual-studio
+
+
+
+
+
+
+
+
+
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -55,7 +225,7 @@ namespace Desene
             if (!opRes.Success)
             {
                 MessageBox.Show(
-                    string.Format("The following error had occurred while importing data (1):{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
+                    string.Format("The following error occurred while importing data (1):{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
                     "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -70,106 +240,12 @@ namespace Desene
             if (!opRes.Success)
             {
                 MessageBox.Show(
-                    string.Format("The following error had occurred while importing data (2):{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
+                    string.Format("The following error occurred while importing data (2):{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
                     @"Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
 
             MessageBox.Show("Done");
-        }
-
-
-
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void SetMainButtonsStates(bool isEnabled)
-        {
-            btnAdd.Enabled = isEnabled;
-            btnDelete.Enabled = isEnabled;
-        }
-
-        private void miMovies_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Cursor = Cursors.WaitCursor;
-                pMainContainer.SuspendLayout();
-
-                var senderItem = (ToolStripMenuItem)sender;
-                if (!senderItem.Checked)
-                {
-                    MarkCurrentCategory(senderItem);
-
-                    pMainContainer.Controls.Clear();
-                    pMainContainer.Controls.Add(new ucMovies { Dock = DockStyle.Fill });
-                }
-                else
-                {
-                    senderItem.Checked = false;
-                    pMainContainer.Controls.Clear();
-                }
-
-                //todo: check if necessary
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-
-                SetMainButtonsStates(senderItem.Checked);
-            }
-            finally
-            {
-                pMainContainer.ResumeLayout();
-                Cursor = Cursors.Default;
-            }
-        }
-        private void miSeries_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Cursor = Cursors.WaitCursor;
-                pMainContainer.SuspendLayout();
-
-                var senderItem = (ToolStripMenuItem)sender;
-                if (!senderItem.Checked)
-                {
-                    MarkCurrentCategory(senderItem);
-
-                    pMainContainer.Controls.Clear();
-                    pMainContainer.Controls.Add(new ucSeries(this) { Dock = DockStyle.Fill });
-                }
-                else
-                {
-                    senderItem.Checked = false;
-                    pMainContainer.Controls.Clear();
-
-                }
-
-                //todo: check if necessary
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-
-                SetMainButtonsStates(senderItem.Checked);
-            }
-            finally
-            {
-                pMainContainer.ResumeLayout();
-                Cursor = Cursors.Default;
-            }
-        }
-
-        void MarkCurrentCategory(ToolStripMenuItem currentSelected)
-        {
-            //var x1 = btnCategory.DropDownItems.Where<ToolStripDropDownItem>(x => x.GetType() is ToolStripSeparator);
-            foreach (var menuItem in btnCategory.DropDownItems)
-            {
-                if (menuItem is ToolStripMenuItem && ((ToolStripMenuItem)menuItem).Tag != null)
-                    ((ToolStripMenuItem)menuItem).Checked = false;
-            }
-
-            currentSelected.Checked = true;
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -409,28 +485,6 @@ namespace Desene
             }
             */
             var x = 1;
-        }
-
-        private void btnAdd_Click(object sender, EventArgs e)
-        {
-            if (OnAddButtonPress is null) return;
-
-            OnAddButtonPress(sender, e);
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            //buttonEdit1.ButtonVisible = !buttonEdit1.ButtonVisible;
-        }
-
-        private void buttonTextBox1_ButtonClick(object sender, EventArgs e)
-        {
-            MessageBox.Show("aaaa");
-        }
-
-        private void pMainContainer_Paint(object sender, PaintEventArgs e)
-        {
-
         }
     }
 }

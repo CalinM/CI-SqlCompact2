@@ -63,7 +63,7 @@ namespace Desene
                                     {
                                         Id = (int)reader["Id"],
                                         FileName = reader["FileName"].ToString(),
-                                        HasPoster = true//reader["Poster"].GetType() != typeof(DBNull)
+                                        HasPoster = reader["Poster"].GetType() != typeof(DBNull)
                                     });
                     }
                 }
@@ -80,6 +80,14 @@ namespace Desene
             {
                 conn.Open();
 
+                /*
+                 *SELECT fd1.Id, fd1.FileName, sum()
+FROM FileDetail fd1
+	LEFT OUTER JOIN FileDetail fd2 ON fd1.Id = fd2.ParentId
+WHERE fd1.ParentId = -1
+ORDER BY fd1.FileName
+                 *
+                 */
                 var commandSource = new SqlCeCommand("SELECT * FROM FileDetail WHERE ParentId = -1 ORDER BY FileName", conn);
 
                 using (var reader = commandSource.ExecuteReader())
@@ -99,6 +107,26 @@ namespace Desene
             }
 
             return result;
+        }
+
+        public static string GetSeriesTitleFromId(int seriesId)
+        {
+            using (var conn = new SqlCeConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                var commandSource = new SqlCeCommand(string.Format("SELECT FileName FROM FileDetail WHERE Id = {0}", seriesId), conn);
+
+                using (var reader = commandSource.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        return reader["FileName"].ToString();
+                    }
+                }
+            }
+
+            return "unknown!";
         }
 
         public static List<SeriesEpisodesShortInfo> GetSeasonsForSeries(int seriesId)
@@ -280,25 +308,6 @@ namespace Desene
             return result.OrderBy(o => o.FileName).ThenBy(o => o.Season).ToList();
         }
 
-        //to be removed
-        //public static void LoadSeriesData()
-        //{
-        //    Series = new DataTable();
-
-        //    using (var conn = new SqlCeConnection(Constants.ConnectionString))
-        //    {
-        //        conn.Open();
-
-        //        //loading Series AND Episodes!
-        //        var cmd = new SqlCeCommand("select * from FileDetail where ParentId is not null", conn);
-
-        //        using (var reader = cmd.ExecuteReader())
-        //        {
-        //            Series.Load(reader);
-        //        }
-        //    }
-        //}
-
         public static OperationResult InsertSeries(string title, string descriptionLink, string recommended,
             string recommendedLink, string notes, byte[] poster)
         {
@@ -362,20 +371,36 @@ namespace Desene
                 using (var conn = new SqlCeConnection(Constants.ConnectionString))
                 {
                     conn.Open();
+                    SqlCeCommand cmd;
 
                     #region Checks
 
-                    var checks = "select count(*) from FileDetail where ParentId = @ParentId AND FileName = @FileName AND FileSize = @FileSize";
+                    if (eip != null)
+                    {
+                        var checks = "select count(*) from FileDetail where ParentId = @ParentId AND FileName = @FileName AND FileSize = @FileSize";
 
-                    var cmd = new SqlCeCommand(checks, conn);
-                    cmd.Parameters.AddWithValue("@ParentId", eip.ParentId);
-                    cmd.Parameters.AddWithValue("@FileName", mtd.FileName);
-                    cmd.Parameters.AddWithValue("@FileSize", mtd.FileSize);
+                        cmd = new SqlCeCommand(checks, conn);
+                        cmd.Parameters.AddWithValue("@ParentId", eip.ParentId);
+                        cmd.Parameters.AddWithValue("@FileName", mtd.FileName);
+                        cmd.Parameters.AddWithValue("@FileSize", mtd.FileSize);
 
-                    var count = (int)cmd.ExecuteScalar();
+                        var count = (int)cmd.ExecuteScalar();
 
-                    if (count > 0)
-                        return result.FailWithMessage("A file with exactly the same name and size already exists in the selected series. The file details were not added to the database!");
+                        if (count > 0)
+                            return result.FailWithMessage("A file with exactly the same name and size already exists in the selected series. The file details were not added to the database!");
+                    }
+                    else
+                    {
+                        var checks = "select count(*) from FileDetail where FileName = @FileName";
+
+                        cmd = new SqlCeCommand(checks, conn);
+                        cmd.Parameters.AddWithValue("@FileName", mtd.FileName);
+
+                        var count = (int)cmd.ExecuteScalar();
+
+                        if (count > 0)
+                            return result.FailWithMessage("A movie with exactly the same name already exists in the collection. The file details were not added to the database!");
+                    }
 
                     #endregion
 
@@ -397,7 +422,16 @@ namespace Desene
                             Quality,
                             ParentId,
                             AudioLanguages,
-                            SubtitleLanguages)
+                            SubtitleLanguages,
+
+                            DescriptionLink,
+                            Recommended,
+                            RecommendedLink,
+                            Theme,
+                            Notes,
+                            StreamLink,
+                            Poster
+                        )
                         VALUES (
                             @FileName,
                             @Year,
@@ -413,11 +447,20 @@ namespace Desene
                             @Quality,
                             @ParentId,
                             @AudioLanguages,
-                            @SubtitleLanguages)";
+                            @SubtitleLanguages,
+
+                            @DescriptionLink,
+                            @Recommended,
+                            @RecommendedLink,
+                            @Theme,
+                            @Notes,
+                            @StreamLink,
+                            @Poster
+                        )";
 
                     cmd = new SqlCeCommand(insertString, conn);
                     cmd.Parameters.AddWithValue("@FileName", mtd.FileName);
-                    cmd.Parameters.AddWithValue("@Year", eip.Year);
+                    cmd.Parameters.AddWithValue("@Year", eip == null ? mtd.Year ?? (object)DBNull.Value : eip.Year);
                     cmd.Parameters.AddWithValue("@Format", mtd.Format);
                     cmd.Parameters.AddWithValue("@Encoded_Application", mtd.Encoded_Application);
                     cmd.Parameters.AddWithValue("@FileSize", mtd.FileSize);                                                 //as int value, for totals calculations
@@ -425,24 +468,32 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@Duration", mtd.DurationAsDateTime);
                     cmd.Parameters.AddWithValue("@TitleEmbedded", mtd.Title);
                     cmd.Parameters.AddWithValue("@CoverEmbedded", mtd.Cover);
-                    cmd.Parameters.AddWithValue("@Season", eip.Season);
+                    cmd.Parameters.AddWithValue("@Season", eip == null ? (object)DBNull.Value : eip.Season);
                     cmd.Parameters.AddWithValue("@InsertedDate", DateTime.Now);
 
 
 
                     cmd.Parameters.AddWithValue("@Quality", GetQualityStrFromSize(mtd));
-                    cmd.Parameters.AddWithValue("@ParentId", eip.ParentId);
-                    //cmd.Parameters.AddWithValue("@Poster", mtd.Thumbnail ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@ParentId", eip == null ? (object)DBNull.Value : eip.ParentId);
 
                     var audioLanguages = string.Join(", ", mtd.AudioStreams.Select(a => a.Language == "" ? "?" : a.Language).Distinct());
                     cmd.Parameters.AddWithValue("@AudioLanguages", audioLanguages);
                     var subtitleLanguages = string.Join(", ", mtd.SubtitleStreams.Select(a => a.Language == "" ? "?" : a.Language).Distinct());
                     cmd.Parameters.AddWithValue("@SubtitleLanguages", subtitleLanguages);
 
+                    cmd.Parameters.AddWithValue("@DescriptionLink", mtd.DescriptionLink ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Recommended", mtd.Recommended ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@RecommendedLink", mtd.RecommendedLink ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Theme", mtd.Theme ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Notes", mtd.Notes ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@StreamLink", mtd.StreamLink ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Poster", mtd.Poster ?? (object)DBNull.Value);
+
                     cmd.ExecuteNonQuery();
                     cmd.CommandText = "Select @@Identity";
 
                     var newFileDetailId = (int)(decimal)cmd.ExecuteScalar();
+                    result.AdditionalDataReturn = newFileDetailId;
 
                     #endregion
 
@@ -655,7 +706,7 @@ namespace Desene
             catch (Exception ex)
             {
                 //MsgBox.Show(
-                //    string.Format("An error had occurred while processing the file size changes! Please make sure you're using a compatible format, like 1,25Gb or 567Mb{0}{0}{1}",
+                //    string.Format("An error occurred while processing the file size changes! Please make sure you're using a compatible format, like 1,25Gb or 567Mb{0}{0}{1}",
                 //        Environment.NewLine, OperationResult.GetErrorMessage(ex, true)),
                 //    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -706,7 +757,7 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@FileSize", GetFileSize(CurrentMTD.FileSize2));     //as int value, for totals calculations
                     cmd.Parameters.AddWithValue("@FileSize2", CurrentMTD.FileSize2);                 //GUI
 
-
+                    //todo: save the value from DurationAsInt if the TryParse fails
                     cmd.Parameters.AddWithValue("@Duration", new DateTime(1970, 1, 1).Add(TimeSpan.TryParse(CurrentMTD.DurationFormatted, out var durationAsTime) ? durationAsTime : new TimeSpan()));
                     cmd.Parameters.AddWithValue("@TitleEmbedded", CurrentMTD.HasTitle ? CurrentMTD.Title : string.Empty);
                     cmd.Parameters.AddWithValue("@CoverEmbedded", CurrentMTD.Cover);
@@ -851,6 +902,7 @@ namespace Desene
                 return result.FailWithMessage(ex);
             }
 
+            Helpers.UnsavedChanges = false; //this setter takes care of the buttons states!
             return result;
         }
 
@@ -1061,7 +1113,7 @@ namespace Desene
                         }
                     }
 
-                    result = RemoveEpisode(string.Join(",", episodeIds), conn);
+                    result = RemoveData(string.Join(",", episodeIds), conn);
                 }
                 catch (Exception ex)
                 {
@@ -1072,7 +1124,7 @@ namespace Desene
             return result;
         }
 
-        public static OperationResult RemoveEpisode(int episodeId)
+        public static OperationResult RemoveSeries(int seriesId)
         {
             var result = new OperationResult();
 
@@ -1082,7 +1134,19 @@ namespace Desene
                 {
                     conn.Open();
 
-                    result = RemoveEpisode(episodeId.ToString(), conn);
+                    var cmd = new SqlCeCommand(string.Format("SELECT Id FROM FileDetail WHERE ParentId = {0}", seriesId), conn);
+
+                    var episodeIds = new List<int> { seriesId };
+
+                    using (var reader = cmd.ExecuteResultSet(ResultSetOptions.Scrollable))
+                    {
+                        while (reader.Read())
+                        {
+                            episodeIds.Add((int)reader["Id"]);
+                        }
+                    }
+
+                    result = RemoveData(string.Join(",", episodeIds), conn);
                 }
                 catch (Exception ex)
                 {
@@ -1093,7 +1157,28 @@ namespace Desene
             return result;
         }
 
-        private static OperationResult RemoveEpisode(string episodeIds, SqlCeConnection conn)
+        public static OperationResult RemoveMovieOrEpisode(int fileDetailId)
+        {
+            var result = new OperationResult();
+
+            using (var conn = new SqlCeConnection(Constants.ConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    result = RemoveData(fileDetailId.ToString(), conn);
+                }
+                catch (Exception ex)
+                {
+                    return result.FailWithMessage(ex);
+                }
+            }
+
+            return result;
+        }
+
+        private static OperationResult RemoveData(string episodeIds, SqlCeConnection conn)
         {
             var result = new OperationResult();
 
@@ -1121,7 +1206,6 @@ namespace Desene
 
             return result;
         }
-
 
 
 

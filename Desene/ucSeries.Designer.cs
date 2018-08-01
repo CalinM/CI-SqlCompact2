@@ -31,6 +31,7 @@
             this.pSeriesTreeWrapper = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pDummyMenuForShortCutKeys = new System.Windows.Forms.Panel();
+            this.lbDoNotDelete = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.miSave_ForShortCutOnly = new System.Windows.Forms.ToolStripMenuItem();
             this.miUndo_ForShortCutOnly = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,7 +54,6 @@
             this.btnDeleteSeasonEpisode = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pSeriesDetailsContainer = new System.Windows.Forms.Panel();
-            this.lbDoNotDelete = new System.Windows.Forms.Label();
             this.pSeriesTreeWrapper.SuspendLayout();
             this.panel2.SuspendLayout();
             this.pDummyMenuForShortCutKeys.SuspendLayout();
@@ -68,9 +68,9 @@
             this.panel3.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
+            //
             // pSeriesTreeWrapper
-            // 
+            //
             this.pSeriesTreeWrapper.Controls.Add(this.panel2);
             this.pSeriesTreeWrapper.Controls.Add(this.pFilters);
             this.pSeriesTreeWrapper.Dock = System.Windows.Forms.DockStyle.Left;
@@ -78,9 +78,9 @@
             this.pSeriesTreeWrapper.Name = "pSeriesTreeWrapper";
             this.pSeriesTreeWrapper.Size = new System.Drawing.Size(400, 580);
             this.pSeriesTreeWrapper.TabIndex = 0;
-            // 
+            //
             // panel2
-            // 
+            //
             this.panel2.Controls.Add(this.pDummyMenuForShortCutKeys);
             this.panel2.Controls.Add(this.tvSeries);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -88,18 +88,29 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(400, 540);
             this.panel2.TabIndex = 107;
-            // 
+            //
             // pDummyMenuForShortCutKeys
-            // 
+            //
             this.pDummyMenuForShortCutKeys.Controls.Add(this.lbDoNotDelete);
             this.pDummyMenuForShortCutKeys.Controls.Add(this.menuStrip1);
             this.pDummyMenuForShortCutKeys.Location = new System.Drawing.Point(98, 414);
             this.pDummyMenuForShortCutKeys.Name = "pDummyMenuForShortCutKeys";
             this.pDummyMenuForShortCutKeys.Size = new System.Drawing.Size(185, 94);
             this.pDummyMenuForShortCutKeys.TabIndex = 119;
-            // 
+            //
+            // lbDoNotDelete
+            //
+            this.lbDoNotDelete.AutoSize = true;
+            this.lbDoNotDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbDoNotDelete.ForeColor = System.Drawing.Color.Red;
+            this.lbDoNotDelete.Location = new System.Drawing.Point(15, 57);
+            this.lbDoNotDelete.Name = "lbDoNotDelete";
+            this.lbDoNotDelete.Size = new System.Drawing.Size(153, 13);
+            this.lbDoNotDelete.TabIndex = 1;
+            this.lbDoNotDelete.Text = "Do Not Delete (design) !!!";
+            //
             // menuStrip1
-            // 
+            //
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miSave_ForShortCutOnly,
             this.miUndo_ForShortCutOnly});
@@ -110,26 +121,26 @@
             this.menuStrip1.Size = new System.Drawing.Size(185, 46);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
-            // 
+            //
             // miSave_ForShortCutOnly
-            // 
+            //
             this.miSave_ForShortCutOnly.Image = global::Desene.Properties.Resources.save;
             this.miSave_ForShortCutOnly.Name = "miSave_ForShortCutOnly";
             this.miSave_ForShortCutOnly.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.miSave_ForShortCutOnly.Size = new System.Drawing.Size(178, 20);
             this.miSave_ForShortCutOnly.Click += new System.EventHandler(this.btnSaveChanges_Click);
-            // 
+            //
             // miUndo_ForShortCutOnly
-            // 
+            //
             this.miUndo_ForShortCutOnly.Image = global::Desene.Properties.Resources.undo;
             this.miUndo_ForShortCutOnly.Name = "miUndo_ForShortCutOnly";
             this.miUndo_ForShortCutOnly.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
             this.miUndo_ForShortCutOnly.Size = new System.Drawing.Size(178, 20);
-            // 
+            //
             // tvSeries
-            // 
-            this.tvSeries.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            //
+            this.tvSeries.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tvSeries.BackColor = System.Drawing.SystemColors.Window;
             this.tvSeries.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -146,9 +157,9 @@
             this.tvSeries.TabIndex = 4;
             this.tvSeries.Text = "treeViewAdv1";
             this.tvSeries.SelectionChanged += new System.EventHandler(this.tvSeries_SelectionChanged);
-            // 
+            //
             // pFilters
-            // 
+            //
             this.pFilters.Controls.Add(this.lbFilter);
             this.pFilters.Controls.Add(this.tbFilter);
             this.pFilters.Dock = System.Windows.Forms.DockStyle.Top;
@@ -156,9 +167,9 @@
             this.pFilters.Name = "pFilters";
             this.pFilters.Size = new System.Drawing.Size(400, 40);
             this.pFilters.TabIndex = 106;
-            // 
+            //
             // lbFilter
-            // 
+            //
             this.lbFilter.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.lbFilter.AutoSize = true;
             this.lbFilter.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -168,10 +179,10 @@
             this.lbFilter.TabIndex = 15;
             this.lbFilter.Text = "Filter";
             this.lbFilter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
+            //
             // tbFilter
-            // 
-            this.tbFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            //
+            this.tbFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.tbFilter.ForeColor = System.Drawing.Color.Silver;
@@ -180,10 +191,10 @@
             this.tbFilter.Size = new System.Drawing.Size(347, 20);
             this.tbFilter.TabIndex = 14;
             this.tbFilter.ButtonClick += new System.EventHandler(this.tbFilter_ButtonClick);
-            this.tbFilter.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbFilter_KeyDown);
-            // 
+            this.tbFilter.TextChanged += new System.EventHandler(this.tbFilter_TextChanged);
+            //
             // pSeriesDetailsWrapper
-            // 
+            //
             this.pSeriesDetailsWrapper.AutoScroll = true;
             this.pSeriesDetailsWrapper.Controls.Add(this.scSeriesDetails);
             this.pSeriesDetailsWrapper.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -191,28 +202,28 @@
             this.pSeriesDetailsWrapper.Name = "pSeriesDetailsWrapper";
             this.pSeriesDetailsWrapper.Size = new System.Drawing.Size(710, 580);
             this.pSeriesDetailsWrapper.TabIndex = 1;
-            // 
+            //
             // scSeriesDetails
-            // 
+            //
             this.scSeriesDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scSeriesDetails.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.scSeriesDetails.IsSplitterFixed = true;
             this.scSeriesDetails.Location = new System.Drawing.Point(0, 0);
             this.scSeriesDetails.Name = "scSeriesDetails";
-            // 
+            //
             // scSeriesDetails.Panel1
-            // 
+            //
             this.scSeriesDetails.Panel1.Controls.Add(this.pSeriesSecondToolbar);
-            // 
+            //
             // scSeriesDetails.Panel2
-            // 
+            //
             this.scSeriesDetails.Panel2.Controls.Add(this.pSeriesDetailsContainer);
             this.scSeriesDetails.Size = new System.Drawing.Size(710, 580);
             this.scSeriesDetails.SplitterDistance = 25;
             this.scSeriesDetails.TabIndex = 0;
-            // 
+            //
             // pSeriesSecondToolbar
-            // 
+            //
             this.pSeriesSecondToolbar.Controls.Add(this.panel3);
             this.pSeriesSecondToolbar.Controls.Add(this.panel1);
             this.pSeriesSecondToolbar.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -220,18 +231,18 @@
             this.pSeriesSecondToolbar.Name = "pSeriesSecondToolbar";
             this.pSeriesSecondToolbar.Size = new System.Drawing.Size(25, 580);
             this.pSeriesSecondToolbar.TabIndex = 0;
-            // 
+            //
             // panel3
-            // 
+            //
             this.panel3.Controls.Add(this.toolStrip1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 40);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(25, 540);
             this.panel3.TabIndex = 1;
-            // 
+            //
             // toolStrip1
-            // 
+            //
             this.toolStrip1.BackColor = System.Drawing.SystemColors.Control;
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Left;
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
@@ -249,9 +260,9 @@
             this.toolStrip1.Size = new System.Drawing.Size(24, 540);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
-            // 
+            //
             // btnImportEpisodes
-            // 
+            //
             this.btnImportEpisodes.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnImportEpisodes.Enabled = false;
             this.btnImportEpisodes.Image = global::Desene.Properties.Resources.import;
@@ -260,9 +271,9 @@
             this.btnImportEpisodes.Size = new System.Drawing.Size(21, 20);
             this.btnImportEpisodes.Text = "Import episodes data from files";
             this.btnImportEpisodes.Click += new System.EventHandler(this.btnImportEpisodes_Click);
-            // 
+            //
             // btnLoadPoster
-            // 
+            //
             this.btnLoadPoster.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnLoadPoster.Enabled = false;
             this.btnLoadPoster.Image = global::Desene.Properties.Resources.image;
@@ -272,14 +283,14 @@
             this.btnLoadPoster.Size = new System.Drawing.Size(21, 20);
             this.btnLoadPoster.Text = "Load Series poster";
             this.btnLoadPoster.Click += new System.EventHandler(this.btnLoadPoster_Click);
-            // 
+            //
             // toolStripSeparator1
-            // 
+            //
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(21, 6);
-            // 
+            //
             // btnSaveChanges
-            // 
+            //
             this.btnSaveChanges.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnSaveChanges.Enabled = false;
             this.btnSaveChanges.Image = global::Desene.Properties.Resources.save;
@@ -290,9 +301,9 @@
             this.btnSaveChanges.Text = "Save changes";
             this.btnSaveChanges.ToolTipText = "Save changes\r\nCTRL+S";
             this.btnSaveChanges.Click += new System.EventHandler(this.btnSaveChanges_Click);
-            // 
+            //
             // btnUndo
-            // 
+            //
             this.btnUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnUndo.Enabled = false;
             this.btnUndo.Image = global::Desene.Properties.Resources.undo;
@@ -302,9 +313,9 @@
             this.btnUndo.Text = "Undo";
             this.btnUndo.ToolTipText = "Undo changes\r\nCTRL+Z";
             this.btnUndo.Click += new System.EventHandler(this.btnUndo_Click);
-            // 
+            //
             // btnRefreshEpisodeData
-            // 
+            //
             this.btnRefreshEpisodeData.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnRefreshEpisodeData.Enabled = false;
             this.btnRefreshEpisodeData.Image = global::Desene.Properties.Resources.refresh;
@@ -313,14 +324,14 @@
             this.btnRefreshEpisodeData.Size = new System.Drawing.Size(21, 20);
             this.btnRefreshEpisodeData.Text = "Refresh episode data from file";
             this.btnRefreshEpisodeData.Click += new System.EventHandler(this.btnRefreshEpisodeData_Click);
-            // 
+            //
             // toolStripSeparator2
-            // 
+            //
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(21, 6);
-            // 
+            //
             // btnDeleteSeasonEpisode
-            // 
+            //
             this.btnDeleteSeasonEpisode.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnDeleteSeasonEpisode.Enabled = false;
             this.btnDeleteSeasonEpisode.Image = global::Desene.Properties.Resources.delete;
@@ -330,17 +341,17 @@
             this.btnDeleteSeasonEpisode.Text = "Delete";
             this.btnDeleteSeasonEpisode.ToolTipText = "Delete the selected Season/Episode";
             this.btnDeleteSeasonEpisode.Click += new System.EventHandler(this.btnDeleteSeasonEpisode_Click);
-            // 
+            //
             // panel1
-            // 
+            //
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(25, 40);
             this.panel1.TabIndex = 0;
-            // 
+            //
             // pSeriesDetailsContainer
-            // 
+            //
             this.pSeriesDetailsContainer.AutoScroll = true;
             this.pSeriesDetailsContainer.AutoSize = true;
             this.pSeriesDetailsContainer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -349,20 +360,9 @@
             this.pSeriesDetailsContainer.Name = "pSeriesDetailsContainer";
             this.pSeriesDetailsContainer.Size = new System.Drawing.Size(681, 580);
             this.pSeriesDetailsContainer.TabIndex = 0;
-            // 
-            // lbDoNotDelete
-            // 
-            this.lbDoNotDelete.AutoSize = true;
-            this.lbDoNotDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDoNotDelete.ForeColor = System.Drawing.Color.Red;
-            this.lbDoNotDelete.Location = new System.Drawing.Point(15, 57);
-            this.lbDoNotDelete.Name = "lbDoNotDelete";
-            this.lbDoNotDelete.Size = new System.Drawing.Size(153, 13);
-            this.lbDoNotDelete.TabIndex = 1;
-            this.lbDoNotDelete.Text = "Do Not Delete (design) !!!";
-            // 
+            //
             // ucSeries
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.pSeriesDetailsWrapper);

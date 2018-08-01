@@ -34,6 +34,7 @@ namespace DAL
         public int Id { get; set; }
         public int? ParentId { get; set; }
         public string FileName { get; set; }
+        public string InitialPath { get; set; }
         public string Year { get; set; }
         public string Format { get; set; }
         public string Encoded_Application { get; set; }
@@ -128,6 +129,7 @@ namespace DAL
 
         public MovieTechnicalDetails()
         {
+            Quality = "NotSet";
             VideoStreams = new List<VideoStreamInfo>();
             AudioStreams = new List<AudioStreamInfo>();
             SubtitleStreams = new List<SubtitleStreamInfo>();
