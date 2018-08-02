@@ -10,7 +10,7 @@ namespace Utils
 
 		public const int WH_CBT = 5;
 		public const int HCBT_ACTIVATE = 5;
-
+        public const int WM_SETFONT = 0x30;
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct RECT
@@ -65,6 +65,8 @@ namespace Utils
 
 		#endregion Stock P/Invokes
 
+        [DllImport("user32.dll")]
+        public static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, IntPtr lp);
 
 		#region Simplified interfaces
 

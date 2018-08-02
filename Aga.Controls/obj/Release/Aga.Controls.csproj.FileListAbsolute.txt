@@ -9,7 +9,6 @@ C:\Work\_Utils\CI SqlCompact\Aga.Controls\obj\Release\Aga.Controls.dll
 C:\Work\_Utils\CI SqlCompact\Aga.Controls\obj\Release\Aga.Controls.pdb
 C:\Work\_Utils\CI SqlCompact2\Aga.Controls\bin\Release\Aga.Controls.dll
 C:\Work\_Utils\CI SqlCompact2\Aga.Controls\bin\Release\Aga.Controls.pdb
-C:\Work\_Utils\CI SqlCompact2\Aga.Controls\obj\Release\Aga.Controls.csprojAssemblyReference.cache
 C:\Work\_Utils\CI SqlCompact2\Aga.Controls\obj\Release\Aga.Controls.Properties.Resources.resources
 C:\Work\_Utils\CI SqlCompact2\Aga.Controls\obj\Release\Aga.Controls.Tree.TreeViewAdv.resources
 C:\Work\_Utils\CI SqlCompact2\Aga.Controls\obj\Release\Aga.Controls.csproj.GenerateResource.cache

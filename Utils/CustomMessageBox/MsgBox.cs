@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Utils
@@ -9,6 +10,7 @@ namespace Utils
 		private static int _hHook;
 		private static string _title;
 		private static string _msg;
+        private static Font _customTextFont;
 
 		public static DialogResult Show(string msg, string title, MessageBoxButtons btns, MessageBoxIcon icon)
 		{
@@ -29,6 +31,61 @@ namespace Utils
 
 			// Pop a standard MessageBox. The hook will center it.
 			var rslt = MessageBox.Show(msg, title, btns, icon);
+
+			// Release hook, clean up (may have already occurred)
+			Unhook();
+
+			return rslt;
+		}
+
+		public static DialogResult Show(string msg, string title, MessageBoxButtons btns, MessageBoxIcon icon,
+		    MessageBoxDefaultButton defBtn)
+		{
+			// Create a callback delegate
+			_hookProcDelegate = HookCallback;
+
+			// Remember the title & message that we'll look for.
+			// The hook sees *all* windows, so we need to make sure we operate on the right one.
+			_msg = msg;
+			_title = title;
+
+			// Set the hook.
+			// Suppress "GetCurrentThreadId() is deprecated" warning.
+			// It's documented that Thread.ManagedThreadId doesn't work with SetWindowsHookEx()
+#pragma warning disable 0618
+			_hHook = Win32.SetWindowsHookEx(Win32.WH_CBT, _hookProcDelegate, IntPtr.Zero, AppDomain.GetCurrentThreadId());
+#pragma warning restore 0618
+
+			// Pop a standard MessageBox. The hook will center it.
+			var rslt = MessageBox.Show(msg, title, btns, icon, defBtn);
+
+			// Release hook, clean up (may have already occurred)
+			Unhook();
+
+			return rslt;
+		}
+
+		public static DialogResult Show(string msg, string title, MessageBoxButtons btns, MessageBoxIcon icon,
+		    MessageBoxDefaultButton defBtn, Font customTextFont)
+		{
+			// Create a callback delegate
+			_hookProcDelegate = HookCallback;
+
+			// Remember the title & message that we'll look for.
+			// The hook sees *all* windows, so we need to make sure we operate on the right one.
+			_msg = msg;
+			_title = title;
+            _customTextFont = customTextFont;
+
+			// Set the hook.
+			// Suppress "GetCurrentThreadId() is deprecated" warning.
+			// It's documented that Thread.ManagedThreadId doesn't work with SetWindowsHookEx()
+#pragma warning disable 0618
+			_hHook = Win32.SetWindowsHookEx(Win32.WH_CBT, _hookProcDelegate, IntPtr.Zero, AppDomain.GetCurrentThreadId());
+#pragma warning restore 0618
+
+			// Pop a standard MessageBox. The hook will center it.
+			var rslt = MessageBox.Show(msg, title, btns, icon, defBtn);
 
 			// Release hook, clean up (may have already occurred)
 			Unhook();
@@ -65,6 +122,15 @@ namespace Utils
 						Unhook();	// Release hook - we've done what we needed
 					}
 				}
+
+                if (_customTextFont != null)
+                {
+                    //https://stackoverflow.com/questions/2259027/bold-text-in-messagebox/2259213#2259213
+                    //https://stackoverflow.com/questions/19204656/messagebox-with-custom-font
+                    //http://forums.codeguru.com/showthread.php?304012-How-to-change-Font-of-MessageBox
+                    IntPtr hText = Win32.GetDlgItem(wParam, 0xffff);
+                    Win32.SendMessage(hText, Win32.WM_SETFONT, _customTextFont.ToHfont(), (IntPtr)1);
+                }
 			}
 
 			return Win32.CallNextHookEx(hHook, code, wParam, lParam);
@@ -91,6 +157,7 @@ namespace Utils
 			var x = rcParent.left + (cxParent - cxChild) / 2;
 			var y = rcParent.top + (cyParent - cyChild) / 2;
 			uint uFlags = 0x15;	// SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE;
+
 			Win32.SetWindowPos(hChildWnd, IntPtr.Zero, x, y, 0, 0, uFlags);
 		}
 	}

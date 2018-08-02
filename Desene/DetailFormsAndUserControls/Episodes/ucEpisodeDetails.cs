@@ -233,6 +233,8 @@ namespace Desene.DetailFormsAndUserControls
                     "Size mismatch!" + Environment.NewLine +
                     "Possible cause: a previously edited value was provided in a format that couldn't be transformed into a number representation." + Environment.NewLine +
                     "Please revise the FileSize value!";
+
+                //todo: copy implementation model from "Movies"
             }
         }
 

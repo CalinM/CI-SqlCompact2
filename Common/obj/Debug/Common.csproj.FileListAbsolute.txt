@@ -1,6 +1,5 @@
 C:\Work\_Utils\CI SqlCompact2\Common\bin\Debug\Common.dll
 C:\Work\_Utils\CI SqlCompact2\Common\bin\Debug\Common.pdb
-C:\Work\_Utils\CI SqlCompact2\Common\obj\Debug\Common.csprojAssemblyReference.cache
 C:\Work\_Utils\CI SqlCompact2\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
 C:\Work\_Utils\CI SqlCompact2\Common\obj\Debug\Common.dll
 C:\Work\_Utils\CI SqlCompact2\Common\obj\Debug\Common.pdb

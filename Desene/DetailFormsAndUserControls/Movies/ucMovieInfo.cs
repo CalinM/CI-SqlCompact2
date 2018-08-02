@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
 
 using Common;
@@ -35,8 +34,8 @@ namespace Desene.DetailFormsAndUserControls
         private void ucMovieInfo_Load(object sender, EventArgs e)
         {
             tbmDuration.ValidatingType = typeof(TimeSpan);
-            tbDummyForFocus.Location = new Point( tbNotes.Left + 10, tbNotes.Top + 10 );
-
+            tbDummyForFocus.Location = new Point( tbNotes.Left + 10, tbNotes.Top + 10);
+            tbSizeAsInt.Location = new Point( tbSize.Left + 10, tbSize.Top);
         }
 
         private void InitControls()
@@ -112,11 +111,9 @@ namespace Desene.DetailFormsAndUserControls
                 if (tbSize.DataBindings.Count == 0)
                 {
                     tbSize.DataBindings.Add("Text", _bsControlsData, "FileSize2");
-                    tbSize.ButtonToolTip =
-                        "Size mismatch!" + Environment.NewLine +
-                        "Possible cause: a previously edited value was provided in a format that couldn't be transformed into a number representation." + Environment.NewLine +
-                        "Please revise the FileSize value!";
                 }
+
+                CheckSizeMismatch();
 
                 if (mtd.Id > 0)
                 {
@@ -295,10 +292,11 @@ namespace Desene.DetailFormsAndUserControls
             //BeginInvoke((Action) delegate { SetMaskedTextBoxSelectAll((MaskedTextBox) sender); });
         }
 
-        private void SetMaskedTextBoxSelectAll(MaskedTextBox txtbox)
-        {
-            txtbox.SelectAll();
-        }
+        //private void SetMaskedTextBoxSelectAll(MaskedTextBox txtbox)
+        //{
+        //    txtbox.SelectAll();
+        //}
+
         private void tbmDuration_Leave(object sender, EventArgs e)
         {
             //tbmDuration.Select(0, 0);
@@ -318,6 +316,58 @@ namespace Desene.DetailFormsAndUserControls
                 //tbmDuration.SelectAll();
                 tbmDuration.Text = "00:00:00";
                 e.Cancel = true;
+            }
+        }
+
+        private void tbSizeAsInt_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tbSize_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CheckSizeMismatch()
+        {
+            var b = (string.IsNullOrEmpty(tbSizeAsInt.Text) || tbSizeAsInt.Text == "0") && tbSize.Text != string.Empty && tbSize.Text != "0";
+            decimal sizeCalc = 0m;
+
+            if (!b)
+            {
+                long sizeAsLong = 0;
+
+                if (!long.TryParse(tbSizeAsInt.Text, out sizeAsLong))
+                    b = true;
+                else
+                {
+                    sizeCalc =
+                        tbSize.Text.ToLower().IndexOf("gb") > 0
+                            ? Math.Truncate(((decimal)Math.Abs(sizeAsLong) / 1024 / 1024 / 1024) * 100) / 100
+                            : Math.Truncate(((decimal)Math.Abs(sizeAsLong) / 1024 / 1024) * 100) / 100;
+
+                    decimal valFromNiceStr = 0m;
+                    if (!decimal.TryParse(tbSize.Text.Replace(" ", "").Replace("Gb", "").Replace("Mb", ""), out valFromNiceStr))
+                        b = true;
+                    else
+                    {
+                        b = Math.Abs(valFromNiceStr - sizeCalc) > (decimal)0.5;
+                    }
+                }
+            }
+
+            tbSize.ButtonVisible = b;
+
+            if (b)
+            {
+                tbSize.ButtonToolTip =
+                    "Size mismatch!" + Environment.NewLine +
+                    string.Format("Current values: {0} (database display value) and {1} (database raw value)",
+                        tbSize.Text.Replace(" ", "").Replace("Gb", "").Replace("Mb", ""),
+                        sizeCalc) + Environment.NewLine +
+                    "Possible cause: a previously edited value was provided in a format that couldn't be transformed into a number representation." + Environment.NewLine +
+                    "Please revise the FileSize value!";
             }
         }
     }

@@ -60,6 +60,11 @@
     <Compile Include="DetailFormsAndUserControls\Movies\ucMovieInfo.designer.cs">
       <DependentUpon>ucMovieInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AssemblyInfo.tt</DependentUpon>
+    </Compile>
     <Compile Include="SeriesTreeModel.cs" />
     <Compile Include="FilteredTreeModel.cs" />
     <Compile Include="DetailFormsAndUserControls\Shared\ucSubtitleStreamDetail.cs">
@@ -117,7 +122,6 @@
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ucMovies.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -218,11 +222,25 @@
     <Content Include="Images\image.png" />
     <Content Include="Images\import.png" />
     <Content Include="Images\undo.png" />
+    <Content Include="Properties\AssemblyInfo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
+    </Content>
     <None Include="Images\warning.png" />
     <None Include="Images\save.png" />
     <Content Include="Images\refresh.png" />
     <Content Include="Images\save_as.png" />
     <None Include="Images\generateHtml.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>echo https://social.msdn.microsoft.com/Forums/en-US/79e000b6-6b44-400d-a418-c9e5d26c5a25/project-upgrade-from-vs2013-to-2017-cant-find-texttransformexe
+echo https://docs.microsoft.com/en-us/windows/desktop/Debug/system-error-codes--0-499-
+echo "$(DevEnvDir)\TextTransform.exe" -a !!BuildConfiguration!$(Configuration) "$(ProjectDir)Properties\AssemblyInfo.tt"
+
+"$(DevEnvDir)\TextTransform.exe" -out  "$(ProjectDir)Properties\AssemblyInfo.cs" -a !!BuildConfiguration!$(Configuration) "$(ProjectDir)Properties\AssemblyInfo.tt"</PreBuildEvent>
+  </PropertyGroup>
 </Project>

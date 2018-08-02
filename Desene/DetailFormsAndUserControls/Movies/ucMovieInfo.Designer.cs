@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.pMovieDetail = new System.Windows.Forms.Panel();
-            this.tbDummyForFocus = new System.Windows.Forms.TextBox();
             this.tlpMovieStillsWrapper = new System.Windows.Forms.TableLayoutPanel();
             this.pbMovieStill3 = new System.Windows.Forms.PictureBox();
             this.pbMovieStill2 = new System.Windows.Forms.PictureBox();
@@ -64,6 +63,7 @@
             this.tbTitle = new Utils.CustomTextBox();
             this.lbSeriesTitle = new System.Windows.Forms.Label();
             this.lbNotes = new System.Windows.Forms.Label();
+            this.tbDummyForFocus = new System.Windows.Forms.TextBox();
             this.ttTitleContent = new System.Windows.Forms.ToolTip(this.components);
             this.pMovieDetail.SuspendLayout();
             this.tlpMovieStillsWrapper.SuspendLayout();
@@ -77,7 +77,6 @@
             // 
             this.pMovieDetail.Controls.Add(this.tlpMovieStillsWrapper);
             this.pMovieDetail.Controls.Add(this.chbTitle);
-            this.pMovieDetail.Controls.Add(this.tbSizeAsInt);
             this.pMovieDetail.Controls.Add(this.tbSize);
             this.pMovieDetail.Controls.Add(this.tbmDuration);
             this.pMovieDetail.Controls.Add(this.tbSubtitleSummary);
@@ -106,19 +105,12 @@
             this.pMovieDetail.Controls.Add(this.lbSeriesTitle);
             this.pMovieDetail.Controls.Add(this.lbNotes);
             this.pMovieDetail.Controls.Add(this.tbDummyForFocus);
+            this.pMovieDetail.Controls.Add(this.tbSizeAsInt);
             this.pMovieDetail.Dock = System.Windows.Forms.DockStyle.Top;
             this.pMovieDetail.Location = new System.Drawing.Point(0, 0);
             this.pMovieDetail.Name = "pMovieDetail";
             this.pMovieDetail.Size = new System.Drawing.Size(830, 565);
             this.pMovieDetail.TabIndex = 1;
-            // 
-            // tbDummyForFocus
-            // 
-            this.tbDummyForFocus.BackColor = System.Drawing.Color.Red;
-            this.tbDummyForFocus.Location = new System.Drawing.Point(109, 218);
-            this.tbDummyForFocus.Name = "tbDummyForFocus";
-            this.tbDummyForFocus.Size = new System.Drawing.Size(100, 20);
-            this.tbDummyForFocus.TabIndex = 284;
             // 
             // tlpMovieStillsWrapper
             // 
@@ -188,11 +180,11 @@
             // tbSizeAsInt
             // 
             this.tbSizeAsInt.BackColor = System.Drawing.Color.Red;
-            this.tbSizeAsInt.Location = new System.Drawing.Point(328, 128);
+            this.tbSizeAsInt.Location = new System.Drawing.Point(109, 128);
             this.tbSizeAsInt.Name = "tbSizeAsInt";
             this.tbSizeAsInt.Size = new System.Drawing.Size(31, 20);
             this.tbSizeAsInt.TabIndex = 281;
-            this.tbSizeAsInt.Visible = false;
+            this.tbSizeAsInt.TextChanged += new System.EventHandler(this.tbSizeAsInt_TextChanged);
             // 
             // tbSize
             // 
@@ -206,6 +198,7 @@
             this.tbSize.Name = "tbSize";
             this.tbSize.Size = new System.Drawing.Size(93, 20);
             this.tbSize.TabIndex = 6;
+            this.tbSize.TextChanged += new System.EventHandler(this.tbSize_TextChanged);
             // 
             // tbmDuration
             // 
@@ -446,6 +439,14 @@
             this.lbNotes.Size = new System.Drawing.Size(38, 13);
             this.lbNotes.TabIndex = 263;
             this.lbNotes.Text = "Notes:";
+            // 
+            // tbDummyForFocus
+            // 
+            this.tbDummyForFocus.BackColor = System.Drawing.Color.Red;
+            this.tbDummyForFocus.Location = new System.Drawing.Point(109, 218);
+            this.tbDummyForFocus.Name = "tbDummyForFocus";
+            this.tbDummyForFocus.Size = new System.Drawing.Size(100, 20);
+            this.tbDummyForFocus.TabIndex = 284;
             // 
             // ucMovieInfo
             // 

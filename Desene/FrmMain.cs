@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
+
+using Common;
 
 using Desene.Properties;
 
 using Utils;
+
+using Helpers = Utils.Helpers;
 
 namespace Desene
 {
@@ -80,6 +86,10 @@ namespace Desene
             {
                 Size = Settings.Default.WindowSize;
             }
+
+            var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            var buildDate = new DateTime(2010, 1, 1).AddDays(version.Revision);
+            Text = "Movies Indexer v"+ string.Format("{0} (build date {1})", version, buildDate.ToString("dd.MM.yyyy"));
         }
 
         private void miMovies_Click(object sender, EventArgs e)
@@ -94,6 +104,7 @@ namespace Desene
                 if (!senderItem.Checked)
                 {
                     MarkCurrentCategory(senderItem);
+                    GetStatistics(true, false);
 
                     pMainContainer.Controls.Clear();
                     pMainContainer.Controls.Add(new ucMovies(this) { Dock = DockStyle.Fill });
@@ -102,6 +113,8 @@ namespace Desene
                 {
                     senderItem.Checked = false;
                     pMainContainer.Controls.Clear();
+
+                    GetStatistics(false, false);
                 }
 
                 SetMainCrudButtonsState(senderItem.Checked, "Add movie");
@@ -149,6 +162,27 @@ namespace Desene
                 DrawingControl.ResumeDrawing(pMainContainer);
                 Cursor = Cursors.Default;
             }
+        }
+
+        private void GetStatistics(bool show, bool forSeries)
+        {
+            if (show)
+            {
+                var opRes = DAL.GetStatistics(forSeries);
+
+                sslbStatistics.Text =
+                    opRes.Success
+                        ? (string)opRes.AdditionalDataReturn
+                        : opRes.CustomErrorMessage;
+
+                var moviesInList = (string)opRes.AdditionalDataReturn != "There are no movies in the list ...";
+
+                sslbClick.Visible = !forSeries && moviesInList;
+                sslbAdditionalInfo1.Visible = !forSeries && moviesInList;
+                sslbAdditionalInfo2.Visible = !forSeries && moviesInList;
+            }
+
+            sslbStatistics.Visible = show;
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -202,12 +236,17 @@ namespace Desene
             if (b) btnAdd.Text = caption;
         }
 
-
-
-
-        //todo:
-        //https://stackoverflow.com/questions/826777/how-to-have-an-auto-incrementing-version-number-visual-studio
-
+        private void sslbClick_Click(object sender, EventArgs e)
+        {
+            MsgBox.Show(
+                string.Format(
+                    "{0}{1}{1}{2}",
+                    DAL.SectionDetails,
+                    Environment.NewLine,
+                    "Warning! The list only refreshes when a section is shown!"),
+                "Info", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            //, new Font("Courier New", 8, FontStyle.Regular)
+        }
 
 
 
@@ -484,7 +523,13 @@ namespace Desene
                 }
             }
             */
-            var x = 1;
+            //var x = 1;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            MsgBox.Show("desc", "title", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk,MessageBoxDefaultButton.Button1,
+                new Font("Times New Roman", 15, FontStyle.Bold) );
         }
     }
 }
