@@ -30,6 +30,11 @@
         {
             this.scMovies = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pDummyMenuForShortCutKeys = new System.Windows.Forms.Panel();
+            this.lbDoNotDelete = new System.Windows.Forms.Label();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.miSave_ForShortCutOnly = new System.Windows.Forms.ToolStripMenuItem();
+            this.miUndo_ForShortCutOnly = new System.Windows.Forms.ToolStripMenuItem();
             this.dgvMoviesList = new System.Windows.Forms.DataGridView();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -47,17 +52,15 @@
             this.btnUndo = new System.Windows.Forms.ToolStripButton();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pMovieDetailsContainer = new System.Windows.Forms.Panel();
-            this.pDummyMenuForShortCutKeys = new System.Windows.Forms.Panel();
-            this.lbDoNotDelete = new System.Windows.Forms.Label();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.miSave_ForShortCutOnly = new System.Windows.Forms.ToolStripMenuItem();
-            this.miUndo_ForShortCutOnly = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnImportMovies = new System.Windows.Forms.ToolStripButton();
             this.tbFilter = new Utils.FilterTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.scMovies)).BeginInit();
             this.scMovies.Panel1.SuspendLayout();
             this.scMovies.Panel2.SuspendLayout();
             this.scMovies.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.pDummyMenuForShortCutKeys.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMoviesList)).BeginInit();
             this.pFilters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scSeriesDetails)).BeginInit();
@@ -67,8 +70,6 @@
             this.pSeriesSecondToolbar.SuspendLayout();
             this.panel3.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            this.pDummyMenuForShortCutKeys.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // scMovies
@@ -103,6 +104,55 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(300, 684);
             this.panel1.TabIndex = 105;
+            // 
+            // pDummyMenuForShortCutKeys
+            // 
+            this.pDummyMenuForShortCutKeys.Controls.Add(this.lbDoNotDelete);
+            this.pDummyMenuForShortCutKeys.Controls.Add(this.menuStrip1);
+            this.pDummyMenuForShortCutKeys.Location = new System.Drawing.Point(58, 295);
+            this.pDummyMenuForShortCutKeys.Name = "pDummyMenuForShortCutKeys";
+            this.pDummyMenuForShortCutKeys.Size = new System.Drawing.Size(185, 94);
+            this.pDummyMenuForShortCutKeys.TabIndex = 120;
+            // 
+            // lbDoNotDelete
+            // 
+            this.lbDoNotDelete.AutoSize = true;
+            this.lbDoNotDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbDoNotDelete.ForeColor = System.Drawing.Color.Red;
+            this.lbDoNotDelete.Location = new System.Drawing.Point(15, 57);
+            this.lbDoNotDelete.Name = "lbDoNotDelete";
+            this.lbDoNotDelete.Size = new System.Drawing.Size(153, 13);
+            this.lbDoNotDelete.TabIndex = 1;
+            this.lbDoNotDelete.Text = "Do Not Delete (design) !!!";
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miSave_ForShortCutOnly,
+            this.miUndo_ForShortCutOnly});
+            this.menuStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.menuStrip1.Size = new System.Drawing.Size(185, 46);
+            this.menuStrip1.TabIndex = 0;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // miSave_ForShortCutOnly
+            // 
+            this.miSave_ForShortCutOnly.Image = global::Desene.Properties.Resources.save;
+            this.miSave_ForShortCutOnly.Name = "miSave_ForShortCutOnly";
+            this.miSave_ForShortCutOnly.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.miSave_ForShortCutOnly.Size = new System.Drawing.Size(178, 20);
+            this.miSave_ForShortCutOnly.Click += new System.EventHandler(this.btnSaveChanges_Click);
+            // 
+            // miUndo_ForShortCutOnly
+            // 
+            this.miUndo_ForShortCutOnly.Image = global::Desene.Properties.Resources.undo;
+            this.miUndo_ForShortCutOnly.Name = "miUndo_ForShortCutOnly";
+            this.miUndo_ForShortCutOnly.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.miUndo_ForShortCutOnly.Size = new System.Drawing.Size(178, 20);
+            this.miUndo_ForShortCutOnly.Click += new System.EventHandler(this.btnUndo_Click);
             // 
             // dgvMoviesList
             // 
@@ -225,6 +275,7 @@
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Left;
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnImportMovies,
             this.btnRefreshMovieData,
             this.btnLoadPoster,
             this.toolStripSeparator1,
@@ -308,54 +359,16 @@
             this.pMovieDetailsContainer.Size = new System.Drawing.Size(644, 724);
             this.pMovieDetailsContainer.TabIndex = 0;
             // 
-            // pDummyMenuForShortCutKeys
+            // btnImportMovies
             // 
-            this.pDummyMenuForShortCutKeys.Controls.Add(this.lbDoNotDelete);
-            this.pDummyMenuForShortCutKeys.Controls.Add(this.menuStrip1);
-            this.pDummyMenuForShortCutKeys.Location = new System.Drawing.Point(58, 295);
-            this.pDummyMenuForShortCutKeys.Name = "pDummyMenuForShortCutKeys";
-            this.pDummyMenuForShortCutKeys.Size = new System.Drawing.Size(185, 94);
-            this.pDummyMenuForShortCutKeys.TabIndex = 120;
-            // 
-            // lbDoNotDelete
-            // 
-            this.lbDoNotDelete.AutoSize = true;
-            this.lbDoNotDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbDoNotDelete.ForeColor = System.Drawing.Color.Red;
-            this.lbDoNotDelete.Location = new System.Drawing.Point(15, 57);
-            this.lbDoNotDelete.Name = "lbDoNotDelete";
-            this.lbDoNotDelete.Size = new System.Drawing.Size(153, 13);
-            this.lbDoNotDelete.TabIndex = 1;
-            this.lbDoNotDelete.Text = "Do Not Delete (design) !!!";
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miSave_ForShortCutOnly,
-            this.miUndo_ForShortCutOnly});
-            this.menuStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuStrip1.Size = new System.Drawing.Size(185, 46);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // miSave_ForShortCutOnly
-            // 
-            this.miSave_ForShortCutOnly.Image = global::Desene.Properties.Resources.save;
-            this.miSave_ForShortCutOnly.Name = "miSave_ForShortCutOnly";
-            this.miSave_ForShortCutOnly.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.miSave_ForShortCutOnly.Size = new System.Drawing.Size(178, 20);
-            this.miSave_ForShortCutOnly.Click += new System.EventHandler(this.btnSaveChanges_Click);
-            // 
-            // miUndo_ForShortCutOnly
-            // 
-            this.miUndo_ForShortCutOnly.Image = global::Desene.Properties.Resources.undo;
-            this.miUndo_ForShortCutOnly.Name = "miUndo_ForShortCutOnly";
-            this.miUndo_ForShortCutOnly.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.miUndo_ForShortCutOnly.Size = new System.Drawing.Size(178, 20);
-            this.miUndo_ForShortCutOnly.Click += new System.EventHandler(this.btnUndo_Click);
+            this.btnImportMovies.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnImportMovies.Image = global::Desene.Properties.Resources.import;
+            this.btnImportMovies.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnImportMovies.Name = "btnImportMovies";
+            this.btnImportMovies.Size = new System.Drawing.Size(21, 20);
+            this.btnImportMovies.Text = "Import movies data from files";
+            this.btnImportMovies.ToolTipText = "Import movies data from files";
+            this.btnImportMovies.Click += new System.EventHandler(this.btnImportMovies_Click);
             // 
             // tbFilter
             // 
@@ -383,6 +396,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.scMovies)).EndInit();
             this.scMovies.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.pDummyMenuForShortCutKeys.ResumeLayout(false);
+            this.pDummyMenuForShortCutKeys.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMoviesList)).EndInit();
             this.pFilters.ResumeLayout(false);
             this.pFilters.PerformLayout();
@@ -396,10 +413,6 @@
             this.panel3.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.pDummyMenuForShortCutKeys.ResumeLayout(false);
-            this.pDummyMenuForShortCutKeys.PerformLayout();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -431,5 +444,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem miSave_ForShortCutOnly;
         private System.Windows.Forms.ToolStripMenuItem miUndo_ForShortCutOnly;
+        private System.Windows.Forms.ToolStripButton btnImportMovies;
     }
 }

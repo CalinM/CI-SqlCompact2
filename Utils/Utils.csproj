@@ -68,6 +68,12 @@
     <Compile Include="FrmEpisodeInfoFromFiles.designer.cs">
       <DependentUpon>FrmEpisodeInfoFromFiles.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmMoviesInfoFromFiles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMoviesInfoFromFiles.Designer.cs">
+      <DependentUpon>FrmMoviesInfoFromFiles.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmMTDFromFile.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +120,9 @@
   <ItemGroup>
     <EmbeddedResource Include="FrmEpisodeInfoFromFiles.resx">
       <DependentUpon>FrmEpisodeInfoFromFiles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmMoviesInfoFromFiles.resx">
+      <DependentUpon>FrmMoviesInfoFromFiles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMTDFromFile.resx">
       <DependentUpon>FrmMTDFromFile.cs</DependentUpon>

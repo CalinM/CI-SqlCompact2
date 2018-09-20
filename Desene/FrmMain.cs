@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlServerCe;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Web.Script.Serialization;
 using System.Windows.Forms;
 
 using Common;
@@ -19,6 +24,7 @@ namespace Desene
     {
         public event EventHandler OnAddButtonPress;
         public event EventHandler OnDeleteButtonPress;
+        public event EventHandler OnCloseModule;
 
         public FrmMain()
         {
@@ -111,7 +117,11 @@ namespace Desene
                 }
                 else
                 {
+                    if (!(OnCloseModule is null))
+                        OnCloseModule(sender, e);
+
                     senderItem.Checked = false;
+
                     pMainContainer.Controls.Clear();
 
                     GetStatistics(false, false);
@@ -289,6 +299,58 @@ namespace Desene
 
         private void button4_Click(object sender, EventArgs e)
         {
+            try
+            {
+                var conn = new SqlCeConnection(Constants.ConnectionString);
+                var cmd = new SqlCeCommand("select Id, NlAudioSource, Notes from FileDetail WHERE NlAudioSource <> '' AND NlAudioSource <> 'fara Nl' ", conn);
+                var cmd2 = new SqlCeCommand("UPDATE AudioStream SET AudioSource = @AudioSource WHERE FileDetailId = @FileDetailId AND Language = 'nl' ", conn);
+                var cmd3 = new SqlCeCommand("UPDATE FileDetail SET Notes = @Notes WHERE FileDetailId = @FileDetailId ", conn);
+
+                conn.Open();
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var fileId = (int)reader["Id"];
+                        var nlSourceVal = reader["NlAudioSource"].ToString();
+                        var notes = reader["Notes"].ToString();
+
+                        if (nlSourceVal.IndexOf(",") >= 0)
+                            continue;
+
+                        var extraInfo = nlSourceVal.Replace("*", "").Replace(" (", "").Replace(")", "").Trim();
+                        var nlSource2 = Regex.Replace(reader["NlAudioSource"].ToString(), "[^*]", "");
+
+                        cmd2.Parameters.AddWithValue("@AudioSource", nlSource2.Length);
+                        cmd2.Parameters.AddWithValue("@FileDetailId", fileId);
+                        cmd2.ExecuteNonQuery();
+
+
+                        if (!string.IsNullOrEmpty(extraInfo))
+                        {
+                            extraInfo =
+                                string.Format("{0}{1}{1}AudioNl: {2}",
+                                    string.IsNullOrEmpty(notes) ? string.Empty : notes,
+                                    string.IsNullOrEmpty(notes) ? string.Empty : Environment.NewLine,
+                                    extraInfo
+                                );
+
+                            cmd3.Parameters.AddWithValue("@Notes", extraInfo);
+                            cmd3.Parameters.AddWithValue("@FileDetailId", fileId);
+                            cmd3.ExecuteNonQuery();
+                        }
+
+                        var x =1;
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            /*
             var filesPath = string.Empty;
 
             using (var folderBrowserDialog = new FolderBrowserDialog())
@@ -302,6 +364,7 @@ namespace Desene
 
             var shortMoviesData = DAL.GetMoviesGridData();
             var filesWithIssues = new List<string>();
+            */
             /*
 
             foreach (var filePath in Directory.GetFiles(filesPath))
@@ -530,6 +593,173 @@ namespace Desene
         {
             MsgBox.Show("desc", "title", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk,MessageBoxDefaultButton.Button1,
                 new Font("Times New Roman", 15, FontStyle.Bold) );
+        }
+
+        private void btnGenerateHtml_Click(object sender, EventArgs e)
+        {
+            var folderBrDlg = new FolderBrowserDialog { Description = "Select a folder to save the generated files:" };
+            folderBrDlg.SelectedPath = Settings.Default.LastPath;
+            if (folderBrDlg.ShowDialog() != DialogResult.OK)
+                return;
+
+            Settings.Default.LastCoverPath = Path.GetFullPath(folderBrDlg.SelectedPath);
+            Settings.Default.Save();
+
+            var imgPosterRedone = MessageBox.Show("Vrei sa recreez si posterele filmelor?", "Desene", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button3);
+            if (imgPosterRedone == DialogResult.Cancel)
+                return;
+
+            //if (!IsFolderEmpty(folderBrDlg.SelectedPath))
+            //{
+            //    MessageBox.Show("Folder-ul ales contine deja fisiere ", "Desene", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button3);
+            //}
+
+            var movies = DAL.GetMoviesForWeb();
+            var series = DAL.GetSeriesForWeb();
+            var episodes = DAL.GetEpisodesForWeb();
+            DAL.FillSeriesDataFromEpisodes(ref series, episodes);
+
+            #region movies details
+
+            var genDetails = DateTime.Now.ToString("yyyyMMdd");
+            var movieListDetails =
+                string.Format("Lista curenta contine: {0} filme FullHD, {1} filme HD, {2} filme SD si {3} filme in format nespecificat (aproximativ {4} GB)",
+                    movies.Count(f => f.Q == "FullHD"),
+                    movies.Count(f => f.Q == "HD"),
+                    movies.Count(f => f.Q == "SD"),
+                    movies.Count(f => f.Q == "NotSet"),
+                    //movies.Sum(s => s.DimensiuneInt) / 1024
+                    "?");
+
+            var jsS = new JavaScriptSerializer();
+
+            var detMovieInfo =
+                string.Format("var detaliiFilme = {0}; var detaliiGenerare = '{1}'; var detaliiListaF = '{2}'",
+                    jsS.Serialize(movies),
+                    genDetails,
+                    movieListDetails);
+
+            var seriesListDetails =
+                string.Format("Lista curenta contine: {0} seriale, combinate avand un numar de {1} episoade, (aproximativ {2} GB)",
+                    series.Count,
+                    episodes.Count,
+                    //episodes.Sum(s => s.DimensiuneInt) / 1024
+                    "?");
+
+            var detSerialeInfo =
+                string.Format("var detaliiSeriale = {0}; var detaliiEpisoade = {1}; var detaliiListaS = '{2}';",
+                    jsS.Serialize(series),
+                    jsS.Serialize(episodes),
+                    seriesListDetails);
+
+            #endregion
+
+            #region movie posters
+
+            if (imgPosterRedone == DialogResult.Yes)
+            {
+                var imgsPath = Path.Combine(folderBrDlg.SelectedPath, "Imgs");
+                if (!Directory.Exists(imgsPath))
+                    Directory.CreateDirectory(imgsPath);
+
+                foreach (var m in movies)
+                {
+                    if (m.Cover == null) continue;
+
+                    using (var ms = new MemoryStream(m.Cover))
+                    {
+                        var imgOgj = CreateThumbnail(250, 388, Image.FromStream(ms));
+                        //daca crapa creaza Imgs!!!
+                        imgOgj.Save(Path.Combine(folderBrDlg.SelectedPath, string.Format("Imgs\\poster-{0}.jpg", m.Id)), ImageFormat.Jpeg);
+                    }
+                }
+
+                imgsPath = Path.Combine(folderBrDlg.SelectedPath, "Imgs\\Seriale");
+                if (!Directory.Exists(imgsPath))
+                    Directory.CreateDirectory(imgsPath);
+
+                foreach (var s in series)
+                {
+                    if (s.Cover == null) continue;
+
+                    using (var ms = new MemoryStream(s.Cover))
+                    {
+                        var imgOgj = CreateThumbnail(250, 388, Image.FromStream(ms));
+                        //daca crapa creaza Imgs!!!
+                        imgOgj.Save(Path.Combine(folderBrDlg.SelectedPath, string.Format("Imgs\\Seriale\\poster-{0}.jpg", s.Id)), ImageFormat.Jpeg);
+                    }
+                }
+            }
+
+            #endregion
+
+            #region site images
+
+            var imagesPath = Path.Combine(folderBrDlg.SelectedPath, "Images");
+            if (!Directory.Exists(imagesPath))
+                Directory.CreateDirectory(imagesPath);
+
+            new Bitmap(Resources.pixel).Save(Path.Combine(folderBrDlg.SelectedPath, "Images\\pixel.gif"), ImageFormat.Gif);
+            new Bitmap(Resources.info).Save(Path.Combine(folderBrDlg.SelectedPath, "Images\\info.png"), ImageFormat.Png);
+            new Bitmap(Resources.msg).Save(Path.Combine(folderBrDlg.SelectedPath, "Images\\msg.png"), ImageFormat.Png);
+            new Bitmap(Resources.arrowRight12).Save(Path.Combine(folderBrDlg.SelectedPath, "Images\\arrowRight12.png"), ImageFormat.Png);
+            new Bitmap(Resources.arrowDown12).Save(Path.Combine(folderBrDlg.SelectedPath, "Images\\arrowDown12.png"), ImageFormat.Png);
+            new Bitmap(Resources.search).Save(Path.Combine(folderBrDlg.SelectedPath, "Images\\search.png"), ImageFormat.Png);
+
+            #endregion
+
+            var genUniqueId = string.Empty;//DateTime.Now.ToString("yyyyMMddhhmmss");
+
+            #region site scripts
+
+            var scriptPath = Path.Combine(folderBrDlg.SelectedPath, "Scripts");
+            if (!Directory.Exists(scriptPath))
+                Directory.CreateDirectory(scriptPath);
+
+            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, $"Scripts\\detaliiFilme_{genUniqueId}.js"), detMovieInfo);
+            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, $"Scripts\\detaliiSeriale_{genUniqueId}.js"), detSerialeInfo);
+            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Scripts\\jquery-2.2.4.min.js"), Resources.jquery_2_2_4_min);
+            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Scripts\\desene.js"), Resources.deseneJS);
+            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Scripts\\jquery.lazy.min.js"), Resources.jquery_lazy_min);
+            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Scripts\\jquery.slimscroll.min.js"), Resources.jquery_slimscroll_min);
+            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Scripts\\jsgrid.min.js"), Resources.jsgrid_minJS);
+            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Scripts\\YouTubePopUp.jquery.js"), Resources.YouTubePopUp_jquery);
+
+            #endregion
+
+
+            #region site styles
+
+            var stylesPath = Path.Combine(folderBrDlg.SelectedPath, "Styles");
+            if (!Directory.Exists(stylesPath))
+                Directory.CreateDirectory(stylesPath);
+
+            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Styles\\desene.css"), Resources.deseneCSS);
+            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Styles\\jsgrid-theme.min.css"), Resources.jsgrid_theme_min);
+            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Styles\\jsgrid.min.css"), Resources.jsgrid_minCSS);
+            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Styles\\sections.css"), Resources.sections);
+            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Styles\\YouTubePopUp.css"), Resources.YouTubePopUp);
+
+            #endregion
+
+            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "index.html"), Resources.index.Replace("##", genUniqueId));
+
+            MessageBox.Show("Done!");
+        }
+
+        private Image CreateThumbnail(int width, int height, Image source)
+        {
+            var newImage = new Bitmap(width, height);
+
+            using (Graphics gr = Graphics.FromImage(newImage))
+            {
+                gr.SmoothingMode = SmoothingMode.HighQuality;
+                gr.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                gr.DrawImage(source, new Rectangle(0, 0, width, height));
+            }
+
+            return newImage;
         }
     }
 }

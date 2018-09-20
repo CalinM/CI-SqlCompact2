@@ -14,6 +14,47 @@ namespace Utils
 {
     public static class FilesMetaData
     {
+        //MOVIES & EPISODES -> main import method (primary entry point)
+        //using FilesImportParams as a DTO to pass GenerateThumbnail and ThumbnailImageSecond values
+        public static OperationResult GetFilesTechnicalDetails(string[] files, FilesImportParams fileImportParams)
+        {
+            var result = new OperationResult();
+
+            var fromProgressIndicator = new FrmProgressIndicator("Retrieving files/movies technical details", "Get files technical details", files.Length);
+            fromProgressIndicator.Argument = new KeyValuePair<FilesImportParams, string[]>(fileImportParams, files);
+
+            if (fileImportParams.ParentId != null)
+            {
+                fromProgressIndicator.DoWork += formPI_DoWork_RetrieveFilesInfo;        //episodes
+            }
+            else
+            {
+                fromProgressIndicator.DoWork += formPI_DoWork_RetrieveFilesInfo2;       //movies
+            }
+
+
+            switch (fromProgressIndicator.ShowDialog())
+            {
+                case DialogResult.Cancel:
+                    result.Success = false;
+                    result.CustomErrorMessage = "Operation has been canceled";
+                    break;
+
+                case DialogResult.Abort:
+                    result.Success = false;
+                    result.CustomErrorMessage = fromProgressIndicator.Result.Error.Message;
+                    break;
+
+                case DialogResult.OK:
+                    result.AdditionalDataReturn = fromProgressIndicator.Result.Result;
+                    break;
+            }
+
+            return result;
+        }
+
+
+        //MOVIES & EPISODES -> Method used to retrieve the details from a file
         public static OperationResult GetFileTechnicalDetails(string filePath, MediaInfo mi = null)
         {
             var result = new OperationResult();
@@ -114,105 +155,8 @@ namespace Utils
 
             return result;
         }
-        //using FilesImportParams as a DTO to pass GenerateThumbnail and ThumbnailImageSecond values
 
-        public static OperationResult GetFilesTechnicalDetails(string[] files, FilesImportParams fileImportParams)
-        {
-            var result = new OperationResult();
-
-            var fromProgressIndicator = new FrmProgressIndicator("Retrieving files/movies technical details", "Get files technical details", files.Length);
-            fromProgressIndicator.Argument = new KeyValuePair<FilesImportParams, string[]>(fileImportParams, files);
-            fromProgressIndicator.DoWork += formPI_DoWork_RetrieveFilesInfo;
-
-            switch (fromProgressIndicator.ShowDialog())
-            {
-                case DialogResult.Cancel:
-                    result.Success = false;
-                    result.CustomErrorMessage = "Operation has been canceled";
-                    break;
-
-                case DialogResult.Abort:
-                    result.Success = false;
-                    result.CustomErrorMessage = fromProgressIndicator.Result.Error.Message;
-                    break;
-
-                case DialogResult.OK:
-                    result.AdditionalDataReturn = fromProgressIndicator.Result.Result;
-                    break;
-            }
-
-            return result;
-        }
-
-        private static void formPI_DoWork_RetrieveFilesInfo(FrmProgressIndicator sender, DoWorkEventArgs e)
-        {
-            var arguments = (KeyValuePair<FilesImportParams, string[]>)e.Argument;
-
-            var mi = new MediaInfo();
-            FFMpegConverter ffMpegConverter = null;
-
-            if (arguments.Key.GenerateThumbnail)
-            {
-                ffMpegConverter = new FFMpegConverter();
-            }
-
-
-            var movieTechnicalDetailsBgw = new List<MovieTechnicalDetails>();
-            var technicalDetailsImportErrorBgw = new List<TechnicalDetailsImportError>();
-
-            var i = 0;
-            foreach (var filePath in arguments.Value)
-            {
-                if (sender.CancellationPending)
-                {
-                    e.Cancel = true;
-                    return;
-                }
-
-                var opRes = GetFileTechnicalDetails(filePath, mi);
-
-                if (opRes.Success)
-                {
-                    var mtdObj = (MovieTechnicalDetails)opRes.AdditionalDataReturn;
-
-                    //if (ffMpegConverter != null && mtdObj.DurationAsInt > 0)
-                    //{
-                    //    var durationInSec =  mtdObj.DurationAsInt / 1000;
-
-                    //    for (var j = 1; j <= 3; j++)
-                    //    {
-                    //        var position = (durationInSec * (25 * j)) / 100; //%
-
-                    //        using (var ms = new MemoryStream())
-                    //        {
-                    //            ffMpegConverter.GetVideoThumbnail(filePath, ms, position);
-                    //            mtdObj.MovieStills.Add(ms.ToArray());
-                    //        }
-                    //    }
-                    //}
-
-                    GetMovieStills(mtdObj, ffMpegConverter);
-
-                    movieTechnicalDetailsBgw.Add(mtdObj);
-                }
-
-                else
-                    technicalDetailsImportErrorBgw.Add(
-                        new TechnicalDetailsImportError
-                            {
-                                FilePath = filePath,
-                                ErrorMesage = opRes.CustomErrorMessage
-                            });
-
-                i++;
-
-                sender.SetProgress(i, Path.GetFileName(filePath));
-            }
-
-            e.Result = new KeyValuePair<List<TechnicalDetailsImportError>, List<MovieTechnicalDetails>>(
-                technicalDetailsImportErrorBgw, movieTechnicalDetailsBgw);
-        }
-
+        //MOVIES & EPISODES -> Method used to extract the image frames from the processed/specified file
         public static OperationResult GetMovieStills(MovieTechnicalDetails mtd, FFMpegConverter ffMpegConverter)
         {
             var result = new OperationResult();
@@ -246,6 +190,134 @@ namespace Utils
             return result;
         }
 
+
+        //MOVIES -> using a BGW, the files details are determined (files obtained using the user's parameters ~ path, extension) using the "GetFileTechnicalDetails"
+        //method above. Due to possible large amount of data, the files are IMMEDIATELY saved into the database to avoid processed data loss
+        private static void formPI_DoWork_RetrieveFilesInfo2(FrmProgressIndicator sender, DoWorkEventArgs e)
+        {
+            var arguments = (KeyValuePair<FilesImportParams, string[]>)e.Argument;
+
+            var mi = new MediaInfo();
+            FFMpegConverter ffMpegConverter = null;
+
+            if (arguments.Key.GenerateThumbnail)
+            {
+                ffMpegConverter = new FFMpegConverter();
+            }
+
+            var technicalDetailsImportErrorBgw = new List<TechnicalDetailsImportError>();
+
+            var i = 0;
+            foreach (var filePath in arguments.Value)
+            {
+                if (sender.CancellationPending)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+
+                var opRes = GetFileTechnicalDetails(filePath, mi);
+
+                if (opRes.Success)
+                {
+                    var mtdObj = (MovieTechnicalDetails)opRes.AdditionalDataReturn;
+
+                    var opRes2 = GetMovieStills(mtdObj, ffMpegConverter);
+
+                    if (!opRes2.Success)
+                    {
+                        technicalDetailsImportErrorBgw.Add(
+                            new TechnicalDetailsImportError
+                                {
+                                    FilePath = filePath,
+                                    ErrorMesage = opRes2.CustomErrorMessage
+                                });
+                    }
+
+                    opRes2 = Desene.DAL.InsertMTD2(mtdObj, arguments.Key);
+
+                    if (!opRes2.Success)
+                    {
+                        technicalDetailsImportErrorBgw.Add(
+                            new TechnicalDetailsImportError
+                            {
+                                FilePath = filePath,
+                                ErrorMesage = opRes2.CustomErrorMessage
+                            });
+                    }
+                }
+                else
+                    technicalDetailsImportErrorBgw.Add(
+                        new TechnicalDetailsImportError
+                            {
+                                FilePath = filePath,
+                                ErrorMesage = opRes.CustomErrorMessage
+                            });
+
+                i++;
+
+                sender.SetProgress(i, Path.GetFileName(filePath));
+            }
+
+            e.Result = technicalDetailsImportErrorBgw;
+        }
+
+
+        //EPISODES -> using a BGW, the files details are determined (files obtained using the user's parameters ~ path, extension) using the "GetFileTechnicalDetails"
+        //method above and stored into a list. The actual save is done using another BGW, inside the "SaveImportedEpisodes" method
+        private static void formPI_DoWork_RetrieveFilesInfo(FrmProgressIndicator sender, DoWorkEventArgs e)
+        {
+            var arguments = (KeyValuePair<FilesImportParams, string[]>)e.Argument;
+
+            var mi = new MediaInfo();
+            FFMpegConverter ffMpegConverter = null;
+
+            if (arguments.Key.GenerateThumbnail)
+            {
+                ffMpegConverter = new FFMpegConverter();
+            }
+
+
+            var movieTechnicalDetailsBgw = new List<MovieTechnicalDetails>();
+            var technicalDetailsImportErrorBgw = new List<TechnicalDetailsImportError>();
+
+            var i = 0;
+            foreach (var filePath in arguments.Value)
+            {
+                if (sender.CancellationPending)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+
+                var opRes = GetFileTechnicalDetails(filePath, mi);
+
+                if (opRes.Success)
+                {
+                    var mtdObj = (MovieTechnicalDetails)opRes.AdditionalDataReturn;
+
+                    GetMovieStills(mtdObj, ffMpegConverter);
+
+                    movieTechnicalDetailsBgw.Add(mtdObj);
+                }
+                else
+                    technicalDetailsImportErrorBgw.Add(
+                        new TechnicalDetailsImportError
+                            {
+                                FilePath = filePath,
+                                ErrorMesage = opRes.CustomErrorMessage
+                            });
+
+                i++;
+
+                sender.SetProgress(i, Path.GetFileName(filePath));
+            }
+
+            e.Result = new KeyValuePair<List<TechnicalDetailsImportError>, List<MovieTechnicalDetails>>(
+                technicalDetailsImportErrorBgw, movieTechnicalDetailsBgw);
+        }
+
+        //EPISODES -> Called after the FilesTechnicalDetails determination, it initialize the BGW used to SAVE the cached data
         public static OperationResult SaveImportedEpisodes(KeyValuePair<FilesImportParams, List<MovieTechnicalDetails>> importParamsAndDetails)
         {
             var result = new OperationResult();
@@ -274,6 +346,7 @@ namespace Utils
             return result;
         }
 
+        //EPISODES -> Saving the cached/determined files details
         private static void formPI_DoWork_SaveTechnicalDetails(FrmProgressIndicator sender, DoWorkEventArgs e)
         {
             var importParamsAndDetails = (KeyValuePair<FilesImportParams, List<MovieTechnicalDetails>>)e.Argument;

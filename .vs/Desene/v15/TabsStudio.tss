@@ -2,15 +2,7 @@
 <ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ArrayOfArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\FrmMain.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\FrmMain.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\Properties\AssemblyInfo.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\Properties\AssemblyInfo.tt</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>Desene</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\Resources\desene.js</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>

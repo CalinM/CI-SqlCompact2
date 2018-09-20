@@ -14,13 +14,15 @@ using Desene.Properties;
 using Utils;
 
 using Helpers = Common.Helpers;
+using System.Collections.Generic;
+
+using Common;
 
 namespace Desene
 {
     public partial class ucMovies : UserControl
     {
         private FrmMain _parent;
-        private BindingList<MovieShortInfo> _moviesData;
         private bool _preventEvent;
         private MovieShortInfo _previousSelectedMsi;
         private Timer _genericTimer;
@@ -33,6 +35,7 @@ namespace Desene
             _parent = parent;
             _parent.OnAddButtonPress += AddMovie;
             _parent.OnDeleteButtonPress += DeleteMovie;
+            _parent.OnCloseModule += CloseModule;
 
             Helpers.GenericSetButtonsState2 = SetSaveButtonState;
             pDummyMenuForShortCutKeys.SendToBack();
@@ -43,11 +46,20 @@ namespace Desene
 
         private void ucMovies_Load(object sender, EventArgs e)
         {
-            _moviesData = DAL.GetMoviesGridData();
+                        _preventEvent = true;
+            ReloadData();
+                        _preventEvent = false;
+        }
+
+        private void ReloadData()
+        {
+            DAL.MoviesData = DAL.GetMoviesGridData();
+            DAL.CachedMoviesStills = new List<CachedMovieStills>();
 
             RefreshGrid();
 
-            _previousSelectedMsi = _moviesData.FirstOrDefault();
+            _previousSelectedMsi = DAL.MoviesData.FirstOrDefault();
+
         }
 
         private void LoadSelectionDetails(int scrollAt = -1)
@@ -75,6 +87,8 @@ namespace Desene
                 else
                 {
                     var ucMovieInfo = new ucMovieInfo { Dock = DockStyle.Top };
+                    ucMovieInfo.RefreshControls(DAL.CurrentMTD);
+
                     pMovieDetailsContainer.Controls.Add(ucMovieInfo);
                     ucMovieInfo.BringToFront();
                 }
@@ -130,7 +144,7 @@ namespace Desene
 
         private void FocusCurrentMovieInGrid(MovieShortInfo msi)
         {
-            var index = _moviesData.IndexOf(msi);
+            var index = DAL.MoviesData.IndexOf(msi);
 
             if (index >= 0)
             {
@@ -142,7 +156,7 @@ namespace Desene
 
         private void RefreshGrid()
         {
-            dgvMoviesList.DataSource = _moviesData;
+            dgvMoviesList.DataSource = DAL.MoviesData;
             dgvMoviesList.Refresh();
         }
 
@@ -170,9 +184,9 @@ namespace Desene
             _lookupStartingWith += e.KeyChar;
             var index = -1;
 
-            var movieObj = _moviesData.FirstOrDefault(f => f.FileName.ToLower().StartsWith(_lookupStartingWith));
+            var movieObj = DAL.MoviesData.FirstOrDefault(f => f.FileName.ToLower().StartsWith(_lookupStartingWith));
             if (movieObj != null)
-                index = _moviesData.IndexOf(movieObj);
+                index = DAL.MoviesData.IndexOf(movieObj);
 
             if (index >= 0)
             {
@@ -219,11 +233,11 @@ namespace Desene
 
             if (!string.IsNullOrEmpty(tbFilter.Text))
             {
-                dgvMoviesList.DataSource = _moviesData.Where(x => x.FileName.ToLower().Contains(tbFilter.Text.ToLower())).ToList();
+                dgvMoviesList.DataSource = DAL.MoviesData.Where(x => x.FileName.ToLower().Contains(tbFilter.Text.ToLower())).ToList();
             }
             else
             {
-                dgvMoviesList.DataSource = _moviesData;
+                dgvMoviesList.DataSource = DAL.MoviesData;
             }
 
             dgvMoviesList.Invalidate();
@@ -242,7 +256,7 @@ namespace Desene
                 _preventEvent = false;
             }
 
-            dgvMoviesList.DataSource = _moviesData;
+            dgvMoviesList.DataSource = DAL.MoviesData;
             dgvMoviesList.Invalidate();
         }
 
@@ -275,8 +289,8 @@ namespace Desene
                 HasPoster = DAL.CurrentMTD.Poster != null
             };
 
-            _moviesData.Add(msi);
-            _moviesData = new BindingList<MovieShortInfo>(_moviesData.OrderBy(o => o.FileName).ToList());
+            DAL.MoviesData.Add(msi);
+            DAL.MoviesData = new BindingList<MovieShortInfo>(DAL.MoviesData.OrderBy(o => o.FileName).ToList());
             RefreshGrid();
 
             FocusCurrentMovieInGrid(msi);
@@ -284,7 +298,7 @@ namespace Desene
 
         private void DeleteMovie(object sender, EventArgs e)
         {
-            if (_moviesData.Count == 0) return;
+            if (DAL.MoviesData.Count == 0) return;
 
             if (MsgBox.Show(
                     string.Format("Are you sure you want to remove{0}{0}{1}{0}{0}from your collection?",
@@ -304,21 +318,26 @@ namespace Desene
             {
                 Helpers.UnsavedChanges = false; //this setter takes care of the buttons states!
 
-                var index = _moviesData.IndexOf(_previousSelectedMsi);
-                var newIndex = index == _moviesData.Count-1
+                var index = DAL.MoviesData.IndexOf(_previousSelectedMsi);
+                var newIndex = index == DAL.MoviesData.Count-1
                     ? index - 1
                     : index;
 
-                _moviesData.Remove(_previousSelectedMsi);
+                DAL.MoviesData.Remove(_previousSelectedMsi);
 
                 RefreshGrid();
 
-                if (_moviesData.Count > 0)
+                if (DAL.MoviesData.Count > 0)
                 {
-                    _previousSelectedMsi = _moviesData[newIndex];
+                    _previousSelectedMsi = DAL.MoviesData[newIndex];
                     FocusCurrentMovieInGrid(_previousSelectedMsi);
                 }
             }
+        }
+
+        private void CloseModule(object sender, EventArgs e)
+        {
+            _preventEvent = true;
         }
 
         private void btnLoadPoster_Click(object sender, EventArgs e)
@@ -336,11 +355,11 @@ namespace Desene
 
                 openFileDialog.Title = string.Format("Choose a poster for series '{0}'", selectedMovieData.FileName);
                 openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*";
-                openFileDialog.InitialDirectory = Settings.Default.LastPath;
+                openFileDialog.InitialDirectory = Settings.Default.LastCoverPath;
 
                 if (openFileDialog.ShowDialog() != DialogResult.OK) return;
 
-                Settings.Default.LastPath = Path.GetFullPath(openFileDialog.FileName);
+                Settings.Default.LastCoverPath = Path.GetFullPath(openFileDialog.FileName);
                 Settings.Default.Save();
 
 
@@ -356,12 +375,52 @@ namespace Desene
             }
         }
 
+        private void btnImportMovies_Click(object sender, EventArgs e)
+        {
+            var iParams = new FrmMoviesInfoFromFiles { Owner = _parent };
+
+            if (iParams.ShowDialog() != DialogResult.OK)
+                return;
+
+            var files = Directory.GetFiles(iParams.MoviesImportParams.Location, iParams.MoviesImportParams.FilesExtension);
+
+            if (files.Length == 0)
+            {
+                MsgBox.Show("There are no files with the specified extension in the selected folder!", "Error", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            if (MsgBox.Show(string.Format("Are you sure you want to import {0} Movies?", files.Length), "Confirm",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                return;
+
+            var opRes = FilesMetaData.GetFilesTechnicalDetails(files, iParams.MoviesImportParams);
+
+            if (!opRes.Success)
+            {
+                MsgBox.Show(opRes.CustomErrorMessage, "Import", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var importErrors = (List<TechnicalDetailsImportError>)opRes.AdditionalDataReturn;
+
+            if (importErrors.Any())
+            {
+                var frmIE = new FrmImportErrors(importErrors, true);
+                frmIE.ShowDialog();
+            }
+
+            ReloadData();
+        }
+
         private void btnRefreshMovieData_Click(object sender, EventArgs e)
         {
             //if (MsgBox.Show(
             //        "The previous movie details and all changes made by hand will be lost. Are you sure you want to continue?",
             //        "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             //    return;
+
             if (Helpers.UnsavedChanges && !SaveChanges())
                 return;
 
@@ -393,6 +452,7 @@ namespace Desene
                 rParam.mtd.Year = DAL.CurrentMTD.Year;
                 rParam.mtd.Theme = DAL.CurrentMTD.Theme;
                 rParam.mtd.Notes = DAL.CurrentMTD.Notes;
+                rParam.mtd.Trailer = DAL.CurrentMTD.Trailer;
                 rParam.mtd.StreamLink = DAL.CurrentMTD.StreamLink;
                 rParam.mtd.Poster = DAL.CurrentMTD.Poster;
 
@@ -414,8 +474,8 @@ namespace Desene
                     _preventEvent = true;
 
                     DAL.CurrentMTD = rParam.mtd;
-                    var movieObj = _moviesData.FirstOrDefault(m => m.Id == _previousSelectedMsi.Id);
-                    _moviesData.Remove(movieObj);
+                    var movieObj = DAL.MoviesData.FirstOrDefault(m => m.Id == _previousSelectedMsi.Id);
+                    DAL.MoviesData.Remove(movieObj);
 
                     var msi = new MovieShortInfo
                     {
@@ -425,8 +485,8 @@ namespace Desene
                         HasPoster = DAL.CurrentMTD.Poster != null
                     };
 
-                    _moviesData.Add(msi);
-                    _moviesData = new BindingList<MovieShortInfo>(_moviesData.OrderBy(o => o.FileName).ToList());
+                    DAL.MoviesData.Add(msi);
+                    DAL.MoviesData = new BindingList<MovieShortInfo>(DAL.MoviesData.OrderBy(o => o.FileName).ToList());
                     RefreshGrid();
 
                     _previousSelectedMsi = msi; //not needed?
@@ -528,8 +588,7 @@ namespace Desene
 
         private void scMovies_Resize(object sender, EventArgs e)
         {
-            scMovies.Panel2MinSize = scMovies.Width - scMovies.SplitterWidth - 300;
+            //scMovies.Panel2MinSize = scMovies.Width - scMovies.SplitterWidth - 300;
         }
-
     }
 }

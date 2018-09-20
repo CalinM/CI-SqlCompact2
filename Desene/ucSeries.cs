@@ -216,7 +216,7 @@ namespace Desene
             btnImportEpisodes.Enabled = sesi != null && !sesi.IsEpisode;
             btnLoadPoster.Enabled = btnImportEpisodes.Enabled;
 
-            btnRefreshEpisodeData.Enabled = sesi != null && sesi.IsEpisode;
+            btnRefreshEpisodeData.Enabled = sesi != null && !sesi.IsSeries;
             btnDeleteSeasonEpisode.Enabled = sesi != null && !sesi.IsSeries;
         }
 
@@ -342,7 +342,7 @@ namespace Desene
         {
             var sesi = (SeriesEpisodesShortInfo)tvSeries.SelectedNode.Tag;
 
-            var iParams = new FrmEpisodeInfoFromFiles(sesi.Id) { Owner = _parent };
+            var iParams = new FrmEpisodeInfoFromFiles(sesi.Id, sesi.IsSeason ? sesi.Season : (int?)null) { Owner = _parent };
 
             if (iParams.ShowDialog() != DialogResult.OK)
                 return;
@@ -397,6 +397,13 @@ namespace Desene
 
         private void btnRefreshEpisodeData_Click(object sender, EventArgs e)
         {
+            var sesi = (SeriesEpisodesShortInfo)_prevSelectedNode.Tag;
+            if (!sesi.IsEpisode)
+            {
+                MsgBox.Show("There are no episode related information that need to be preserved, so please remove the season and re-import.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (!Utils.Helpers.ConfirmDiscardChanges()) return;
 
             using (var rParam = new FrmMTDFromFile(false, true) { Owner = _parent })
@@ -433,11 +440,11 @@ namespace Desene
 
                 openFileDialog.Title = string.Format("Choose a poster for series '{0}'", selectedNodeData.FileName);
                 openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*";
-                openFileDialog.InitialDirectory = Settings.Default.LastPath;
+                openFileDialog.InitialDirectory = Settings.Default.LastCoverPath;
 
                 if (openFileDialog.ShowDialog() != DialogResult.OK) return;
 
-                Settings.Default.LastPath = Path.GetFullPath(openFileDialog.FileName);
+                Settings.Default.LastCoverPath = Path.GetFullPath(openFileDialog.FileName);
                 Settings.Default.Save();
 
 
@@ -576,6 +583,16 @@ namespace Desene
             {
                 CancelFilter();
             }
+        }
+
+        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void btnImportEpisodes_DisplayStyleChanged(object sender, EventArgs e)
+        {
+
         }
 
         #endregion

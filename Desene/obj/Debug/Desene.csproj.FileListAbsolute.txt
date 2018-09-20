@@ -1,10 +1,8 @@
-C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Desene.exe.config
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Desene.exe
-C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Desene.pdb
-C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Aga.Controls.dll
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Common.dll
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\DAL.dll
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Utils.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Aga.Controls.dll
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\NReco.VideoConverter.dll
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Aga.Controls.pdb
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Common.pdb
@@ -27,6 +25,8 @@ C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.ucMovies.resources
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.ucSeries.resources
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.csproj.GenerateResource.cache
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.csproj.CoreCompileInputs.cache
-C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.csproj.CopyComplete
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.exe
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.pdb
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Desene.exe.config
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Desene.pdb
+C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.csproj.CopyComplete

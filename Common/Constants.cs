@@ -30,8 +30,10 @@
                     DescriptionLink nvarchar(255) NULL,--
                     Notes ntext NULL,--
                     Poster image NULL,  -- for movies and series!!!
+                    Trailer nvarchar(255),
                     AudioLanguages nvarchar(255),
-                    SubtitleLanguages nvarchar(255))",
+                    SubtitleLanguages nvarchar(255),
+                    NlAudioSource nvarchar(255) )",
 
                 "ALTER TABLE FileDetail ADD CONSTRAINT PK_FileDetail PRIMARY KEY (Id)",
 
@@ -84,7 +86,8 @@
                     Video_Delay nvarchar(50) NULL,
                     StreamSize nvarchar(50) NULL,
                     TitleEmbedded nvarchar(255) NULL,
-                    Language nvarchar(50) NULL)",
+                    Language nvarchar(50) NULL,
+                    AudioSource int NOT NULL DEFAULT(0) )",
 
                 @"ALTER TABLE AudioStream ADD CONSTRAINT PK_AudioStream PRIMARY KEY (Id)",
 

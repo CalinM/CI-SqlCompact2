@@ -58,5 +58,17 @@ namespace Desene.Properties {
                 this["WindowSize"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastCoverPath {
+            get {
+                return ((string)(this["LastCoverPath"]));
+            }
+            set {
+                this["LastCoverPath"] = value;
+            }
+        }
     }
 }

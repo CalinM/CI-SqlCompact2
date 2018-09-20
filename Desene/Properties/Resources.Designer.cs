@@ -73,6 +73,26 @@ namespace Desene.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap arrowDown12 {
+            get {
+                object obj = ResourceManager.GetObject("arrowDown12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap arrowRight12 {
+            get {
+                object obj = ResourceManager.GetObject("arrowRight12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap cancel {
             get {
                 object obj = ResourceManager.GetObject("cancel", resourceCulture);
@@ -91,6 +111,69 @@ namespace Desene.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 
+        ///html, body {
+        ///    padding: 0;
+        ///    margin: 0;
+        ///    height: 100%;
+        ///    width: 100%;
+        ///}
+        ///
+        ///.master-toolbar {
+        ///    display: table;
+        ///    width: 100%;
+        ///    background-color: rgba(91,21,71,1);
+        ///    height: 75px;
+        ///}
+        ///
+        ///.master-toolbar-row {
+        ///    display: table-row;
+        ///}
+        ///
+        ///.vertical-menu-button-wrapper {
+        ///    display: table-cell;
+        ///    width: 75px;
+        ///    vertical-align: middle;
+        ///    text-align: center;
+        ///}
+        ///
+        ///.menu-button {
+        ///    font-size: 36px;
+        ///    width: 30px;
+        ///    height: 0.125em;
+        ///    border-top: 0.375em double  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string deseneCSS {
+            get {
+                return ResourceManager.GetString("deseneCSS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to $(document).ready(function () {
+        ///    DisplayHome();
+        ///    ResizeMoviesSection();
+        ///
+        ///    $(&quot;.menu-button&quot;).on(&quot;click&quot;, function () {
+        ///        $(&quot;#sideNav&quot;).css(&quot;width&quot;, &quot;250px&quot;);
+        ///        $(&quot;.sideNav-overlay&quot;).css(&quot;display&quot;, &quot;block&quot;);
+        ///
+        ///        if ($(&quot;#sections-wrapper&quot;).find(&quot;.aboutPage-warning-title&quot;).length == 0) {
+        ///            $(&quot;#sections-wrapper&quot;).addClass(&quot;sideNav-overlay-content-transform&quot;)
+        ///        }
+        ///    });
+        ///
+        ///	var displaySearchResult = function(s) {
+        ///        if (searchResultTimer != null) {
+        ///     [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string deseneJS {
+            get {
+                return ResourceManager.GetString("deseneJS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap exit {
@@ -103,9 +186,29 @@ namespace Desene.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap FullHD_logo {
+            get {
+                object obj = ResourceManager.GetObject("FullHD_logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap generateHtml {
             get {
                 object obj = ResourceManager.GetObject("generateHtml", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap HD_logo {
+            get {
+                object obj = ResourceManager.GetObject("HD_logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -126,6 +229,134 @@ namespace Desene.Properties {
         internal static System.Drawing.Bitmap import {
             get {
                 object obj = ResourceManager.GetObject("import", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+        ///
+        ///&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css?family=Mouse+Memoirs&quot;&gt;
+        ///&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300&quot;&gt;
+        ///&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css?family=Open+Sans&quot;&gt;
+        ///
+        ///&lt;link type=&quot;text/css&quot; rel=&quot;stylesheet&quot; href=&quot;Styles/desene.css&quot; /&gt;
+        ///&lt;link type=&quot;text/css&quot; rel=&quot;stylesheet&quot; href=&quot;Styles/sections.css&quot; /&gt;
+        ///&lt;link type=&quot;text/css&quot; rel=&quot;styleshe [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string index {
+            get {
+                return ResourceManager.GetString("index", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap info {
+            get {
+                object obj = ResourceManager.GetObject("info", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /*! jQuery v2.2.4 | (c) jQuery Foundation | jquery.org/license */
+        ///!function(a,b){&quot;object&quot;==typeof module&amp;&amp;&quot;object&quot;==typeof module.exports?module.exports=a.document?b(a,!0):function(a){if(!a.document)throw new Error(&quot;jQuery requires a window with a document&quot;);return b(a)}:b(a)}(&quot;undefined&quot;!=typeof window?window:this,function(a,b){var c=[],d=a.document,e=c.slice,f=c.concat,g=c.push,h=c.indexOf,i={},j=i.toString,k=i.hasOwnProperty,l={},m=&quot;2.2.4&quot;,n=function(a,b){return new n.fn.init(a,b)},o=/^[\s\uFEFF\xA0]+|[\ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string jquery_2_2_4_min {
+            get {
+                return ResourceManager.GetString("jquery_2_2_4_min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /*! jQuery &amp; Zepto Lazy v1.7.5 - http://jquery.eisbehr.de/lazy - MIT&amp;GPL-2.0 license - Copyright 2012-2017 Daniel &apos;Eisbehr&apos; Kern */
+        ///!function(t,e){&quot;use strict&quot;;function r(r,a,i,l,u){function f(){L=t.devicePixelRatio&gt;1,c(i),a.delay&gt;=0&amp;&amp;setTimeout(function(){s(!0)},a.delay),(a.delay&lt;0||a.combined)&amp;&amp;(l.e=v(a.throttle,function(t){&quot;resize&quot;===t.type&amp;&amp;(w=B=-1),s(t.all)}),l.a=function(t){c(t),i.push.apply(i,t)},l.g=function(){return i=n(i).filter(function(){return!n(this).data(a.loadedName)})},l.f=function(t){for(v [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string jquery_lazy_min {
+            get {
+                return ResourceManager.GetString("jquery_lazy_min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /*! Copyright (c) 2011 Piotr Rochala (http://rocha.la)
+        /// * Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
+        /// * and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
+        /// *
+        /// * Version: 1.3.8
+        /// *
+        /// */
+        ///(function(e){e.fn.extend({slimScroll:function(f){var a=e.extend({width:&quot;auto&quot;,height:&quot;250px&quot;,size:&quot;7px&quot;,color:&quot;#000&quot;,position:&quot;right&quot;,distance:&quot;1px&quot;,start:&quot;top&quot;,opacity:.4,alwaysVisible:!1,disableFadeOut:!1,railVisible:!1,railColor:&quot;#333&quot;,railOpacity:.2,railDraggable:!0, [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string jquery_slimscroll_min {
+            get {
+                return ResourceManager.GetString("jquery_slimscroll_min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /*
+        /// * jsGrid v1.5.3 (http://js-grid.com)
+        /// * (c) 2016 Artem Tabalin
+        /// * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
+        /// */
+        ///
+        ///.jsgrid{position:relative;overflow:hidden;font-size:1em}.jsgrid,.jsgrid *,.jsgrid :after,.jsgrid :before{box-sizing:border-box}.jsgrid input,.jsgrid select,.jsgrid textarea{font-size:1em}.jsgrid-grid-header{overflow-x:hidden;overflow-y:scroll;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;-o-user-select:none;user- [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string jsgrid_minCSS {
+            get {
+                return ResourceManager.GetString("jsgrid_minCSS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /*
+        /// * jsGrid v1.5.3 (http://js-grid.com)
+        /// * (c) 2016 Artem Tabalin
+        /// * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
+        /// */
+        ///
+        ///!function(a,b,c){function d(a,c){var d=b(a);d.data(f,this),this._container=d,this.data=[],this.fields=[],this._editingRow=null,this._sortField=null,this._sortOrder=i,this._firstDisplayingPage=1,this._init(c),this.render()}var e=&quot;JSGrid&quot;,f=e,g=&quot;JSGridItem&quot;,h=&quot;JSGridEditRow&quot;,i=&quot;asc&quot;,j=&quot;desc&quot;,k=&quot;{first}&quot;,l=&quot;{pages}&quot;,m=&quot;{prev}&quot;,n=&quot;{next}&quot;,o=&quot;{last}&quot;,p=&quot;{pageInde [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string jsgrid_minJS {
+            get {
+                return ResourceManager.GetString("jsgrid_minJS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /*
+        /// * jsGrid v1.5.3 (http://js-grid.com)
+        /// * (c) 2016 Artem Tabalin
+        /// * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
+        /// */
+        ///
+        ///.jsgrid-edit-row&gt;.jsgrid-cell,.jsgrid-filter-row&gt;.jsgrid-cell,.jsgrid-grid-body,.jsgrid-grid-header,.jsgrid-header-row&gt;.jsgrid-header-cell,.jsgrid-insert-row&gt;.jsgrid-cell{border:1px solid #e9e9e9}.jsgrid-header-row&gt;.jsgrid-header-cell{border-top:0}.jsgrid-filter-row&gt;.jsgrid-cell,.jsgrid-header-row&gt;.jsgrid-header-cell,.jsgrid-insert-row&gt;.jsgrid-cell{border-bo [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string jsgrid_theme_min {
+            get {
+                return ResourceManager.GetString("jsgrid_theme_min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap msg {
+            get {
+                object obj = ResourceManager.GetObject("msg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pixel {
+            get {
+                object obj = ResourceManager.GetObject("pixel", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -163,6 +394,37 @@ namespace Desene.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap search {
+            get {
+                object obj = ResourceManager.GetObject("search", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///html, body {
+        ///    padding: 0;
+        ///    margin: 0;
+        ///    height: 100%;
+        ///    width: 100%;
+        ///}
+        ///
+        ///* {
+        ///    -moz-transition-property: background-color, border-color, box-shadow, color, opacity, text-shadow, -moz-transform;
+        ///    -o-transition-property: background-color, border-color, box-shadow, color, opacity, text-shadow, -o-transform;
+        ///    -webkit-transition-property: background-color, border-color, box-shadow, color, opacity, text-shadow, -webkit-transform;
+        ///    transition-property: background-color, border-colo [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string sections {
+            get {
+                return ResourceManager.GetString("sections", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap undo {
             get {
                 object obj = ResourceManager.GetObject("undo", resourceCulture);
@@ -177,6 +439,48 @@ namespace Desene.Properties {
             get {
                 object obj = ResourceManager.GetObject("warning", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @charset &quot;UTF-8&quot;;
+        ///
+        ////*
+        ///    Name: YouTubePopUp
+        ///    Description: jQuery plugin to display YouTube or Vimeo video in PopUp, responsive and retina, easy to use.
+        ///    Version: 1.0.2
+        ///    Plugin URL: http://wp-time.com/youtube-popup-jquery-plugin/
+        ///    Written By: Qassim Hassan
+        ///    Twitter: @QQQHZ
+        ///    Websites: wp-time.com | qass.im | wp-plugins.in
+        ///    Dual licensed under the MIT and GPL licenses:
+        ///        http://www.opensource.org/licenses/mit-license.php
+        ///        http://www.gnu.org/licenses/gpl.html
+        ///     [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string YouTubePopUp {
+            get {
+                return ResourceManager.GetString("YouTubePopUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /*
+        ///    Name: YouTubePopUp
+        ///    Description: jQuery plugin to display YouTube or Vimeo video in PopUp, responsive and retina, easy to use.
+        ///    Version: 1.0.2
+        ///    Plugin URL: http://wp-time.com/youtube-popup-jquery-plugin/
+        ///    Written By: Qassim Hassan
+        ///    Twitter: @QQQHZ
+        ///    Websites: wp-time.com | qass.im | wp-plugins.in
+        ///    Dual licensed under the MIT and GPL licenses:
+        ///        http://www.opensource.org/licenses/mit-license.php
+        ///        http://www.gnu.org/licenses/gpl.html
+        ///    Copyright (c) 2016 -  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string YouTubePopUp_jquery {
+            get {
+                return ResourceManager.GetString("YouTubePopUp_jquery", resourceCulture);
             }
         }
     }

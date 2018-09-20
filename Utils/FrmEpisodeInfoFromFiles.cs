@@ -15,16 +15,23 @@ namespace Utils
     {
         private int? _parentId;
         public FilesImportParams EpisodesImportParams;
+
         public FrmEpisodeInfoFromFiles()
         {
             InitializeComponent();
         }
 
-        public FrmEpisodeInfoFromFiles(int parentId)
+        public FrmEpisodeInfoFromFiles(int parentId, int? seasonId)
         {
             InitializeComponent();
 
             _parentId = parentId;
+
+            if (seasonId != null)
+            {
+                tbSeason.Text = seasonId.ToString();
+                Text = string.Format("Refresh episodes data in Season {0}", seasonId);
+            }
         }
 
         private void btnFolderSelector_Click(object sender, EventArgs e)
@@ -45,7 +52,7 @@ namespace Utils
                     var files = Directory.GetFiles(folderBrowserDialog.SelectedPath, "*.*");
 
                     if (!files.ToList().DistinctBy(Path.GetExtension).Any())
-                        cbFileExtensions.Text = @"folder empty!";
+                        cbFileExtensions.Text = "folder empty!";
                     else
                     {
                         var ext = "*" + Path.GetExtension(files.ToList().DistinctBy(Path.GetExtension).FirstOrDefault());
@@ -76,7 +83,7 @@ namespace Utils
                 if (tbSeason.Text == string.Empty)
                     lbSeason.ForeColor = Color.Red;
 
-                MsgBox.Show(@"Please specify all required import parameters!", @"Error", MessageBoxButtons.OK,
+                MsgBox.Show("Please specify all required import parameters!", @"Error", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
 
                 return;

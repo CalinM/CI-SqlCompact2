@@ -25,19 +25,25 @@ namespace Desene.DetailFormsAndUserControls.Shared
             RefreshControls(audioStreamInfo);
 
             cbLanguage.MouseWheel += Utils.Helpers.Combobox_OnMouseWheel;
+            cbSource.MouseWheel += Utils.Helpers.Combobox_OnMouseWheel;
         }
 
         private void InitControls()
         {
             _bsControlsData = new BindingSource();
 
-            lbIndex.DataBindings.Add("Text", _bsControlsData, "Index");
+            lbIndex.DataBindings.Add("Text", _bsControlsData, "Index_Display");
 
             cbLanguage.DataSource = Languages.Iso639;
             cbLanguage.ValueMember = "Code";
             cbLanguage.DisplayMember = "Name";
             cbLanguage.SetSeparator(3);
             cbLanguage.DataBindings.Add("SelectedValue", _bsControlsData, "Language");
+
+            cbSource.DataSource = EnumHelpers.EnumToList<AudioSource>();
+            cbSource.ValueMember = "Index";
+            cbSource.DisplayMember = "Text";
+            cbSource.DataBindings.Add("SelectedValue", _bsControlsData, "AudioSource");
 
             chbTitle.DataBindings.Add("Checked", _bsControlsData, "HasTitle");
 

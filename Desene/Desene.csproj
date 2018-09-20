@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -183,6 +186,7 @@
     <EmbeddedResource Include="ucSeries.resx">
       <DependentUpon>ucSeries.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -226,6 +230,26 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
     </Content>
+    <None Include="Resources\arrowDown12.png" />
+    <None Include="Resources\arrowRight12.png" />
+    <None Include="Resources\desene.css" />
+    <None Include="Resources\desene.js" />
+    <None Include="Resources\FullHD_logo.png" />
+    <None Include="Resources\HD_logo.png" />
+    <None Include="Resources\index.html" />
+    <None Include="Resources\info.png" />
+    <None Include="Resources\jquery-2.2.4.min.js" />
+    <None Include="Resources\jquery.lazy.min.js" />
+    <None Include="Resources\jquery.slimscroll.min.js" />
+    <None Include="Resources\jsgrid-theme.min.css" />
+    <None Include="Resources\jsgrid.min.css" />
+    <None Include="Resources\jsgrid.min.js" />
+    <None Include="Resources\msg.png" />
+    <None Include="Resources\pixel.gif" />
+    <None Include="Resources\search.png" />
+    <None Include="Resources\sections.css" />
+    <None Include="Resources\YouTubePopUp.css" />
+    <None Include="Resources\YouTubePopUp.jquery.js" />
     <None Include="Images\warning.png" />
     <None Include="Images\save.png" />
     <Content Include="Images\refresh.png" />

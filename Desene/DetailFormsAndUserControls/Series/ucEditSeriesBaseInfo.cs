@@ -36,6 +36,12 @@ namespace Desene.EditUserControls
         {
             get { return tbNotes.Text; }
         }
+
+        public string Trailer
+        {
+            get { return tbTrailer.Text; }
+        }
+
         private byte[] _poster;
         public byte[] Poster
         {
@@ -76,6 +82,7 @@ namespace Desene.EditUserControls
             tbRecommended.DataBindings.Add("Text", _bsControlsData, "Recommended");
             tbRecommendedLink.DataBindings.Add("Text", _bsControlsData, "RecommendedLink");
             tbNotes.DataBindings.Add("Text", _bsControlsData, "Notes");
+            tbTrailer.DataBindings.Add("Text", _bsControlsData, "Trailer");
             pbCover.DataBindings.Add("Image", _bsControlsData, "Poster", true);
         }
 

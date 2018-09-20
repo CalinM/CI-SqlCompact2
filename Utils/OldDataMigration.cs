@@ -1,5 +1,6 @@
 ﻿using Common;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlServerCe;
 using System.IO;
@@ -314,7 +315,7 @@ namespace Utils
             try
             {
                 var connDest = new SqlCeConnection(Constants.ConnectionString);
-                var connSource = new SqlCeConnection("Data Source = Desene.sdf;Persist Security Info=False");
+                var connSource = new SqlCeConnection("Data Source = Desene.sdf;Max Database Size=4091;Persist Security Info=False");
                 connDest.Open();
                 connSource.Open();
 
@@ -330,7 +331,9 @@ namespace Utils
                         RecommendedLink,
                         DescriptionLink,
                         Poster,
-                        Notes)
+                        Trailer,
+                        Notes,
+                        NlAudioSource)
                     VALUES (
                         @FileName,
                         @Year,
@@ -341,7 +344,9 @@ namespace Utils
                         @RecommendedLink,
                         @DescriptionLink,
                         @Poster,
-                        @Notes)";
+                        @Trailer,
+                        @Notes,
+                        @NlAudioSource)";
 
                 //var sr =  File.CreateText("googllinks.txt");
                 var googleUrls = File.ReadAllLines(@"goo.gl to long url.csv")
@@ -361,7 +366,8 @@ namespace Utils
                             if (string.IsNullOrEmpty(reader["Titlu"].ToString())) continue;
 
                             var cmd = new SqlCeCommand(insertString, connDest) { CommandType = CommandType.Text };
-                            cmd.Parameters.AddWithValue("@FileName", reader["Titlu"].ToString());
+                            var titluCorectat = reader["Titlu"].ToString().Replace(": ", " - ");
+                            cmd.Parameters.AddWithValue("@FileName", titluCorectat);
                             cmd.Parameters.AddWithValue("@Year", reader["An"].ToString());
                             cmd.Parameters.AddWithValue("@Theme", reader["Tematica"].ToString());
 
@@ -377,9 +383,21 @@ namespace Utils
 
                             cmd.Parameters.AddWithValue("@Recommended", reader["Recomandat"].ToString());
                             cmd.Parameters.AddWithValue("@RecommendedLink", reader["RecomandatLink"].ToString() != "0" ?  reader["RecomandatLink"].ToString() : string.Empty);
-                            cmd.Parameters.AddWithValue("@Notes", reader["Obs"].ToString());
-                            //cmd.Parameters.AddWithValue("@DescriptionLink", reader["MoreInfo"].ToString() != "0" ?  reader["MoreInfo"].ToString() : string.Empty);
 
+                            var obsList = new List<string>
+                                            {
+                                                reader["Obs"].ToString().Trim(),
+                                                reader["Obs2"].ToString().Trim(),
+                                                reader["Obs3"].ToString().Trim()
+                                            };
+                            obsList.RemoveAll(n => n == string.Empty);
+
+                            var notes = string.Join(Environment.NewLine, obsList);
+
+                            cmd.Parameters.AddWithValue("@Notes", notes);
+                            //cmd.Parameters.AddWithValue("@DescriptionLink", reader["MoreInfo"].ToString() != "0" ?  reader["MoreInfo"].ToString() : string.Empty);
+                            cmd.Parameters.AddWithValue("@Trailer", reader["Trailer"].ToString());
+                            cmd.Parameters.AddWithValue("@NlAudioSource", reader["Nlsource"].ToString());
 
                             if (reader["MoreInfo"].ToString() == "0" || string.IsNullOrEmpty(reader["MoreInfo"].ToString()))
                             {
@@ -437,14 +455,15 @@ namespace Utils
             return result;
         }
 
+
         public static OperationResult ImportSeriale()
         {
             var result = new OperationResult();
 
             try
-                {
+            {
                 var connDest = new SqlCeConnection(Constants.ConnectionString);
-                var connSource = new SqlCeConnection("Data Source = Desene.sdf;Persist Security Info=False");
+                var connSource = new SqlCeConnection("Data Source = Desene.sdf;Max Database Size=4091;Persist Security Info=False");
 
                 connDest.Open();
                 connSource.Open();

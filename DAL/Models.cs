@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web.Script.Serialization;
+
 //using System.Web.Script.Serialization;
 
 namespace DAL
@@ -7,11 +9,9 @@ namespace DAL
     public class MovieShortInfo
     {
         public int Id { get; set; }
-
         public string FileName { get; set; }
-
-        public byte[] Cover { get; set; }
-
+        public string Quality { get; set; }
+        //public byte[] Cover { get; set; }
         public bool HasPoster { get; set; }
     }
 
@@ -117,6 +117,7 @@ namespace DAL
         public string DescriptionLink { get; set; }
         public string Notes { get; set; }
         public byte[] Poster { get; set; }
+        public string Trailer { get; set; }
         public string AudioLanguages { get; set; }
         public string SubtitleLanguages { get; set; }
 
@@ -179,6 +180,11 @@ namespace DAL
     {
         public int Id { get; set; }
         public int Index { get; set; }
+
+        public string Index_Display
+        {
+            get { return string.Format("{0} / Source", Index); }
+        }
         public string Format { get; set; }
 
         // (VBR, CBR)
@@ -207,6 +213,7 @@ namespace DAL
 
         public bool HasTitle { get; set; }
         public string Language { get; set; }
+        public int AudioSource { get; set; }
 
         public override string ToString()
         {
@@ -251,6 +258,8 @@ namespace DAL
         public string Season { get; set; }
         public string Year { get; set; }
         public bool GenerateThumbnail { get; set; }
+        public bool ForceAddMissingEntries { get; set; }
+        public bool PreserveManuallySetData { get; set; }
     }
 
     public class CachedMovieStills
@@ -263,4 +272,72 @@ namespace DAL
             MovieStills = new List<byte[]>();
         }
     }
+
+    #region objects that will be serialized to provide data for the webpage
+
+    //not using the main classes to keep the data as small as possible
+
+    public class MovieForWeb
+    {
+        public int Id { get; set; }
+        public string FN{ get; set; }   //FileName  *        ~   Titlu
+        public string R { get; set; }   //Recommended  *     ~   Recomandat
+        public string RL { get; set; }  //RecommendedLink *  ~   RecomandatLink
+        public string Y { get; set; }   //Year  *            ~   An
+        public string Q { get; set; }   //Quality  *         ~   Calitate
+        //public string RZ { get; set; }  //?                 ~   Rezolutie
+        //public string F { get; set; }   //Format            ~   Format
+        public string S { get; set; }   //FileSize2  *       ~   Dimensiune
+        public string B { get; set; }   //BitRate  *         ~   Bitrate
+        public string L { get; set; }   //DurationFormatted* ~   DurataStr
+        public string A { get; set; }   //AudioLanguages *   ~   Audio
+        public string SU { get; set; }  //SubtitleLanguages* ~   Subtitrari
+        public string DL { get; set; }  //DescriptionLink *  ~   MoreInfo
+        public string T { get; set; }   //Theme *            ~   Tematica
+        public string N { get; set; }   //Notes *            ~   Obs
+        public string Nl { get; set; }  //?   *              ~   NLSource
+        public string Tr { get; set; }  //Trailer           ~   TrailerVideoId
+
+        [ScriptIgnore]
+        public byte[] Cover { get; set; }
+    }
+
+    public class SeriesForWeb
+    {
+        public int Id { get; set; }
+        public string FN{ get; set; }   //FileName          ~   Titlu
+        public string R { get; set; }   //Recommended       ~   Recomandat
+        public string RL { get; set; }  //RecommendedLink   ~   RecomandatLink
+        public string DL { get; set; }  //DescriptionLink   ~   MoreInfo
+        public string N { get; set; }   //Notes             ~   Obs
+
+        //calculated based on Episodes data
+        public string Y { get; set; }   //Year              ~   An
+        public string S { get; set; }   //Size
+        public string Q { get; set; }   //Quality
+
+        [ScriptIgnore]
+        public byte[] Cover { get; set; }
+    }
+
+    public class EpisodesForWeb
+    {
+        public int Id { get; set; }
+        public int SId { get; set; }    //ParentId          ~   SerialId
+        public string FN{ get; set; }   //FileName          ~   Titlu
+        public int SZ {get; set; }      //Season            ~   Sezon
+        public string Y { get; set; }   //Year              ~   An
+        public string Q { get; set; }   //Quality           ~   Calitate
+        public string L { get; set; }   //DurationFormatted ~   Durata
+        //public string RZ { get; set; }  //?                 ~   Rezolutie
+        //public string F { get; set; }   //Format            ~   Format
+        public string S { get; set; }   //FileSize2         ~   Dimensiune
+        public long Si { get; set; }    //FileSize          ~   DimensiuneInt
+        public string A { get; set; }   //AudioLanguages    ~   Audio
+        public string SU { get; set; }  //SubtitleLanguages ~   Subtitrari
+        public string T { get; set; }   //Theme             ~   Tematica
+        public string N { get; set; }   //Notes             ~   Obs
+    }
+
+    #endregion
 }

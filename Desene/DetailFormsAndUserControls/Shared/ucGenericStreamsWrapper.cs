@@ -1,5 +1,8 @@
-﻿using DAL;
+﻿using System;
+
+using DAL;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -35,9 +38,12 @@ namespace Desene.DetailFormsAndUserControls.Shared
         {
             if (videoStreams.Count < flpWrapper.Controls.Count)
             {
-                for (var i = videoStreams.Count; i < flpWrapper.Controls.Count; i++)
+                for (var i = flpWrapper.Controls.Count - 1; i >= 0; i--)
                 {
-                    flpWrapper.Controls.Remove(flpWrapper.Controls[i]);
+                    if (!int.TryParse(flpWrapper.Controls[i].Tag.ToString(), out var idx)) continue;
+
+                    if (idx > videoStreams.Count)
+                        flpWrapper.Controls.Remove(flpWrapper.Controls[i]);
                 }
             }
 
@@ -60,11 +66,16 @@ namespace Desene.DetailFormsAndUserControls.Shared
 
         public void LoadControlsForAudioStreams(List<AudioStreamInfo> audioStreams)
         {
+            //var watch = System.Diagnostics.Stopwatch.StartNew();
+
             if (audioStreams.Count < flpWrapper.Controls.Count)
             {
-                for (var i = audioStreams.Count; i < flpWrapper.Controls.Count; i++)
+                for (var i = flpWrapper.Controls.Count - 1; i >= 0; i--)
                 {
-                    flpWrapper.Controls.Remove(flpWrapper.Controls[i]);
+                    if (!int.TryParse(flpWrapper.Controls[i].Tag.ToString(), out var idx)) continue;
+
+                    if (idx > audioStreams.Count)
+                        flpWrapper.Controls.Remove(flpWrapper.Controls[i]);
                 }
             }
 
@@ -82,38 +93,44 @@ namespace Desene.DetailFormsAndUserControls.Shared
                     ((ucAudioStreamDetail)asDetUC).RefreshControls(asData);
                 }
             }
+
+            //watch.Stop();
+            //Debug.WriteLine(watch.ElapsedMilliseconds);
         }
 
         public void LoadControlsForSubtitleStreams(List<SubtitleStreamInfo> subtitleStreams)
         {
-            flpWrapper.Controls.Clear();
+            //flpWrapper.Controls.Clear();
 
-            foreach (var ssData in subtitleStreams)
-                flpWrapper.Controls.Add(new ucSubtitleStreamDetail(ssData));
+            //foreach (var ssData in subtitleStreams)
+            //    flpWrapper.Controls.Add(new ucSubtitleStreamDetail(ssData));
 
 
-            //if (subtitleStreams.Count < flpWrapper.Controls.Count)
-            //{
-            //    for (var i = subtitleStreams.Count; i < flpWrapper.Controls.Count; i++)
-            //    {
-            //        flpWrapper.Controls.Remove(flpWrapper.Controls[i]);
-            //    }
-            //}
+            if (subtitleStreams.Count < flpWrapper.Controls.Count)
+            {
+                for (var i = flpWrapper.Controls.Count - 1; i >= 0; i--)
+                {
+                    if (!int.TryParse(flpWrapper.Controls[i].Tag.ToString(), out var idx)) continue;
 
-            //for (var i = 0; i < subtitleStreams.Count; i++)
-            //{
-            //    var ssData = subtitleStreams[i];
-            //    var ssDetUC = flpWrapper.Controls.OfType<UserControl>().FirstOrDefault(uc => uc.Tag != null && uc.Tag.ToString() == ssData.Index.ToString());
+                    if (idx > subtitleStreams.Count)
+                        flpWrapper.Controls.Remove(flpWrapper.Controls[i]);
+                }
+            }
 
-            //    if (ssDetUC == null)
-            //    {
-            //        flpWrapper.Controls.Add(new ucSubtitleStreamDetail(ssData) { Tag = ssData.Index.ToString() });
-            //    }
-            //    else
-            //    {
-            //        ((ucSubtitleStreamDetail)ssDetUC).RefreshControls(ssData);
-            //    }
-            //}
+            for (var i = 0; i < subtitleStreams.Count; i++)
+            {
+                var ssData = subtitleStreams[i];
+                var ssDetUC = flpWrapper.Controls.OfType<UserControl>().FirstOrDefault(uc => uc.Tag != null && uc.Tag.ToString() == ssData.Index.ToString());
+
+                if (ssDetUC == null)
+                {
+                    flpWrapper.Controls.Add(new ucSubtitleStreamDetail(ssData) { Tag = ssData.Index.ToString() });
+                }
+                else
+                {
+                    ((ucSubtitleStreamDetail)ssDetUC).RefreshControls(ssData);
+                }
+            }
         }
     }
 }

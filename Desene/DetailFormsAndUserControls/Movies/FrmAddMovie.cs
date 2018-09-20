@@ -4,6 +4,9 @@ using System.IO;
 using System.Windows.Forms;
 
 using DAL;
+
+using Desene.Properties;
+
 using Utils;
 
 namespace Desene.DetailFormsAndUserControls.Movies
@@ -64,22 +67,28 @@ namespace Desene.DetailFormsAndUserControls.Movies
 
         private void btnLoadPoster_Click(object sender, EventArgs e)
         {
-            using (var selectFileDialog = new OpenFileDialog())
+            using (var openFileDialog = new OpenFileDialog())
             {
-                if (selectFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    using (var ms = new MemoryStream())
-                    {
-                        using (var file = new FileStream(selectFileDialog.FileName, FileMode.Open, FileAccess.Read))
-                        {
-                            byte[] bytes = new byte[file.Length];
-                            file.Read(bytes, 0, (int)file.Length);
-                            ms.Write(bytes, 0, (int)file.Length);
-                        }
+                openFileDialog.Title = "Choose a poster";
+                openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*";
+                openFileDialog.InitialDirectory = Settings.Default.LastCoverPath;
 
-                        _poster = ms.ToArray();
-                        ucMovieInfo1.SetPoster(_poster, true);
+                if (openFileDialog.ShowDialog() != DialogResult.OK) return;
+
+                Settings.Default.LastCoverPath = Path.GetFullPath(openFileDialog.FileName);
+                Settings.Default.Save();
+
+                using (var ms = new MemoryStream())
+                {
+                    using (var file = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
+                    {
+                        byte[] bytes = new byte[file.Length];
+                        file.Read(bytes, 0, (int)file.Length);
+                        ms.Write(bytes, 0, (int)file.Length);
                     }
+
+                    _poster = ms.ToArray();
+                    ucMovieInfo1.SetPoster(_poster, true);
                 }
             }
         }

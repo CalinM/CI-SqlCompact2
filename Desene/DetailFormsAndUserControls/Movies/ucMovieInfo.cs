@@ -58,11 +58,14 @@ namespace Desene.DetailFormsAndUserControls
             tbAudioSummary.DataBindings.Add("Text", _bsControlsData, "AudioLanguages");
             tbSubtitleSummary.DataBindings.Add("Text", _bsControlsData, "SubtitleLanguages");
             tbNotes.DataBindings.Add("Text", _bsControlsData, "Notes");
+            tbTrailer.DataBindings.Add("Text", _bsControlsData, "Trailer");
             tbStreamLink.DataBindings.Add("Text", _bsControlsData, "StreamLink");
             tbFormat.DataBindings.Add("Text", _bsControlsData, "Format");
             tbEncodedWith.DataBindings.Add("Text", _bsControlsData, "Encoded_Application");
             cbTheme.DataBindings.Add("Text", _bsControlsData, "Theme");
             pbCover.DataBindings.Add("Image", _bsControlsData, "Poster", true);
+
+            chbTitle.DataBindings.Add("Checked", _bsControlsData, "HasTitle");
         }
 
         public void LoadThemesInControl(bool refreshText = false)
