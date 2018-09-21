@@ -1029,6 +1029,7 @@ namespace Desene
 
         private static int GetFileSize(string fileSize2)
         {
+            //todo: wrong value on Save ... commented for the moment
             var fileSize = 0;
 
             try
@@ -1072,14 +1073,16 @@ namespace Desene
 
                     #region FileDetail
 
+                    /*
+                        ,FileSize = @FileSize
+                        ,FileSize2 = @FileSize2
+                     */
                     var updateString = @"
                         UPDATE FileDetail
                            SET FileName = @FileName
                                ,Year = @Year
                                ,Format = @Format
                                ,Encoded_Application = @Encoded_Application
-                               ,FileSize = @FileSize
-                               ,FileSize2 = @FileSize2
                                ,Duration = @Duration
                                ,TitleEmbedded = @TitleEmbedded
                                ,Season = @Season
@@ -1101,8 +1104,8 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@Year", CurrentMTD.Year);
                     cmd.Parameters.AddWithValue("@Format", CurrentMTD.Format);
                     cmd.Parameters.AddWithValue("@Encoded_Application", CurrentMTD.Encoded_Application);
-                    cmd.Parameters.AddWithValue("@FileSize", GetFileSize(CurrentMTD.FileSize2));     //as int value, for totals calculations
-                    cmd.Parameters.AddWithValue("@FileSize2", CurrentMTD.FileSize2);                 //GUI
+                    //cmd.Parameters.AddWithValue("@FileSize", GetFileSize(CurrentMTD.FileSize2));     //as int value, for totals calculations
+                    //cmd.Parameters.AddWithValue("@FileSize2", CurrentMTD.FileSize2);                 //GUI
 
                     //todo: save the value from DurationAsInt if the TryParse fails
                     cmd.Parameters.AddWithValue("@Duration",
@@ -1445,15 +1448,15 @@ namespace Desene
                 throw new Exception("Unknown!");
 
             int.TryParse(firstVideoStream.Height, out var videoHeight);
+            int.TryParse(firstVideoStream.Height, out var videoWidth);
 
-            return
-                videoHeight == 0
-                    ? "NotSet"
-                    : videoHeight > 900
-                        ? "FullHD"
-                        : videoHeight < 710
-                            ? "SD"
-                            : "HD";
+            if (videoHeight == 0 || videoWidth == 0)
+                return "NotSet";
+
+            if (videoWidth > 1300)
+                return "FullHD";
+
+            return videoHeight < 710 ? "SD" : "HD";
         }
 
         public static OperationResult RemoveSeason(int seriesId, int seasonNo)

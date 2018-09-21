@@ -4,5 +4,24 @@
     <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\Resources\desene.js</string>
     </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FilesMetaData.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\DAL\DAL.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Movies\ucMovieInfo.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Movies\ucMovieInfo.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\FilteredTreeModel.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\app.manifest</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\FrmMain.cs</string>
+    </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>

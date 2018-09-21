@@ -116,7 +116,7 @@ namespace Desene.DetailFormsAndUserControls
                     tbSize.DataBindings.Add("Text", _bsControlsData, "FileSize2");
                 }
 
-                CheckSizeMismatch();
+                //CheckSizeMismatch();
 
                 if (mtd.Id > 0)
                 {
@@ -250,6 +250,7 @@ namespace Desene.DetailFormsAndUserControls
             var anyVisible = movieStills.Count > 0;
             tlpMovieStillsWrapper.Visible = anyVisible;
             pMovieDetail.Size = new Size(pMovieDetail.Width, anyVisible ? 565 : 365);
+            //pMovieDetail.Size = new Size(pMovieDetail.Width, anyVisible ? 865 : 555);
         }
 
         public void SetPoster(byte[] bytes, bool isNew)
