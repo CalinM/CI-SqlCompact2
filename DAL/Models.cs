@@ -315,6 +315,8 @@ namespace DAL
         public string Y { get; set; }   //Year              ~   An
         public string S { get; set; }   //Size
         public string Q { get; set; }   //Quality
+        public string A { get; set; }   //Audio
+        public string Ec { get; set; }  //EpisodeCount
 
         [ScriptIgnore]
         public byte[] Cover { get; set; }
@@ -332,6 +334,8 @@ namespace DAL
         //public string RZ { get; set; }  //?                 ~   Rezolutie
         //public string F { get; set; }   //Format            ~   Format
         public string S { get; set; }   //FileSize2         ~   Dimensiune
+
+        [ScriptIgnore]
         public long Si { get; set; }    //FileSize          ~   DimensiuneInt
         public string A { get; set; }   //AudioLanguages    ~   Audio
         public string SU { get; set; }  //SubtitleLanguages ~   Subtitrari

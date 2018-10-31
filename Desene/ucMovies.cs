@@ -46,9 +46,9 @@ namespace Desene
 
         private void ucMovies_Load(object sender, EventArgs e)
         {
-                        _preventEvent = true;
+            _preventEvent = true;
             ReloadData();
-                        _preventEvent = false;
+            _preventEvent = false;
         }
 
         private void ReloadData()
@@ -115,6 +115,12 @@ namespace Desene
             if (rowObj == null) return;
 
             dgvMoviesList.Rows[e.RowIndex].DefaultCellStyle.BackColor = ((MovieShortInfo)rowObj).HasPoster ? Color.White : Color.LightPink;
+
+            if (e.ColumnIndex == 2 && ((MovieShortInfo)rowObj).Quality == "sd?")
+            {
+                e.CellStyle.BackColor = Color.Lavender;
+            }
+
         }
 
         private void dgvMoviesList_SelectionChanged(object sender, EventArgs e)

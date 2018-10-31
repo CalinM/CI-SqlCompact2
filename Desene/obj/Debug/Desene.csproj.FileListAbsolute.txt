@@ -30,3 +30,4 @@ C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.pdb
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Desene.exe.config
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Desene.pdb
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.csproj.CopyComplete
+C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Movies.ucMoviesList.resources

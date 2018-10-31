@@ -2,26 +2,64 @@
 <ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ArrayOfArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\Resources\desene.js</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FilesMetaData.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\DAL\DAL.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Movies\ucMovieInfo.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Movies\ucMovieInfo.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\FilteredTreeModel.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\app.manifest</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Common\ExtensionMethods\ListExtensions.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\DAL\Models.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FilesMetaData.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\ucMovies.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\ucMovies.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\Helpers.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FrmMoviesInfoFromFiles.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FrmMoviesInfoFromFiles.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Movies\ucMovieInfo.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Movies\FrmAddMovie.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Movies\FrmAddMovie.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Movies\ucMoviesList.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Movies\ucMoviesList.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Movies\ucMoviesList.Designer.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\ucSeries.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\Resources\desene.js</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\DataGridViewAutoFilter\DataGridViewAutoFilterTextBoxColumn.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\DataGridViewAutoFilter\DataGridViewAutoFilterColumnHeaderCell.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FilterTextBox.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\FrmMain.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\FrmMain.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>Object Browser</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>

@@ -119,9 +119,9 @@
 
                                 (
                                     el.Tr == null || el.Tr == ""
-                                        ? "<img data-src=\"Imgs/poster-" + el.Id + ".jpg\" data-movieId=\"" + el.Id + "\" class=\"movie-cover lazy\" alt=\"Loading poster ...\">"
+                                        ? "<img data-src=\"Imgs/poster-" + el.Id + ".jpg\" data-movieId=\"" + el.Id + "\" class=\"movie-cover lazy\" alt=\"Loading poster ...\" title=\"" + el.FN + "\">"
                                         : "<a class='movieTrailerLink' href='https://www.youtube.com/watch?v=" + el.Tr + "'>" +
-                                        "<img data-src=\"Imgs/poster-" + el.Id + ".jpg\" data-movieId=\"" + el.Id + "\" class=\"movie-cover withTrailer lazy\" alt=\"Loading poster ...\">" +
+                                        "<img data-src=\"Imgs/poster-" + el.Id + ".jpg\" data-movieId=\"" + el.Id + "\" class=\"movie-cover withTrailer lazy\" alt=\"Loading poster ...\" title=\"" + el.FN + "\">" +
                                         "</a>"
                                 ) +
 
@@ -134,7 +134,7 @@
                                     ) +
 
                                     "<a class='recommended info' title='Tematica: " + (el.T == "" ? "-" : el.T) + "&#013An: " + el.Y + "&#013Durata: " + (el.L == "" || el.L == "00:00:00" ? "?" : el.L) + "&#013Click for details ...' href='" + el.DL + "' target='_blank'>i</a>" +
-                                    "<div class='quality' title='Dimensiune: " + el.S + "&#013Bitrate: " + el.B + "'>" + (el.Q == 0 ? "FHD" : el.Q == 1 ? "HD" : "SD") + "</div>" +
+                                    "<div class='quality' title='Dimensiune: " + el.S + "&#013Bitrate: " + el.B + "'>" + (el.Q == "" ? "SD?" : el.Q) + "</div>" +
                                     "<div class='audio' title='Subtitrari: " + el.SU + "&#013SursaNl: " + el.Nl + "'>" + el.A + "</div>" +
                             "</div>" +
                         "</div>" +
@@ -263,15 +263,18 @@
                 Id: ""
             });
 
+
         db.calitate =
             [
                 { Name: "All", Id: "" },
-                { Name: "FullHD", Id: 0 },
-                { Name: "HD", Id: 1 },
-                { Name: "SD", Id: 2 },
+                { Name: "FullHD", Id: "FullHD" }, //Id: 0
+                { Name: "HD", Id: "HD" }, //Id: 1
+                { Name: "SD", Id: "SD" },	//Id: 2
                 //{Name: "HD_up", Id: 3}, //la seriale
                 //{Name: "Mix", Id: 4} //la seriale, SD cu HD
             ];
+
+
 
         //https://github.com/tabalinas/jsgrid/issues/60
         //https://stackoverflow.com/questions/35887675/empty-option-when-filtering
@@ -298,11 +301,17 @@
             fields: [
 
                 {
-                    name: "Titlu", title: "Title", type: "text", width: 150,
+                    name: "FN", title: "Title", type: "text", width: 150,
                     itemTemplate: function (value, item) {
 
                         var link = item.DL != null ? item.DL : "www.imdb.com";
-                        var tooltip = item.N != "" ? "title=\"" + item.N + "\"" : "";
+                        //var tooltip = item.N != "" ? "title=\"" + item.N + "\"" : "";
+						var tooltip = "Click for detailed movie info ...";
+						if (item.N != "") {
+							tooltip += "\n\nMovie notes:\n" + item.N;
+						}
+
+						tooltip = "title=\"" + tooltip + "\"";
 
                         return item.DL != "" || item.N != ""
                             ? $("<div>").html(
@@ -322,9 +331,9 @@
 
 
                 },
-                { name: "An", title: "Year", type: "text", width: 50, align: "center" },
+                { name: "Y", title: "Year", type: "text", width: 50, align: "center" },
                 {
-                    name: "Recomandat", title: "Recommended", type: "select", width: 50, items: db.distinctRecomandat, valueField: "Id", textField: "Name",
+                    name: "R", title: "Recommended", type: "select", width: 50, items: db.distinctRecomandat, valueField: "Id", textField: "Name",
                     itemTemplate: function (value, item) {
                         return item.RL != ""
                             ? $("<a>").attr("href", item.RL).attr("target", "_blank").text(value)
@@ -332,14 +341,14 @@
                     },
                 },
                 {
-                    name: "DurataStr", title: "Length", type: "text", width: 50, align: "center",
+                    name: "L", title: "Length", type: "text", width: 50, align: "center",
                     itemTemplate: function (value) {
                         return value == "00:00:00" ? "?" : value;
                     },
                     //filtering: false
                 },
                 {
-                    name: "Calitate", title: "Quality", type: "select", width: 50, align: "center", items: db.calitate, valueField: "Id", textField: "Name",
+                    name: "Q", title: "Quality", type: "select", width: 50, align: "center", items: db.calitate, valueField: "Id", textField: "Name",
                     /* 					itemTemplate: function(value, item) {
                                             if (value == 2) {
                                                 var toolTip = "Resolution: " + (item.Rezolutie == "" ? "?" : item.Rezolutie) + "\nFile format: " + (item.Format == "" ? "?" : item.Format);
@@ -350,7 +359,7 @@
                                         },  */
                 },
                 {
-                    name: "Audio", type: "text", width: 50, align: "center",
+                    name: "A", type: "text", width: 50, align: "center",
                     itemTemplate: function (value, item) {
                         var nlSource;
 
@@ -383,9 +392,9 @@
                         return $("<label>").attr("title", tooltip).attr("style", "cursor: help").text(value);
                     },
                 },
-                { name: "Subtitrari", title: "Subtitles", type: "text", width: 50, align: "center" },
+                { name: "SU", title: "Subtitles", type: "text", width: 50, align: "center" },
                 {
-                    name: "Tematica", title: "Theme", type: "select", width: 50, align: "center", items: db.distinctTematica, valueField: "Id", textField: "Name",
+                    name: "T", title: "Theme", type: "select", width: 50, align: "center", items: db.distinctTematica, valueField: "Id", textField: "Name",
                     filterTemplate: function () {
                         var $select = jsGrid.fields.select.prototype.filterTemplate.call(this);
                         $select.prepend($("<option>").prop("value", "").text("All").attr("selected", "selected"));
@@ -393,7 +402,7 @@
                     }
                 },
                 {
-                    name: "Dimensiune", title: "Size", type: "text", width: 50, align: "right",
+                    name: "S", title: "Size", type: "text", width: 50, align: "right",
                     //filtering: false,
                     itemTemplate: function (value, item) {
                         return $("<label>").attr("title", "Bitrate: " + item.B).attr("style", "cursor: help").text(value);
@@ -522,7 +531,7 @@
                     var tooltip = serial.N != "" ? serial.N + "&#013" : "";
                     tooltip += "Click for details ...";
 
-                    var episoadeSerial = $.grep(detaliiEpisoade, function (el) { return el.SerialId == serial.Id; });
+                    var episoadeSerial = $.grep(detaliiEpisoade, function (el) { return el.SId == serial.Id; });
                     var alternateRowClass = serialIndex % 2 == 0 ? " alternateRow" : "";
 
                     var differentAudioStyle = serial.DifferentAudio
@@ -548,10 +557,10 @@
                                         : "<div class='recommended' style='float: unset; margin: 0px;' title='Recomandare necunoscuta'>?</div>") +
                                 "</td>" +
                                 "<td class=\"detailCell w80\">" +
-                                    CalitateIndexToStr(serial.Q) +
+                                    serial.Q +
                                 "</td>" +
                                 "<td class=\"detailCell w100\">" +
-                                    serial.DimensiuneInt + " GB" +
+                                    serial.S + " GB" +
                                 "</td>" +
                                 "<td class=\"detailCell w100\" " + differentAudioStyle + ">" +
                                     serial.A +
@@ -560,7 +569,7 @@
                                     serial.Y +
                                 "</td>" +
                                 "<td class=\"detailCell w125\">" +
-                                    episoadeSerial.length +
+                                    serial.Ec +
                                 "</td>" +
                             "</tr>" +
 
@@ -590,37 +599,37 @@
 					var firstSeason = true;
 
                     episoadeSerial.forEach(function (episod) {
-                        if (episod.Sezon > sezonNo) {
+                        if (episod.SZ > sezonNo) {
                             if (sezonNo > 0) {
 								firstSeason = false;
 
                                 sectionHtml +=
                                                             "</table>";
                             }
-                            sezonNo = episod.Sezon;
+                            sezonNo = episod.SZ;
 
                             sectionHtml +=
                                                             "<table class=\"tableWrapper\">" +
                                                                 "<tr class=\"seasonLine noselect lineWithDetails\">" +
                                                                     "<td class=\"markerCol\">" +
-                                                                        "<div class=\"markerSymbol sezonExpander " + (firstSeason ? "expanded" : "collapsed") + "\" data-serialId=\"" + serial.Id + "\" data-sezon=\"" + episod.Sezon + "\">" +
+                                                                        "<div class=\"markerSymbol sezonExpander " + (firstSeason ? "expanded" : "collapsed") + "\" data-serialId=\"" + serial.Id + "\" data-sezon=\"" + episod.SZ + "\">" +
                                                                         "</div>" +
                                                                     "</td>" +
                                                                     "<td colspan='6'>" +
-                                                                        "Season " + episod.Sezon +
+                                                                        "Season " + episod.SZ +
                                                                     "</td>" +
                                                                 "</tr>";
                         }
 
                         sectionHtml +=
-                                                                "<tr class=\"episoadeLine\" data-serialId=\"" + serial.Id + "\" data-sezon=\"" + episod.Sezon + "\" style=\"" + (firstSeason ? "display: table-row;" : "display: none;") + "\">" +
+                                                                "<tr class=\"episoadeLine\" data-serialId=\"" + serial.Id + "\" data-sezon=\"" + episod.SZ + "\" style=\"" + (firstSeason ? "display: table-row;" : "display: none;") + "\">" +
                                                                     "<td style=\"width: 30px;\">" +
                                                                     "</td>" +
                                                                     "<td>" +
                                                                         episod.FN +
                                                                     "</td>" +
                                                                     "<td class=\"detailCell w80\">" +
-                                                                        CalitateIndexToStr(serial.Q) +
+                                                                        serial.Q +
                                                                     "</td>" +
                                                                     "<td class=\"detailCell w100\">" +
                                                                         episod.S +
@@ -681,7 +690,7 @@
                 SoftCloseSearch();
 
                 $(".about-message-img").css("display", "none");
-                $("#sections-wrapper").html("<div style=\"font-size: 72px; padding-top: 150px; width: 100px; margin: 0 auto;\" title=\"No data available ... yet!\">😔</div>");
+                $("#sections-wrapper").html("<div style=\"font-size: 72px; padding-top: 150px; width: 100px; margin: 0 auto;\" title=\"No data available ... yet!\">ðŸ˜”</div>");
                 $("#snapshotStat").html("Nothing to see here ... :(");
 
                 $("#moviesSections span").removeClass("selected-subSection");
@@ -813,18 +822,6 @@ function ResizeMoviesSection() {
     if ($(".detailsTableWrapper").length > 0) {
         $(".detailsTableWrapper").height(h - $("#seriesHeaderTable").height());
     }
-}
-
-function CalitateIndexToStr(c) {
-    switch (c) {
-        case -1: return "NotSet";
-        case 0: return "FullHD";
-        case 1: return "HD";
-        case 2: return "SD";
-        case 3: return "HD_up";
-        case 4: return "Mix";
-    }
-
 }
 
 function isMobile() {

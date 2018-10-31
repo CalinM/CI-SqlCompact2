@@ -1,6 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Common;
+using Desene.DetailFormsAndUserControls.Movies;
+using Desene.Properties;
+using System;
 using System.Data.SqlServerCe;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -9,13 +12,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
-
-using Common;
-
-using Desene.Properties;
-
 using Utils;
-
 using Helpers = Utils.Helpers;
 
 namespace Desene
@@ -174,6 +171,28 @@ namespace Desene
             }
         }
 
+        private void btnMoviesList_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                DrawingControl.SuspendDrawing(pMainContainer);
+                ClearAllDelegates();
+
+                pMainContainer.Controls.Clear();
+                pMainContainer.Controls.Add(new ucMoviesList(this) { Dock = DockStyle.Fill });
+
+                //todo: check if necessary
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+            finally
+            {
+                DrawingControl.ResumeDrawing(pMainContainer);
+                Cursor = Cursors.Default;
+            }
+        }
+
         private void GetStatistics(bool show, bool forSeries)
         {
             if (show)
@@ -193,6 +212,12 @@ namespace Desene
             }
 
             sslbStatistics.Visible = show;
+        }
+
+        public void SetStatistics(bool show, string text)
+        {
+            sslbStatistics.Visible = show;
+            sslbStatistics.Text = text;
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -605,7 +630,7 @@ namespace Desene
             Settings.Default.LastCoverPath = Path.GetFullPath(folderBrDlg.SelectedPath);
             Settings.Default.Save();
 
-            var imgPosterRedone = MessageBox.Show("Vrei sa recreez si posterele filmelor?", "Desene", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button3);
+            var imgPosterRedone = MsgBox.Show("Do you want to (re)generate the movies posters?", "Confirm", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
             if (imgPosterRedone == DialogResult.Cancel)
                 return;
 
@@ -618,6 +643,7 @@ namespace Desene
             var series = DAL.GetSeriesForWeb();
             var episodes = DAL.GetEpisodesForWeb();
             DAL.FillSeriesDataFromEpisodes(ref series, episodes);
+           // return;
 
             #region movies details
 
@@ -744,7 +770,11 @@ namespace Desene
 
             File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "index.html"), Resources.index.Replace("##", genUniqueId));
 
-            MessageBox.Show("Done!");
+            if (MsgBox.Show("The new site files have been saved! Do you want to open the folder location?", "Info",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+            {
+                Process.Start(folderBrDlg.SelectedPath);
+            }
         }
 
         private Image CreateThumbnail(int width, int height, Image source)
@@ -760,6 +790,20 @@ namespace Desene
             }
 
             return newImage;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
         }
     }
 }

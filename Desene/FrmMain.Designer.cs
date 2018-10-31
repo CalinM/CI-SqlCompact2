@@ -37,6 +37,7 @@ namespace Desene
             this.miSeries = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.miExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnMoviesList = new System.Windows.Forms.ToolStripButton();
             this.separatorMainButtons = new System.Windows.Forms.ToolStripSeparator();
             this.btnAdd = new System.Windows.Forms.ToolStripButton();
             this.btnDelete = new System.Windows.Forms.ToolStripButton();
@@ -64,6 +65,7 @@ namespace Desene
             this.mainMenu.ImageScalingSize = new System.Drawing.Size(28, 28);
             this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnCategory,
+            this.btnMoviesList,
             this.separatorMainButtons,
             this.btnAdd,
             this.btnDelete,
@@ -118,6 +120,15 @@ namespace Desene
             this.miExit.Size = new System.Drawing.Size(153, 30);
             this.miExit.Text = "Exit";
             this.miExit.Click += new System.EventHandler(this.miExit_Click);
+            // 
+            // btnMoviesList
+            // 
+            this.btnMoviesList.Image = ((System.Drawing.Image)(resources.GetObject("btnMoviesList.Image")));
+            this.btnMoviesList.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnMoviesList.Name = "btnMoviesList";
+            this.btnMoviesList.Size = new System.Drawing.Size(128, 32);
+            this.btnMoviesList.Text = "Movies list";
+            this.btnMoviesList.Click += new System.EventHandler(this.btnMoviesList_Click);
             // 
             // separatorMainButtons
             // 
@@ -318,6 +329,7 @@ namespace Desene
         private System.Windows.Forms.ToolStripStatusLabel sslbAdditionalInfo1;
         private System.Windows.Forms.ToolStripStatusLabel sslbAdditionalInfo2;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.ToolStripButton btnMoviesList;
     }
 }
 

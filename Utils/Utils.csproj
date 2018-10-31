@@ -50,6 +50,8 @@
     <Compile Include="ButtonEdit.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DataGridViewAutoFilter\DataGridViewAutoFilterColumnHeaderCell.cs" />
+    <Compile Include="DataGridViewAutoFilter\DataGridViewAutoFilterTextBoxColumn.cs" />
     <Compile Include="FilterTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -141,5 +143,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

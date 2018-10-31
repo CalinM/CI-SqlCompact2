@@ -63,6 +63,12 @@
     <Compile Include="DetailFormsAndUserControls\Movies\ucMovieInfo.designer.cs">
       <DependentUpon>ucMovieInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="DetailFormsAndUserControls\Movies\ucMoviesList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Movies\ucMoviesList.Designer.cs">
+      <DependentUpon>ucMoviesList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -142,6 +148,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DetailFormsAndUserControls\Movies\ucMovieInfo.resx">
       <DependentUpon>ucMovieInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DetailFormsAndUserControls\Movies\ucMoviesList.resx">
+      <DependentUpon>ucMoviesList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DetailFormsAndUserControls\Shared\ucSubtitleStreamDetail.resx">
       <DependentUpon>ucSubtitleStreamDetail.cs</DependentUpon>

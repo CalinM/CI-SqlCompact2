@@ -67,7 +67,7 @@ namespace Desene
                                         Id = (int)reader["Id"],
                                         FileName = reader["FileName"].ToString(),
                                         HasPoster = reader["Poster"].GetType() != typeof(DBNull),
-                                        Quality = reader["Quality"].ToString()
+                                        Quality = string.IsNullOrEmpty(reader["Quality"].ToString()) ? "sd?" : reader["Quality"].ToString()
                                     });
                     }
                 }
@@ -479,8 +479,6 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@CoverEmbedded", mtd.Cover);
                     cmd.Parameters.AddWithValue("@Season", eip == null ? (object)DBNull.Value : eip.Season);
                     cmd.Parameters.AddWithValue("@InsertedDate", DateTime.Now);
-
-
 
                     cmd.Parameters.AddWithValue("@Quality", GetQualityStrFromSize(mtd));
                     cmd.Parameters.AddWithValue("@ParentId", eip == null ? (object)DBNull.Value : eip.ParentId);
@@ -1125,7 +1123,7 @@ namespace Desene
 
                     cmd.Parameters.AddWithValue("@CoverEmbedded", CurrentMTD.Cover);
                     cmd.Parameters.AddWithValue("@Season", CurrentMTD.Season);
-                    cmd.Parameters.AddWithValue("@Quality", CurrentMTD.Quality);
+                    cmd.Parameters.AddWithValue("@Quality", GetQualityStrFromSize(CurrentMTD));
 
                     CurrentMTD.AudioLanguages = string.Join(", ", CurrentMTD.AudioStreams.Select(a => a.Language == "" ? "?" : a.Language).Distinct());
                     cmd.Parameters.AddWithValue("@AudioLanguages", CurrentMTD.AudioLanguages);
@@ -1448,7 +1446,7 @@ namespace Desene
                 throw new Exception("Unknown!");
 
             int.TryParse(firstVideoStream.Height, out var videoHeight);
-            int.TryParse(firstVideoStream.Height, out var videoWidth);
+            int.TryParse(firstVideoStream.Width, out var videoWidth);
 
             if (videoHeight == 0 || videoWidth == 0)
                 return "NotSet";
@@ -1456,7 +1454,10 @@ namespace Desene
             if (videoWidth > 1300)
                 return "FullHD";
 
-            return videoHeight < 710 ? "SD" : "HD";
+            return
+                videoWidth == 1280 || videoHeight > 710
+                    ? "HD"
+                    : "SD";
         }
 
         public static OperationResult RemoveSeason(int seriesId, int seasonNo)
@@ -1837,7 +1838,7 @@ namespace Desene
                 {
                     conn.Open();
 
-                    var commandSource = new SqlCeCommand("SELECT * FROM FileDetail WHERE ParentId > 0 ORDER BY ParentId, FileName", conn);
+                    var commandSource = new SqlCeCommand("SELECT * FROM FileDetail WHERE ParentId > 0 ORDER BY ParentId, Season, FileName", conn);
 
                     using (var reader = commandSource.ExecuteReader())
                     {
@@ -1861,7 +1862,20 @@ namespace Desene
                             efw.Q = reader["Quality"].ToString();
                             efw.L = duration == null ? "?" : ((DateTime)duration).ToString("HH:mm:ss");
                             efw.S = reader["FileSize2"].ToString();
-                            efw.Si = (long)reader["FileSize"];
+
+                            if (reader["FileSize"] == DBNull.Value)
+                                efw.Si = 0;
+                            else
+                            {
+                                long siLong = 0;
+
+                                if (long.TryParse(reader["FileSize"].ToString(), out siLong))
+                                    efw.Si = siLong;
+                                else
+                                    efw.Si = 0;
+                            }
+
+                            //efw.Si = reader["FileSize"] != DBNull.Value ? (long)reader["FileSize"] : -1;
                             efw.A = reader["AudioLanguages"].ToString();
                             efw.SU = reader["SubtitleLanguages"].ToString();
                             efw.T = reader["Theme"].ToString();
@@ -1874,7 +1888,7 @@ namespace Desene
             }
             catch(Exception ex)
             {
-
+                //var x = 1;
             }
 
             return result;
@@ -1897,12 +1911,23 @@ namespace Desene
                         : string.IsNullOrEmpty(minYear)
                             ? maxYear
                             : minYear;
+
+                s.S = Math.Round((decimal)episodesForSeries.Sum(e => e.Si) / 1024 / 1024 / 1024, 2).ToString();
+
+                s.Q = string.Join(", ", episodesForSeries.DistinctBy(e => e.Q).Select(e => e.Q).ToList());
+
+                //set the distinct audios in one single line
+                //ro, en        |
+                //en, nl        | => ro, en, en, nl, ro, en, nl
+                //ro, en, nl    |
+                var audios = string.Join(",", episodesForSeries.Select(d => d.A).Distinct()).Replace(", ", ",");
+                s.A = string.Join(", ", audios.Split(',').Distinct());
+
+                s.Ec = episodesForSeries.Count.ToString();
                 /*
-                s.S = (episodesForSeries.Sum(e => e.Si) / 1024).ToString();
-                s.Q = Quality.NotSet.ToString();
-
-                var episodesQuality = episodesForSeries.DistinctBy(e => e.Q).ToList();
-
+                var episodesQuality = string.Join(", ", episodesForSeries.DistinctBy(e => e.Q).Select(e => e.Q).ToList());
+                var x = 1;
+                                /*
                 if (episodesQuality.Any())
                 {
                     if (episodesQuality.Count == 1)
