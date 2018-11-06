@@ -12,6 +12,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
+
+using Common.ExtensionMethods;
+
 using Utils;
 using Helpers = Utils.Helpers;
 
@@ -329,7 +332,8 @@ namespace Desene
                 var conn = new SqlCeConnection(Constants.ConnectionString);
                 var cmd = new SqlCeCommand("select Id, NlAudioSource, Notes from FileDetail WHERE NlAudioSource <> '' AND NlAudioSource <> 'fara Nl' ", conn);
                 var cmd2 = new SqlCeCommand("UPDATE AudioStream SET AudioSource = @AudioSource WHERE FileDetailId = @FileDetailId AND Language = 'nl' ", conn);
-                var cmd3 = new SqlCeCommand("UPDATE FileDetail SET Notes = @Notes WHERE FileDetailId = @FileDetailId ", conn);
+                var cmd3 = new SqlCeCommand("UPDATE FileDetail SET Notes = @Notes WHERE Id = @FileDetailId ", conn);
+                var cmd4 = new SqlCeCommand("UPDATE FileDetail SET NlAudioSource = @NlAudioSource  WHERE Id = @FileDetailId ", conn);
 
                 conn.Open();
 
@@ -347,6 +351,7 @@ namespace Desene
                         var extraInfo = nlSourceVal.Replace("*", "").Replace(" (", "").Replace(")", "").Trim();
                         var nlSource2 = Regex.Replace(reader["NlAudioSource"].ToString(), "[^*]", "");
 
+                        cmd2.Parameters.Clear();
                         cmd2.Parameters.AddWithValue("@AudioSource", nlSource2.Length);
                         cmd2.Parameters.AddWithValue("@FileDetailId", fileId);
                         cmd2.ExecuteNonQuery();
@@ -361,11 +366,16 @@ namespace Desene
                                     extraInfo
                                 );
 
+                            cmd3.Parameters.Clear();
                             cmd3.Parameters.AddWithValue("@Notes", extraInfo);
                             cmd3.Parameters.AddWithValue("@FileDetailId", fileId);
                             cmd3.ExecuteNonQuery();
                         }
 
+                        cmd4.Parameters.Clear();
+                        cmd4.Parameters.AddWithValue("@NlAudioSource", "done - " + nlSourceVal);
+                        cmd4.Parameters.AddWithValue("@FileDetailId", fileId);
+                        cmd4.ExecuteNonQuery();
                         var x =1;
                     }
                 }
@@ -641,7 +651,10 @@ namespace Desene
 
             var movies = DAL.GetMoviesForWeb();
             var series = DAL.GetSeriesForWeb();
-            var episodes = DAL.GetEpisodesForWeb();
+
+            var varGenerateThumbnails = MsgBox.Show("Do you want to (re)generate the episodes thumbnails (25%-50%-75% stills)?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
+
+            var episodes = DAL.GetEpisodesForWeb(varGenerateThumbnails);
             DAL.FillSeriesDataFromEpisodes(ref series, episodes);
            // return;
 
@@ -694,7 +707,7 @@ namespace Desene
 
                     using (var ms = new MemoryStream(m.Cover))
                     {
-                        var imgOgj = CreateThumbnail(250, 388, Image.FromStream(ms));
+                        var imgOgj = CreatePosterThumbnail(250, 388, Image.FromStream(ms));
                         //daca crapa creaza Imgs!!!
                         imgOgj.Save(Path.Combine(folderBrDlg.SelectedPath, string.Format("Imgs\\poster-{0}.jpg", m.Id)), ImageFormat.Jpeg);
                     }
@@ -710,10 +723,33 @@ namespace Desene
 
                     using (var ms = new MemoryStream(s.Cover))
                     {
-                        var imgOgj = CreateThumbnail(250, 388, Image.FromStream(ms));
+                        var imgOgj = CreatePosterThumbnail(250, 388, Image.FromStream(ms));
                         //daca crapa creaza Imgs!!!
                         imgOgj.Save(Path.Combine(folderBrDlg.SelectedPath, string.Format("Imgs\\Seriale\\poster-{0}.jpg", s.Id)), ImageFormat.Jpeg);
                     }
+                }
+
+                if (varGenerateThumbnails)
+                {
+                    imgsPath = Path.Combine(folderBrDlg.SelectedPath, "Imgs\\Seriale\\Thumbnails");
+                    if (!Directory.Exists(imgsPath))
+                        Directory.CreateDirectory(imgsPath);
+
+                    foreach (var ep in episodes)
+                    {
+                        if (ep.MovieStills == null || ep.MovieStills.Count == 0) continue;
+
+                        for (var i = 0; i < ep.MovieStills.Count; i++)
+                        {
+                            using (var ms = new MemoryStream(ep.MovieStills[i]))
+                            {
+                                var imgOgj = CreateStillThumbnail(250, Image.FromStream(ms));
+                                //daca crapa creaza Imgs!!!
+                                imgOgj.Save(Path.Combine(folderBrDlg.SelectedPath, string.Format("Imgs\\Seriale\\Thumbnails\\thumb-{0}-{1}.jpg", ep.Id, i)), ImageFormat.Jpeg);
+                            }
+                        }
+                    }
+
                 }
             }
 
@@ -731,6 +767,7 @@ namespace Desene
             new Bitmap(Resources.arrowRight12).Save(Path.Combine(folderBrDlg.SelectedPath, "Images\\arrowRight12.png"), ImageFormat.Png);
             new Bitmap(Resources.arrowDown12).Save(Path.Combine(folderBrDlg.SelectedPath, "Images\\arrowDown12.png"), ImageFormat.Png);
             new Bitmap(Resources.search).Save(Path.Combine(folderBrDlg.SelectedPath, "Images\\search.png"), ImageFormat.Png);
+            new Bitmap(Resources.thumbnail).Save(Path.Combine(folderBrDlg.SelectedPath, "Images\\thumbnail.png"), ImageFormat.Png);
 
             #endregion
 
@@ -770,6 +807,8 @@ namespace Desene
 
             File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "index.html"), Resources.index.Replace("##", genUniqueId));
 
+            FlashWindow.Flash(this, 5);
+
             if (MsgBox.Show("The new site files have been saved! Do you want to open the folder location?", "Info",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
@@ -777,7 +816,7 @@ namespace Desene
             }
         }
 
-        private Image CreateThumbnail(int width, int height, Image source)
+        private Image CreatePosterThumbnail(int width, int height, Image source)
         {
             var newImage = new Bitmap(width, height);
 
@@ -792,18 +831,15 @@ namespace Desene
             return newImage;
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        public Image CreateStillThumbnail(int newHeight, Image source)
         {
+            // Prevent using images internal thumbnail
+            source.RotateFlip(RotateFlipType.Rotate180FlipNone);
+            source.RotateFlip(RotateFlipType.Rotate180FlipNone);
 
+            var newWidth = source.Width * newHeight / source.Height;
 
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
+            return source.GetThumbnailImage(newWidth, newHeight, null, IntPtr.Zero);
         }
     }
 }

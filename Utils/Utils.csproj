@@ -64,6 +64,7 @@
     <Compile Include="DatabaseOperations.cs" />
     <Compile Include="ExtendedFolderBrowser.cs" />
     <Compile Include="FilesMetaData.cs" />
+    <Compile Include="FlashWindow.cs" />
     <Compile Include="FrmEpisodeInfoFromFiles.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -241,6 +241,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
     </Content>
+    <None Include="Resources\thumbnail.png" />
     <None Include="Resources\arrowDown12.png" />
     <None Include="Resources\arrowRight12.png" />
     <None Include="Resources\desene.css" />

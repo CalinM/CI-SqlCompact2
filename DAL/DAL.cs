@@ -1123,7 +1123,7 @@ namespace Desene
 
                     cmd.Parameters.AddWithValue("@CoverEmbedded", CurrentMTD.Cover);
                     cmd.Parameters.AddWithValue("@Season", CurrentMTD.Season);
-                    cmd.Parameters.AddWithValue("@Quality", GetQualityStrFromSize(CurrentMTD));
+                    cmd.Parameters.AddWithValue("@Quality", CurrentMTD.ParentId > 0 ? GetQualityStrFromSize(CurrentMTD) : string.Empty);
 
                     CurrentMTD.AudioLanguages = string.Join(", ", CurrentMTD.AudioStreams.Select(a => a.Language == "" ? "?" : a.Language).Distinct());
                     cmd.Parameters.AddWithValue("@AudioLanguages", CurrentMTD.AudioLanguages);
@@ -1828,7 +1828,7 @@ namespace Desene
             return result;
         }
 
-        public static List<EpisodesForWeb> GetEpisodesForWeb()
+        public static List<EpisodesForWeb> GetEpisodesForWeb(bool loadThumbnails)
         {
             var result = new List<EpisodesForWeb>();
 
@@ -1880,6 +1880,11 @@ namespace Desene
                             efw.SU = reader["SubtitleLanguages"].ToString();
                             efw.T = reader["Theme"].ToString();
                             efw.N = reader["Notes"].ToString();
+
+                            if (loadThumbnails)
+                            {
+                                efw.MovieStills = LoadMovieStills(efw.Id).MovieStills;
+                            }
 
                             result.Add(efw);
                         }

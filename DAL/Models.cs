@@ -341,6 +341,22 @@ namespace DAL
         public string SU { get; set; }  //SubtitleLanguages ~   Subtitrari
         public string T { get; set; }   //Theme             ~   Tematica
         public string N { get; set; }   //Notes             ~   Obs
+
+        public int Th                   //Thumbnail from movie still (Bit like ~ 0-1)
+        {
+            get
+            {
+                return MovieStills.Count > 0 ? 1 : 0;
+            }
+        }
+
+        [ScriptIgnore]
+        public List<byte[]> MovieStills { get; set; }
+
+        public EpisodesForWeb()
+        {
+            MovieStills = new List<byte[]>();
+        }
     }
 
     #endregion

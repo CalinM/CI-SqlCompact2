@@ -159,13 +159,13 @@ namespace Desene.Properties {
         ///        $(&quot;.sideNav-overlay&quot;).css(&quot;display&quot;, &quot;block&quot;);
         ///
         ///        if ($(&quot;#sections-wrapper&quot;).find(&quot;.aboutPage-warning-title&quot;).length == 0) {
-        ///            $(&quot;#sections-wrapper&quot;).addClass(&quot;sideNav-overlay-content-transform&quot;)
+        ///            $(&quot;#sections-wrapper&quot;).addClass(&quot;sideNav-overlay-content-transform&quot;);
         ///        }
         ///    });
         ///
         ///	var displaySearchResult = function(s) {
         ///        if (searchResultTimer != null) {
-        ///     [rest of string was truncated]&quot;;.
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string deseneJS {
             get {
@@ -419,6 +419,16 @@ namespace Desene.Properties {
         internal static string sections {
             get {
                 return ResourceManager.GetString("sections", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap thumbnail {
+            get {
+                object obj = ResourceManager.GetObject("thumbnail", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
