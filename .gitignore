@@ -78,3 +78,7 @@ Thumbs.db
 *.pdb
 *.cache
 *.tss
+*.cache
+Desene/obj/Debug/Desene.csprojAssemblyReference.cache
+*.cache
+*.pdb

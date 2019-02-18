@@ -360,4 +360,17 @@ namespace DAL
     }
 
     #endregion
+
+    public class SelectableElement
+    {
+        public object Value { get; set; }
+
+        public string Description { get; set; }
+
+        public SelectableElement(object value, string description)
+        {
+            Value = value;
+            Description = description;
+        }
+    }
 }

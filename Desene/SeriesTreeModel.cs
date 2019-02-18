@@ -19,7 +19,6 @@ namespace Desene
                 n.Season == -1
                     ? DAL.GetSeasonsForSeries(n.Id) //changed to another root
                     : DAL.GetEpisodesInSeason(n.SeriesId, n.Season);
-
         }
 
         public override bool IsLeaf(TreePath treePath)

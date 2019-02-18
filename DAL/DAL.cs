@@ -56,7 +56,23 @@ namespace Desene
             {
                 conn.Open();
 
-                var commandSource = new SqlCeCommand("SELECT * FROM FileDetail WHERE ParentId IS NULL ORDER BY FileName", conn);
+                var commandSource = new SqlCeCommand(@"
+                    SELECT
+	                    Id,
+	                    FileName,
+	                    CASE
+                            WHEN Poster IS NULL THEN CONVERT(BIT, 0)
+                            ELSE CONVERT(BIT, 1)
+	                    END AS HasPoster,
+
+	                    CASE
+	                        WHEN Quality IS NULL THEN 'sd?'
+	                        ELSE Quality
+	                    END AS Quality
+
+                    FROM FileDetail
+                    WHERE ParentId IS NULL
+                    ORDER BY FileName", conn);
 
                 using (var reader = commandSource.ExecuteReader())
                 {
@@ -66,8 +82,8 @@ namespace Desene
                                     {
                                         Id = (int)reader["Id"],
                                         FileName = reader["FileName"].ToString(),
-                                        HasPoster = reader["Poster"].GetType() != typeof(DBNull),
-                                        Quality = string.IsNullOrEmpty(reader["Quality"].ToString()) ? "sd?" : reader["Quality"].ToString()
+                                        HasPoster = (bool)reader["HasPoster"],
+                                        Quality = reader["Quality"].ToString()
                                     });
                     }
                 }
@@ -151,7 +167,7 @@ namespace Desene
                         result.Add(new SeriesEpisodesShortInfo
                                     {
                                         Id = seriesId,
-                                        FileName = string.Format("Season {0}", seasonVal),
+                                        FileName = seasonVal > 0 ? string.Format("Season {0}", seasonVal) : "Specials",
                                         Theme = string.Empty,
                                         Quality = string.Empty,
                                         Season = seasonVal,

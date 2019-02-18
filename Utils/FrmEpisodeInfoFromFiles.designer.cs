@@ -34,13 +34,13 @@
             this.lbSeason = new System.Windows.Forms.Label();
             this.lbYear = new System.Windows.Forms.Label();
             this.cbFileExtensions = new System.Windows.Forms.ComboBox();
-            this.tbSeason = new System.Windows.Forms.TextBox();
             this.tbYear = new System.Windows.Forms.TextBox();
             this.btnFolderSelector = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.cbGenerateThumbnails = new System.Windows.Forms.CheckBox();
             this.lbWarning = new System.Windows.Forms.Label();
+            this.cbSeason = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // lbLocation
@@ -102,25 +102,16 @@
             this.cbFileExtensions.Location = new System.Drawing.Point(190, 77);
             this.cbFileExtensions.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cbFileExtensions.Name = "cbFileExtensions";
-            this.cbFileExtensions.Size = new System.Drawing.Size(272, 28);
+            this.cbFileExtensions.Size = new System.Drawing.Size(132, 28);
             this.cbFileExtensions.TabIndex = 5;
             this.cbFileExtensions.SelectedIndexChanged += new System.EventHandler(this.cbFileExtensions_SelectedIndexChanged);
-            // 
-            // tbSeason
-            // 
-            this.tbSeason.Location = new System.Drawing.Point(190, 120);
-            this.tbSeason.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tbSeason.Name = "tbSeason";
-            this.tbSeason.Size = new System.Drawing.Size(92, 26);
-            this.tbSeason.TabIndex = 6;
-            this.tbSeason.TextChanged += new System.EventHandler(this.tbSeason_TextChanged);
             // 
             // tbYear
             // 
             this.tbYear.Location = new System.Drawing.Point(190, 162);
             this.tbYear.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbYear.Name = "tbYear";
-            this.tbYear.Size = new System.Drawing.Size(92, 26);
+            this.tbYear.Size = new System.Drawing.Size(132, 26);
             this.tbYear.TabIndex = 7;
             // 
             // btnFolderSelector
@@ -180,18 +171,29 @@
             this.lbWarning.Text = "Warning! The import operation will take significantly longer!";
             this.lbWarning.Visible = false;
             // 
+            // cbSeason
+            // 
+            this.cbSeason.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbSeason.FormattingEnabled = true;
+            this.cbSeason.Location = new System.Drawing.Point(190, 122);
+            this.cbSeason.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbSeason.Name = "cbSeason";
+            this.cbSeason.Size = new System.Drawing.Size(132, 28);
+            this.cbSeason.TabIndex = 14;
+            this.cbSeason.SelectedIndexChanged += new System.EventHandler(this.cbSeason_SelectedIndexChanged);
+            // 
             // FrmEpisodeInfoFromFiles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1041, 317);
+            this.Controls.Add(this.cbSeason);
             this.Controls.Add(this.lbWarning);
             this.Controls.Add(this.cbGenerateThumbnails);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnFolderSelector);
             this.Controls.Add(this.tbYear);
-            this.Controls.Add(this.tbSeason);
             this.Controls.Add(this.cbFileExtensions);
             this.Controls.Add(this.lbYear);
             this.Controls.Add(this.lbSeason);
@@ -220,12 +222,12 @@
         private System.Windows.Forms.Label lbSeason;
         private System.Windows.Forms.Label lbYear;
         private System.Windows.Forms.ComboBox cbFileExtensions;
-        private System.Windows.Forms.TextBox tbSeason;
         private System.Windows.Forms.TextBox tbYear;
         private System.Windows.Forms.Button btnFolderSelector;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.CheckBox cbGenerateThumbnails;
         private System.Windows.Forms.Label lbWarning;
+        private System.Windows.Forms.ComboBox cbSeason;
     }
 }

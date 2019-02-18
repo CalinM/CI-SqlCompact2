@@ -62,7 +62,7 @@ namespace Desene.DetailFormsAndUserControls.Movies
             }
 
             btnSave.Enabled = true;
-            btnLoadPoster.Enabled = true;
+            //btnLoadPoster.Enabled = true;
         }
 
         private void btnLoadPoster_Click(object sender, EventArgs e)
@@ -78,17 +78,31 @@ namespace Desene.DetailFormsAndUserControls.Movies
                 Settings.Default.LastCoverPath = Path.GetFullPath(openFileDialog.FileName);
                 Settings.Default.Save();
 
-                using (var ms = new MemoryStream())
-                {
-                    using (var file = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
-                    {
-                        byte[] bytes = new byte[file.Length];
-                        file.Read(bytes, 0, (int)file.Length);
-                        ms.Write(bytes, 0, (int)file.Length);
-                    }
+                //using (var ms = new MemoryStream())
+                //{
+                //    using (var file = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
+                //    {
+                //        byte[] bytes = new byte[file.Length];
+                //        file.Read(bytes, 0, (int)file.Length);
+                //        ms.Write(bytes, 0, (int)file.Length);
+                //    }
 
-                    _poster = ms.ToArray();
-                    ucMovieInfo1.SetPoster(_poster, true);
+                //    _poster = ms.ToArray();
+                //    ucMovieInfo1.SetPoster(_poster, true);
+                //}
+                try
+                {
+                    using (Image img = Image.FromFile(openFileDialog.FileName))
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        ms.Close();
+                        _poster = ms.ToArray();
+                        ucMovieInfo1.SetPoster(_poster, true);
+                    }
+                } catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
                 }
             }
         }

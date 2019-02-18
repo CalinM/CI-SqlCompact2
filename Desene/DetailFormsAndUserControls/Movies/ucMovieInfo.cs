@@ -63,7 +63,7 @@ namespace Desene.DetailFormsAndUserControls
             tbFormat.DataBindings.Add("Text", _bsControlsData, "Format");
             tbEncodedWith.DataBindings.Add("Text", _bsControlsData, "Encoded_Application");
             cbTheme.DataBindings.Add("Text", _bsControlsData, "Theme");
-            pbCover.DataBindings.Add("Image", _bsControlsData, "Poster", true);
+            //pbCover.DataBindings.Add("Image", _bsControlsData, "Poster", true);
 
             chbTitle.DataBindings.Add("Checked", _bsControlsData, "HasTitle");
         }
@@ -148,6 +148,8 @@ namespace Desene.DetailFormsAndUserControls
 
         private void LoadControls2()
         {
+            SetPoster(DAL.CurrentMTD.Poster, false);
+
             var vsUC = Controls.OfType<UserControl>().FirstOrDefault(uc => uc.Tag != null && uc.Tag.ToString() == "videoStreams");
             if (vsUC == null)
             {
@@ -333,46 +335,46 @@ namespace Desene.DetailFormsAndUserControls
 
         }
 
-        private void CheckSizeMismatch()
-        {
-            var b = (string.IsNullOrEmpty(tbSizeAsInt.Text) || tbSizeAsInt.Text == "0") && tbSize.Text != string.Empty && tbSize.Text != "0";
-            decimal sizeCalc = 0m;
+        //private void CheckSizeMismatch()
+        //{
+        //    var b = (string.IsNullOrEmpty(tbSizeAsInt.Text) || tbSizeAsInt.Text == "0") && tbSize.Text != string.Empty && tbSize.Text != "0";
+        //    decimal sizeCalc = 0m;
 
-            if (!b)
-            {
-                long sizeAsLong = 0;
+        //    if (!b)
+        //    {
+        //        long sizeAsLong = 0;
 
-                if (!long.TryParse(tbSizeAsInt.Text, out sizeAsLong))
-                    b = true;
-                else
-                {
-                    sizeCalc =
-                        tbSize.Text.ToLower().IndexOf("gb") > 0
-                            ? Math.Truncate(((decimal)Math.Abs(sizeAsLong) / 1024 / 1024 / 1024) * 100) / 100
-                            : Math.Truncate(((decimal)Math.Abs(sizeAsLong) / 1024 / 1024) * 100) / 100;
+        //        if (!long.TryParse(tbSizeAsInt.Text, out sizeAsLong))
+        //            b = true;
+        //        else
+        //        {
+        //            sizeCalc =
+        //                tbSize.Text.ToLower().IndexOf("gb") > 0
+        //                    ? Math.Truncate(((decimal)Math.Abs(sizeAsLong) / 1024 / 1024 / 1024) * 100) / 100
+        //                    : Math.Truncate(((decimal)Math.Abs(sizeAsLong) / 1024 / 1024) * 100) / 100;
 
-                    decimal valFromNiceStr = 0m;
-                    if (!decimal.TryParse(tbSize.Text.Replace(" ", "").Replace("Gb", "").Replace("Mb", ""), out valFromNiceStr))
-                        b = true;
-                    else
-                    {
-                        b = Math.Abs(valFromNiceStr - sizeCalc) > (decimal)0.5;
-                    }
-                }
-            }
+        //            decimal valFromNiceStr = 0m;
+        //            if (!decimal.TryParse(tbSize.Text.Replace(" ", "").Replace("Gb", "").Replace("Mb", ""), out valFromNiceStr))
+        //                b = true;
+        //            else
+        //            {
+        //                b = Math.Abs(valFromNiceStr - sizeCalc) > (decimal)0.5;
+        //            }
+        //        }
+        //    }
 
-            tbSize.ButtonVisible = b;
+        //    tbSize.ButtonVisible = b;
 
-            if (b)
-            {
-                tbSize.ButtonToolTip =
-                    "Size mismatch!" + Environment.NewLine +
-                    string.Format("Current values: {0} (database display value) and {1} (database raw value)",
-                        tbSize.Text.Replace(" ", "").Replace("Gb", "").Replace("Mb", ""),
-                        sizeCalc) + Environment.NewLine +
-                    "Possible cause: a previously edited value was provided in a format that couldn't be transformed into a number representation." + Environment.NewLine +
-                    "Please revise the FileSize value!";
-            }
-        }
+        //    if (b)
+        //    {
+        //        tbSize.ButtonToolTip =
+        //            "Size mismatch!" + Environment.NewLine +
+        //            string.Format("Current values: {0} (database display value) and {1} (database raw value)",
+        //                tbSize.Text.Replace(" ", "").Replace("Gb", "").Replace("Mb", ""),
+        //                sizeCalc) + Environment.NewLine +
+        //            "Possible cause: a previously edited value was provided in a format that couldn't be transformed into a number representation." + Environment.NewLine +
+        //            "Please revise the FileSize value!";
+        //    }
+        //}
     }
 }

@@ -2,41 +2,28 @@
 <ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ArrayOfArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\FrmMain.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Movies\FrmAddMovie.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Movies\FrmAddMovie.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Movies\FrmAddMovie.Designer.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Movies\ucMovieInfo.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Movies\ucMovieInfo.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\ucMovies.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\Desene\FrmMain.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\Resources\desene.css</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\Resources\desene.js</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\ucSeries.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\ucSeries.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\Program.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\DAL\DAL.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\DAL\Models.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\Resources\sections.css</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\Properties\Settings.settings</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\Properties\Resources.resx</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Common\ExtensionMethods\ListExtensions.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FlashWindow.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FrmEpisodeInfoFromFiles.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FrmEpisodeInfoFromFiles.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\Properties\AssemblyInfo.tt</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>

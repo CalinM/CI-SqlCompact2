@@ -343,6 +343,9 @@ namespace Desene
 
         private void CloseModule(object sender, EventArgs e)
         {
+            if (!Utils.Helpers.ConfirmDiscardChanges())
+                return;
+
             _preventEvent = true;
         }
 

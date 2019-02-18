@@ -18,16 +18,39 @@ using System.Reflection;
 [assembly: AssemblyCulture("")]
 
 <#
-	int BuildNumber = 1;
+	var buildNumber = 1;
 
 	try
 	{
+		/*
 		string currentDirectory = Path.GetDirectoryName(Host.TemplateFile);
         string assemblyInfo = File.ReadAllText(Path.Combine(currentDirectory,"AssemblyInfo.cs"));
         Regex pattern = new Regex("AssemblyVersion\\(\"\\d+\\.\\d+\\.(?<revision>\\d+)\\.(?<build>\\d+)\"\\)");
         MatchCollection matches = pattern.Matches(assemblyInfo);
 
-		BuildNumber = Convert.ToInt32(matches[0].Groups["revision"].Value) + 1;
+		buildNumber = Convert.ToInt32(matches[0].Groups["revision"].Value) + 1;
+		*/
+
+		var currentDirectory = Path.GetDirectoryName(Host.TemplateFile);
+		var lastBuildNoFile = Path.Combine(currentDirectory, "lastBuildNo.txt");
+
+		if (File.Exists(lastBuildNoFile)) {
+			var lastBuildNoFileContent = File.ReadAllText(lastBuildNoFile);
+
+			if (!string.IsNullOrEmpty(lastBuildNoFileContent))
+			{
+                int lastBuildNo = 1;
+                if (int.TryParse(lastBuildNoFileContent, out lastBuildNo))
+                    buildNumber = lastBuildNo + 1;
+			}
+
+            File.Delete(lastBuildNoFile);
+		}
+
+		using (StreamWriter sw = File.CreateText(lastBuildNoFile))
+		{
+			sw.WriteLine(buildNumber.ToString());
+		}
 	}
     catch(Exception)
 	{
@@ -36,5 +59,5 @@ using System.Reflection;
     int RevisionNumber = (int)(DateTime.UtcNow - new DateTime(2010,1,1)).TotalDays;
 #>
 
-[assembly: AssemblyVersion("2.0.<#= BuildNumber #>.<#= RevisionNumber #>")]
-[assembly: AssemblyFileVersion("2.0.<#= BuildNumber #>.<#= RevisionNumber #>")]
+[assembly: AssemblyVersion("2.0.<#= buildNumber #>.<#= RevisionNumber #>")]
+[assembly: AssemblyFileVersion("2.0.<#= buildNumber #>.<#= RevisionNumber #>")]

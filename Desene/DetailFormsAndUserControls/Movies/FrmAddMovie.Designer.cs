@@ -90,7 +90,6 @@
             // 
             // btnLoadPoster
             // 
-            this.btnLoadPoster.Enabled = false;
             this.btnLoadPoster.Image = global::Desene.Properties.Resources.image;
             this.btnLoadPoster.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoadPoster.Name = "btnLoadPoster";
@@ -103,7 +102,7 @@
             this.ucMovieInfo1.AutoSize = true;
             this.ucMovieInfo1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ucMovieInfo1.Location = new System.Drawing.Point(0, 32);
-            this.ucMovieInfo1.Margin = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.ucMovieInfo1.Margin = new System.Windows.Forms.Padding(8);
             this.ucMovieInfo1.Name = "ucMovieInfo1";
             this.ucMovieInfo1.Size = new System.Drawing.Size(1326, 570);
             this.ucMovieInfo1.TabIndex = 186;
