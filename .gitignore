@@ -82,3 +82,6 @@ Thumbs.db
 Desene/obj/Debug/Desene.csprojAssemblyReference.cache
 *.cache
 *.pdb
+bin
+/Common/bin/Debug/*.pdb
+*.pdb

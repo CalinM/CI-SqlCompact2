@@ -95,6 +95,12 @@
     <Compile Include="FrmProgressIndicator.Designer.cs">
       <DependentUpon>FrmProgressIndicator.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmSiteGenParams.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmSiteGenParams.Designer.cs">
+      <DependentUpon>FrmSiteGenParams.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helpers.cs" />
     <Compile Include="MediaInfoDLL.cs" />
     <Compile Include="CustomMessageBox\MsgBox.cs" />
@@ -109,6 +115,12 @@
     <Compile Include="SeparatorCombobox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="SeparatorCombobox.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SeparatorCombobox.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SiteGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
@@ -136,7 +148,10 @@
     <EmbeddedResource Include="FrmProgressIndicator.resx">
       <DependentUpon>FrmProgressIndicator.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SeparatorCombobox.resx" />
+    <EmbeddedResource Include="SeparatorCombobox.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SeparatorCombobox.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Settings.settings">

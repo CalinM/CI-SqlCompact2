@@ -41,6 +41,7 @@
             this.cbGenerateThumbnails = new System.Windows.Forms.CheckBox();
             this.lbWarning = new System.Windows.Forms.Label();
             this.cbSeason = new System.Windows.Forms.ComboBox();
+            this.buttonEdit1 = new Utils.ButtonEdit();
             this.SuspendLayout();
             // 
             // lbLocation
@@ -182,11 +183,25 @@
             this.cbSeason.TabIndex = 14;
             this.cbSeason.SelectedIndexChanged += new System.EventHandler(this.cbSeason_SelectedIndexChanged);
             // 
+            // buttonEdit1
+            // 
+            this.buttonEdit1.ButtonCursor = System.Windows.Forms.Cursors.Default;
+            this.buttonEdit1.ButtonImage = null;
+            this.buttonEdit1.ButtonImageForceWidth = 16;
+            this.buttonEdit1.ButtonImageSizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.buttonEdit1.ButtonToolTip = "";
+            this.buttonEdit1.ButtonVisible = false;
+            this.buttonEdit1.Location = new System.Drawing.Point(664, 138);
+            this.buttonEdit1.Name = "buttonEdit1";
+            this.buttonEdit1.Size = new System.Drawing.Size(100, 26);
+            this.buttonEdit1.TabIndex = 15;
+            // 
             // FrmEpisodeInfoFromFiles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1041, 317);
+            this.Controls.Add(this.buttonEdit1);
             this.Controls.Add(this.cbSeason);
             this.Controls.Add(this.lbWarning);
             this.Controls.Add(this.cbGenerateThumbnails);
@@ -229,5 +244,6 @@
         private System.Windows.Forms.CheckBox cbGenerateThumbnails;
         private System.Windows.Forms.Label lbWarning;
         private System.Windows.Forms.ComboBox cbSeason;
+        private ButtonEdit buttonEdit1;
     }
 }

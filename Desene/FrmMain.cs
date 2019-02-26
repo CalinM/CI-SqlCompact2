@@ -13,8 +13,6 @@ using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
 
-using Common.ExtensionMethods;
-
 using Utils;
 using Helpers = Utils.Helpers;
 
@@ -49,6 +47,7 @@ namespace Desene
                     Close();
                 }
             }
+            pMainContainer.Controls.Clear();
 
             DAL.LoadBaseDbValues();
 
