@@ -257,10 +257,17 @@ namespace Desene.DetailFormsAndUserControls
 
         public void SetPoster(byte[] bytes, bool isNew)
         {
-            using (var ms = new MemoryStream())
+            if (bytes == null)
             {
-                ms.Write(bytes, 0, bytes.Length);
-                pbCover.Image = Image.FromStream(ms);
+                pbCover.Image = null;
+            }
+            else
+            {
+                using (var ms = new MemoryStream())
+                {
+                    ms.Write(bytes, 0, bytes.Length);
+                    pbCover.Image = Image.FromStream(ms);
+                }
             }
 
             if (!isNew)

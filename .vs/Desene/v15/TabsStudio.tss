@@ -24,5 +24,24 @@
     <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\Utils\SiteGenerator.cs</string>
     </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\Properties\Resources.resx</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>Object Browser</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\ucMovies.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\ucMovies.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\Program.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\DAL\Models.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Movies\ucMovieInfo.cs</string>
+    </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>

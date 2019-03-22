@@ -95,7 +95,7 @@ namespace Desene
             // miMovies
             // 
             this.miMovies.Name = "miMovies";
-            this.miMovies.Size = new System.Drawing.Size(256, 34);
+            this.miMovies.Size = new System.Drawing.Size(153, 30);
             this.miMovies.Tag = "1";
             this.miMovies.Text = "Movies";
             this.miMovies.Click += new System.EventHandler(this.miMovies_Click);
@@ -103,7 +103,7 @@ namespace Desene
             // miSeries
             // 
             this.miSeries.Name = "miSeries";
-            this.miSeries.Size = new System.Drawing.Size(256, 34);
+            this.miSeries.Size = new System.Drawing.Size(153, 30);
             this.miSeries.Tag = "1";
             this.miSeries.Text = "Series";
             this.miSeries.Click += new System.EventHandler(this.miSeries_Click);
@@ -111,13 +111,13 @@ namespace Desene
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(253, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(150, 6);
             // 
             // miExit
             // 
             this.miExit.Image = global::Desene.Properties.Resources.exit;
             this.miExit.Name = "miExit";
-            this.miExit.Size = new System.Drawing.Size(256, 34);
+            this.miExit.Size = new System.Drawing.Size(153, 30);
             this.miExit.Text = "Exit";
             this.miExit.Click += new System.EventHandler(this.miExit_Click);
             // 

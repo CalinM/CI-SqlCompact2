@@ -442,6 +442,7 @@ namespace Desene
                             CoverEmbedded,
                             Season,
                             InsertedDate,
+                            LastChangeDate,
                             Quality,
                             ParentId,
                             AudioLanguages,
@@ -468,6 +469,7 @@ namespace Desene
                             @CoverEmbedded,
                             @Season,
                             @InsertedDate,
+                            @LastChangeDate,
                             @Quality,
                             @ParentId,
                             @AudioLanguages,
@@ -494,8 +496,8 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@TitleEmbedded", mtd.Title);
                     cmd.Parameters.AddWithValue("@CoverEmbedded", mtd.Cover);
                     cmd.Parameters.AddWithValue("@Season", eip == null ? (object)DBNull.Value : eip.Season);
-                    cmd.Parameters.AddWithValue("@InsertedDate", DateTime.Now);
-
+                    cmd.Parameters.AddWithValue("@InsertedDate", mtd.InsertedDate ?? DateTime.Now);
+                    cmd.Parameters.AddWithValue("@LastChangeDate", mtd.LastChangeDate == null ? (object)DBNull.Value : mtd.LastChangeDate);
                     cmd.Parameters.AddWithValue("@Quality", GetQualityStrFromSize(mtd));
                     cmd.Parameters.AddWithValue("@ParentId", eip == null ? (object)DBNull.Value : eip.ParentId);
 
@@ -1139,7 +1141,8 @@ namespace Desene
 
                     cmd.Parameters.AddWithValue("@CoverEmbedded", CurrentMTD.Cover);
                     cmd.Parameters.AddWithValue("@Season", CurrentMTD.Season);
-                    cmd.Parameters.AddWithValue("@Quality", CurrentMTD.ParentId > 0 ? GetQualityStrFromSize(CurrentMTD) : string.Empty);
+                    //cmd.Parameters.AddWithValue("@Quality", CurrentMTD.ParentId > 0 ? GetQualityStrFromSize(CurrentMTD) : string.Empty);
+                    cmd.Parameters.AddWithValue("@Quality", CurrentMTD.ParentId != -1 ? GetQualityStrFromSize(CurrentMTD) : string.Empty);
 
                     CurrentMTD.AudioLanguages = string.Join(", ", CurrentMTD.AudioStreams.Select(a => a.Language == "" ? "?" : a.Language).Distinct());
                     cmd.Parameters.AddWithValue("@AudioLanguages", CurrentMTD.AudioLanguages);
@@ -1317,7 +1320,7 @@ namespace Desene
                             mtd.Theme = reader["Theme"].ToString();
                             mtd.StreamLink = reader["StreamLink"].ToString();
                             mtd.InsertedDate = reader["InsertedDate"] == DBNull.Value ? (DateTime?)null : (DateTime)reader["InsertedDate"];
-                            mtd.InsertedDate = reader["LastChangeDate"] == DBNull.Value ? (DateTime?)null : (DateTime)reader["LastChangeDate"];
+                            mtd.LastChangeDate = reader["LastChangeDate"] == DBNull.Value ? (DateTime?)null : (DateTime)reader["LastChangeDate"];
                             mtd.Quality = reader["Quality"].ToString();
                             mtd.Recommended = reader["Recommended"].ToString();
                             mtd.RecommendedLink = reader["RecommendedLink"].ToString();

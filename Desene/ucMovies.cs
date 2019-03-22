@@ -464,6 +464,8 @@ namespace Desene
                 rParam.mtd.Trailer = DAL.CurrentMTD.Trailer;
                 rParam.mtd.StreamLink = DAL.CurrentMTD.StreamLink;
                 rParam.mtd.Poster = DAL.CurrentMTD.Poster;
+                rParam.mtd.InsertedDate = DAL.CurrentMTD.InsertedDate;
+                rParam.mtd.LastChangeDate = DateTime.Now;
 
                 //not using UpdateMTD in order to avoud additional check regarding the number of streams
                 opRes = DAL.InsertMTD(rParam.mtd, null);
