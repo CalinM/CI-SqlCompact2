@@ -63,7 +63,7 @@ namespace Utils
             {
                 if (mi is null) mi = new MediaInfo();
                 mi.Open(filePath);
-
+                var x = mi.Option("Info_Parameters");
                 //https://sourceforge.net/p/mediainfo/discussion/297610/thread/d51f253c/?limit=25
 
                 var mtd = new MovieTechnicalDetails
@@ -126,7 +126,9 @@ namespace Utils
                                 Video_Delay = mi.Get(StreamKind.Audio, i, "Video_Delay/String"),
                                 StreamSize = mi.Get(StreamKind.Audio, i, "StreamSize/String"),
                                 Title = mi.Get(StreamKind.Audio, i, "Title"),				        // to detect texts
-                                Language = mi.Get(StreamKind.Audio, i, "Language") //Language/String
+                                Language = mi.Get(StreamKind.Audio, i, "Language"), //Language/String
+                                Default = mi.Get(StreamKind.Audio, i, "Default").ToLower() == "yes",
+                                Forced = mi.Get(StreamKind.Audio, i, "Forced").ToLower() == "yes"
                             });
                 }
 
@@ -142,7 +144,9 @@ namespace Utils
                                 Format = mi.Get(StreamKind.Text, i, "Format"),
                                 StreamSize = mi.Get(StreamKind.Text, i, "StreamSize/String"),
                                 Title = mi.Get(StreamKind.Text, i, "Title"),    			        // to detect texts
-                                Language = mi.Get(StreamKind.Text, i, "Language")
+                                Language = mi.Get(StreamKind.Text, i, "Language"),
+                                Default = mi.Get(StreamKind.Audio, i, "Default").ToLower() == "yes",
+                                Forced = mi.Get(StreamKind.Audio, i, "Forced").ToLower() == "yes"
                             });
                 }
 
@@ -196,6 +200,7 @@ namespace Utils
         private static void formPI_DoWork_RetrieveFilesInfo2(FrmProgressIndicator sender, DoWorkEventArgs e)
         {
             var arguments = (KeyValuePair<FilesImportParams, string[]>)e.Argument;
+            var displayInfoResult = new List<MovieTechnicalDetails>();
 
             var mi = new MediaInfo();
             FFMpegConverter ffMpegConverter = null;
@@ -222,28 +227,35 @@ namespace Utils
                 {
                     var mtdObj = (MovieTechnicalDetails)opRes.AdditionalDataReturn;
 
-                    var opRes2 = GetMovieStills(mtdObj, ffMpegConverter);
-
-                    if (!opRes2.Success)
+                    if (!arguments.Key.DisplayInfoOnly)
                     {
-                        technicalDetailsImportErrorBgw.Add(
-                            new TechnicalDetailsImportError
+                        var opRes2 = GetMovieStills(mtdObj, ffMpegConverter);
+
+                        if (!opRes2.Success)
+                        {
+                            technicalDetailsImportErrorBgw.Add(
+                                new TechnicalDetailsImportError
+                                    {
+                                        FilePath = filePath,
+                                        ErrorMesage = opRes2.CustomErrorMessage
+                                    });
+                        }
+
+                        opRes2 = Desene.DAL.InsertMTD2(mtdObj, arguments.Key);
+
+                        if (!opRes2.Success)
+                        {
+                            technicalDetailsImportErrorBgw.Add(
+                                new TechnicalDetailsImportError
                                 {
                                     FilePath = filePath,
                                     ErrorMesage = opRes2.CustomErrorMessage
                                 });
+                        }
                     }
-
-                    opRes2 = Desene.DAL.InsertMTD2(mtdObj, arguments.Key);
-
-                    if (!opRes2.Success)
+                    else
                     {
-                        technicalDetailsImportErrorBgw.Add(
-                            new TechnicalDetailsImportError
-                            {
-                                FilePath = filePath,
-                                ErrorMesage = opRes2.CustomErrorMessage
-                            });
+                        displayInfoResult.Add(mtdObj);
                     }
                 }
                 else
@@ -259,7 +271,10 @@ namespace Utils
                 sender.SetProgress(i, Path.GetFileName(filePath));
             }
 
-            e.Result = technicalDetailsImportErrorBgw;
+            if (!arguments.Key.DisplayInfoOnly)
+                e.Result = technicalDetailsImportErrorBgw;
+            else
+                e.Result = new KeyValuePair<List<MovieTechnicalDetails>, List<TechnicalDetailsImportError>>(displayInfoResult, technicalDetailsImportErrorBgw);
         }
 
 

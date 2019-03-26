@@ -2,16 +2,22 @@
 using Desene.DetailFormsAndUserControls.Movies;
 using Desene.Properties;
 using System;
+using System.Collections.Generic;
 using System.Data.SqlServerCe;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
+
+using Common.ExtensionMethods;
+
+using DAL;
 
 using Utils;
 using Helpers = Utils.Helpers;
@@ -47,6 +53,7 @@ namespace Desene
                     Close();
                 }
             }
+
             pMainContainer.Controls.Clear();
 
             DAL.LoadBaseDbValues();
@@ -839,6 +846,88 @@ namespace Desene
             var newWidth = source.Width * newHeight / source.Height;
 
             return source.GetThumbnailImage(newWidth, newHeight, null, IntPtr.Zero);
+        }
+
+        private void btnFilesDetails_Click(object sender, EventArgs e)
+        {
+            using (var folderBrowserDialog = new FolderBrowserDialog())
+            {
+                folderBrowserDialog.Description = "Please select the files location";
+                folderBrowserDialog.ShowNewFolderButton = false;
+                folderBrowserDialog.SelectedPath = Settings.Default.LastPath;
+
+                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                {
+                    Settings.Default.LastPath = folderBrowserDialog.SelectedPath;
+                    Settings.Default.Save();
+
+                   var files =
+                        Directory.EnumerateFiles(folderBrowserDialog.SelectedPath, "*.*", SearchOption.AllDirectories)
+                            .Where(s => s.EndsWith(".mkv") || s.EndsWith(".mp4")).ToArray();
+
+                        Directory.GetFiles(folderBrowserDialog.SelectedPath, "*.*");
+
+                    if (!files.ToList().DistinctBy(Path.GetExtension).Any())
+                        MsgBox.Show("The folder is empty!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    else
+                    {
+                        var param = new FilesImportParams
+                                        {
+                                            Location = folderBrowserDialog.SelectedPath,
+                                            FilesExtension = "*.*",
+                                            DisplayInfoOnly = true
+                                        };
+
+                        var opRes = FilesMetaData.GetFilesTechnicalDetails(files, param);
+
+                        if (opRes.AdditionalDataReturn == null)
+                        {
+                            MsgBox.Show("There was an issue and no files details were retrieved!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+
+                        var filesInfoDeterminationResult = (KeyValuePair<List<MovieTechnicalDetails>, List<TechnicalDetailsImportError>>)opRes.AdditionalDataReturn;
+                        var displayResult = new List<dynamic>();
+
+                        foreach (var file in files)
+                        {
+                            var fileInfoObj = filesInfoDeterminationResult.Key.FirstOrDefault(f => f.InitialPath == file);
+                            var dynamicObj = new ExpandoObject() as IDictionary<string, object>;
+                            dynamicObj.Add("Filename", Path.GetFileName(file));
+                            dynamicObj.Add("FileVideo Title", fileInfoObj.HasTitle || fileInfoObj.VideoStreams.Any(vs => vs.HasTitle));
+
+                            if (fileInfoObj != null)
+                            {
+                                foreach (var audioObj in fileInfoObj.AudioStreams)
+                                {
+                                    dynamicObj.Add(string.Format("Audio {0}", audioObj.Index), audioObj.Language);
+                                    dynamicObj.Add(string.Format("Default {0}", audioObj.Index), audioObj.Default);
+                                    dynamicObj.Add(string.Format("Forced {0}", audioObj.Index), audioObj.Forced);
+                                    dynamicObj.Add(string.Format("Title {0}", audioObj.Index), audioObj.HasTitle);
+                                }
+
+                                dynamicObj.Add("Error", "");
+                            }
+                            else
+                            {
+                                var fileErrorObj = filesInfoDeterminationResult.Value.FirstOrDefault(f => f.FilePath == file);
+                                dynamicObj.Add("Error", fileInfoObj != null ? fileErrorObj.ErrorMesage : "Unknown error!");
+                            }
+
+                            displayResult.Add(dynamicObj);
+                        }
+
+                        if (!displayResult.Any())
+                        {
+                            MsgBox.Show("Something went wrong while processing the files details!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+
+                        var frmFileDetails = new FrmFileDetails(displayResult)  { Owner = this };
+                        frmFileDetails.Show();
+                    }
+                }
+            }
         }
     }
 }

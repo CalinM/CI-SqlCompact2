@@ -352,12 +352,12 @@ namespace Desene
 
             if (files.Length == 0)
             {
-                MsgBox.Show("There are no files with the specified extension in the selected folder!", @"Error", MessageBoxButtons.OK,
+                MsgBox.Show("There are no files with the specified extension in the selected folder!", "Error", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 return;
             }
 
-            if (MsgBox.Show(string.Format("Are you sure you want to import {0} episodes in the selected Series?", files.Length), @"Confirm",
+            if (MsgBox.Show(string.Format("Are you sure you want to import {0} episodes in the selected Series?", files.Length), "Confirm",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 return;
 

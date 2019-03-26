@@ -16,3 +16,4 @@ C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.csproj.CoreCompileInputs.cac
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.csproj.CopyComplete
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.dll
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.pdb
+C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmFileDetails.resources

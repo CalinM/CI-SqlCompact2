@@ -234,8 +234,12 @@
     <Content Include="Images\cancel.png" />
     <Content Include="Images\delete.png" />
     <Content Include="Images\exit.png" />
+    <Content Include="Images\export.png" />
     <Content Include="Images\image.png" />
     <Content Include="Images\import.png" />
+    <Content Include="Images\info.png" />
+    <Content Include="Images\moviesList.png" />
+    <Content Include="Images\search.png" />
     <Content Include="Images\undo.png" />
     <Content Include="Properties\AssemblyInfo.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

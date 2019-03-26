@@ -214,6 +214,8 @@ namespace DAL
         public bool HasTitle { get; set; }
         public string Language { get; set; }
         public int AudioSource { get; set; }
+        public bool Default { get; set; }
+        public bool Forced { get; set; }
 
         public override string ToString()
         {
@@ -243,6 +245,8 @@ namespace DAL
 
         public bool HasTitle { get; set; }
         public string Language { get; set; }
+        public bool Default { get; set; }
+        public bool Forced { get; set; }
 
         public override string ToString()
         {
@@ -260,6 +264,7 @@ namespace DAL
         public bool GenerateThumbnail { get; set; }
         public bool ForceAddMissingEntries { get; set; }
         public bool PreserveManuallySetData { get; set; }
+        public bool DisplayInfoOnly { get; set; }
     }
 
     public class CachedMovieStills
@@ -373,4 +378,17 @@ namespace DAL
             Description = description;
         }
     }
+
+    //public class FileDetailForDisplay
+    //{
+    //    public string FileName { get; set; }
+    //    public string Audio1 { get; set; }
+    //    public string Audio1Default { get; set; }
+    //    public string Audio1Forced { get; set; }
+
+    //    public string Audio1 { get; set; }
+    //    public string Audio1Default { get; set; }
+    //    public string Audio1Forced { get; set; }
+
+    //}
 }

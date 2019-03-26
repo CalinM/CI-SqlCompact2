@@ -2,46 +2,18 @@
 <ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ArrayOfArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\FrmMain.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\FrmMain.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Utils\ExtendedFolderBrowser.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FlashWindow.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FrmEpisodeInfoFromFiles.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FrmEpisodeInfoFromFiles.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\DAL\DAL.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FrmSiteGenParams.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Utils\SiteGenerator.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\Properties\Resources.resx</string>
-    </ArrayOfString>
-    <ArrayOfString>
       <string>Object Browser</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\ucMovies.cs</string>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\ucMovies.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FrmFileDetails.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Utils\FrmFileDetails.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\Program.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\FrmMain.cs</string>
+      <string>C:\Work\_Utils\CI SqlCompact2\Desene\FrmMain.cs</string>
     </ArrayOfString>
     <ArrayOfString>
       <string>C:\Work\_Utils\CI SqlCompact2\DAL\Models.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Work\_Utils\CI SqlCompact2\Desene\DetailFormsAndUserControls\Movies\ucMovieInfo.cs</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>

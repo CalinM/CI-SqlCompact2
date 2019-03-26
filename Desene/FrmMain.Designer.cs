@@ -44,6 +44,7 @@ namespace Desene
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnGenerateHtml = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnFilesDetails = new System.Windows.Forms.ToolStripButton();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.sslbStatistics = new System.Windows.Forms.ToolStripStatusLabel();
             this.sslbAdditionalInfo1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -71,7 +72,8 @@ namespace Desene
             this.btnDelete,
             this.toolStripSeparator2,
             this.btnGenerateHtml,
-            this.toolStripSeparator3});
+            this.toolStripSeparator3,
+            this.btnFilesDetails});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
@@ -123,7 +125,7 @@ namespace Desene
             // 
             // btnMoviesList
             // 
-            this.btnMoviesList.Image = ((System.Drawing.Image)(resources.GetObject("btnMoviesList.Image")));
+            this.btnMoviesList.Image = global::Desene.Properties.Resources.moviesList;
             this.btnMoviesList.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnMoviesList.Name = "btnMoviesList";
             this.btnMoviesList.Size = new System.Drawing.Size(128, 32);
@@ -175,6 +177,15 @@ namespace Desene
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 35);
+            // 
+            // btnFilesDetails
+            // 
+            this.btnFilesDetails.Image = global::Desene.Properties.Resources.info1;
+            this.btnFilesDetails.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnFilesDetails.Name = "btnFilesDetails";
+            this.btnFilesDetails.Size = new System.Drawing.Size(134, 32);
+            this.btnFilesDetails.Text = "Files details";
+            this.btnFilesDetails.Click += new System.EventHandler(this.btnFilesDetails_Click);
             // 
             // statusStrip
             // 
@@ -330,6 +341,7 @@ namespace Desene
         private System.Windows.Forms.ToolStripStatusLabel sslbAdditionalInfo2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ToolStripButton btnMoviesList;
+        private System.Windows.Forms.ToolStripButton btnFilesDetails;
     }
 }
 

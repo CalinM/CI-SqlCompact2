@@ -71,6 +71,12 @@
     <Compile Include="FrmEpisodeInfoFromFiles.designer.cs">
       <DependentUpon>FrmEpisodeInfoFromFiles.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmFileDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmFileDetails.Designer.cs">
+      <DependentUpon>FrmFileDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmMoviesInfoFromFiles.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,6 +141,9 @@
   <ItemGroup>
     <EmbeddedResource Include="FrmEpisodeInfoFromFiles.resx">
       <DependentUpon>FrmEpisodeInfoFromFiles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmFileDetails.resx">
+      <DependentUpon>FrmFileDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMoviesInfoFromFiles.resx">
       <DependentUpon>FrmMoviesInfoFromFiles.cs</DependentUpon>
