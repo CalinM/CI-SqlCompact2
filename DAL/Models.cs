@@ -305,6 +305,9 @@ namespace DAL
 
         [ScriptIgnore]
         public byte[] Cover { get; set; }
+
+        [ScriptIgnore]
+        public bool HasPoster { get; set; }
     }
 
     public class SeriesForWeb
@@ -325,6 +328,9 @@ namespace DAL
 
         [ScriptIgnore]
         public byte[] Cover { get; set; }
+
+        [ScriptIgnore]
+        public bool HasPoster { get; set; }
     }
 
     public class EpisodesForWeb
@@ -379,16 +385,11 @@ namespace DAL
         }
     }
 
-    //public class FileDetailForDisplay
-    //{
-    //    public string FileName { get; set; }
-    //    public string Audio1 { get; set; }
-    //    public string Audio1Default { get; set; }
-    //    public string Audio1Forced { get; set; }
-
-    //    public string Audio1 { get; set; }
-    //    public string Audio1Default { get; set; }
-    //    public string Audio1Forced { get; set; }
-
-    //}
+    public class SiteGenParams
+    {
+        public string Location { get; set; }
+        public bool SavePosters { get; set; }
+        public bool SaveMoviesThumbnals { get; set; }
+        public bool SaveEpisodesThumbnals { get; set; }
+    }
 }

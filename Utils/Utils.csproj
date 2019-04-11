@@ -43,6 +43,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -156,6 +157,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmProgressIndicator.resx">
       <DependentUpon>FrmProgressIndicator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmSiteGenParams.resx">
+      <DependentUpon>FrmSiteGenParams.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SeparatorCombobox.resx">
       <Generator>ResXFileCodeGenerator</Generator>

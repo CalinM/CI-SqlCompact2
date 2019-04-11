@@ -195,6 +195,7 @@
             this.buttonEdit1.Name = "buttonEdit1";
             this.buttonEdit1.Size = new System.Drawing.Size(100, 26);
             this.buttonEdit1.TabIndex = 15;
+            this.buttonEdit1.Visible = false;
             // 
             // FrmEpisodeInfoFromFiles
             // 

@@ -53,6 +53,9 @@ namespace Utils
         /// </summary>
         public event DoWorkEventHandler DoWork;
 
+        public delegate void AfterLoadEventHandler();
+        public event AfterLoadEventHandler AfterLoad;
+
         /// <summary>
         /// Constructor.
         /// </summary>

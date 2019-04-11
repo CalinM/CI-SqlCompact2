@@ -1762,7 +1762,12 @@ namespace Desene
 
                 var commandSource = new SqlCeCommand(@"
                     SELECT
-                        vs.BitRate, fd.*
+                        vs.BitRate,
+	                    CASE
+                            WHEN Poster IS NULL THEN CONVERT(BIT, 0)
+                            ELSE CONVERT(BIT, 1)
+	                    END AS HasPoster,
+                        fd.*
                     FROM FileDetail fd
 	                    LEFT OUTER JOIN VideoStream vs ON fd.Id = vs.FileDetailId
                     WHERE ParentId IS NULL ORDER BY FileName", conn);
@@ -1795,8 +1800,37 @@ namespace Desene
                         mfw.Nl = string.Empty;
                         mfw.Tr = GetTrailerId(reader["Trailer"].ToString());
 
-                        mfw.Cover = reader["Poster"] == DBNull.Value ? null : (byte[])reader["Poster"];
+                        //mfw.Cover = reader["Poster"] == DBNull.Value ? null : (byte[])reader["Poster"];
+                        mfw.HasPoster = (bool)reader["HasPoster"];
+
                         result.Add(mfw);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public static byte[] GetPoster(int id)
+        {
+            byte[] result = null;
+
+            using (var conn = new SqlCeConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                const string sqlString = @"
+                    SELECT Poster FROM FileDetail WHERE Id = @id";
+
+                var cmd = new SqlCeCommand(sqlString, conn);
+                cmd.Parameters.AddWithValue("@id", id);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        result = reader["Poster"] == DBNull.Value ? null : (byte[])reader["Poster"];
+                        break;
                     }
                 }
             }
@@ -1824,7 +1858,21 @@ namespace Desene
             {
                 conn.Open();
 
-                var commandSource = new SqlCeCommand("SELECT * FROM FileDetail WHERE ParentId = -1 ORDER BY FileName", conn);
+                var commandSource = new SqlCeCommand(@"
+                    SELECT
+                        fd.Id,
+                        fd.FileName,
+                        fd.Recommended,
+                        fd.RecommendedLink,
+                        fd.DescriptionLink,
+                        fd.Notes,
+	                    CASE
+                            WHEN fd.Poster IS NULL THEN CONVERT(BIT, 0)
+                            ELSE CONVERT(BIT, 1)
+	                    END AS HasPoster
+                    FROM FileDetail fd
+                    WHERE fd.ParentId = -1
+                    ORDER BY fd.FileName", conn);
 
                 using (var reader = commandSource.ExecuteReader())
                 {
@@ -1837,7 +1885,8 @@ namespace Desene
                         sfw.RL = reader["RecommendedLink"].ToString();
                         sfw.DL = reader["DescriptionLink"].ToString();
                         sfw.N = reader["Notes"].ToString();
-                        sfw.Cover = reader["Poster"] == DBNull.Value ? null : (byte[])reader["Poster"];
+                        //sfw.Cover = reader["Poster"] == DBNull.Value ? null : (byte[])reader["Poster"];
+                        sfw.HasPoster = (bool)reader["HasPoster"];
 
                         result.Add(sfw);
                     }
@@ -1847,7 +1896,7 @@ namespace Desene
             return result;
         }
 
-        public static List<EpisodesForWeb> GetEpisodesForWeb(bool loadThumbnails)
+        public static List<EpisodesForWeb> GetEpisodesForWeb()
         {
             var result = new List<EpisodesForWeb>();
 
@@ -1857,7 +1906,37 @@ namespace Desene
                 {
                     conn.Open();
 
-                    var commandSource = new SqlCeCommand("SELECT * FROM FileDetail WHERE ParentId > 0 ORDER BY ParentId, Season, FileName", conn);
+                    var commandSource = new SqlCeCommand(@"
+                        SELECT
+                            fd.Id,
+                            fd.ParentId,
+                            fd.FileName,
+                            fd.Season,
+                            fd.Year,
+                            fd.Quality,
+                            fd.Duration,
+                            fd.FileSize2,
+                            fd.FileSize,
+                            fd.AudioLanguages,
+                            fd.SubtitleLanguages,
+                            fd.Theme,
+                            fd.Notes
+                        FROM FileDetail fd
+
+                        WHERE fd.ParentId > 0
+                        ORDER BY ParentId, Season, FileName", conn);
+
+                        /*
+                        LEFT JOIN (
+                            SELECT FileDetailId, MIN(Id) AS MinId
+                            FROM Thumbnails
+                            GROUP BY FileDetailId
+                        ) t on t.FileDetailId = fd.Id
+                        
+                        +
+
+                        IsNUll -> Has/Not Thumbnails
+                     */
 
                     using (var reader = commandSource.ExecuteReader())
                     {
@@ -1900,10 +1979,10 @@ namespace Desene
                             efw.T = reader["Theme"].ToString();
                             efw.N = reader["Notes"].ToString();
 
-                            if (loadThumbnails)
-                            {
-                                efw.MovieStills = LoadMovieStills(efw.Id).MovieStills;
-                            }
+                            //if (loadThumbnails)
+                            //{
+                            //    efw.MovieStills = LoadMovieStills(efw.Id).MovieStills;
+                            //}
 
                             result.Add(efw);
                         }

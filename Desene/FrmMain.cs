@@ -638,214 +638,93 @@ namespace Desene
 
         private void btnGenerateHtml_Click(object sender, EventArgs e)
         {
-            var folderBrDlg = new FolderBrowserDialog { Description = "Select a folder to save the generated files:" };
-            folderBrDlg.SelectedPath = Settings.Default.LastPath;
-            if (folderBrDlg.ShowDialog() != DialogResult.OK)
+            var genParams = new FrmSiteGenParams(Settings.Default.LastPath) { Owner = this };
+
+            if (genParams.ShowDialog() != DialogResult.OK)
                 return;
 
-            Settings.Default.LastCoverPath = Path.GetFullPath(folderBrDlg.SelectedPath);
+            Settings.Default.LastPath = Path.GetFullPath(genParams.SiteGenParams.Location);
             Settings.Default.Save();
 
-            var imgPosterRedone = MsgBox.Show("Do you want to (re)generate the movies posters?", "Confirm", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-            if (imgPosterRedone == DialogResult.Cancel)
-                return;
+            
+            var opRes = SiteGenerator.GenerateSiteFiles(genParams.SiteGenParams);
 
-            //if (!IsFolderEmpty(folderBrDlg.SelectedPath))
-            //{
-            //    MessageBox.Show("Folder-ul ales contine deja fisiere ", "Desene", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button3);
-            //}
-
-            var movies = DAL.GetMoviesForWeb();
-            var series = DAL.GetSeriesForWeb();
-
-            var varGenerateThumbnails = MsgBox.Show("Do you want to (re)generate the episodes thumbnails (25%-50%-75% stills)?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
-
-            var episodes = DAL.GetEpisodesForWeb(varGenerateThumbnails);
-            DAL.FillSeriesDataFromEpisodes(ref series, episodes);
-           // return;
-
-            #region movies details
-
-            var genDetails = DateTime.Now.ToString("yyyyMMdd");
-            var movieListDetails =
-                string.Format("Lista curenta contine: {0} filme FullHD, {1} filme HD, {2} filme SD si {3} filme in format nespecificat (aproximativ {4} GB)",
-                    movies.Count(f => f.Q == "FullHD"),
-                    movies.Count(f => f.Q == "HD"),
-                    movies.Count(f => f.Q == "SD"),
-                    movies.Count(f => f.Q == "NotSet"),
-                    //movies.Sum(s => s.DimensiuneInt) / 1024
-                    "?");
-
-            var jsS = new JavaScriptSerializer();
-
-            var detMovieInfo =
-                string.Format("var detaliiFilme = {0}; var detaliiGenerare = '{1}'; var detaliiListaF = '{2}'",
-                    jsS.Serialize(movies),
-                    genDetails,
-                    movieListDetails);
-
-            var seriesListDetails =
-                string.Format("Lista curenta contine: {0} seriale, combinate avand un numar de {1} episoade, (aproximativ {2} GB)",
-                    series.Count,
-                    episodes.Count,
-                    //episodes.Sum(s => s.DimensiuneInt) / 1024
-                    "?");
-
-            var detSerialeInfo =
-                string.Format("var detaliiSeriale = {0}; var detaliiEpisoade = {1}; var detaliiListaS = '{2}';",
-                    jsS.Serialize(series),
-                    jsS.Serialize(episodes),
-                    seriesListDetails);
-
-            #endregion
-
-            #region movie posters
-
-            if (imgPosterRedone == DialogResult.Yes)
+            if (!opRes.Success)
             {
-                var imgsPath = Path.Combine(folderBrDlg.SelectedPath, "Imgs");
-                if (!Directory.Exists(imgsPath))
-                    Directory.CreateDirectory(imgsPath);
-
-                foreach (var m in movies)
+                if (opRes.CustomErrorMessage == "Operation has been canceled")
                 {
-                    if (m.Cover == null) continue;
-
-                    using (var ms = new MemoryStream(m.Cover))
-                    {
-                        var imgOgj = CreatePosterThumbnail(250, 388, Image.FromStream(ms));
-                        //daca crapa creaza Imgs!!!
-                        imgOgj.Save(Path.Combine(folderBrDlg.SelectedPath, string.Format("Imgs\\poster-{0}.jpg", m.Id)), ImageFormat.Jpeg);
-                    }
+                    MessageBox.Show("Operation has been canceled", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    MessageBox.Show(
+                        string.Format("The following error occurred generating the site:{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
+                        "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-                imgsPath = Path.Combine(folderBrDlg.SelectedPath, "Imgs\\Seriale");
-                if (!Directory.Exists(imgsPath))
-                    Directory.CreateDirectory(imgsPath);
-
-                foreach (var s in series)
-                {
-                    if (s.Cover == null) continue;
-
-                    using (var ms = new MemoryStream(s.Cover))
-                    {
-                        var imgOgj = CreatePosterThumbnail(250, 388, Image.FromStream(ms));
-                        //daca crapa creaza Imgs!!!
-                        imgOgj.Save(Path.Combine(folderBrDlg.SelectedPath, string.Format("Imgs\\Seriale\\poster-{0}.jpg", s.Id)), ImageFormat.Jpeg);
-                    }
-                }
-
-                if (varGenerateThumbnails)
-                {
-                    imgsPath = Path.Combine(folderBrDlg.SelectedPath, "Imgs\\Seriale\\Thumbnails");
-                    if (!Directory.Exists(imgsPath))
-                        Directory.CreateDirectory(imgsPath);
-
-                    foreach (var ep in episodes)
-                    {
-                        if (ep.MovieStills == null || ep.MovieStills.Count == 0) continue;
-
-                        for (var i = 0; i < ep.MovieStills.Count; i++)
-                        {
-                            using (var ms = new MemoryStream(ep.MovieStills[i]))
-                            {
-                                var imgOgj = CreateStillThumbnail(250, Image.FromStream(ms));
-                                //daca crapa creaza Imgs!!!
-                                imgOgj.Save(Path.Combine(folderBrDlg.SelectedPath, string.Format("Imgs\\Seriale\\Thumbnails\\thumb-{0}-{1}.jpg", ep.Id, i)), ImageFormat.Jpeg);
-                            }
-                        }
-                    }
-
-                }
+                return;
             }
 
-            #endregion
+            #region Site images
 
-            #region site images
-
-            var imagesPath = Path.Combine(folderBrDlg.SelectedPath, "Images");
+            var imagesPath = Path.Combine(genParams.SiteGenParams.Location, "Images");
             if (!Directory.Exists(imagesPath))
                 Directory.CreateDirectory(imagesPath);
 
-            new Bitmap(Resources.pixel).Save(Path.Combine(folderBrDlg.SelectedPath, "Images\\pixel.gif"), ImageFormat.Gif);
-            new Bitmap(Resources.info).Save(Path.Combine(folderBrDlg.SelectedPath, "Images\\info.png"), ImageFormat.Png);
-            new Bitmap(Resources.msg).Save(Path.Combine(folderBrDlg.SelectedPath, "Images\\msg.png"), ImageFormat.Png);
-            new Bitmap(Resources.arrowRight12).Save(Path.Combine(folderBrDlg.SelectedPath, "Images\\arrowRight12.png"), ImageFormat.Png);
-            new Bitmap(Resources.arrowDown12).Save(Path.Combine(folderBrDlg.SelectedPath, "Images\\arrowDown12.png"), ImageFormat.Png);
-            new Bitmap(Resources.search).Save(Path.Combine(folderBrDlg.SelectedPath, "Images\\search.png"), ImageFormat.Png);
-            new Bitmap(Resources.thumbnail).Save(Path.Combine(folderBrDlg.SelectedPath, "Images\\thumbnail.png"), ImageFormat.Png);
+            new Bitmap(Resources.pixel).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\pixel.gif"), ImageFormat.Gif);
+            new Bitmap(Resources.info).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\info.png"), ImageFormat.Png);
+            new Bitmap(Resources.msg).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\msg.png"), ImageFormat.Png);
+            new Bitmap(Resources.arrowRight12).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\arrowRight12.png"), ImageFormat.Png);
+            new Bitmap(Resources.arrowDown12).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\arrowDown12.png"), ImageFormat.Png);
+            new Bitmap(Resources.search).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\search.png"), ImageFormat.Png);
+            new Bitmap(Resources.thumbnail).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\thumbnail.png"), ImageFormat.Png);
 
             #endregion
 
             var genUniqueId = string.Empty;//DateTime.Now.ToString("yyyyMMddhhmmss");
 
-            #region site scripts
+            #region Site scripts
 
-            var scriptPath = Path.Combine(folderBrDlg.SelectedPath, "Scripts");
+            var serializedData = (KeyValuePair<string, string>)opRes.AdditionalDataReturn;
+
+            var scriptPath = Path.Combine(genParams.SiteGenParams.Location, "Scripts");
             if (!Directory.Exists(scriptPath))
                 Directory.CreateDirectory(scriptPath);
 
-            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, $"Scripts\\detaliiFilme_{genUniqueId}.js"), detMovieInfo);
-            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, $"Scripts\\detaliiSeriale_{genUniqueId}.js"), detSerialeInfo);
-            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Scripts\\jquery-2.2.4.min.js"), Resources.jquery_2_2_4_min);
-            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Scripts\\desene.js"), Resources.deseneJS);
-            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Scripts\\jquery.lazy.min.js"), Resources.jquery_lazy_min);
-            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Scripts\\jquery.slimscroll.min.js"), Resources.jquery_slimscroll_min);
-            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Scripts\\jsgrid.min.js"), Resources.jsgrid_minJS);
-            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Scripts\\YouTubePopUp.jquery.js"), Resources.YouTubePopUp_jquery);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiFilme_{genUniqueId}.js"), serializedData.Key);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiSeriale_{genUniqueId}.js"), serializedData.Value);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery-2.2.4.min.js"), Resources.jquery_2_2_4_min);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\desene.js"), Resources.deseneJS);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery.lazy.min.js"), Resources.jquery_lazy_min);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery.slimscroll.min.js"), Resources.jquery_slimscroll_min);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jsgrid.min.js"), Resources.jsgrid_minJS);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\YouTubePopUp.jquery.js"), Resources.YouTubePopUp_jquery);
 
             #endregion
 
+            #region Site styles
 
-            #region site styles
-
-            var stylesPath = Path.Combine(folderBrDlg.SelectedPath, "Styles");
+            var stylesPath = Path.Combine(genParams.SiteGenParams.Location, "Styles");
             if (!Directory.Exists(stylesPath))
                 Directory.CreateDirectory(stylesPath);
 
-            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Styles\\desene.css"), Resources.deseneCSS);
-            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Styles\\jsgrid-theme.min.css"), Resources.jsgrid_theme_min);
-            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Styles\\jsgrid.min.css"), Resources.jsgrid_minCSS);
-            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Styles\\sections.css"), Resources.sections);
-            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "Styles\\YouTubePopUp.css"), Resources.YouTubePopUp);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\desene.css"), Resources.deseneCSS);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\jsgrid-theme.min.css"), Resources.jsgrid_theme_min);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\jsgrid.min.css"), Resources.jsgrid_minCSS);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\sections.css"), Resources.sections);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\YouTubePopUp.css"), Resources.YouTubePopUp);
 
             #endregion
 
-            File.WriteAllText(Path.Combine(folderBrDlg.SelectedPath, "index.html"), Resources.index.Replace("##", genUniqueId));
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "index.html"), Resources.index.Replace("##", genUniqueId));
 
             FlashWindow.Flash(this, 5);
 
             if (MsgBox.Show("The new site files have been saved! Do you want to open the folder location?", "Info",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
-                Process.Start(folderBrDlg.SelectedPath);
+                Process.Start(genParams.SiteGenParams.Location);
             }
-        }
-
-        private Image CreatePosterThumbnail(int width, int height, Image source)
-        {
-            var newImage = new Bitmap(width, height);
-
-            using (Graphics gr = Graphics.FromImage(newImage))
-            {
-                gr.SmoothingMode = SmoothingMode.HighQuality;
-                gr.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                gr.DrawImage(source, new Rectangle(0, 0, width, height));
-            }
-
-            return newImage;
-        }
-
-        public Image CreateStillThumbnail(int newHeight, Image source)
-        {
-            // Prevent using images internal thumbnail
-            source.RotateFlip(RotateFlipType.Rotate180FlipNone);
-            source.RotateFlip(RotateFlipType.Rotate180FlipNone);
-
-            var newWidth = source.Width * newHeight / source.Height;
-
-            return source.GetThumbnailImage(newWidth, newHeight, null, IntPtr.Zero);
         }
 
         private void btnFilesDetails_Click(object sender, EventArgs e)
@@ -913,6 +792,8 @@ namespace Desene
                                 var fileErrorObj = filesInfoDeterminationResult.Value.FirstOrDefault(f => f.FilePath == file);
                                 dynamicObj.Add("Error", fileInfoObj != null ? fileErrorObj.ErrorMesage : "Unknown error!");
                             }
+
+                            dynamicObj.Add("Cover", !string.IsNullOrEmpty(fileInfoObj.Cover));
 
                             displayResult.Add(dynamicObj);
                         }
