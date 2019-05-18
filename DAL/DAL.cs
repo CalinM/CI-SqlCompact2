@@ -400,7 +400,7 @@ namespace Desene
 
                     if (eip != null)
                     {
-                        var checks = "select count(*) from FileDetail where ParentId = @ParentId AND FileName = @FileName AND FileSize = @FileSize";
+                        var checks = "SELECT COUNT(*) FROM FileDetail WHERE ParentId = @ParentId AND FileName = @FileName AND FileSize = @FileSize";
 
                         cmd = new SqlCeCommand(checks, conn);
                         cmd.Parameters.AddWithValue("@ParentId", eip.ParentId);
@@ -414,7 +414,7 @@ namespace Desene
                     }
                     else
                     {
-                        var checks = "select count(*) from FileDetail where FileName = @FileName";
+                        var checks = "SELECT COUNT(*) FROM FileDetail WHERE FileName = @FileName and ParentId IS NULL";
 
                         cmd = new SqlCeCommand(checks, conn);
                         cmd.Parameters.AddWithValue("@FileName", mtd.FileName);
@@ -1896,7 +1896,7 @@ namespace Desene
             return result;
         }
 
-        public static List<EpisodesForWeb> GetEpisodesForWeb()
+        public static List<EpisodesForWeb> GetEpisodesForWeb(bool preserveMarkesForExistingThumbnails)
         {
             var result = new List<EpisodesForWeb>();
 

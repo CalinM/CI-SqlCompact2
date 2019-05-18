@@ -81,7 +81,7 @@ namespace Utils
             #region Series
 
             var seriesData = Desene.DAL.GetSeriesForWeb();
-            var episodesData = Desene.DAL.GetEpisodesForWeb();
+            var episodesData = Desene.DAL.GetEpisodesForWeb(siteGenParams.PreserveMarkesForExistingThumbnails);
 
 
             #region Series posters
@@ -258,7 +258,7 @@ namespace Utils
 
                 if (!seriesForWebDet.HasPoster) continue;
 
-                var fileName = Path.Combine(siteGenDetails.Key.Location, string.Format("Imgs\\Seriale\\Seriale-{0}.jpg", seriesForWebDet.Id));
+                var fileName = Path.Combine(siteGenDetails.Key.Location, string.Format("Imgs\\Seriale\\poster-{0}.jpg", seriesForWebDet.Id));
                 if (File.Exists(fileName)) continue;
 
                 try
@@ -317,8 +317,9 @@ namespace Utils
                 try
                 {
                     var epStills = Desene.DAL.LoadMovieStills(episodeDet.Id).MovieStills;
-                    episodeDet.MovieStills = epStills;
+
                     if (epStills == null || epStills.Count == 0) continue;
+                    episodeDet.Th = 1;
 
                     for (var j = 0; j < epStills.Count; j++)
                     {
@@ -327,7 +328,7 @@ namespace Utils
 
                         if (File.Exists(fileName)) continue;
 
-                        using (var ms = new MemoryStream(episodeDet.MovieStills[j]))
+                        using (var ms = new MemoryStream(epStills[j]))
                         {
                             var imgOgj = CreateStillThumbnail(250, Image.FromStream(ms));
 

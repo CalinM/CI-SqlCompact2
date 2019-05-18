@@ -45,6 +45,7 @@ namespace Desene
             this.btnGenerateHtml = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.btnFilesDetails = new System.Windows.Forms.ToolStripButton();
+            this.btnBuildFileNames = new System.Windows.Forms.ToolStripButton();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.sslbStatistics = new System.Windows.Forms.ToolStripStatusLabel();
             this.sslbAdditionalInfo1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -73,7 +74,8 @@ namespace Desene
             this.toolStripSeparator2,
             this.btnGenerateHtml,
             this.toolStripSeparator3,
-            this.btnFilesDetails});
+            this.btnFilesDetails,
+            this.btnBuildFileNames});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
@@ -187,6 +189,15 @@ namespace Desene
             this.btnFilesDetails.Text = "Files details";
             this.btnFilesDetails.Click += new System.EventHandler(this.btnFilesDetails_Click);
             // 
+            // btnBuildFileNames
+            // 
+            this.btnBuildFileNames.Image = global::Desene.Properties.Resources.combineNames;
+            this.btnBuildFileNames.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnBuildFileNames.Name = "btnBuildFileNames";
+            this.btnBuildFileNames.Size = new System.Drawing.Size(220, 32);
+            this.btnBuildFileNames.Text = "Mix Netflix files names";
+            this.btnBuildFileNames.Click += new System.EventHandler(this.BtnBuildFileNames_Click);
+            // 
             // statusStrip
             // 
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(28, 28);
@@ -246,6 +257,8 @@ namespace Desene
             this.pMainContainer.Name = "pMainContainer";
             this.pMainContainer.Size = new System.Drawing.Size(1926, 806);
             this.pMainContainer.TabIndex = 110;
+            this.pMainContainer.Paint += new System.Windows.Forms.PaintEventHandler(this.PMainContainer_Paint);
+            this.pMainContainer.Resize += new System.EventHandler(this.PMainContainer_Resize);
             // 
             // button3
             // 
@@ -294,6 +307,7 @@ namespace Desene
             // 
             // FrmMain
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1926, 863);
@@ -307,6 +321,8 @@ namespace Desene
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmMain_FormClosed);
             this.Load += new System.EventHandler(this.FrmMain_Load);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FrmMain_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FrmMain_DragEnter);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
             this.statusStrip.ResumeLayout(false);
@@ -342,6 +358,7 @@ namespace Desene
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ToolStripButton btnMoviesList;
         private System.Windows.Forms.ToolStripButton btnFilesDetails;
+        private System.Windows.Forms.ToolStripButton btnBuildFileNames;
     }
 }
 

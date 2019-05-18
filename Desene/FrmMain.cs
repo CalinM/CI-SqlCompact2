@@ -21,6 +21,8 @@ using DAL;
 
 using Utils;
 using Helpers = Utils.Helpers;
+using System.Text;
+using System.Drawing.Text;
 
 namespace Desene
 {
@@ -810,5 +812,220 @@ namespace Desene
                 }
             }
         }
+
+        private void BtnBuildFileNames_Click(object sender, EventArgs e)
+        {
+            var frmTextInput = new FrmTextInput("Translated file names") { Owner = this };
+
+            if (frmTextInput.ShowDialog() != DialogResult.OK)
+                return;
+
+            var rawData1 = frmTextInput.InputText;
+
+            frmTextInput = new FrmTextInput("Original file names") { Owner = this };
+
+            if (frmTextInput.ShowDialog() != DialogResult.OK)
+                return;
+
+            var rawData2 = frmTextInput.InputText;
+
+            var result = new List<string>();
+            var translatedFNLine = string.Empty;
+            var originalFNLine = string.Empty;
+
+            try
+            {
+                foreach (var myString1 in rawData1.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    translatedFNLine = myString1;
+
+                    var charLocation1 = myString1.IndexOf(".", StringComparison.Ordinal);
+
+                    if (charLocation1 == -1)
+                        continue;
+
+                    var episodeNo1 = myString1.Substring(0, charLocation1);
+
+                    if (!int.TryParse(episodeNo1, out int episodeNoVal1))
+                        continue;
+
+                    foreach (var myString2 in rawData2.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        originalFNLine = myString2;
+
+                        var charLocation2 = myString2.IndexOf(".", StringComparison.Ordinal);
+
+                        if (charLocation2 == -1)
+                            continue;
+
+                        var episodeNo2 = myString2.Substring(0, charLocation2);
+
+                        if (episodeNo1 != episodeNo2)
+                            continue;
+
+                        if (!int.TryParse(episodeNo2, out int episodeNoVal2))
+                            continue;
+
+                        result.Add(
+                            string.Format("E{0}. {1} ({2})",
+                                episodeNoVal2 < 10 ? string.Format("0{0}", episodeNoVal2) : episodeNoVal2.ToString(),
+                                myString1.Substring((charLocation1 + 1), myString1.Length - (charLocation1 + 1)).Trim(),
+                                myString2.Substring((charLocation2 + 1), myString2.Length - (charLocation2 + 1)).Trim()
+                            )
+                        );
+
+                        break;
+                    }
+                }
+
+                var replaceSlashWithAnd = false;
+                var i = 0;
+                foreach (var s in result)
+                {
+                    if (s.Contains("/")) i++;
+
+                    if (i > 1) break;
+                }
+
+                if (i > 1)
+                    replaceSlashWithAnd = 
+                        MsgBox.Show("Replace '/' with '&' ?", "Confirmation",
+                            MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes;
+
+                using (var saveDialog = new SaveFileDialog())
+                {
+                    saveDialog.Title = "Save combined names as ...";
+                    saveDialog.Filter = "Text files (*.txt)|*.txt";
+                    saveDialog.FileName = "_#_combined-filenames";
+
+                    if (saveDialog.ShowDialog() != DialogResult.OK) return;
+
+                    using (var sw = new StreamWriter(saveDialog.FileName, false, Encoding.Unicode))
+                    {
+                        foreach (var s in result)
+                            sw.WriteLine(
+                                s.Replace(": ", " - ")
+                                 .Replace(" : ", " - ")
+                                 .Replace(" :", " - ")
+                                 .Replace(":", " - ")
+                                 .Replace("?", "")
+                                 .Replace("\"", "'")
+                                 .Replace("*", "")
+                                 .Replace("\\", "")
+                                 .Replace("/", replaceSlashWithAnd ? "&" : "")
+                                 .Replace("|", "")
+                                 .Replace("<", "[")
+                                 .Replace(">", "]")
+                            );
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var msg = 
+                    string.Format("{0}{1}{1}Translated file names line:{1}{2}{1}{1}Original file names line:{3}",
+                        OperationResult.GetErrorMessage(ex),
+                        Environment.NewLine,
+                        translatedFNLine,
+                        originalFNLine);
+
+                MsgBox.Show(msg, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void FrmMain_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+        }
+
+        private void FrmMain_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            try
+            {
+                var subtitleContent = string.Empty;
+
+                subtitleContent = File.ReadAllText(files[0], Encoding.UTF8);
+
+                if (subtitleContent.Contains("�"))
+                    subtitleContent = File.ReadAllText(files[0], Encoding.Default);
+
+
+                var newFileName = 
+                    Path.Combine(
+                        Path.GetDirectoryName(files[0]),
+                        string.Format("{0}_new{1}",
+                            Path.GetFileNameWithoutExtension(files[0]),
+                            Path.GetExtension(files[0]))
+                        );
+
+                using (var sw = new StreamWriter(newFileName, false, Encoding.UTF8))
+                {
+                    sw.WriteLine(
+                        subtitleContent
+                            .Replace("º", "ș")
+                            .Replace("þ", "ț")
+                            .Replace("ª", "Ș")
+                            .Replace("Þ", "Ț")
+                            .Replace("ã", "ă")
+                        );
+                }
+            }
+            catch (Exception ex)
+            {
+                MsgBox.Show(OperationResult.GetErrorMessage(ex), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void PMainContainer_Paint(object sender, PaintEventArgs e)
+        {
+            const string waterMarkText = "Drag a subtitle here to convert it's diacritics";
+            const int opacity = 35;
+
+            var g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.HighQuality;
+            g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+
+            var panel = (Panel)sender;
+
+            using (Font font = new Font("Arial", 14.0f))
+            {
+                SizeF textSize = g.MeasureString(waterMarkText, font);
+
+                var pt = new Point(
+                    panel.Size.Width - (int)textSize.Width - 10,
+                    panel.Size.Height - (int)textSize.Height - 10);
+
+                
+                using (var brush = new SolidBrush(Color.FromArgb(opacity, 0, 0, 0)))
+                {
+                    g.DrawString(waterMarkText, font, brush, pt);
+                }
+            }
+        }
+
+        private void PMainContainer_Resize(object sender, EventArgs e)
+        {
+            pMainContainer.Refresh();
+        }
+
+        //public Encoding GetEncoding(string filename)
+        //{
+        //    // Read the BOM
+        //    var bom = new byte[4];
+        //    using (var file = new FileStream(filename, FileMode.Open, FileAccess.Read))
+        //    {
+        //        file.Read(bom, 0, 4);
+        //    }
+
+        //    // Analyze the BOM
+        //    if (bom[0] == 0x2b && bom[1] == 0x2f && bom[2] == 0x76) return Encoding.UTF7;
+        //    if (bom[0] == 0xef && bom[1] == 0xbb && bom[2] == 0xbf) return Encoding.UTF8;
+        //    if (bom[0] == 0xff && bom[1] == 0xfe) return Encoding.Unicode; //UTF-16LE
+        //    if (bom[0] == 0xfe && bom[1] == 0xff) return Encoding.BigEndianUnicode; //UTF-16BE
+        //    if (bom[0] == 0 && bom[1] == 0 && bom[2] == 0xfe && bom[3] == 0xff) return Encoding.UTF32;
+        //    return Encoding.ASCII;
+        //}
     }
 }

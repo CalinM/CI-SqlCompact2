@@ -36,7 +36,11 @@ namespace Utils
                 Location = tbFilesLocation.Text,
                 SavePosters = cbSavePosters.Checked,
                 SaveMoviesThumbnals = cbSaveMoviesThumbnals.Checked,
-                SaveEpisodesThumbnals = cbSaveEpisodesThumbnals.Checked
+                SaveEpisodesThumbnals = cbSaveEpisodesThumbnals.Checked,
+                PreserveMarkesForExistingThumbnails =
+                    cbSaveEpisodesThumbnals.Checked
+                        ? false
+                        : cbPreserveMarkesForExistingThumbnails.Checked
             };
 
             DialogResult = DialogResult.OK;
@@ -62,6 +66,11 @@ namespace Utils
         {
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void CbSaveEpisodesThumbnals_CheckedChanged(object sender, EventArgs e)
+        {
+            cbPreserveMarkesForExistingThumbnails.Enabled = !cbSaveEpisodesThumbnals.Checked;
         }
     }
 }

@@ -36,6 +36,7 @@
             this.cbSaveEpisodesThumbnals = new System.Windows.Forms.CheckBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
+            this.cbPreserveMarkesForExistingThumbnails = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btnFolderSelector
@@ -100,6 +101,7 @@
             this.cbSaveEpisodesThumbnals.TabIndex = 14;
             this.cbSaveEpisodesThumbnals.Text = "Save episodes thumbnails";
             this.cbSaveEpisodesThumbnals.UseVisualStyleBackColor = true;
+            this.cbSaveEpisodesThumbnals.CheckedChanged += new System.EventHandler(this.CbSaveEpisodesThumbnals_CheckedChanged);
             // 
             // btnCancel
             // 
@@ -123,11 +125,25 @@
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.BtnOk_Click);
             // 
+            // cbPreserveMarkesForExistingThumbnails
+            // 
+            this.cbPreserveMarkesForExistingThumbnails.AutoSize = true;
+            this.cbPreserveMarkesForExistingThumbnails.Checked = true;
+            this.cbPreserveMarkesForExistingThumbnails.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbPreserveMarkesForExistingThumbnails.Location = new System.Drawing.Point(211, 177);
+            this.cbPreserveMarkesForExistingThumbnails.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbPreserveMarkesForExistingThumbnails.Name = "cbPreserveMarkesForExistingThumbnails";
+            this.cbPreserveMarkesForExistingThumbnails.Size = new System.Drawing.Size(385, 24);
+            this.cbPreserveMarkesForExistingThumbnails.TabIndex = 17;
+            this.cbPreserveMarkesForExistingThumbnails.Text = "Preserve existence markes for existing thumbnails";
+            this.cbPreserveMarkesForExistingThumbnails.UseVisualStyleBackColor = true;
+            // 
             // FrmSiteGenParams
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1037, 256);
+            this.Controls.Add(this.cbPreserveMarkesForExistingThumbnails);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.cbSaveEpisodesThumbnals);
@@ -158,5 +174,6 @@
         private System.Windows.Forms.CheckBox cbSaveEpisodesThumbnals;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.CheckBox cbPreserveMarkesForExistingThumbnails;
     }
 }

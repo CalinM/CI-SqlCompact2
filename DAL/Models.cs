@@ -353,20 +353,10 @@ namespace DAL
         public string T { get; set; }   //Theme             ~   Tematica
         public string N { get; set; }   //Notes             ~   Obs
 
-        public int Th                   //Thumbnail from movie still (Bit like ~ 0-1)
-        {
-            get
-            {
-                return MovieStills.Count > 0 ? 1 : 0;
-            }
-        }
-
-        [ScriptIgnore]
-        public List<byte[]> MovieStills { get; set; }
+        public int Th { get; set; }     //Thumbnail present? (Bit like ~ 0-1)
 
         public EpisodesForWeb()
         {
-            MovieStills = new List<byte[]>();
         }
     }
 
@@ -391,5 +381,6 @@ namespace DAL
         public bool SavePosters { get; set; }
         public bool SaveMoviesThumbnals { get; set; }
         public bool SaveEpisodesThumbnals { get; set; }
+        public bool PreserveMarkesForExistingThumbnails { get; set; }
     }
 }

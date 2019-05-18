@@ -45,11 +45,12 @@ namespace Utils
         private void InitSeasonsCombobox()
         {
             _seasons.Add(new SelectableElement(-2, "Specials"));
-            for (var i = 1; i < 16; i++)
+            for (var i = 1; i < 30; i++)
             {
                 _seasons.Add(new SelectableElement(i, i.ToString()));
             }
 
+            cbSeason.DropDownHeight = 100;
             cbSeason.DataSource = _seasons;
             cbSeason.DisplayMember = "Description";
             cbSeason.ValueMember = "Value";

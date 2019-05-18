@@ -18,3 +18,4 @@ C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.dll
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.pdb
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmFileDetails.resources
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmSiteGenParams.resources
+C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmTextInput.resources

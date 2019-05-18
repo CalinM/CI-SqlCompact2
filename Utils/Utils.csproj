@@ -108,6 +108,12 @@
     <Compile Include="FrmSiteGenParams.Designer.cs">
       <DependentUpon>FrmSiteGenParams.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmTextInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmTextInput.Designer.cs">
+      <DependentUpon>FrmTextInput.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helpers.cs" />
     <Compile Include="MediaInfoDLL.cs" />
     <Compile Include="CustomMessageBox\MsgBox.cs" />
@@ -160,6 +166,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmSiteGenParams.resx">
       <DependentUpon>FrmSiteGenParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmTextInput.resx">
+      <DependentUpon>FrmTextInput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SeparatorCombobox.resx">
       <Generator>ResXFileCodeGenerator</Generator>
