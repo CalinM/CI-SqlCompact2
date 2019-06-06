@@ -1803,6 +1803,18 @@ namespace Desene
                         //mfw.Cover = reader["Poster"] == DBNull.Value ? null : (byte[])reader["Poster"];
                         mfw.HasPoster = (bool)reader["HasPoster"];
 
+                        var insertedDate =
+                            reader["InsertedDate"] == DBNull.Value //SD or bad imports
+                                ? new DateTime(1970, 1, 1)
+                                : (DateTime)reader["InsertedDate"];
+
+                        mfw.InsertedDate = insertedDate;
+
+                        mfw.LastChangeDate =
+                            reader["LastChangeDate"] == DBNull.Value
+                                ? insertedDate
+                                : (DateTime)reader["LastChangeDate"];
+
                         result.Add(mfw);
                     }
                 }

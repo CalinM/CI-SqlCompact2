@@ -78,8 +78,7 @@ namespace Desene
             this.btnBuildFileNames});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
-            this.mainMenu.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.mainMenu.Size = new System.Drawing.Size(1926, 35);
+            this.mainMenu.Size = new System.Drawing.Size(1926, 37);
             this.mainMenu.TabIndex = 108;
             // 
             // btnCategory
@@ -99,7 +98,7 @@ namespace Desene
             // miMovies
             // 
             this.miMovies.Name = "miMovies";
-            this.miMovies.Size = new System.Drawing.Size(153, 30);
+            this.miMovies.Size = new System.Drawing.Size(171, 34);
             this.miMovies.Tag = "1";
             this.miMovies.Text = "Movies";
             this.miMovies.Click += new System.EventHandler(this.miMovies_Click);
@@ -107,7 +106,7 @@ namespace Desene
             // miSeries
             // 
             this.miSeries.Name = "miSeries";
-            this.miSeries.Size = new System.Drawing.Size(153, 30);
+            this.miSeries.Size = new System.Drawing.Size(171, 34);
             this.miSeries.Tag = "1";
             this.miSeries.Text = "Series";
             this.miSeries.Click += new System.EventHandler(this.miSeries_Click);
@@ -115,13 +114,13 @@ namespace Desene
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(150, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(168, 6);
             // 
             // miExit
             // 
             this.miExit.Image = global::Desene.Properties.Resources.exit;
             this.miExit.Name = "miExit";
-            this.miExit.Size = new System.Drawing.Size(153, 30);
+            this.miExit.Size = new System.Drawing.Size(171, 34);
             this.miExit.Text = "Exit";
             this.miExit.Click += new System.EventHandler(this.miExit_Click);
             // 
@@ -137,7 +136,7 @@ namespace Desene
             // separatorMainButtons
             // 
             this.separatorMainButtons.Name = "separatorMainButtons";
-            this.separatorMainButtons.Size = new System.Drawing.Size(6, 35);
+            this.separatorMainButtons.Size = new System.Drawing.Size(6, 37);
             this.separatorMainButtons.Visible = false;
             // 
             // btnAdd
@@ -164,7 +163,7 @@ namespace Desene
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 35);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 37);
             // 
             // btnGenerateHtml
             // 
@@ -178,7 +177,7 @@ namespace Desene
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 35);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 37);
             // 
             // btnFilesDetails
             // 
@@ -216,7 +215,7 @@ namespace Desene
             // sslbStatistics
             // 
             this.sslbStatistics.Name = "sslbStatistics";
-            this.sslbStatistics.Size = new System.Drawing.Size(0, 17);
+            this.sslbStatistics.Size = new System.Drawing.Size(0, 15);
             // 
             // sslbAdditionalInfo1
             // 
@@ -252,10 +251,10 @@ namespace Desene
             this.pMainContainer.Controls.Add(this.button2);
             this.pMainContainer.Controls.Add(this.button1);
             this.pMainContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pMainContainer.Location = new System.Drawing.Point(0, 35);
+            this.pMainContainer.Location = new System.Drawing.Point(0, 37);
             this.pMainContainer.Margin = new System.Windows.Forms.Padding(5);
             this.pMainContainer.Name = "pMainContainer";
-            this.pMainContainer.Size = new System.Drawing.Size(1926, 806);
+            this.pMainContainer.Size = new System.Drawing.Size(1926, 804);
             this.pMainContainer.TabIndex = 110;
             this.pMainContainer.Paint += new System.Windows.Forms.PaintEventHandler(this.PMainContainer_Paint);
             this.pMainContainer.Resize += new System.EventHandler(this.PMainContainer_Resize);

@@ -94,14 +94,14 @@
             // miExportToXML
             // 
             this.miExportToXML.Name = "miExportToXML";
-            this.miExportToXML.Size = new System.Drawing.Size(252, 30);
+            this.miExportToXML.Size = new System.Drawing.Size(153, 30);
             this.miExportToXML.Text = "to XML";
             this.miExportToXML.Click += new System.EventHandler(this.miExportToXML_Click);
             // 
             // miExportToCSV
             // 
             this.miExportToCSV.Name = "miExportToCSV";
-            this.miExportToCSV.Size = new System.Drawing.Size(252, 30);
+            this.miExportToCSV.Size = new System.Drawing.Size(153, 30);
             this.miExportToCSV.Text = "to CSV";
             this.miExportToCSV.Click += new System.EventHandler(this.miExportToCSV_Click);
             // 
@@ -117,6 +117,7 @@
             this.Name = "FrmFileDetails";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Files details";
             this.TopMost = true;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
 using Common;
@@ -23,6 +24,10 @@ namespace Utils
         {
             InitializeComponent();
 
+            var dgvType = dgvFilesDetails.GetType();
+            var pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+            pi.SetValue(dgvFilesDetails, true, null);
+
             _fileDetails = ToDataTable(fileDetails);
 
             dgvFilesDetails.AutoGenerateColumns = false;
@@ -31,7 +36,11 @@ namespace Utils
             var x = fileDetails.Where(x2 => x2.StartsWith("Audio"));
             foreach (DataColumn tCol in _fileDetails.Columns)
             {
-                if (tCol.ColumnName == "Filename" || tCol.ColumnName == "Error" || tCol.ColumnName.StartsWith("Audio"))
+                if (tCol.ColumnName == "Filename"
+                    || tCol.ColumnName == "Resolution"
+                    || tCol.ColumnName == "Error"
+                    || tCol.ColumnName.StartsWith("Audio")
+                    || tCol.ColumnName.StartsWith("Channels"))
                 {
                     dgvFilesDetails.Columns.Add(
                         new DataGridViewTextBoxColumn

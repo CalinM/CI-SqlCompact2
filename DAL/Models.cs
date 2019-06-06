@@ -308,6 +308,14 @@ namespace DAL
 
         [ScriptIgnore]
         public bool HasPoster { get; set; }
+
+        [ScriptIgnore]
+        public DateTime InsertedDate { get; set; }
+
+        [ScriptIgnore]
+        public DateTime LastChangeDate { get; set; }
+        
+
     }
 
     public class SeriesForWeb

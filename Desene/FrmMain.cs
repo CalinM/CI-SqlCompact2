@@ -56,7 +56,7 @@ namespace Desene
                 }
             }
 
-            pMainContainer.Controls.Clear();
+            //pMainContainer.Controls.Clear();
 
             DAL.LoadBaseDbValues();
 
@@ -634,8 +634,46 @@ namespace Desene
 
         private void button3_Click(object sender, EventArgs e)
         {
-            MsgBox.Show("desc", "title", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk,MessageBoxDefaultButton.Button1,
-                new Font("Times New Roman", 15, FontStyle.Bold) );
+            ////MsgBox.Show("desc", "title", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk,MessageBoxDefaultButton.Button1,
+            ////    new Font("Times New Roman", 15, FontStyle.Bold) );
+            ///
+
+            var moviesData = Desene.DAL.GetMoviesForWeb();
+
+            /*
+                select top 50 FileName, InsertedDate from FIleDetail
+                where ParentId is null
+                order by insertedDate desc
+            */
+
+            var newMovies =
+                moviesData
+                    .OrderByDescending(o => o.InsertedDate)
+                    .Select(md => md.FN)
+                    .Take(25)
+                    .ToList();
+
+
+            /*
+                select top 50 FileName, LastChangeDate,
+                DATEDIFF(d, InsertedDate, LastChangeDate) AS Diff
+                from FIleDetail
+                where ParentId is null and DATEDIFF(d, InsertedDate, LastChangeDate) > 1
+                order by LastChangeDate des
+            */
+
+            var updatedMovies =
+                moviesData
+                    .Where(md => md.LastChangeDate.Subtract(md.InsertedDate).Days > 1)
+                    .OrderByDescending(o => o.LastChangeDate)
+                    .Select(md => md.FN)
+                    .Take(25)
+                    .ToList();
+
+            var seriesData = Desene.DAL.GetSeriesForWeb();
+            var episodesData = Desene.DAL.GetEpisodesForWeb(true);
+
+
         }
 
         private void btnGenerateHtml_Click(object sender, EventArgs e)
@@ -775,6 +813,7 @@ namespace Desene
                             var fileInfoObj = filesInfoDeterminationResult.Key.FirstOrDefault(f => f.InitialPath == file);
                             var dynamicObj = new ExpandoObject() as IDictionary<string, object>;
                             dynamicObj.Add("Filename", Path.GetFileName(file));
+                            dynamicObj.Add("Resolution", string.Format("{0}x{1}", fileInfoObj.VideoStreams[0].Width, fileInfoObj.VideoStreams[0].Height));
                             dynamicObj.Add("FileVideo Title", fileInfoObj.HasTitle || fileInfoObj.VideoStreams.Any(vs => vs.HasTitle));
 
                             if (fileInfoObj != null)
@@ -785,6 +824,8 @@ namespace Desene
                                     dynamicObj.Add(string.Format("Default {0}", audioObj.Index), audioObj.Default);
                                     dynamicObj.Add(string.Format("Forced {0}", audioObj.Index), audioObj.Forced);
                                     dynamicObj.Add(string.Format("Title {0}", audioObj.Index), audioObj.HasTitle);
+                                    dynamicObj.Add(string.Format("Channels {0}", audioObj.Index), audioObj.Channel);
+                                    
                                 }
 
                                 dynamicObj.Add("Error", "");
@@ -866,12 +907,19 @@ namespace Desene
                         if (!int.TryParse(episodeNo2, out int episodeNoVal2))
                             continue;
 
+                        var epNo = episodeNoVal2 < 10 ? string.Format("0{0}", episodeNoVal2) : episodeNoVal2.ToString();
+                        var title1 = myString1.Substring((charLocation1 + 1), myString1.Length - (charLocation1 + 1)).Trim();
+                        var title2 = myString2.Substring((charLocation2 + 1), myString2.Length - (charLocation2 + 1)).Trim();
+
                         result.Add(
-                            string.Format("E{0}. {1} ({2})",
-                                episodeNoVal2 < 10 ? string.Format("0{0}", episodeNoVal2) : episodeNoVal2.ToString(),
-                                myString1.Substring((charLocation1 + 1), myString1.Length - (charLocation1 + 1)).Trim(),
-                                myString2.Substring((charLocation2 + 1), myString2.Length - (charLocation2 + 1)).Trim()
-                            )
+                            title1 == title2
+                                ? string.Format("E{0}. {1}",
+                                    epNo,
+                                    title1)
+                                : string.Format("E{0}. {1} ({2})",
+                                    epNo,
+                                    title1,
+                                    title2)
                         );
 
                         break;
@@ -969,6 +1017,8 @@ namespace Desene
                             .Replace("ª", "Ș")
                             .Replace("Þ", "Ț")
                             .Replace("ã", "ă")
+                            .Replace("”", "\"")
+                            .Replace("Ã", "Ă")
                         );
                 }
             }
@@ -1029,3 +1079,45 @@ namespace Desene
         //}
     }
 }
+
+/*
+ 
+select top 50 FileName, InsertedDate from FIleDetail
+where ParentId is null
+order by insertedDate desc
+
+
+select top 50 FileName, LastChangeDate,
+DATEDIFF(d, InsertedDate, LastChangeDate) AS Diff
+from FIleDetail
+where ParentId is null and DATEDIFF(d, InsertedDate, LastChangeDate) > 1
+order by LastChangeDate des
+ 
+    
+
+select top 50 Id, FileName, InsertedDate from FIleDetail
+where ParentId = -1
+order by insertedDate desc
+
+
+select top 50 Id, ParentId, FileName, InsertedDate from FIleDetail
+where ParentId > 0
+and ParentId NOT in (
+	select top 50 Id from FIleDetail
+	where ParentId = -1
+	order by insertedDate desc)
+order by insertedDate desc
+
+
+select * from FIleDetail where ParentId = -1 order by filename
+select top 50 FileName
+from FIleDetail
+where Id IN (
+	select top 500 ParentId from FIleDetail
+	where ParentId > 0
+	and ParentId NOT in (
+		select top 50 Id from FIleDetail
+		where ParentId = -1
+		order by insertedDate desc)
+	order by insertedDate desc
+*/
