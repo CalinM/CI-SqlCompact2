@@ -686,7 +686,7 @@ namespace Desene
             Settings.Default.LastPath = Path.GetFullPath(genParams.SiteGenParams.Location);
             Settings.Default.Save();
 
-            
+
             var opRes = SiteGenerator.GenerateSiteFiles(genParams.SiteGenParams);
 
             if (!opRes.Success)
@@ -780,205 +780,88 @@ namespace Desene
                     Settings.Default.LastPath = folderBrowserDialog.SelectedPath;
                     Settings.Default.Save();
 
-                   var files =
-                        Directory.EnumerateFiles(folderBrowserDialog.SelectedPath, "*.*", SearchOption.AllDirectories)
-                            .Where(s => s.EndsWith(".mkv") || s.EndsWith(".mp4")).ToArray();
+                    GetFilesDetails(folderBrowserDialog.SelectedPath);
+                }
+            }
+        }
 
-                        Directory.GetFiles(folderBrowserDialog.SelectedPath, "*.*");
+        private void GetFilesDetails(string path)
+        {
+            var files =
+                 Directory.EnumerateFiles(path, "*.*", SearchOption.TopDirectoryOnly)
+                     .Where(s => s.EndsWith(".mkv") || s.EndsWith(".mp4")).ToArray();
 
-                    if (!files.ToList().DistinctBy(Path.GetExtension).Any())
-                        MsgBox.Show("The folder is empty!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            Directory.GetFiles(path, "*.*");
+
+            if (!files.ToList().DistinctBy(Path.GetExtension).Any())
+                MsgBox.Show("The folder is empty!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+            {
+                var param = new FilesImportParams
+                {
+                    Location = path,
+                    FilesExtension = "*.*",
+                    DisplayInfoOnly = true
+                };
+
+                var opRes = FilesMetaData.GetFilesTechnicalDetails(files, param);
+
+                if (opRes.AdditionalDataReturn == null)
+                {
+                    MsgBox.Show("There was an issue and no files details were retrieved!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var filesInfoDeterminationResult = (KeyValuePair<List<MovieTechnicalDetails>, List<TechnicalDetailsImportError>>)opRes.AdditionalDataReturn;
+                var displayResult = new List<dynamic>();
+
+                foreach (var file in files)
+                {
+                    var fileInfoObj = filesInfoDeterminationResult.Key.FirstOrDefault(f => f.InitialPath == file);
+                    var dynamicObj = new ExpandoObject() as IDictionary<string, object>;
+                    dynamicObj.Add("Filename", Path.GetFileName(file));
+                    dynamicObj.Add("Resolution", string.Format("{0}x{1}", fileInfoObj.VideoStreams[0].Width, fileInfoObj.VideoStreams[0].Height));
+                    dynamicObj.Add("FileVideo Title", fileInfoObj.HasTitle || fileInfoObj.VideoStreams.Any(vs => vs.HasTitle));
+
+                    if (fileInfoObj != null)
+                    {
+                        foreach (var audioObj in fileInfoObj.AudioStreams)
+                        {
+                            dynamicObj.Add(string.Format("Audio {0}", audioObj.Index), audioObj.Language);
+                            dynamicObj.Add(string.Format("Default {0}", audioObj.Index), audioObj.Default);
+                            dynamicObj.Add(string.Format("Forced {0}", audioObj.Index), audioObj.Forced);
+                            dynamicObj.Add(string.Format("Title {0}", audioObj.Index), audioObj.HasTitle);
+                            dynamicObj.Add(string.Format("Channels {0}", audioObj.Index), audioObj.Channel);
+                        }
+
+                        dynamicObj.Add("Error", "");
+                    }
                     else
                     {
-                        var param = new FilesImportParams
-                                        {
-                                            Location = folderBrowserDialog.SelectedPath,
-                                            FilesExtension = "*.*",
-                                            DisplayInfoOnly = true
-                                        };
-
-                        var opRes = FilesMetaData.GetFilesTechnicalDetails(files, param);
-
-                        if (opRes.AdditionalDataReturn == null)
-                        {
-                            MsgBox.Show("There was an issue and no files details were retrieved!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-
-                        var filesInfoDeterminationResult = (KeyValuePair<List<MovieTechnicalDetails>, List<TechnicalDetailsImportError>>)opRes.AdditionalDataReturn;
-                        var displayResult = new List<dynamic>();
-
-                        foreach (var file in files)
-                        {
-                            var fileInfoObj = filesInfoDeterminationResult.Key.FirstOrDefault(f => f.InitialPath == file);
-                            var dynamicObj = new ExpandoObject() as IDictionary<string, object>;
-                            dynamicObj.Add("Filename", Path.GetFileName(file));
-                            dynamicObj.Add("Resolution", string.Format("{0}x{1}", fileInfoObj.VideoStreams[0].Width, fileInfoObj.VideoStreams[0].Height));
-                            dynamicObj.Add("FileVideo Title", fileInfoObj.HasTitle || fileInfoObj.VideoStreams.Any(vs => vs.HasTitle));
-
-                            if (fileInfoObj != null)
-                            {
-                                foreach (var audioObj in fileInfoObj.AudioStreams)
-                                {
-                                    dynamicObj.Add(string.Format("Audio {0}", audioObj.Index), audioObj.Language);
-                                    dynamicObj.Add(string.Format("Default {0}", audioObj.Index), audioObj.Default);
-                                    dynamicObj.Add(string.Format("Forced {0}", audioObj.Index), audioObj.Forced);
-                                    dynamicObj.Add(string.Format("Title {0}", audioObj.Index), audioObj.HasTitle);
-                                    dynamicObj.Add(string.Format("Channels {0}", audioObj.Index), audioObj.Channel);
-                                    
-                                }
-
-                                dynamicObj.Add("Error", "");
-                            }
-                            else
-                            {
-                                var fileErrorObj = filesInfoDeterminationResult.Value.FirstOrDefault(f => f.FilePath == file);
-                                dynamicObj.Add("Error", fileInfoObj != null ? fileErrorObj.ErrorMesage : "Unknown error!");
-                            }
-
-                            dynamicObj.Add("Cover", !string.IsNullOrEmpty(fileInfoObj.Cover));
-
-                            displayResult.Add(dynamicObj);
-                        }
-
-                        if (!displayResult.Any())
-                        {
-                            MsgBox.Show("Something went wrong while processing the files details!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-
-                        var frmFileDetails = new FrmFileDetails(displayResult)  { Owner = this };
-                        frmFileDetails.Show();
+                        var fileErrorObj = filesInfoDeterminationResult.Value.FirstOrDefault(f => f.FilePath == file);
+                        dynamicObj.Add("Error", fileInfoObj != null ? fileErrorObj.ErrorMesage : "Unknown error!");
                     }
+
+                    dynamicObj.Add("Cover", !string.IsNullOrEmpty(fileInfoObj.Cover));
+
+                    displayResult.Add(dynamicObj);
                 }
+
+                if (!displayResult.Any())
+                {
+                    MsgBox.Show("Something went wrong while processing the files details!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var frmFileDetails = new FrmFileDetails(displayResult) { Owner = this };
+                frmFileDetails.Show();
             }
         }
 
         private void BtnBuildFileNames_Click(object sender, EventArgs e)
         {
-            var frmTextInput = new FrmTextInput("Translated file names") { Owner = this };
-
-            if (frmTextInput.ShowDialog() != DialogResult.OK)
-                return;
-
-            var rawData1 = frmTextInput.InputText;
-
-            frmTextInput = new FrmTextInput("Original file names") { Owner = this };
-
-            if (frmTextInput.ShowDialog() != DialogResult.OK)
-                return;
-
-            var rawData2 = frmTextInput.InputText;
-
-            var result = new List<string>();
-            var translatedFNLine = string.Empty;
-            var originalFNLine = string.Empty;
-
-            try
-            {
-                foreach (var myString1 in rawData1.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    translatedFNLine = myString1;
-
-                    var charLocation1 = myString1.IndexOf(".", StringComparison.Ordinal);
-
-                    if (charLocation1 == -1)
-                        continue;
-
-                    var episodeNo1 = myString1.Substring(0, charLocation1);
-
-                    if (!int.TryParse(episodeNo1, out int episodeNoVal1))
-                        continue;
-
-                    foreach (var myString2 in rawData2.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
-                    {
-                        originalFNLine = myString2;
-
-                        var charLocation2 = myString2.IndexOf(".", StringComparison.Ordinal);
-
-                        if (charLocation2 == -1)
-                            continue;
-
-                        var episodeNo2 = myString2.Substring(0, charLocation2);
-
-                        if (episodeNo1 != episodeNo2)
-                            continue;
-
-                        if (!int.TryParse(episodeNo2, out int episodeNoVal2))
-                            continue;
-
-                        var epNo = episodeNoVal2 < 10 ? string.Format("0{0}", episodeNoVal2) : episodeNoVal2.ToString();
-                        var title1 = myString1.Substring((charLocation1 + 1), myString1.Length - (charLocation1 + 1)).Trim();
-                        var title2 = myString2.Substring((charLocation2 + 1), myString2.Length - (charLocation2 + 1)).Trim();
-
-                        result.Add(
-                            title1 == title2
-                                ? string.Format("E{0}. {1}",
-                                    epNo,
-                                    title1)
-                                : string.Format("E{0}. {1} ({2})",
-                                    epNo,
-                                    title1,
-                                    title2)
-                        );
-
-                        break;
-                    }
-                }
-
-                var replaceSlashWithAnd = false;
-                var i = 0;
-                foreach (var s in result)
-                {
-                    if (s.Contains("/")) i++;
-
-                    if (i > 1) break;
-                }
-
-                if (i > 1)
-                    replaceSlashWithAnd = 
-                        MsgBox.Show("Replace '/' with '&' ?", "Confirmation",
-                            MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes;
-
-                using (var saveDialog = new SaveFileDialog())
-                {
-                    saveDialog.Title = "Save combined names as ...";
-                    saveDialog.Filter = "Text files (*.txt)|*.txt";
-                    saveDialog.FileName = "_#_combined-filenames";
-
-                    if (saveDialog.ShowDialog() != DialogResult.OK) return;
-
-                    using (var sw = new StreamWriter(saveDialog.FileName, false, Encoding.Unicode))
-                    {
-                        foreach (var s in result)
-                            sw.WriteLine(
-                                s.Replace(": ", " - ")
-                                 .Replace(" : ", " - ")
-                                 .Replace(" :", " - ")
-                                 .Replace(":", " - ")
-                                 .Replace("?", "")
-                                 .Replace("\"", "'")
-                                 .Replace("*", "")
-                                 .Replace("\\", "")
-                                 .Replace("/", replaceSlashWithAnd ? "&" : "")
-                                 .Replace("|", "")
-                                 .Replace("<", "[")
-                                 .Replace(">", "]")
-                            );
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                var msg = 
-                    string.Format("{0}{1}{1}Translated file names line:{1}{2}{1}{1}Original file names line:{3}",
-                        OperationResult.GetErrorMessage(ex),
-                        Environment.NewLine,
-                        translatedFNLine,
-                        originalFNLine);
-
-                MsgBox.Show(msg, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            var frmNfNamesMix = new FrmNfNamesMix() { Owner = this };
+            frmNfNamesMix.ShowDialog();
         }
 
         private void FrmMain_DragEnter(object sender, DragEventArgs e)
@@ -988,38 +871,45 @@ namespace Desene
 
         private void FrmMain_DragDrop(object sender, DragEventArgs e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            var droppedObj = ((string[])e.Data.GetData(DataFormats.FileDrop))[0];
 
             try
             {
-                var subtitleContent = string.Empty;
-
-                subtitleContent = File.ReadAllText(files[0], Encoding.UTF8);
-
-                if (subtitleContent.Contains("�"))
-                    subtitleContent = File.ReadAllText(files[0], Encoding.Default);
-
-
-                var newFileName = 
-                    Path.Combine(
-                        Path.GetDirectoryName(files[0]),
-                        string.Format("{0}_new{1}",
-                            Path.GetFileNameWithoutExtension(files[0]),
-                            Path.GetExtension(files[0]))
-                        );
-
-                using (var sw = new StreamWriter(newFileName, false, Encoding.UTF8))
+                if (File.GetAttributes(droppedObj).HasFlag(FileAttributes.Directory))
                 {
-                    sw.WriteLine(
-                        subtitleContent
-                            .Replace("º", "ș")
-                            .Replace("þ", "ț")
-                            .Replace("ª", "Ș")
-                            .Replace("Þ", "Ț")
-                            .Replace("ã", "ă")
-                            .Replace("”", "\"")
-                            .Replace("Ã", "Ă")
-                        );
+                    GetFilesDetails(droppedObj);
+                }
+                else
+                {
+                    var subtitleContent = string.Empty;
+
+                    subtitleContent = File.ReadAllText(droppedObj, Encoding.UTF8);
+
+                    if (subtitleContent.Contains("�"))
+                        subtitleContent = File.ReadAllText(droppedObj, Encoding.Default);
+
+
+                    var newFileName =
+                        Path.Combine(
+                            Path.GetDirectoryName(droppedObj),
+                            string.Format("{0}_new{1}",
+                                Path.GetFileNameWithoutExtension(droppedObj),
+                                Path.GetExtension(droppedObj))
+                            );
+
+                    using (var sw = new StreamWriter(newFileName, false, Encoding.UTF8))
+                    {
+                        sw.WriteLine(
+                            subtitleContent
+                                .Replace("º", "ș")
+                                .Replace("þ", "ț")
+                                .Replace("ª", "Ș")
+                                .Replace("Þ", "Ț")
+                                .Replace("ã", "ă")
+                                .Replace("”", "\"")
+                                .Replace("Ã", "Ă")
+                            );
+                    }
                 }
             }
             catch (Exception ex)
@@ -1030,7 +920,7 @@ namespace Desene
 
         private void PMainContainer_Paint(object sender, PaintEventArgs e)
         {
-            const string waterMarkText = "Drag a subtitle here to convert it's diacritics";
+            var waterMarkText = string.Format("Drag a subtitle here to convert it's diacritics{0}Drag a folder to get the files details", Environment.NewLine);
             const int opacity = 35;
 
             var g = e.Graphics;
@@ -1047,7 +937,7 @@ namespace Desene
                     panel.Size.Width - (int)textSize.Width - 10,
                     panel.Size.Height - (int)textSize.Height - 10);
 
-                
+
                 using (var brush = new SolidBrush(Color.FromArgb(opacity, 0, 0, 0)))
                 {
                     g.DrawString(waterMarkText, font, brush, pt);
@@ -1081,7 +971,7 @@ namespace Desene
 }
 
 /*
- 
+
 select top 50 FileName, InsertedDate from FIleDetail
 where ParentId is null
 order by insertedDate desc
@@ -1092,8 +982,8 @@ DATEDIFF(d, InsertedDate, LastChangeDate) AS Diff
 from FIleDetail
 where ParentId is null and DATEDIFF(d, InsertedDate, LastChangeDate) > 1
 order by LastChangeDate des
- 
-    
+
+
 
 select top 50 Id, FileName, InsertedDate from FIleDetail
 where ParentId = -1
