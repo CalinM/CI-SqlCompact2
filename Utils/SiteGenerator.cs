@@ -67,11 +67,28 @@ namespace Utils
                     //movies.Sum(s => s.DimensiuneInt) / 1024
                     "?");
 
+            var newMovies =
+                moviesData
+                    .OrderByDescending(o => o.InsertedDate)
+                    .Select(md => md.Id)
+                    .Take(25)
+                    .ToList();
+
+            var updatedMovies =
+                moviesData
+                    .Where(md => md.LastChangeDate.Subtract(md.InsertedDate).Days > 1)
+                    .OrderByDescending(o => o.LastChangeDate)
+                    .Select(md => md.Id)
+                    .Take(25)
+                    .ToList();
+
             var detMovieInfo =
-                string.Format("var detaliiFilme = {0}; var detaliiGenerare = '{1}'; var detaliiListaF = '{2}'",
+                string.Format("var detaliiFilme = {0}; var detaliiGenerare = '{1}'; var detaliiListaF = '{2}'; var newMovies = {3}; var updatedMovies = {4};",
                     jsS.Serialize(moviesData),
                     genDetails,
-                    movieListDetails);
+                    movieListDetails,
+                    jsS.Serialize(newMovies),
+                    jsS.Serialize(updatedMovies));
 
             #endregion
 
@@ -83,6 +100,19 @@ namespace Utils
             var seriesData = Desene.DAL.GetSeriesForWeb();
             var episodesData = Desene.DAL.GetEpisodesForWeb(siteGenParams.PreserveMarkesForExistingThumbnails);
 
+
+            var seriesWithInsertedEp = new List<int>();
+
+            foreach (var epData in episodesData.OrderByDescending(o => o.InsertedDate))
+            {
+                if (seriesWithInsertedEp.IndexOf(epData.SId) == -1)
+                {
+                    seriesWithInsertedEp.Add(epData.SId);
+
+                    if (seriesWithInsertedEp.Count() >= 25)
+                        break;
+                }
+            }
 
             #region Series posters
 
@@ -149,10 +179,36 @@ namespace Utils
                         break;
                 }
             }
+            else
+            if (siteGenParams.PreserveMarkesForExistingThumbnails && Directory.Exists(Path.Combine(siteGenParams.Location, "Imgs\\Seriale\\Thumbnails\\")))
+            {
+                var fromProgressIndicator = new FrmProgressIndicator("Setting the episodes thumbnails marker from existing files", "-", episodesData.Count);
+                fromProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<EpisodesForWeb>>(siteGenParams, episodesData);
+                fromProgressIndicator.DoWork += formPI_DoWork_GenerateSiteEpisodes_Thumbnails2;
+
+                switch (fromProgressIndicator.ShowDialog())
+                {
+                    case DialogResult.Cancel:
+                        result.Success = false;
+                        result.CustomErrorMessage = "Operation has been canceled";
+
+                        return result;
+
+                    case DialogResult.Abort:
+                        result.Success = false;
+                        result.CustomErrorMessage = fromProgressIndicator.Result.Error.Message;
+
+                        return result;
+
+                    case DialogResult.OK:
+                        result.AdditionalDataReturn = fromProgressIndicator.Result.Result;
+                        break;
+                }
+            }
 
             #endregion
 
-            #region Extract Details - leave it after Thumbnail generation 
+            #region Extract Details - leave it after Thumbnail generation
 
             Desene.DAL.FillSeriesDataFromEpisodes(ref seriesData, episodesData);
 
@@ -164,10 +220,11 @@ namespace Utils
                     "?");
 
             var detSerialeInfo =
-                string.Format("var detaliiSeriale = {0}; var detaliiEpisoade = {1}; var detaliiListaS = '{2}';",
+                string.Format("var detaliiSeriale = {0}; var detaliiEpisoade = {1}; var detaliiListaS = '{2}'; var newSeriesEpisodes = {3}",
                     jsS.Serialize(seriesData),
                     jsS.Serialize(episodesData),
-                    seriesListDetails);
+                    seriesListDetails,
+                    jsS.Serialize(seriesWithInsertedEp));
 
             #endregion
 
@@ -335,6 +392,46 @@ namespace Utils
                             imgOgj.Save(fileName, ImageFormat.Jpeg);
                         }
                     }
+                }
+                catch (Exception ex)
+                {
+                    errorsWhileSaving.Add(
+                        new TechnicalDetailsImportError
+                        {
+                            FilePath = episodeDet.FN,
+                            ErrorMesage = OperationResult.GetErrorMessage(ex)
+                        });
+                }
+            }
+
+            e.Result = errorsWhileSaving;
+        }
+
+        private static void formPI_DoWork_GenerateSiteEpisodes_Thumbnails2(FrmProgressIndicator sender, DoWorkEventArgs e)
+        {
+            var episodeDetails = (KeyValuePair<SiteGenParams, List<EpisodesForWeb>>)e.Argument;
+            var errorsWhileSaving = new List<TechnicalDetailsImportError>();
+
+            var path = Path.Combine(episodeDetails.Key.Location, "Imgs\\Seriale\\Thumbnails\\");
+            var i = 0;
+
+            foreach (var episodeDet in episodeDetails.Value)
+            {
+                if (sender.CancellationPending)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+
+                i++;
+                sender.SetProgress(i, Path.GetFileName(episodeDet.FN));
+
+                try
+                {
+                    var fnPattern = string.Format("thumb-{0}-*.jpg", episodeDet.Id);
+
+                    if (Directory.EnumerateFiles(path, fnPattern).Any())
+                        episodeDet.Th = 1;
                 }
                 catch (Exception ex)
                 {

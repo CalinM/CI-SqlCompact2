@@ -1932,7 +1932,9 @@ namespace Desene
                             fd.AudioLanguages,
                             fd.SubtitleLanguages,
                             fd.Theme,
-                            fd.Notes
+                            fd.Notes,
+                            fd.InsertedDate,
+                            fd.LastChangeDate
                         FROM FileDetail fd
 
                         WHERE fd.ParentId > 0
@@ -1944,7 +1946,7 @@ namespace Desene
                             FROM Thumbnails
                             GROUP BY FileDetailId
                         ) t on t.FileDetailId = fd.Id
-                        
+
                         +
 
                         IsNUll -> Has/Not Thumbnails
@@ -1991,6 +1993,18 @@ namespace Desene
                             efw.T = reader["Theme"].ToString();
                             efw.N = reader["Notes"].ToString();
 
+                            var insertedDate =
+                                reader["InsertedDate"] == DBNull.Value //SD or bad imports
+                                    ? new DateTime(1970, 1, 1)
+                                    : (DateTime)reader["InsertedDate"];
+
+                            efw.InsertedDate = insertedDate;
+
+                            efw.LastChangeDate =
+                                reader["LastChangeDate"] == DBNull.Value
+                                    ? insertedDate
+                                    : (DateTime)reader["LastChangeDate"];
+
                             //if (loadThumbnails)
                             //{
                             //    efw.MovieStills = LoadMovieStills(efw.Id).MovieStills;
@@ -2003,7 +2017,7 @@ namespace Desene
             }
             catch(Exception ex)
             {
-                //var x = 1;
+                var x = 1;
             }
 
             return result;

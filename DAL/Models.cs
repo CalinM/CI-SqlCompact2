@@ -314,8 +314,6 @@ namespace DAL
 
         [ScriptIgnore]
         public DateTime LastChangeDate { get; set; }
-        
-
     }
 
     public class SeriesForWeb
@@ -362,6 +360,12 @@ namespace DAL
         public string N { get; set; }   //Notes             ~   Obs
 
         public int Th { get; set; }     //Thumbnail present? (Bit like ~ 0-1)
+
+        [ScriptIgnore]
+        public DateTime InsertedDate { get; set; }
+
+        [ScriptIgnore]
+        public DateTime LastChangeDate { get; set; }
 
         public EpisodesForWeb()
         {

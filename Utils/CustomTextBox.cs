@@ -1,21 +1,22 @@
-﻿using System.Windows.Forms;
+﻿using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace Utils
 {
     public class CustomTextBox: TextBox
     {
-        //protected override void OnKeyPress(KeyPressEventArgs e)
-        //{
-        //    base.OnKeyPress(e);
-        //    Common.Helpers.UnsavedChanges = true;
-        //}
-
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
 
-            if (ModifierKeys != Keys.Control)
+            if (ModifierKeys == Keys.Control && (e.KeyCode == Keys.C || e.KeyCode == Keys.ControlKey))
+            {
+                //
+            }
+            else
+            {
                 Common.Helpers.UnsavedChanges = true;
+            }
         }
     }
 }

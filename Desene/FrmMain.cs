@@ -56,7 +56,7 @@ namespace Desene
                 }
             }
 
-            //pMainContainer.Controls.Clear();
+            pMainContainer.Controls.Clear();
 
             DAL.LoadBaseDbValues();
 
@@ -673,7 +673,20 @@ namespace Desene
             var seriesData = Desene.DAL.GetSeriesForWeb();
             var episodesData = Desene.DAL.GetEpisodesForWeb(true);
 
+            var seriesWithInsertedEp = new List<int>();
 
+            foreach (var epData in episodesData.OrderByDescending(o => o.InsertedDate))
+            {
+                if (seriesWithInsertedEp.IndexOf(epData.SId) == -1)
+                {
+                    seriesWithInsertedEp.Add(epData.SId);
+
+                    if (seriesWithInsertedEp.Count() >= 10)
+                        break;
+                }
+            }
+
+            var x = 1;
         }
 
         private void btnGenerateHtml_Click(object sender, EventArgs e)
@@ -731,14 +744,18 @@ namespace Desene
             if (!Directory.Exists(scriptPath))
                 Directory.CreateDirectory(scriptPath);
 
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiFilme_{genUniqueId}.js"), serializedData.Key);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiSeriale_{genUniqueId}.js"), serializedData.Value);
+            //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiFilme_{genUniqueId}.js"), serializedData.Key);
+            //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiSeriale_{genUniqueId}.js"), serializedData.Value);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiFilme.js"), serializedData.Key);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiSeriale.js"), serializedData.Value);
+
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery-2.2.4.min.js"), Resources.jquery_2_2_4_min);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\desene.js"), Resources.deseneJS);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery.lazy.min.js"), Resources.jquery_lazy_min);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery.slimscroll.min.js"), Resources.jquery_slimscroll_min);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jsgrid.min.js"), Resources.jsgrid_minJS);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\YouTubePopUp.jquery.js"), Resources.YouTubePopUp_jquery);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\owl.carousel.min.js"), Resources.owl_carousel_minJS);
 
             #endregion
 
@@ -753,10 +770,11 @@ namespace Desene
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\jsgrid.min.css"), Resources.jsgrid_minCSS);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\sections.css"), Resources.sections);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\YouTubePopUp.css"), Resources.YouTubePopUp);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\owl.carousel.min.css"), Resources.owl_carousel_minCSS);
 
             #endregion
 
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "index.html"), Resources.index.Replace("##", genUniqueId));
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "index.html"), Resources.index.Replace("##", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
             FlashWindow.Flash(this, 5);
 
