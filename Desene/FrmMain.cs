@@ -776,6 +776,7 @@ namespace Desene
 
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "index.html"), Resources.index.Replace("##", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
+            //if (this.Focused())
             FlashWindow.Flash(this, 5);
 
             if (MsgBox.Show("The new site files have been saved! Do you want to open the folder location?", "Info",
@@ -987,45 +988,3 @@ namespace Desene
         //}
     }
 }
-
-/*
-
-select top 50 FileName, InsertedDate from FIleDetail
-where ParentId is null
-order by insertedDate desc
-
-
-select top 50 FileName, LastChangeDate,
-DATEDIFF(d, InsertedDate, LastChangeDate) AS Diff
-from FIleDetail
-where ParentId is null and DATEDIFF(d, InsertedDate, LastChangeDate) > 1
-order by LastChangeDate des
-
-
-
-select top 50 Id, FileName, InsertedDate from FIleDetail
-where ParentId = -1
-order by insertedDate desc
-
-
-select top 50 Id, ParentId, FileName, InsertedDate from FIleDetail
-where ParentId > 0
-and ParentId NOT in (
-	select top 50 Id from FIleDetail
-	where ParentId = -1
-	order by insertedDate desc)
-order by insertedDate desc
-
-
-select * from FIleDetail where ParentId = -1 order by filename
-select top 50 FileName
-from FIleDetail
-where Id IN (
-	select top 500 ParentId from FIleDetail
-	where ParentId > 0
-	and ParentId NOT in (
-		select top 50 Id from FIleDetail
-		where ParentId = -1
-		order by insertedDate desc)
-	order by insertedDate desc
-*/
