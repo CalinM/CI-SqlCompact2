@@ -18,7 +18,6 @@ C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.dll
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.pdb
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmFileDetails.resources
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmSiteGenParams.resources
-C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmTextInput.resources
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.pdb
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Common.dll
@@ -41,3 +40,5 @@ C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.pdb
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmNfNamesMix.resources
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.dll.config
+C:\Work\_Utils\CI SqlCompact2\Utils\bin\Debug\Utils.dll.config
+C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmNfNamesMix.resources

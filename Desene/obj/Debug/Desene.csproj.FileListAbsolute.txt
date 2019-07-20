@@ -65,3 +65,4 @@ C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.CopyComplete
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.exe
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.pdb
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.dll.config
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Utils.dll.config
