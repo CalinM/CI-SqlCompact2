@@ -12,6 +12,7 @@ namespace Utils
     public partial class FrmNfNamesMix : Form
     {
         private List<string> _fileNamesMix;
+        private bool _mustRebuild;
 
         public FrmNfNamesMix()
         {
@@ -46,7 +47,9 @@ namespace Utils
 
         private void BtnConfirm_Click(object sender, EventArgs e)
         {
-            MixFileNames();
+            if (_mustRebuild) MixFileNames();
+            else SaveMixedNames();
+
             Close();
         }
 
@@ -59,10 +62,13 @@ namespace Utils
         {
             btnConfirm.Enabled = !string.IsNullOrWhiteSpace(rtbLanguage1.Text) && !string.IsNullOrWhiteSpace(rtbLanguage2.Text);
             btnPreview.Enabled = btnConfirm.Enabled;
+
+            _mustRebuild = true;
         }
 
         private void MixFileNames(bool isPreview = false)
         {
+            _mustRebuild = false;
             _fileNamesMix = new List<string>();
 
             var translatedFNLine = string.Empty;
@@ -196,20 +202,7 @@ namespace Utils
                 }
                 else
                 {
-                    using (var saveDialog = new SaveFileDialog())
-                    {
-                        saveDialog.Title = "Save combined names as ...";
-                        saveDialog.Filter = "Text files (*.txt)|*.txt";
-                        saveDialog.FileName = "_#_combined-filenames";
-
-                        if (saveDialog.ShowDialog() != DialogResult.OK) return;
-
-                        using (var sw = new StreamWriter(saveDialog.FileName, false, Encoding.Unicode))
-                        {
-                            foreach (var s in _fileNamesMix)
-                                sw.WriteLine(s);
-                        }
-                    }
+                    SaveMixedNames();
                 }
             }
             catch (Exception ex)
@@ -226,6 +219,29 @@ namespace Utils
                 else
                     MsgBox.Show(msg, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void SaveMixedNames()
+        {
+            using (var saveDialog = new SaveFileDialog())
+            {
+                saveDialog.Title = "Save combined names as ...";
+                saveDialog.Filter = "Text files (*.txt)|*.txt";
+                saveDialog.FileName = "_#_combined-filenames";
+
+                if (saveDialog.ShowDialog() != DialogResult.OK) return;
+
+                using (var sw = new StreamWriter(saveDialog.FileName, false, Encoding.Unicode))
+                {
+                    foreach (var s in _fileNamesMix)
+                        sw.WriteLine(s);
+                }
+            }
+        }
+
+        private void CbFilesExt_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            MixFileNames(true);
         }
     }
 }

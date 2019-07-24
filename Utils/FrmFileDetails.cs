@@ -169,7 +169,18 @@ namespace Utils
 
         private void DgvFilesDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
+            var numericPartOfFieldName = new string(dgvFilesDetails.Columns[e.ColumnIndex].DataPropertyName.Where(c => char.IsDigit(c)).ToArray());
 
+            if (numericPartOfFieldName.Length == 0) return;
+
+            int numericPartOfFieldName2 = -1;
+            if (int.TryParse(numericPartOfFieldName, out numericPartOfFieldName2))
+            {
+                e.CellStyle.BackColor =
+                    numericPartOfFieldName2 % 2 == 0 //even
+                        ? System.Drawing.Color.White
+                        : System.Drawing.Color.FromArgb(229, 228, 228);
+            }
         }
     }
 }

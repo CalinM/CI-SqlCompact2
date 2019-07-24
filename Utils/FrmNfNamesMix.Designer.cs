@@ -74,7 +74,7 @@
             this.tpLanguage1.Location = new System.Drawing.Point(4, 22);
             this.tpLanguage1.Name = "tpLanguage1";
             this.tpLanguage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLanguage1.Size = new System.Drawing.Size(470, 163);
+            this.tpLanguage1.Size = new System.Drawing.Size(472, 163);
             this.tpLanguage1.TabIndex = 0;
             this.tpLanguage1.Text = "Language 1 (translated)";
             this.tpLanguage1.UseVisualStyleBackColor = true;
@@ -86,7 +86,7 @@
             this.rtbLanguage1.Location = new System.Drawing.Point(3, 3);
             this.rtbLanguage1.Name = "rtbLanguage1";
             this.rtbLanguage1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.rtbLanguage1.Size = new System.Drawing.Size(464, 157);
+            this.rtbLanguage1.Size = new System.Drawing.Size(466, 157);
             this.rtbLanguage1.TabIndex = 2;
             this.rtbLanguage1.Text = "";
             this.rtbLanguage1.TextChanged += new System.EventHandler(this.RtbLanguage1_TextChanged);
@@ -148,6 +148,7 @@
             this.cbFilesExt.Name = "cbFilesExt";
             this.cbFilesExt.Size = new System.Drawing.Size(77, 21);
             this.cbFilesExt.TabIndex = 8;
+            this.cbFilesExt.SelectedIndexChanged += new System.EventHandler(this.CbFilesExt_SelectedIndexChanged);
             // 
             // FrmNfNamesMix
             // 
