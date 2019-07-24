@@ -54,10 +54,12 @@
             this.dgvFilesDetails.Name = "dgvFilesDetails";
             this.dgvFilesDetails.ReadOnly = true;
             this.dgvFilesDetails.RowHeadersVisible = false;
+            this.dgvFilesDetails.RowHeadersWidth = 62;
             this.dgvFilesDetails.RowTemplate.Height = 20;
             this.dgvFilesDetails.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvFilesDetails.Size = new System.Drawing.Size(1274, 409);
             this.dgvFilesDetails.TabIndex = 113;
+            this.dgvFilesDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvFilesDetails_CellFormatting);
             // 
             // toolStrip1
             // 
@@ -67,7 +69,7 @@
             this.btnExport});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1298, 32);
+            this.toolStrip1.Size = new System.Drawing.Size(1298, 34);
             this.toolStrip1.TabIndex = 114;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -94,14 +96,14 @@
             // miExportToXML
             // 
             this.miExportToXML.Name = "miExportToXML";
-            this.miExportToXML.Size = new System.Drawing.Size(153, 30);
+            this.miExportToXML.Size = new System.Drawing.Size(171, 34);
             this.miExportToXML.Text = "to XML";
             this.miExportToXML.Click += new System.EventHandler(this.miExportToXML_Click);
             // 
             // miExportToCSV
             // 
             this.miExportToCSV.Name = "miExportToCSV";
-            this.miExportToCSV.Size = new System.Drawing.Size(153, 30);
+            this.miExportToCSV.Size = new System.Drawing.Size(171, 34);
             this.miExportToCSV.Text = "to CSV";
             this.miExportToCSV.Click += new System.EventHandler(this.miExportToCSV_Click);
             // 

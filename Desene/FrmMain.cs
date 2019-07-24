@@ -900,6 +900,9 @@ namespace Desene
                 }
                 else
                 {
+                    if (Path.GetExtension(droppedObj).ToLower() != ".srt" && Path.GetExtension(droppedObj).ToLower() != ".txt")
+                        return;
+
                     var subtitleContent = string.Empty;
 
                     subtitleContent = File.ReadAllText(droppedObj, Encoding.UTF8);

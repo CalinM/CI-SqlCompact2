@@ -166,5 +166,10 @@ namespace Utils
                 MsgBox.Show(OperationResult.GetErrorMessage(ex), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void DgvFilesDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+
+        }
     }
 }
