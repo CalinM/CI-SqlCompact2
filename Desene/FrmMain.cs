@@ -92,7 +92,7 @@ namespace Desene
         {
             if (Settings.Default.WindowLocation.X > -100 && Settings.Default.WindowLocation.Y > -100) //to auto-correct bad configuration
             {
-                Location = Settings.Default.WindowLocation;
+                Location = Settings.Default.WindowLocation; //
             }
 
             // Set window size
@@ -147,6 +147,42 @@ namespace Desene
                 Cursor = Cursors.Default;
             }
         }
+
+        private void miCollections_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                DrawingControl.SuspendDrawing(pMainContainer);
+                ClearAllDelegates();
+
+                var senderItem = (ToolStripMenuItem)sender;
+                if (!senderItem.Checked)
+                {
+                    MarkCurrentCategory(senderItem);
+
+                    pMainContainer.Controls.Clear();
+                    pMainContainer.Controls.Add(new ucCollections(this) { Dock = DockStyle.Fill });
+                }
+                else
+                {
+                    senderItem.Checked = false;
+                    pMainContainer.Controls.Clear();
+                }
+
+                SetMainCrudButtonsState(senderItem.Checked, "Add collection");
+
+                //todo: check if necessary
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+            finally
+            {
+                DrawingControl.ResumeDrawing(pMainContainer);
+                Cursor = Cursors.Default;
+            }
+        }
+
         private void miSeries_Click(object sender, EventArgs e)
         {
             try

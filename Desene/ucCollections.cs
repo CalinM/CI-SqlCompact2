@@ -16,7 +16,7 @@ using Helpers = Common.Helpers;
 
 namespace Desene
 {
-    public partial class ucSeries : UserControl
+    public partial class ucCollections : UserControl
     {
         private FrmMain _parent;
         private int _prevSelectedSeriesId = -2;
@@ -25,13 +25,13 @@ namespace Desene
         private bool _isFiltered;
         private Timer _genericTimer;
 
-        public ucSeries(FrmMain parent)
+        public ucCollections(FrmMain parent)
         {
             InitializeComponent();
 
             _parent = parent;
-            _parent.OnAddButtonPress += AddSeries;
-            _parent.OnDeleteButtonPress += DeleteSeries;
+            _parent.OnAddButtonPress += AddCollection;
+            _parent.OnDeleteButtonPress += DeleteCollection;
 
             Helpers.GenericSetButtonsState2 = SetSaveButtonState;
 
@@ -45,146 +45,84 @@ namespace Desene
 
             var tcTitle = new TreeColumn { Header = "Title", Width = 240 };
             var tbTitle = new NodeTextBox { DataPropertyName = "FileName", ParentColumn = tcTitle };
-            tvSeries.Columns.Add(tcTitle);
-            tvSeries.NodeControls.Add(tbTitle);
+            tvCollections.Columns.Add(tcTitle);
+            tvCollections.NodeControls.Add(tbTitle);
 
             var tcTheme = new TreeColumn { Header = "Theme", Width = 75 };
             var tbTheme = new NodeTextBox { DataPropertyName = "Theme", ParentColumn = tcTheme };
-            tvSeries.Columns.Add(tcTheme);
-            tvSeries.NodeControls.Add(tbTheme);
+            tvCollections.Columns.Add(tcTheme);
+            tvCollections.NodeControls.Add(tbTheme);
 
             var tcQuality = new TreeColumn { Header = "Quality", Width = 35 };
             var tbQuality = new NodeTextBox { DataPropertyName = "Quality", ParentColumn = tcQuality };
-            tvSeries.Columns.Add(tcQuality);
-            tvSeries.NodeControls.Add(tbQuality);
+            tvCollections.Columns.Add(tcQuality);
+            tvCollections.NodeControls.Add(tbQuality);
 
-            tvSeries.FullRowSelect = true;
-            tvSeries.GridLineStyle = GridLineStyle.HorizontalAndVertical;
-            tvSeries.UseColumns = true;
+            tvCollections.FullRowSelect = true;
+            tvCollections.GridLineStyle = GridLineStyle.HorizontalAndVertical;
+            tvCollections.UseColumns = true;
 
-            var treeModel = new SeriesTreeModel();
-            tvSeries.Model = treeModel;
+            var treeModel = new SeriesTreeModel(true);
+            tvCollections.Model = treeModel;
 
-            if (tvSeries.AllNodes.Any())
-                tvSeries.SelectedNode = tvSeries.AllNodes.First();
+            if (tvCollections.AllNodes.Any())
+                tvCollections.SelectedNode = tvCollections.AllNodes.First();
         }
 
         private void LoadSelectionDetails(int scrollAt = -1)
         {
-            if (tvSeries.SelectedNode == null) return; //why??
+            if (tvCollections.SelectedNode == null) return; //why??
 
             try
             {
                 Cursor = Cursors.WaitCursor;
-                pSeriesDetailsContainer.SuspendLayout();
+                DrawingControl.SuspendDrawing(pCollectionElementDetailsContainer);
 
-                var seShortInfo = (SeriesEpisodesShortInfo)tvSeries.SelectedNode.Tag;
+                var isElementSeleted = tvCollections.SelectedNode.Level == 2;
+                btnImportElements.Enabled = !isElementSeleted;
+                btnLoadPoster.Enabled = isElementSeleted;
+                btnRefreshElementData.Enabled = isElementSeleted;
+                btnDeleteElement.Enabled = isElementSeleted;
 
-                var opRes = DAL.LoadMTD(seShortInfo.Id, seShortInfo.IsEpisode);
-
-                if (!opRes.Success)
+                if (!isElementSeleted)
                 {
-                    MsgBox.Show(string.Format("The following error occurred while loading the file details:{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
-                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                if (seShortInfo.IsSeason || seShortInfo.IsSeries)
-                {
-                    //when moving focus from EpisodeDetail to SeasonDetail, the "ucEpisodeDetails" must be removed
-                    var prevInstance = pSeriesDetailsContainer.Controls.Find("ucEpisodeDetails", false);
-                    if (prevInstance.Any())
-                        pSeriesDetailsContainer.Controls.Remove(prevInstance[0]);
-
-                    if (_prevSelectedSeriesId != seShortInfo.Id)
-                    {
-                        //attempting to reuse the "ucEditSeriesBaseInfo" user control
-                        prevInstance = pSeriesDetailsContainer.Controls.Find("ucEditSeriesBaseInfo", false);
-
-                        if (prevInstance.Any())
-                        {
-                            if (_prevSelectedSeriesId != seShortInfo.Id)
-                                ((ucEditSeriesBaseInfo)prevInstance[0]).RefreshControls();
-                        }
-                        else
-                        {
-                            pSeriesDetailsContainer.Controls.Add(new ucEditSeriesBaseInfo(false) { Dock = DockStyle.Top });
-                        }
-                    }
-                    else //when returning to the Series/Season node from an episode from the same Series
-                    {
-                        prevInstance = pSeriesDetailsContainer.Controls.Find("ucEditSeriesBaseInfo", false);
-                        if (!prevInstance.Any())
-                        {
-                            pSeriesDetailsContainer.Controls.Add(new ucEditSeriesBaseInfo(false) { Dock = DockStyle.Top });
-                        }
-                    }
-
-
-                    prevInstance = pSeriesDetailsContainer.Controls.Find("ucSeriesEpisodes", false);
-
-                    //refresh the episode list ... but only if needed
-                    if (_prevSelectedSeriesId != seShortInfo.Id || !prevInstance.Any()) //when the selection moved from Episode to Series/Season, the "ucSeriesEpisodes" is not there, but the SeriesId remains the same!
-                    {
-                        //attempting to reuse the "ucSeriesEpisodes" user control
-                        if (prevInstance.Any())
-                        {
-                            ((ucSeriesEpisodes)prevInstance[0]).LoadControls(seShortInfo.Id);
-                        }
-                        else
-                        {
-                            if (!_isFiltered)
-                            {
-                                var ucSeriesEpisodes = new ucSeriesEpisodes(seShortInfo.Id, this) { Dock = DockStyle.Top };
-                                pSeriesDetailsContainer.Controls.Add(ucSeriesEpisodes);
-                                ucSeriesEpisodes.BringToFront();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (_isFiltered && prevInstance.Any())
-                            pSeriesDetailsContainer.Controls.Remove(prevInstance[0]);
-                    }
-
-
-                    _prevSelectedSeriesId = seShortInfo.Id;
+                    pCollectionElementDetailsContainer.Controls.Clear();
                 }
                 else
                 {
-                    //when moving focus from SeasonDetail to EpisodeDetail, the "ucSeriesEpisodes" must be removed
-                    var prevInstance = pSeriesDetailsContainer.Controls.Find("ucSeriesEpisodes", false);
+                    var seShortInfo = (SeriesEpisodesShortInfo)tvCollections.SelectedNode.Tag;
+
+                    var opRes = DAL.LoadMTD(seShortInfo.Id, true);
+
+                    if (!opRes.Success)
+                    {
+                        MsgBox.Show(string.Format("The following error occurred while loading the file details:{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    var prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucMovieInfo", false);
+
                     if (prevInstance.Any())
-                        pSeriesDetailsContainer.Controls.Remove(prevInstance[0]);
-
-                    //attempting to reuse the "ucEditSeriesBaseInfo" user control
-                    prevInstance = pSeriesDetailsContainer.Controls.Find("ucEditSeriesBaseInfo", false);
-                    if (prevInstance.Any())
-                        pSeriesDetailsContainer.Controls.Remove(prevInstance[0]);
-
-
-                    var seriesNode = tvSeries.AllNodes.FirstOrDefault(x => ((SeriesEpisodesShortInfo)x.Tag).Id == seShortInfo.SeriesId && ((SeriesEpisodesShortInfo)x.Tag).IsSeries);
-                    var seriesName = seriesNode == null
-                        ? "unknown !!!"
-                        : ((SeriesEpisodesShortInfo)seriesNode.Tag).FileName;
-
-                    prevInstance = pSeriesDetailsContainer.Controls.Find("ucEpisodeDetails", false);
-                    if (prevInstance.Any())
-                        ((ucEpisodeDetails)prevInstance[0]).LoadControls(seShortInfo.Id, null, seriesName);
+                        ((ucMovieInfo)prevInstance[0]).RefreshControls(DAL.CurrentMTD);
                     else
                     {
-                        var ucEpisodeDetails = new ucEpisodeDetails(seShortInfo.Id, _prevSelectedSeriesId, seriesName) { Dock = DockStyle.Top };
-                        pSeriesDetailsContainer.Controls.Add(ucEpisodeDetails);
-                        ucEpisodeDetails.BringToFront();
+                        var ucMovieInfo = new ucMovieInfo { Dock = DockStyle.Top };
+                        ucMovieInfo.RefreshControls(DAL.CurrentMTD);
+
+                        pCollectionElementDetailsContainer.Controls.Add(ucMovieInfo);
+                        ucMovieInfo.BringToFront();
                     }
                 }
             }
             finally
             {
                 if (scrollAt > -1)
-                    pSeriesDetailsContainer.VerticalScroll.Value = scrollAt;
+                    pCollectionElementDetailsContainer.VerticalScroll.Value = scrollAt;
 
-                pSeriesDetailsContainer.ResumeLayout();
+                SetSaveButtonState(false);
+
+                DrawingControl.ResumeDrawing(pCollectionElementDetailsContainer);
                 Cursor = Cursors.Default;
             }
         }
@@ -193,14 +131,14 @@ namespace Desene
 
         #region Basic Events
 
-        private void tvSeries_SelectionChanged(object sender, EventArgs e)
+        private void tvCollections_SelectionChanged(object sender, EventArgs e)
         {
-            if (_preventEvent || tvSeries.SelectedNode == null) return;
+            if (_preventEvent || tvCollections.SelectedNode == null) return;
 
             if (!Utils.Helpers.ConfirmDiscardChanges())
             {
                 _preventEvent = true;
-                tvSeries.SelectedNode = _prevSelectedNode;//tvSeries.AllNodes.FirstOrDefault(x => ((SeriesEpisodesShortInfo)x.Tag).Id == _prevSelectedSeriesId);
+                tvCollections.SelectedNode = _prevSelectedNode;//tvSeries.AllNodes.FirstOrDefault(x => ((SeriesEpisodesShortInfo)x.Tag).Id == _prevSelectedSeriesId);
                 _preventEvent = false;
 
                 return;
@@ -208,47 +146,46 @@ namespace Desene
 
             LoadSelectionDetails();
 
-            _prevSelectedNode = tvSeries.SelectedNode;
-
-
-            var sesi = (SeriesEpisodesShortInfo)_prevSelectedNode.Tag;
-
-            btnImportEpisodes.Enabled = sesi != null && !sesi.IsEpisode;
-            btnLoadPoster.Enabled = btnImportEpisodes.Enabled;
-
-            btnRefreshEpisodeData.Enabled = sesi != null && !sesi.IsSeries;
-            btnDeleteSeasonEpisode.Enabled = sesi != null && !sesi.IsSeries;
+            _prevSelectedNode = tvCollections.SelectedNode;
         }
 
         #endregion
 
         #region Helper methods
 
-        private void ReloadTreeView(int? selectId)
+        private void ReloadTreeView(int? selectedParentd, int? selectedChildId = null)
         {
             //https://sourceforge.net/p/treeviewadv/discussion/568369/thread/9f164a97/
             //^^ not working?
 
-            var treeModel = new SeriesTreeModel(); //to refresh the tree
-            tvSeries.Model = treeModel;
+            var treeModel = new SeriesTreeModel(true); //to refresh the tree
+            tvCollections.Model = treeModel;
 
             //tvSeries.FindNodeByTag()
             //no support for finding based on a single property?
 
-            if (selectId != null)
-                tvSeries.SelectedNode = tvSeries.AllNodes.FirstOrDefault(x => ((SeriesEpisodesShortInfo)x.Tag).Id == selectId);
+            if (selectedParentd != null)
+            {
+                tvCollections.SelectedNode = tvCollections.AllNodes.FirstOrDefault(x => ((SeriesEpisodesShortInfo)x.Tag).Id == selectedParentd);
+
+                if (selectedChildId != null)
+                {
+                    tvCollections.SelectedNode.ExpandAll();
+                    tvCollections.SelectedNode = tvCollections.AllNodes.FirstOrDefault(x => ((SeriesEpisodesShortInfo)x.Tag).Id == selectedChildId);
+                }
+            }
             else
-                tvSeries.SelectedNode = tvSeries.AllNodes.FirstOrDefault();
+                tvCollections.SelectedNode = tvCollections.AllNodes.FirstOrDefault();
             //treeViewAdv1.Focus();
         }
 
         public void TryLocateEpisodeInTree(int episodeId)
         {
-            if (tvSeries.SelectedNode != null)
+            if (tvCollections.SelectedNode != null)
             {
-                tvSeries.SelectedNode.ExpandAll();
-                tvSeries.SelectedNode = tvSeries.AllNodes.FirstOrDefault(x => ((SeriesEpisodesShortInfo)x.Tag).Id == episodeId);
-                tvSeries.Focus();
+                tvCollections.SelectedNode.ExpandAll();
+                tvCollections.SelectedNode = tvCollections.AllNodes.FirstOrDefault(x => ((SeriesEpisodesShortInfo)x.Tag).Id == episodeId);
+                tvCollections.Focus();
             }
         }
 
@@ -264,26 +201,26 @@ namespace Desene
             btnUndo.Enabled = b;
         }
 
-        private void AddSeries(object sender, EventArgs e)
+        private void AddCollection(object sender, EventArgs e)
         {
             if (!Utils.Helpers.ConfirmDiscardChanges())
                 return;
 
-            var frmEditSeriesBaseInfo = new FrmEditSeriesBaseInfo { Owner = _parent };
+            var frmAddCollection = new FrmAddCollection { Owner = _parent };
 
-            if (frmEditSeriesBaseInfo.ShowDialog() != DialogResult.OK) return;
+            if (frmAddCollection.ShowDialog() != DialogResult.OK) return;
 
-            ReloadTreeView(frmEditSeriesBaseInfo.NewId);
+            ReloadTreeView(frmAddCollection.NewId);
         }
 
-        private void DeleteSeries(object sender, EventArgs e)
+        private void DeleteCollection(object sender, EventArgs e)
         {
-            if (tvSeries.AllNodes.Count() == 0) return;
+            if (tvCollections.AllNodes.Count() == 0) return;
 
-            var selectedNodeData = (SeriesEpisodesShortInfo)tvSeries.SelectedNode.Tag;
+            var selectedNodeData = (SeriesEpisodesShortInfo)tvCollections.SelectedNode.Tag;
 
             if (MsgBox.Show(
-                    string.Format("Are you sure you want to remove the Series{0}{0}{1}{0}{0}with all it's Episodes?",
+                    string.Format("Are you sure you want to remove the Collection{0}{0}{1}{0}{0}with all it's Elements?",
                         Environment.NewLine, DAL.GetSeriesTitleFromId(selectedNodeData.SeriesId)),
                     "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 return;
@@ -308,15 +245,17 @@ namespace Desene
         {
             SaveChanges();
 
-            var prevInstance = pSeriesDetailsContainer.Controls.Find("ucEpisodeDetails", false);
+            /*
+            var prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucEpisodeDetails", false);
             if (prevInstance.Any())
                 ((ucEpisodeDetails)prevInstance[0]).LoadThemesInControl(true);
+                */
         }
 
         private OperationResult SaveChanges()
         {
-            var selectedNodeData = (SeriesEpisodesShortInfo)tvSeries.SelectedNode.Tag;
-            tvSeries.Focus(); //required to push all changes from editors into the DAL.CurrentMTD object
+            var selectedNodeData = (SeriesEpisodesShortInfo)tvCollections.SelectedNode.Tag;
+            tvCollections.Focus(); //required to push all changes from editors into the DAL.CurrentMTD object
 
             var opRes = DAL.SaveMTD(selectedNodeData.IsEpisode);
 
@@ -338,19 +277,20 @@ namespace Desene
             return opRes;
         }
 
-        private void btnImportEpisodes_Click(object sender, EventArgs e)
+        private void btnImportElements_Click(object sender, EventArgs e)
         {
-            var sesi = (SeriesEpisodesShortInfo)tvSeries.SelectedNode.Tag;
+            var sesi = (SeriesEpisodesShortInfo)tvCollections.SelectedNode.Tag;
 
-            var iParams = new FrmEpisodeInfoFromFiles(sesi.Id, sesi.IsSeason ? sesi.Season : (int?)null) { Owner = _parent };
+            var iParams = new FrmElementsInfoFromFiles(sesi.Id) { Owner = _parent };
 
             if (iParams.ShowDialog() != DialogResult.OK)
                 return;
 
 
-            var files = Directory.GetFiles(iParams.EpisodesImportParams.Location, iParams.EpisodesImportParams.FilesExtension);
+            var files = Directory.GetFiles(iParams.ElementsImportParams.Location, iParams.ElementsImportParams.FilesExtension);
 
-            var opRes = FilesMetaData.GetFilesTechnicalDetails(files, iParams.EpisodesImportParams);
+
+            var opRes = FilesMetaData.GetFilesTechnicalDetails(files, iParams.ElementsImportParams);
 
             if (!opRes.Success)
             {
@@ -369,7 +309,7 @@ namespace Desene
             }
 
             opRes = FilesMetaData.SaveImportedEpisodes(new KeyValuePair<FilesImportParams, List<MovieTechnicalDetails>>(
-                iParams.EpisodesImportParams, importResult.Value));
+                iParams.ElementsImportParams, importResult.Value));
 
             var saveErrors = (List<TechnicalDetailsImportError>)opRes.AdditionalDataReturn;
             if (saveErrors != null && saveErrors.Any())
@@ -379,44 +319,80 @@ namespace Desene
             }
 
             ReloadTreeView(sesi.Id);
-            tvSeries.SelectedNode.ExpandAll();
+            tvCollections.SelectedNode.ExpandAll();
 
             LoadSelectionDetails();
         }
 
         private void btnRefreshEpisodeData_Click(object sender, EventArgs e)
         {
-            var sesi = (SeriesEpisodesShortInfo)_prevSelectedNode.Tag;
-            if (!sesi.IsEpisode)
-            {
-                MsgBox.Show("There are no episode related information that need to be preserved, so please remove the season and re-import.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            if (Helpers.UnsavedChanges && !SaveChanges().Success)
                 return;
-            }
 
-            if (!Utils.Helpers.ConfirmDiscardChanges()) return;
-
-            using (var rParam = new FrmMTDFromFile(false, true) { Owner = _parent })
+            using (var rParam = new FrmMTDFromFile(true, false) { Owner = _parent })
             {
                 if (rParam.ShowDialog() != DialogResult.OK)
                     return;
 
-                var prevInstance = pSeriesDetailsContainer.Controls.Find("ucEpisodeDetails", false);
-                if (prevInstance.Any())
+                if (rParam.mtd == null)
                 {
-                    var opRes = SaveChanges();
-
-                    if (opRes.Success)
-                        ((ucEpisodeDetails)prevInstance[0]).LoadControls2(true);
-                }
-                else
-                    MsgBox.Show("The previous UserControl instance could not be found!", "Error", MessageBoxButtons.OK,
+                    MsgBox.Show("An error occurred while determining the file (movie) details. No additional data available!", "Error", MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
+                    return;
+                }
+
+                var opRes = DAL.RemoveMovieOrEpisode(((SeriesEpisodesShortInfo)_prevSelectedNode.Tag).Id);
+
+                if (!opRes.Success)
+                {
+                    MsgBox.Show(
+                        string.Format("The following error occurred while removing the previous movie details:{0}{0}{1}{0}{0}The current operation cannot continue!", Environment.NewLine, opRes.CustomErrorMessage),
+                        "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                rParam.mtd.DescriptionLink = DAL.CurrentMTD.DescriptionLink;
+                rParam.mtd.Recommended = DAL.CurrentMTD.Recommended;
+                rParam.mtd.RecommendedLink = DAL.CurrentMTD.RecommendedLink;
+                rParam.mtd.Year = DAL.CurrentMTD.Year;
+                rParam.mtd.Theme = DAL.CurrentMTD.Theme;
+                rParam.mtd.Notes = DAL.CurrentMTD.Notes;
+                rParam.mtd.Trailer = DAL.CurrentMTD.Trailer;
+                rParam.mtd.StreamLink = DAL.CurrentMTD.StreamLink;
+                rParam.mtd.Poster = DAL.CurrentMTD.Poster;
+                rParam.mtd.InsertedDate = DAL.CurrentMTD.InsertedDate;
+                rParam.mtd.LastChangeDate = DateTime.Now;
+
+                //not using UpdateMTD in order to avoud additional check regarding the number of streams
+                opRes = DAL.InsertMTD(
+                    rParam.mtd,
+                    new FilesImportParams
+                    {
+                         Year = rParam.mtd.Year,
+                         Season = "",
+                         ParentId = ((SeriesEpisodesShortInfo)_prevSelectedNode.Tag).SeriesId
+                    });
+
+                if (!opRes.Success)
+                {
+                    MsgBox.Show(
+                        string.Format("The following error occurred while inserting the new movie details into the database:{0}{0}{1}{0}{0}", Environment.NewLine, opRes.CustomErrorMessage),
+                        "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                rParam.mtd.Id = (int)opRes.AdditionalDataReturn;
+                DAL.CurrentMTD = rParam.mtd;
+
+                ReloadTreeView(((SeriesEpisodesShortInfo)_prevSelectedNode.Tag).SeriesId, rParam.mtd.Id);
+
+                LoadSelectionDetails();
             }
         }
 
         private void btnLoadPoster_Click(object sender, EventArgs e)
         {
-            var prevInstance = pSeriesDetailsContainer.Controls.Find("ucEditSeriesBaseInfo", false);
+            var prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucMovieInfo", false);
             if (!prevInstance.Any())
             {
                 MsgBox.Show("The previous UserControl instance could not be found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -425,7 +401,7 @@ namespace Desene
 
             using (var openFileDialog = new OpenFileDialog())
             {
-                var selectedNodeData = (SeriesEpisodesShortInfo)tvSeries.SelectedNode.Tag;
+                var selectedNodeData = (SeriesEpisodesShortInfo)tvCollections.SelectedNode.Tag;
 
                 openFileDialog.Title = string.Format("Choose a poster for series '{0}'", selectedNodeData.FileName);
                 openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*";
@@ -442,7 +418,7 @@ namespace Desene
                     var bytes = new byte[file.Length];
                     file.Read(bytes, 0, (int)file.Length);
 
-                    ((ucEditSeriesBaseInfo)prevInstance[0]).SetPoster(bytes);
+                    ((ucMovieInfo)prevInstance[0]).SetPoster(bytes, false);
                 }
 
                 Helpers.UnsavedChanges = true;
@@ -451,12 +427,12 @@ namespace Desene
 
         private void btnDeleteSeasonEpisode_Click(object sender, EventArgs e)
         {
-            var sesi = (SeriesEpisodesShortInfo)tvSeries.SelectedNode.Tag;
+            var sesi = (SeriesEpisodesShortInfo)tvCollections.SelectedNode.Tag;
 
             var msg =
                 sesi.IsSeason
-                    ? "Are you sure you want to remove all episodes in the selected season?"
-                    : "Are you sure you want to remove the selected episode?";
+                    ? "Are you sure you want to remove all Elements from the selected Collection?"
+                    : "Are you sure you want to remove the selected Element?";
 
             if (MsgBox.Show(msg, "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 return;
@@ -479,7 +455,7 @@ namespace Desene
                 ReloadTreeView(sesi.SeriesId);
 
                 if (!sesi.IsSeason)
-                    tvSeries.SelectedNode.ExpandAll();
+                    tvCollections.SelectedNode.ExpandAll();
                 else
                     _prevSelectedSeriesId = -2;
 
@@ -489,7 +465,7 @@ namespace Desene
 
         private void btnUndo_Click(object sender, EventArgs e)
         {
-            LoadSelectionDetails(pSeriesDetailsContainer.VerticalScroll.Value);
+            LoadSelectionDetails(pCollectionElementDetailsContainer.VerticalScroll.Value);
             Helpers.UnsavedChanges = false;
         }
 
@@ -520,10 +496,10 @@ namespace Desene
 
             //var ses = (SeriesEpisodesShortInfo)tvSeries.SelectedNode.Tag;
 
-            var treeModel = new SeriesTreeModel();
-            tvSeries.Model = treeModel;
+            var treeModel = new SeriesTreeModel(true);
+            tvCollections.Model = treeModel;
 
-            tvSeries.SelectedNode = tvSeries.AllNodes.FirstOrDefault();
+            tvCollections.SelectedNode = tvCollections.AllNodes.FirstOrDefault();
 
             //tvSeries.SelectedNode = ses.IsSeason
 
@@ -562,11 +538,11 @@ namespace Desene
             {
                 _isFiltered = true;
                 var treeModel = new FilteredTreeModel(tbFilter.Text);
-                tvSeries.Model = treeModel;
-                tvSeries.ExpandAll();
+                tvCollections.Model = treeModel;
+                tvCollections.ExpandAll();
 
-                tvSeries.SelectedNode = tvSeries.AllNodes.FirstOrDefault();
-                _prevSelectedNode = tvSeries.SelectedNode;
+                tvCollections.SelectedNode = tvCollections.AllNodes.FirstOrDefault();
+                _prevSelectedNode = tvCollections.SelectedNode;
             }
             else
             {

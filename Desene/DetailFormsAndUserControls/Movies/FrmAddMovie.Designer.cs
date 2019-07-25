@@ -1,4 +1,6 @@
-﻿namespace Desene.DetailFormsAndUserControls.Movies
+﻿using Desene.DetailFormsAndUserControls;
+
+namespace Desene
 {
     partial class FrmAddMovie
     {
@@ -40,7 +42,6 @@
             // 
             // toolStrip1
             // 
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnSave,
             this.btnCancel,
@@ -49,8 +50,7 @@
             this.btnLoadPoster});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.toolStrip1.Size = new System.Drawing.Size(1326, 32);
+            this.toolStrip1.Size = new System.Drawing.Size(884, 31);
             this.toolStrip1.TabIndex = 185;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -60,7 +60,7 @@
             this.btnSave.Image = global::Desene.Properties.Resources.save_as;
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(77, 29);
+            this.btnSave.Size = new System.Drawing.Size(59, 28);
             this.btnSave.Text = "Save";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -69,21 +69,21 @@
             this.btnCancel.Image = global::Desene.Properties.Resources.cancel;
             this.btnCancel.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(91, 29);
+            this.btnCancel.Size = new System.Drawing.Size(71, 28);
             this.btnCancel.Text = "Cancel";
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 32);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
             // btnImportMovieData
             // 
             this.btnImportMovieData.Image = global::Desene.Properties.Resources.import;
             this.btnImportMovieData.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImportMovieData.Name = "btnImportMovieData";
-            this.btnImportMovieData.Size = new System.Drawing.Size(167, 29);
+            this.btnImportMovieData.Size = new System.Drawing.Size(119, 28);
             this.btnImportMovieData.Text = "Import from file";
             this.btnImportMovieData.ToolTipText = "Import movie data from file";
             this.btnImportMovieData.Click += new System.EventHandler(this.btnImportMovieData_Click);
@@ -93,7 +93,7 @@
             this.btnLoadPoster.Image = global::Desene.Properties.Resources.image;
             this.btnLoadPoster.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoadPoster.Name = "btnLoadPoster";
-            this.btnLoadPoster.Size = new System.Drawing.Size(135, 29);
+            this.btnLoadPoster.Size = new System.Drawing.Size(97, 28);
             this.btnLoadPoster.Text = "Load poster";
             this.btnLoadPoster.Click += new System.EventHandler(this.btnLoadPoster_Click);
             // 
@@ -101,21 +101,20 @@
             // 
             this.ucMovieInfo1.AutoSize = true;
             this.ucMovieInfo1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucMovieInfo1.Location = new System.Drawing.Point(0, 32);
-            this.ucMovieInfo1.Margin = new System.Windows.Forms.Padding(8);
+            this.ucMovieInfo1.Location = new System.Drawing.Point(0, 31);
+            this.ucMovieInfo1.Margin = new System.Windows.Forms.Padding(5);
             this.ucMovieInfo1.Name = "ucMovieInfo1";
-            this.ucMovieInfo1.Size = new System.Drawing.Size(1326, 570);
+            this.ucMovieInfo1.Size = new System.Drawing.Size(884, 360);
             this.ucMovieInfo1.TabIndex = 186;
             // 
             // FrmAddMovie
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1326, 602);
+            this.ClientSize = new System.Drawing.Size(884, 391);
             this.Controls.Add(this.ucMovieInfo1);
             this.Controls.Add(this.toolStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmAddMovie";

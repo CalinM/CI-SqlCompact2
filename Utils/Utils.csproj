@@ -66,6 +66,12 @@
     <Compile Include="ExtendedFolderBrowser.cs" />
     <Compile Include="FilesMetaData.cs" />
     <Compile Include="FlashWindow.cs" />
+    <Compile Include="FrmElementsInfoFromFiles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmElementsInfoFromFiles.designer.cs">
+      <DependentUpon>FrmElementsInfoFromFiles.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmEpisodeInfoFromFiles.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -146,6 +152,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FrmElementsInfoFromFiles.resx">
+      <DependentUpon>FrmElementsInfoFromFiles.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmEpisodeInfoFromFiles.resx">
       <DependentUpon>FrmEpisodeInfoFromFiles.cs</DependentUpon>
     </EmbeddedResource>

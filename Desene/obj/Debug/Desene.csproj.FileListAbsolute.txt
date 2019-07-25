@@ -44,7 +44,6 @@ C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Common.pdb
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\DAL.pdb
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.pdb
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csprojAssemblyReference.cache
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Movies.FrmAddMovie.resources
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.ucMovieInfo.resources
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Movies.ucMoviesList.resources
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Shared.ucSubtitleStreamDetail.resources
@@ -66,3 +65,6 @@ C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.exe
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.pdb
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.dll.config
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Utils.dll.config
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.ucCollections.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmAddCollection.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmAddMovie.resources

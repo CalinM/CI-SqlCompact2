@@ -8,7 +8,6 @@ using System.Reflection;
 using System.Windows.Forms;
 
 using Desene.DetailFormsAndUserControls;
-using Desene.DetailFormsAndUserControls.Movies;
 using Desene.Properties;
 
 using Utils;

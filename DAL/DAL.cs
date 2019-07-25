@@ -2103,5 +2103,135 @@ namespace Desene
                 }*/
             }
         }
+
+        public static List<SeriesEpisodesShortInfo> GetCollectionsInfo()
+        {
+            var result = new List<SeriesEpisodesShortInfo>();
+
+            using (var conn = new SqlCeConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                /*
+                 *SELECT fd1.Id, fd1.FileName, sum()
+                    FROM FileDetail fd1
+	                    LEFT OUTER JOIN FileDetail fd2 ON fd1.Id = fd2.ParentId
+                    WHERE fd1.ParentId = -1
+                    ORDER BY fd1.FileName
+                 */
+                var commandSource = new SqlCeCommand("SELECT * FROM FileDetail WHERE ParentId = -10 ORDER BY FileName", conn);
+
+                using (var reader = commandSource.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        result.Add(new SeriesEpisodesShortInfo
+                        {
+                            Id = (int)reader["Id"],
+                            FileName = reader["FileName"].ToString(),
+                            Season = -1,
+                            SeriesId = (int)reader["Id"],
+                            IsSeries = true
+                        });
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public static OperationResult InsertCollection(MovieTechnicalDetails mtd)
+        {
+            var result = new OperationResult();
+
+            try
+            {
+                using (var conn = new SqlCeConnection(Constants.ConnectionString))
+                {
+                    conn.Open();
+                    SqlCeCommand cmd;
+
+                    #region Checks
+
+                    var checks = "SELECT COUNT(*) FROM FileDetail WHERE ParentId = @ParentId AND FileName = @FileName";
+
+                    cmd = new SqlCeCommand(checks, conn);
+                    cmd.Parameters.AddWithValue("@ParentId", mtd.ParentId);
+                    cmd.Parameters.AddWithValue("@FileName", mtd.FileName);
+                    cmd.Parameters.AddWithValue("@FileSize", mtd.FileSize);
+
+                    var count = (int)cmd.ExecuteScalar();
+
+                    if (count > 0)
+                        return result.FailWithMessage("A Collection with exactly the same name already exists!");
+
+
+                    #endregion
+
+                    #region FileDetail
+
+                    var insertString = @"
+                        INSERT INTO FileDetail (
+                            FileName,
+                            ParentId,
+                            Notes
+                        )
+                        VALUES (
+                            @FileName,
+                            @ParentId,
+                            @Notes
+                        )";
+
+                    cmd = new SqlCeCommand(insertString, conn);
+                    cmd.Parameters.AddWithValue("@FileName", mtd.FileName);
+                    cmd.Parameters.AddWithValue("@ParentId", mtd.ParentId);
+                    cmd.Parameters.AddWithValue("@Notes", mtd.Notes ?? (object)DBNull.Value);
+
+                    cmd.ExecuteNonQuery();
+                    cmd.CommandText = "Select @@Identity";
+
+                    var newFileDetailId = (int)(decimal)cmd.ExecuteScalar();
+                    result.AdditionalDataReturn = newFileDetailId;
+
+                    #endregion
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.FailWithMessage(ex);
+            }
+
+            return result;
+        }
+        public static List<SeriesEpisodesShortInfo> GetElementsInCollection(int collectionId)
+        {
+            var result = new List<SeriesEpisodesShortInfo>();
+
+            using (var conn = new SqlCeConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                var commandSource = new SqlCeCommand(string.Format("SELECT * FROM FileDetail WHERE ParentId = {0} ORDER BY FileName", collectionId), conn);
+
+                using (var reader = commandSource.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        result.Add(new SeriesEpisodesShortInfo
+                        {
+                            Id = (int)reader["Id"],
+                            FileName = reader["FileName"].ToString(),
+                            Theme = reader["Theme"].ToString(),
+                            Quality = reader["Quality"].ToString(),
+                            Season = 0,
+                            SeriesId = (int)reader["ParentId"],
+                            IsEpisode = true
+                        });
+                    }
+                }
+            }
+
+            return result;
+        }
     }
 }

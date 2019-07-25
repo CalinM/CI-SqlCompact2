@@ -9,7 +9,7 @@ using Desene.Properties;
 
 using Utils;
 
-namespace Desene.DetailFormsAndUserControls.Movies
+namespace Desene
 {
     public partial class FrmAddMovie : Form
     {

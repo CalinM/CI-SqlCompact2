@@ -42,3 +42,4 @@ C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmNfNamesMix.resources
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.dll.config
 C:\Work\_Utils\CI SqlCompact2\Utils\bin\Debug\Utils.dll.config
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmNfNamesMix.resources
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmElementsInfoFromFiles.resources

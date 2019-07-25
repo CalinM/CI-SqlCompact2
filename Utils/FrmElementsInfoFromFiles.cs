@@ -12,34 +12,24 @@ using DAL;
 
 namespace Utils
 {
-    public partial class FrmEpisodeInfoFromFiles : Form
+    public partial class FrmElementsInfoFromFiles : Form
     {
         private int? _parentId;
         private List<SelectableElement> _seasons = new List<SelectableElement>();
 
-        public FilesImportParams EpisodesImportParams;
+        public FilesImportParams ElementsImportParams;
 
 
-        public FrmEpisodeInfoFromFiles()
+        public FrmElementsInfoFromFiles()
         {
             InitializeComponent();
-
-            InitSeasonsCombobox();
         }
 
-        public FrmEpisodeInfoFromFiles(int parentId, int? seasonId)
+        public FrmElementsInfoFromFiles(int parentId)
         {
             InitializeComponent();
 
             _parentId = parentId;
-
-            InitSeasonsCombobox();
-
-            if (seasonId != null)
-            {
-                cbSeason.SelectedItem = _seasons.FirstOrDefault(e => (int)e.Value == seasonId);
-                Text = string.Format("Refresh episodes data in Season {0}", seasonId);
-            }
         }
 
         private void InitSeasonsCombobox()
@@ -49,13 +39,6 @@ namespace Utils
             {
                 _seasons.Add(new SelectableElement(i, i.ToString()));
             }
-
-            cbSeason.DropDownHeight = 100;
-            cbSeason.DataSource = _seasons;
-            cbSeason.DisplayMember = "Description";
-            cbSeason.ValueMember = "Value";
-
-            cbSeason.SelectedIndex = -1;
         }
 
         private void btnFolderSelector_Click(object sender, EventArgs e)
@@ -97,15 +80,12 @@ namespace Utils
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            if (tbFilesLocation.Text == string.Empty || /*tbYear.Text == string.Empty ||*/
-                cbFileExtensions.SelectedIndex == -1 || cbSeason.SelectedItem == null)
+            if (tbFilesLocation.Text == string.Empty)
             {
                 if (tbFilesLocation.Text == string.Empty)
                     lbLocation.ForeColor = Color.Red;
                 if (cbFileExtensions.SelectedIndex == -1)
                     lbFilesExtensions.ForeColor = Color.Red;
-                if (cbSeason.SelectedItem == null)
-                    lbSeason.ForeColor = Color.Red;
 
                 MsgBox.Show("Please specify all required import parameters!", @"Error", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -122,17 +102,16 @@ namespace Utils
                 return;
             }
 
-            if (MsgBox.Show(string.Format("Are you sure you want to import {0} Episodes in the selected Series?", files.Length), "Confirm",
+            if (MsgBox.Show(string.Format("Are you sure you want to import {0} Elements in the selected Collection?", files.Length), "Confirm",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 return;
 
-
-            EpisodesImportParams = new FilesImportParams
+            ElementsImportParams = new FilesImportParams
                                        {
                                            ParentId = _parentId,
                                            Location = tbFilesLocation.Text,
                                            FilesExtension = cbFileExtensions.Text,
-                                           Season = ((SelectableElement)cbSeason.SelectedItem).Value.ToString(),
+                                           Season = "",
                                            Year = tbYear.Text,
                                            GenerateThumbnail = cbGenerateThumbnails.Checked
                                        };
@@ -153,11 +132,6 @@ namespace Utils
         private void cbGenerateThumbnails_CheckedChanged(object sender, EventArgs e)
         {
             lbWarning.Visible = cbGenerateThumbnails.Checked;
-        }
-
-        private void cbSeason_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            lbSeason.ForeColor = SystemColors.WindowText;
         }
     }
 }

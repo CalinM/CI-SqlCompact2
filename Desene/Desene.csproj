@@ -51,6 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DetailFormsAndUserControls\Collections\FrmAddCollection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Collections\FrmAddCollection.Designer.cs">
+      <DependentUpon>FrmAddCollection.cs</DependentUpon>
+    </Compile>
     <Compile Include="DetailFormsAndUserControls\Movies\FrmAddMovie.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,12 +143,21 @@
     <Compile Include="ucMovies.Designer.cs">
       <DependentUpon>ucMovies.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucCollections.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucCollections.Designer.cs">
+      <DependentUpon>ucCollections.cs</DependentUpon>
+    </Compile>
     <Compile Include="ucSeries.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ucSeries.Designer.cs">
       <DependentUpon>ucSeries.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="DetailFormsAndUserControls\Collections\FrmAddCollection.resx">
+      <DependentUpon>FrmAddCollection.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DetailFormsAndUserControls\Movies\FrmAddMovie.resx">
       <DependentUpon>FrmAddMovie.cs</DependentUpon>
     </EmbeddedResource>
@@ -191,6 +206,9 @@
     </Compile>
     <EmbeddedResource Include="ucMovies.resx">
       <DependentUpon>ucMovies.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucCollections.resx">
+      <DependentUpon>ucCollections.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ucSeries.resx">
       <DependentUpon>ucSeries.cs</DependentUpon>
