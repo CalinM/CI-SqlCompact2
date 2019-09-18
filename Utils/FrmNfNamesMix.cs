@@ -31,6 +31,8 @@ namespace Utils
             {
                 Size = Settings.Default.FrmNfNamesMix_WS;
             }
+
+            cbNamingType.SelectedIndex = 1;
         }
 
         private void FrmNfNamesMix_FormClosed(object sender, FormClosedEventArgs e)
@@ -150,15 +152,17 @@ namespace Utils
 
                         _fileNamesMix.Add(
                             title1 == title2
-                                ? string.Format("E{0}. {1}{2}",
+                                ? string.Format("E{0}{3}{1}{2}",
                                     epNo,
                                     title1,
-                                    ext)
-                                : string.Format("E{0}. {1} ({2}){3}",
+                                    ext,
+                                    cbNamingType.Text)
+                                : string.Format("E{0}{4}{1} ({2}){3}",
                                     epNo,
                                     title1,
                                     title2,
-                                    ext)
+                                    ext,
+                                    cbNamingType.Text)
                         );
 
                         break;
@@ -241,7 +245,8 @@ namespace Utils
 
         private void CbFilesExt_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MixFileNames(true);
+            if (btnConfirm.Enabled)
+                MixFileNames(true);
         }
     }
 }

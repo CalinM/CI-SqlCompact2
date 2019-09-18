@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 
 using DAL;
+using Utils;
 
 namespace Desene.EditUserControls
 {
@@ -117,6 +118,54 @@ namespace Desene.EditUserControls
             }
 
             DAL.CurrentMTD.Poster = bytes;
+        }
+
+        public void SetNewPoster(string imgPath)
+        {
+            try
+            {
+                using (Image img = Image.FromFile(imgPath))
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    ms.Close();
+
+                    Poster= ms.ToArray();
+                }
+
+                Common.Helpers.UnsavedChanges = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void UcEditSeriesBaseInfo_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+        }
+
+        private void UcEditSeriesBaseInfo_DragDrop(object sender, DragEventArgs e)
+        {
+            var droppedObj = ((string[])e.Data.GetData(DataFormats.FileDrop))[0];
+
+            try
+            {
+                if (File.GetAttributes(droppedObj).HasFlag(FileAttributes.Directory))
+                    return;
+
+                var picturesExt = new string[] { ".jpg", ".jpeg", ".png", ".bmp" };
+
+                if (Array.IndexOf(picturesExt, Path.GetExtension(droppedObj).ToLower()) >= 0)
+                {
+                    SetNewPoster(droppedObj);
+                }
+            }
+            catch (Exception ex)
+            {
+                MsgBox.Show(ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

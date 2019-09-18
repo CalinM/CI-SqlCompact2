@@ -395,4 +395,31 @@ namespace DAL
         public bool SaveEpisodesThumbnals { get; set; }
         public bool PreserveMarkesForExistingThumbnails { get; set; }
     }
+
+    public class BulkEditField
+    {
+        public string Caption { get; set; }
+
+        public string FieldName { get; set; }
+
+        public string Value { get; set; }
+    }
+
+    public class StatisticEl
+    {
+        public string Quality { get; set; }
+        public int Count { get; set; }
+        public decimal Size { get; set; }
+        public int Runtime_dd { get; set; }
+        public int Runtime_hh { get; set; }
+        public int Runtime_mm { get; set; }
+        public int Runtime_ss { get; set; }
+    }
+
+    public class SectionStatistics
+    { 
+        public List<StatisticEl> SectionElements { get; set; }
+
+        //public string 
+    }
 }

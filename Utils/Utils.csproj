@@ -48,7 +48,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseApplicationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ButtonEdit.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DataGridViewAutoFilter\DataGridViewAutoFilterColumnHeaderCell.cs" />

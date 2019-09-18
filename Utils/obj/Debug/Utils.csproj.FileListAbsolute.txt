@@ -18,6 +18,9 @@ C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.dll
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.pdb
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmFileDetails.resources
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmSiteGenParams.resources
+C:\Work\_Utils\CI SqlCompact2\Utils\bin\Debug\Utils.dll.config
+C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmNfNamesMix.resources
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.dll.config
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.pdb
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Common.dll
@@ -25,6 +28,7 @@ C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Common.pdb
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.pdb
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csprojAssemblyReference.cache
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmElementsInfoFromFiles.resources
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmEpisodeInfoFromFiles.resources
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmFileDetails.resources
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmMoviesInfoFromFiles.resources
@@ -32,14 +36,10 @@ C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmMTDFromFile.resources
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmImportErrors.resources
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmProgressIndicator.resources
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmSiteGenParams.resources
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmNfNamesMix.resources
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.SeparatorCombobox.resources
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.GenerateResource.cache
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.CoreCompileInputs.cache
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.CopyComplete
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.pdb
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmNfNamesMix.resources
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.dll.config
-C:\Work\_Utils\CI SqlCompact2\Utils\bin\Debug\Utils.dll.config
-C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.FrmNfNamesMix.resources
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmElementsInfoFromFiles.resources

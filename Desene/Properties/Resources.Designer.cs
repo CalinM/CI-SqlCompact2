@@ -73,6 +73,16 @@ namespace Desene.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap addChange {
+            get {
+                object obj = ResourceManager.GetObject("addChange", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap arrowDown12 {
             get {
                 object obj = ResourceManager.GetObject("arrowDown12", resourceCulture);
@@ -86,6 +96,16 @@ namespace Desene.Properties {
         internal static System.Drawing.Bitmap arrowRight12 {
             get {
                 object obj = ResourceManager.GetObject("arrowRight12", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap bulkEdit {
+            get {
+                object obj = ResourceManager.GetObject("bulkEdit", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -173,9 +193,8 @@ namespace Desene.Properties {
         ///        }
         ///    });
         ///
-        ///	var displaySearchResult = function(s) {
-        ///        if (searchResultTimer != null) {
-        ///    [rest of string was truncated]&quot;;.
+        ///    var displaySearchResult = function (s) {
+        ///        if (searchResultTimer != null) {        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string deseneJS {
             get {
@@ -250,9 +269,9 @@ namespace Desene.Properties {
         ///&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300&quot;&gt;
         ///&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css?family=Open+Sans&quot;&gt;
         ///
-        ///&lt;link type=&quot;text/css&quot; rel=&quot;stylesheet&quot; href=&quot;Styles/desene.css&quot; /&gt;
-        ///&lt;link type=&quot;text/css&quot; rel=&quot;stylesheet&quot; href=&quot;Styles/sections.css&quot; /&gt;
-        ///&lt;link type=&quot;text/css&quot; rel=&quot;styleshe [rest of string was truncated]&quot;;.
+        ///&lt;link type=&quot;text/css&quot; rel=&quot;stylesheet&quot; href=&quot;Styles/desene.css?version=##&quot; /&gt;
+        ///&lt;link type=&quot;text/css&quot; rel=&quot;stylesheet&quot; href=&quot;Styles/sections.css?version=##&quot; /&gt;
+        ///&lt;link type=&quot;t [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string index {
             get {
@@ -425,6 +444,16 @@ namespace Desene.Properties {
         internal static System.Drawing.Bitmap refresh {
             get {
                 object obj = ResourceManager.GetObject("refresh", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap reset_slide {
+            get {
+                object obj = ResourceManager.GetObject("reset_slide", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

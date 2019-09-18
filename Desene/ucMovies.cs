@@ -85,7 +85,7 @@ namespace Desene
                     ((ucMovieInfo)prevInstance[0]).RefreshControls(DAL.CurrentMTD);
                 else
                 {
-                    var ucMovieInfo = new ucMovieInfo { Dock = DockStyle.Top };
+                    var ucMovieInfo = new ucMovieInfo(false) { Dock = DockStyle.Top };
                     ucMovieInfo.RefreshControls(DAL.CurrentMTD);
 
                     pMovieDetailsContainer.Controls.Add(ucMovieInfo);
@@ -284,7 +284,11 @@ namespace Desene
 
             var frmAddMovie = new FrmAddMovie { Owner = _parent };
 
-            if (frmAddMovie.ShowDialog() != DialogResult.OK) return;
+            if (frmAddMovie.ShowDialog() != DialogResult.OK)
+            {
+                Common.Helpers.UnsavedChanges = false;
+                return;
+            }
 
             var msi = new MovieShortInfo
             {

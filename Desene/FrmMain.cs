@@ -12,7 +12,6 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web.Script.Serialization;
 using System.Windows.Forms;
 
 using Common.ExtensionMethods;
@@ -26,8 +25,9 @@ using System.Drawing.Text;
 
 namespace Desene
 {
-    public partial class FrmMain : Form
+    public partial class FrmMain : BaseApplicationForm
     {
+        private bool _formActive = false;
         public event EventHandler OnAddButtonPress;
         public event EventHandler OnDeleteButtonPress;
         public event EventHandler OnCloseModule;
@@ -61,6 +61,18 @@ namespace Desene
             DAL.LoadBaseDbValues();
 
             LoadMainWindowConfig();
+        }
+
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+            _formActive = true;
+        }
+
+        protected override void OnDeactivate(EventArgs e)
+        {
+            base.OnDeactivate(e);
+            _formActive = false;
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -225,6 +237,10 @@ namespace Desene
                 Cursor = Cursors.WaitCursor;
                 DrawingControl.SuspendDrawing(pMainContainer);
                 ClearAllDelegates();
+
+                miMovies.Checked = false;
+                miCollections.Checked = false;
+                miSeries.Checked = false;
 
                 pMainContainer.Controls.Clear();
                 pMainContainer.Controls.Add(new ucMoviesList(this) { Dock = DockStyle.Fill });
@@ -813,7 +829,8 @@ namespace Desene
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "index.html"), Resources.index.Replace("##", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
             //if (this.Focused())
-            FlashWindow.Flash(this, 5);
+            if (!_formActive)
+                FlashWindow.Flash(this, 5);
 
             if (MsgBox.Show("The new site files have been saved! Do you want to open the folder location?", "Info",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
@@ -883,10 +900,10 @@ namespace Desene
                         foreach (var audioObj in fileInfoObj.AudioStreams)
                         {
                             dynamicObj.Add(string.Format("Audio {0}", audioObj.Index), audioObj.Language);
+                            dynamicObj.Add(string.Format("Channels {0}", audioObj.Index), audioObj.Channel);
                             dynamicObj.Add(string.Format("Default {0}", audioObj.Index), audioObj.Default);
                             dynamicObj.Add(string.Format("Forced {0}", audioObj.Index), audioObj.Forced);
                             dynamicObj.Add(string.Format("Title {0}", audioObj.Index), audioObj.HasTitle);
-                            dynamicObj.Add(string.Format("Channels {0}", audioObj.Index), audioObj.Channel);
                         }
 
                         dynamicObj.Add("Error", "");

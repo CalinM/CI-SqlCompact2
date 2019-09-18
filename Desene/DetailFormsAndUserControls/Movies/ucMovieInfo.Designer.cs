@@ -77,6 +77,8 @@
             // 
             // pMovieDetail
             // 
+            this.pMovieDetail.AllowDrop = true;
+            this.pMovieDetail.Controls.Add(this.pbCover);
             this.pMovieDetail.Controls.Add(this.cbQuality);
             this.pMovieDetail.Controls.Add(this.lbTrailer);
             this.pMovieDetail.Controls.Add(this.tbTrailer);
@@ -98,7 +100,6 @@
             this.pMovieDetail.Controls.Add(this.cbTheme);
             this.pMovieDetail.Controls.Add(this.tbYear);
             this.pMovieDetail.Controls.Add(this.label1);
-            this.pMovieDetail.Controls.Add(this.pbCover);
             this.pMovieDetail.Controls.Add(this.tbNotes);
             this.pMovieDetail.Controls.Add(this.tbRecommendedLink);
             this.pMovieDetail.Controls.Add(this.tbRecommended);
@@ -112,29 +113,28 @@
             this.pMovieDetail.Controls.Add(this.tbSizeAsInt);
             this.pMovieDetail.Dock = System.Windows.Forms.DockStyle.Top;
             this.pMovieDetail.Location = new System.Drawing.Point(0, 0);
-            this.pMovieDetail.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.pMovieDetail.Name = "pMovieDetail";
-            this.pMovieDetail.Size = new System.Drawing.Size(1245, 873);
+            this.pMovieDetail.Size = new System.Drawing.Size(830, 567);
             this.pMovieDetail.TabIndex = 1;
+            this.pMovieDetail.DragDrop += new System.Windows.Forms.DragEventHandler(this.PMovieDetail_DragDrop);
+            this.pMovieDetail.DragEnter += new System.Windows.Forms.DragEventHandler(this.PMovieDetail_DragEnter);
             // 
             // cbQuality
             // 
             this.cbQuality.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbQuality.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbQuality.FormattingEnabled = true;
-            this.cbQuality.Location = new System.Drawing.Point(717, 37);
-            this.cbQuality.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.cbQuality.Location = new System.Drawing.Point(478, 24);
             this.cbQuality.Name = "cbQuality";
-            this.cbQuality.Size = new System.Drawing.Size(132, 28);
+            this.cbQuality.Size = new System.Drawing.Size(89, 21);
             this.cbQuality.TabIndex = 255;
             // 
             // lbTrailer
             // 
             this.lbTrailer.AutoSize = true;
-            this.lbTrailer.Location = new System.Drawing.Point(41, 383);
-            this.lbTrailer.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lbTrailer.Location = new System.Drawing.Point(27, 249);
             this.lbTrailer.Name = "lbTrailer";
-            this.lbTrailer.Size = new System.Drawing.Size(56, 20);
+            this.lbTrailer.Size = new System.Drawing.Size(39, 13);
             this.lbTrailer.TabIndex = 286;
             this.lbTrailer.Text = "Trailer:";
             // 
@@ -142,10 +142,9 @@
             // 
             this.tbTrailer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbTrailer.Location = new System.Drawing.Point(198, 381);
-            this.tbTrailer.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tbTrailer.Location = new System.Drawing.Point(132, 248);
             this.tbTrailer.Name = "tbTrailer";
-            this.tbTrailer.Size = new System.Drawing.Size(650, 26);
+            this.tbTrailer.Size = new System.Drawing.Size(435, 20);
             this.tbTrailer.TabIndex = 9;
             // 
             // tlpMovieStillsWrapper
@@ -159,12 +158,11 @@
             this.tlpMovieStillsWrapper.Controls.Add(this.pbMovieStill3, 0, 0);
             this.tlpMovieStillsWrapper.Controls.Add(this.pbMovieStill2, 0, 0);
             this.tlpMovieStillsWrapper.Controls.Add(this.pbMovieStill1, 0, 0);
-            this.tlpMovieStillsWrapper.Location = new System.Drawing.Point(45, 571);
-            this.tlpMovieStillsWrapper.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tlpMovieStillsWrapper.Location = new System.Drawing.Point(30, 371);
             this.tlpMovieStillsWrapper.Name = "tlpMovieStillsWrapper";
             this.tlpMovieStillsWrapper.RowCount = 1;
             this.tlpMovieStillsWrapper.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpMovieStillsWrapper.Size = new System.Drawing.Size(1159, 267);
+            this.tlpMovieStillsWrapper.Size = new System.Drawing.Size(773, 174);
             this.tlpMovieStillsWrapper.TabIndex = 283;
             // 
             // pbMovieStill3
@@ -172,10 +170,9 @@
             this.pbMovieStill3.BackColor = System.Drawing.Color.Black;
             this.pbMovieStill3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pbMovieStill3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbMovieStill3.Location = new System.Drawing.Point(781, 5);
-            this.pbMovieStill3.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.pbMovieStill3.Location = new System.Drawing.Point(520, 3);
             this.pbMovieStill3.Name = "pbMovieStill3";
-            this.pbMovieStill3.Size = new System.Drawing.Size(373, 257);
+            this.pbMovieStill3.Size = new System.Drawing.Size(250, 168);
             this.pbMovieStill3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbMovieStill3.TabIndex = 196;
             this.pbMovieStill3.TabStop = false;
@@ -185,10 +182,9 @@
             this.pbMovieStill2.BackColor = System.Drawing.Color.Black;
             this.pbMovieStill2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pbMovieStill2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbMovieStill2.Location = new System.Drawing.Point(387, 5);
-            this.pbMovieStill2.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.pbMovieStill2.Location = new System.Drawing.Point(258, 3);
             this.pbMovieStill2.Name = "pbMovieStill2";
-            this.pbMovieStill2.Size = new System.Drawing.Size(384, 257);
+            this.pbMovieStill2.Size = new System.Drawing.Size(256, 168);
             this.pbMovieStill2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbMovieStill2.TabIndex = 195;
             this.pbMovieStill2.TabStop = false;
@@ -198,10 +194,9 @@
             this.pbMovieStill1.BackColor = System.Drawing.Color.Black;
             this.pbMovieStill1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pbMovieStill1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbMovieStill1.Location = new System.Drawing.Point(5, 5);
-            this.pbMovieStill1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.pbMovieStill1.Location = new System.Drawing.Point(3, 3);
             this.pbMovieStill1.Name = "pbMovieStill1";
-            this.pbMovieStill1.Size = new System.Drawing.Size(372, 257);
+            this.pbMovieStill1.Size = new System.Drawing.Size(249, 168);
             this.pbMovieStill1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbMovieStill1.TabIndex = 194;
             this.pbMovieStill1.TabStop = false;
@@ -210,10 +205,9 @@
             // 
             this.chbTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chbTitle.AutoSize = true;
-            this.chbTitle.Location = new System.Drawing.Point(828, 460);
-            this.chbTitle.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.chbTitle.Location = new System.Drawing.Point(552, 299);
             this.chbTitle.Name = "chbTitle";
-            this.chbTitle.Size = new System.Drawing.Size(22, 21);
+            this.chbTitle.Size = new System.Drawing.Size(15, 14);
             this.chbTitle.TabIndex = 282;
             this.chbTitle.UseVisualStyleBackColor = true;
             this.chbTitle.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chbTitle_MouseClick);
@@ -226,11 +220,10 @@
             this.tbSize.ButtonImageSizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.tbSize.ButtonToolTip = "Size mismatch!";
             this.tbSize.ButtonVisible = false;
-            this.tbSize.Location = new System.Drawing.Point(198, 197);
-            this.tbSize.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tbSize.Location = new System.Drawing.Point(132, 128);
             this.tbSize.Name = "tbSize";
             this.tbSize.ReadOnly = true;
-            this.tbSize.Size = new System.Drawing.Size(73, 26);
+            this.tbSize.Size = new System.Drawing.Size(50, 20);
             this.tbSize.TabIndex = 6;
             this.tbSize.TabStop = false;
             this.tbSize.TextChanged += new System.EventHandler(this.tbSize_TextChanged);
@@ -238,12 +231,11 @@
             // tbmDuration
             // 
             this.tbmDuration.HideSelection = false;
-            this.tbmDuration.Location = new System.Drawing.Point(282, 196);
-            this.tbmDuration.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tbmDuration.Location = new System.Drawing.Point(188, 127);
             this.tbmDuration.Mask = "00:00:00";
             this.tbmDuration.Name = "tbmDuration";
             this.tbmDuration.ReadOnly = true;
-            this.tbmDuration.Size = new System.Drawing.Size(73, 26);
+            this.tbmDuration.Size = new System.Drawing.Size(50, 20);
             this.tbmDuration.TabIndex = 7;
             this.tbmDuration.TabStop = false;
             this.tbmDuration.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -255,51 +247,46 @@
             // 
             // tbSubtitleSummary
             // 
-            this.tbSubtitleSummary.Location = new System.Drawing.Point(198, 277);
-            this.tbSubtitleSummary.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tbSubtitleSummary.Location = new System.Drawing.Point(132, 180);
             this.tbSubtitleSummary.Name = "tbSubtitleSummary";
             this.tbSubtitleSummary.ReadOnly = true;
-            this.tbSubtitleSummary.Size = new System.Drawing.Size(157, 26);
+            this.tbSubtitleSummary.Size = new System.Drawing.Size(106, 20);
             this.tbSubtitleSummary.TabIndex = 277;
             this.tbSubtitleSummary.TabStop = false;
             // 
             // lbSubtitleSummary
             // 
             this.lbSubtitleSummary.AutoSize = true;
-            this.lbSubtitleSummary.Location = new System.Drawing.Point(41, 282);
-            this.lbSubtitleSummary.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lbSubtitleSummary.Location = new System.Drawing.Point(27, 183);
             this.lbSubtitleSummary.Name = "lbSubtitleSummary";
-            this.lbSubtitleSummary.Size = new System.Drawing.Size(138, 20);
+            this.lbSubtitleSummary.Size = new System.Drawing.Size(91, 13);
             this.lbSubtitleSummary.TabIndex = 280;
             this.lbSubtitleSummary.Text = "Subtiles summary:";
             // 
             // tbAudioSummary
             // 
-            this.tbAudioSummary.Location = new System.Drawing.Point(198, 237);
-            this.tbAudioSummary.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tbAudioSummary.Location = new System.Drawing.Point(132, 154);
             this.tbAudioSummary.Name = "tbAudioSummary";
             this.tbAudioSummary.ReadOnly = true;
-            this.tbAudioSummary.Size = new System.Drawing.Size(157, 26);
+            this.tbAudioSummary.Size = new System.Drawing.Size(106, 20);
             this.tbAudioSummary.TabIndex = 276;
             this.tbAudioSummary.TabStop = false;
             // 
             // lbAudioSummary
             // 
             this.lbAudioSummary.AutoSize = true;
-            this.lbAudioSummary.Location = new System.Drawing.Point(41, 242);
-            this.lbAudioSummary.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lbAudioSummary.Location = new System.Drawing.Point(27, 157);
             this.lbAudioSummary.Name = "lbAudioSummary";
-            this.lbAudioSummary.Size = new System.Drawing.Size(122, 20);
+            this.lbAudioSummary.Size = new System.Drawing.Size(81, 13);
             this.lbAudioSummary.TabIndex = 279;
             this.lbAudioSummary.Text = "Audio summary:";
             // 
             // lbSizeDuration
             // 
             this.lbSizeDuration.AutoSize = true;
-            this.lbSizeDuration.Location = new System.Drawing.Point(41, 202);
-            this.lbSizeDuration.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lbSizeDuration.Location = new System.Drawing.Point(27, 131);
             this.lbSizeDuration.Name = "lbSizeDuration";
-            this.lbSizeDuration.Size = new System.Drawing.Size(117, 20);
+            this.lbSizeDuration.Size = new System.Drawing.Size(81, 13);
             this.lbSizeDuration.TabIndex = 278;
             this.lbSizeDuration.Text = "Size / Duration:";
             // 
@@ -307,49 +294,44 @@
             // 
             this.tbEncodedWith.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbEncodedWith.Location = new System.Drawing.Point(198, 495);
-            this.tbEncodedWith.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tbEncodedWith.Location = new System.Drawing.Point(132, 322);
             this.tbEncodedWith.Name = "tbEncodedWith";
-            this.tbEncodedWith.Size = new System.Drawing.Size(650, 26);
+            this.tbEncodedWith.Size = new System.Drawing.Size(435, 20);
             this.tbEncodedWith.TabIndex = 12;
             // 
             // tbFormat
             // 
             this.tbFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbFormat.Location = new System.Drawing.Point(198, 455);
-            this.tbFormat.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tbFormat.Location = new System.Drawing.Point(132, 296);
             this.tbFormat.Name = "tbFormat";
-            this.tbFormat.Size = new System.Drawing.Size(367, 26);
+            this.tbFormat.Size = new System.Drawing.Size(246, 20);
             this.tbFormat.TabIndex = 11;
             // 
             // lbEncodedWith
             // 
             this.lbEncodedWith.AutoSize = true;
-            this.lbEncodedWith.Location = new System.Drawing.Point(41, 500);
-            this.lbEncodedWith.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lbEncodedWith.Location = new System.Drawing.Point(27, 325);
             this.lbEncodedWith.Name = "lbEncodedWith";
-            this.lbEncodedWith.Size = new System.Drawing.Size(109, 20);
+            this.lbEncodedWith.Size = new System.Drawing.Size(75, 13);
             this.lbEncodedWith.TabIndex = 273;
             this.lbEncodedWith.Text = "Encoded with:";
             // 
             // lbFormat
             // 
             this.lbFormat.AutoSize = true;
-            this.lbFormat.Location = new System.Drawing.Point(41, 460);
-            this.lbFormat.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lbFormat.Location = new System.Drawing.Point(27, 299);
             this.lbFormat.Name = "lbFormat";
-            this.lbFormat.Size = new System.Drawing.Size(64, 20);
+            this.lbFormat.Size = new System.Drawing.Size(42, 13);
             this.lbFormat.TabIndex = 272;
             this.lbFormat.Text = "Format:";
             // 
             // lbStreamLink
             // 
             this.lbStreamLink.AutoSize = true;
-            this.lbStreamLink.Location = new System.Drawing.Point(41, 420);
-            this.lbStreamLink.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lbStreamLink.Location = new System.Drawing.Point(27, 273);
             this.lbStreamLink.Name = "lbStreamLink";
-            this.lbStreamLink.Size = new System.Drawing.Size(92, 20);
+            this.lbStreamLink.Size = new System.Drawing.Size(62, 13);
             this.lbStreamLink.TabIndex = 269;
             this.lbStreamLink.Text = "Stream link:";
             // 
@@ -357,37 +339,33 @@
             // 
             this.tbStreamLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbStreamLink.Location = new System.Drawing.Point(198, 415);
-            this.tbStreamLink.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tbStreamLink.Location = new System.Drawing.Point(132, 270);
             this.tbStreamLink.Name = "tbStreamLink";
-            this.tbStreamLink.Size = new System.Drawing.Size(650, 26);
+            this.tbStreamLink.Size = new System.Drawing.Size(435, 20);
             this.tbStreamLink.TabIndex = 10;
             // 
             // cbTheme
             // 
             this.cbTheme.FormattingEnabled = true;
-            this.cbTheme.Location = new System.Drawing.Point(282, 155);
-            this.cbTheme.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.cbTheme.Location = new System.Drawing.Point(188, 101);
             this.cbTheme.Name = "cbTheme";
-            this.cbTheme.Size = new System.Drawing.Size(283, 28);
+            this.cbTheme.Size = new System.Drawing.Size(190, 21);
             this.cbTheme.TabIndex = 5;
             this.cbTheme.SelectionChangeCommitted += new System.EventHandler(this.cbTheme_SelectionChangeCommitted);
             // 
             // tbYear
             // 
-            this.tbYear.Location = new System.Drawing.Point(198, 157);
-            this.tbYear.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tbYear.Location = new System.Drawing.Point(132, 102);
             this.tbYear.Name = "tbYear";
-            this.tbYear.Size = new System.Drawing.Size(73, 26);
+            this.tbYear.Size = new System.Drawing.Size(50, 20);
             this.tbYear.TabIndex = 4;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(41, 162);
-            this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label1.Location = new System.Drawing.Point(27, 105);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(108, 20);
+            this.label1.Size = new System.Drawing.Size(76, 13);
             this.label1.TabIndex = 268;
             this.label1.Text = "Year / Theme:";
             // 
@@ -395,10 +373,9 @@
             // 
             this.pbCover.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pbCover.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbCover.Location = new System.Drawing.Point(887, 37);
-            this.pbCover.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.pbCover.Location = new System.Drawing.Point(591, 24);
             this.pbCover.Name = "pbCover";
-            this.pbCover.Size = new System.Drawing.Size(317, 488);
+            this.pbCover.Size = new System.Drawing.Size(212, 318);
             this.pbCover.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbCover.TabIndex = 267;
             this.pbCover.TabStop = false;
@@ -407,38 +384,34 @@
             // 
             this.tbNotes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbNotes.Location = new System.Drawing.Point(198, 317);
-            this.tbNotes.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tbNotes.Location = new System.Drawing.Point(132, 206);
             this.tbNotes.Multiline = true;
             this.tbNotes.Name = "tbNotes";
-            this.tbNotes.Size = new System.Drawing.Size(650, 51);
+            this.tbNotes.Size = new System.Drawing.Size(435, 35);
             this.tbNotes.TabIndex = 8;
             // 
             // tbRecommendedLink
             // 
             this.tbRecommendedLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbRecommendedLink.Location = new System.Drawing.Point(282, 117);
-            this.tbRecommendedLink.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tbRecommendedLink.Location = new System.Drawing.Point(188, 76);
             this.tbRecommendedLink.Name = "tbRecommendedLink";
-            this.tbRecommendedLink.Size = new System.Drawing.Size(567, 26);
+            this.tbRecommendedLink.Size = new System.Drawing.Size(379, 20);
             this.tbRecommendedLink.TabIndex = 3;
             // 
             // tbRecommended
             // 
-            this.tbRecommended.Location = new System.Drawing.Point(198, 117);
-            this.tbRecommended.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tbRecommended.Location = new System.Drawing.Point(132, 76);
             this.tbRecommended.Name = "tbRecommended";
-            this.tbRecommended.Size = new System.Drawing.Size(73, 26);
+            this.tbRecommended.Size = new System.Drawing.Size(50, 20);
             this.tbRecommended.TabIndex = 2;
             // 
             // lbRecommended
             // 
             this.lbRecommended.AutoSize = true;
-            this.lbRecommended.Location = new System.Drawing.Point(41, 122);
-            this.lbRecommended.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lbRecommended.Location = new System.Drawing.Point(27, 79);
             this.lbRecommended.Name = "lbRecommended";
-            this.lbRecommended.Size = new System.Drawing.Size(122, 20);
+            this.lbRecommended.Size = new System.Drawing.Size(82, 13);
             this.lbRecommended.TabIndex = 266;
             this.lbRecommended.Text = "Recommended:";
             // 
@@ -446,19 +419,17 @@
             // 
             this.tbDescriptionLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbDescriptionLink.Location = new System.Drawing.Point(198, 77);
-            this.tbDescriptionLink.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tbDescriptionLink.Location = new System.Drawing.Point(132, 50);
             this.tbDescriptionLink.Name = "tbDescriptionLink";
-            this.tbDescriptionLink.Size = new System.Drawing.Size(650, 26);
+            this.tbDescriptionLink.Size = new System.Drawing.Size(435, 20);
             this.tbDescriptionLink.TabIndex = 1;
             // 
             // pbDescriptionLink
             // 
             this.pbDescriptionLink.AutoSize = true;
-            this.pbDescriptionLink.Location = new System.Drawing.Point(41, 82);
-            this.pbDescriptionLink.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.pbDescriptionLink.Location = new System.Drawing.Point(27, 53);
             this.pbDescriptionLink.Name = "pbDescriptionLink";
-            this.pbDescriptionLink.Size = new System.Drawing.Size(120, 20);
+            this.pbDescriptionLink.Size = new System.Drawing.Size(82, 13);
             this.pbDescriptionLink.TabIndex = 265;
             this.pbDescriptionLink.Text = "Description link:";
             // 
@@ -466,61 +437,56 @@
             // 
             this.tbTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbTitle.Location = new System.Drawing.Point(198, 37);
-            this.tbTitle.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tbTitle.Location = new System.Drawing.Point(132, 24);
             this.tbTitle.Name = "tbTitle";
-            this.tbTitle.Size = new System.Drawing.Size(508, 26);
+            this.tbTitle.Size = new System.Drawing.Size(340, 20);
             this.tbTitle.TabIndex = 0;
             this.tbTitle.TextChanged += new System.EventHandler(this.tbTitle_TextChanged);
             // 
             // lbSeriesTitle
             // 
             this.lbSeriesTitle.AutoSize = true;
-            this.lbSeriesTitle.Location = new System.Drawing.Point(41, 42);
-            this.lbSeriesTitle.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lbSeriesTitle.Location = new System.Drawing.Point(27, 27);
             this.lbSeriesTitle.Name = "lbSeriesTitle";
-            this.lbSeriesTitle.Size = new System.Drawing.Size(38, 20);
+            this.lbSeriesTitle.Size = new System.Drawing.Size(27, 13);
             this.lbSeriesTitle.TabIndex = 264;
             this.lbSeriesTitle.Text = "Title";
             // 
             // lbNotes
             // 
             this.lbNotes.AutoSize = true;
-            this.lbNotes.Location = new System.Drawing.Point(41, 322);
-            this.lbNotes.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lbNotes.Location = new System.Drawing.Point(27, 209);
             this.lbNotes.Name = "lbNotes";
-            this.lbNotes.Size = new System.Drawing.Size(55, 20);
+            this.lbNotes.Size = new System.Drawing.Size(38, 13);
             this.lbNotes.TabIndex = 263;
             this.lbNotes.Text = "Notes:";
             // 
             // tbDummyForFocus
             // 
             this.tbDummyForFocus.BackColor = System.Drawing.Color.Red;
-            this.tbDummyForFocus.Location = new System.Drawing.Point(164, 335);
-            this.tbDummyForFocus.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tbDummyForFocus.Location = new System.Drawing.Point(109, 218);
             this.tbDummyForFocus.Name = "tbDummyForFocus";
-            this.tbDummyForFocus.Size = new System.Drawing.Size(148, 26);
+            this.tbDummyForFocus.Size = new System.Drawing.Size(100, 20);
             this.tbDummyForFocus.TabIndex = 284;
             // 
             // tbSizeAsInt
             // 
             this.tbSizeAsInt.BackColor = System.Drawing.Color.Red;
-            this.tbSizeAsInt.Location = new System.Drawing.Point(164, 197);
-            this.tbSizeAsInt.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tbSizeAsInt.Location = new System.Drawing.Point(109, 128);
             this.tbSizeAsInt.Name = "tbSizeAsInt";
-            this.tbSizeAsInt.Size = new System.Drawing.Size(45, 26);
+            this.tbSizeAsInt.Size = new System.Drawing.Size(31, 20);
             this.tbSizeAsInt.TabIndex = 281;
             this.tbSizeAsInt.TextChanged += new System.EventHandler(this.tbSizeAsInt_TextChanged);
             // 
             // ucMovieInfo
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AllowDrop = true;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.Controls.Add(this.pMovieDetail);
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.Name = "ucMovieInfo";
-            this.Size = new System.Drawing.Size(1245, 907);
+            this.Size = new System.Drawing.Size(830, 590);
             this.Load += new System.EventHandler(this.ucMovieInfo_Load);
             this.pMovieDetail.ResumeLayout(false);
             this.pMovieDetail.PerformLayout();

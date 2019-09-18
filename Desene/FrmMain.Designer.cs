@@ -79,7 +79,7 @@ namespace Desene
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.mainMenu.Size = new System.Drawing.Size(1284, 35);
+            this.mainMenu.Size = new System.Drawing.Size(1284, 25);
             this.mainMenu.TabIndex = 108;
             // 
             // btnCategory
@@ -94,13 +94,13 @@ namespace Desene
             this.btnCategory.Image = ((System.Drawing.Image)(resources.GetObject("btnCategory.Image")));
             this.btnCategory.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnCategory.Name = "btnCategory";
-            this.btnCategory.Size = new System.Drawing.Size(68, 32);
+            this.btnCategory.Size = new System.Drawing.Size(68, 22);
             this.btnCategory.Text = "Category";
             // 
             // miMovies
             // 
             this.miMovies.Name = "miMovies";
-            this.miMovies.Size = new System.Drawing.Size(180, 22);
+            this.miMovies.Size = new System.Drawing.Size(133, 22);
             this.miMovies.Tag = "1";
             this.miMovies.Text = "Movies";
             this.miMovies.Click += new System.EventHandler(this.miMovies_Click);
@@ -108,7 +108,7 @@ namespace Desene
             // miCollections
             // 
             this.miCollections.Name = "miCollections";
-            this.miCollections.Size = new System.Drawing.Size(180, 22);
+            this.miCollections.Size = new System.Drawing.Size(133, 22);
             this.miCollections.Tag = "1";
             this.miCollections.Text = "Collections";
             this.miCollections.Click += new System.EventHandler(this.miCollections_Click);
@@ -116,7 +116,7 @@ namespace Desene
             // miSeries
             // 
             this.miSeries.Name = "miSeries";
-            this.miSeries.Size = new System.Drawing.Size(180, 22);
+            this.miSeries.Size = new System.Drawing.Size(133, 22);
             this.miSeries.Tag = "1";
             this.miSeries.Text = "Series";
             this.miSeries.Click += new System.EventHandler(this.miSeries_Click);
@@ -124,13 +124,13 @@ namespace Desene
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(130, 6);
             // 
             // miExit
             // 
             this.miExit.Image = global::Desene.Properties.Resources.exit;
             this.miExit.Name = "miExit";
-            this.miExit.Size = new System.Drawing.Size(180, 22);
+            this.miExit.Size = new System.Drawing.Size(133, 22);
             this.miExit.Text = "Exit";
             this.miExit.Click += new System.EventHandler(this.miExit_Click);
             // 
@@ -139,14 +139,14 @@ namespace Desene
             this.btnMoviesList.Image = global::Desene.Properties.Resources.moviesList;
             this.btnMoviesList.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnMoviesList.Name = "btnMoviesList";
-            this.btnMoviesList.Size = new System.Drawing.Size(95, 32);
+            this.btnMoviesList.Size = new System.Drawing.Size(83, 22);
             this.btnMoviesList.Text = "Movies list";
             this.btnMoviesList.Click += new System.EventHandler(this.btnMoviesList_Click);
             // 
             // separatorMainButtons
             // 
             this.separatorMainButtons.Name = "separatorMainButtons";
-            this.separatorMainButtons.Size = new System.Drawing.Size(6, 35);
+            this.separatorMainButtons.Size = new System.Drawing.Size(6, 25);
             this.separatorMainButtons.Visible = false;
             // 
             // btnAdd
@@ -154,7 +154,7 @@ namespace Desene
             this.btnAdd.Image = global::Desene.Properties.Resources.add;
             this.btnAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(61, 32);
+            this.btnAdd.Size = new System.Drawing.Size(49, 22);
             this.btnAdd.Text = "Add";
             this.btnAdd.Visible = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -164,7 +164,7 @@ namespace Desene
             this.btnDelete.Image = global::Desene.Properties.Resources.delete;
             this.btnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(72, 32);
+            this.btnDelete.Size = new System.Drawing.Size(60, 22);
             this.btnDelete.Text = "Delete";
             this.btnDelete.ToolTipText = "Delete movie/series";
             this.btnDelete.Visible = false;
@@ -173,28 +173,28 @@ namespace Desene
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 35);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // btnGenerateHtml
             // 
             this.btnGenerateHtml.Image = global::Desene.Properties.Resources.generateHtml;
             this.btnGenerateHtml.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnGenerateHtml.Name = "btnGenerateHtml";
-            this.btnGenerateHtml.Size = new System.Drawing.Size(122, 32);
+            this.btnGenerateHtml.Size = new System.Drawing.Size(110, 22);
             this.btnGenerateHtml.Text = "Generate HTML";
             this.btnGenerateHtml.Click += new System.EventHandler(this.btnGenerateHtml_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 35);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
             // btnFilesDetails
             // 
             this.btnFilesDetails.Image = global::Desene.Properties.Resources.info1;
             this.btnFilesDetails.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnFilesDetails.Name = "btnFilesDetails";
-            this.btnFilesDetails.Size = new System.Drawing.Size(99, 32);
+            this.btnFilesDetails.Size = new System.Drawing.Size(87, 22);
             this.btnFilesDetails.Text = "Files details";
             this.btnFilesDetails.Click += new System.EventHandler(this.btnFilesDetails_Click);
             // 
@@ -203,7 +203,7 @@ namespace Desene
             this.btnBuildFileNames.Image = global::Desene.Properties.Resources.combineNames;
             this.btnBuildFileNames.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnBuildFileNames.Name = "btnBuildFileNames";
-            this.btnBuildFileNames.Size = new System.Drawing.Size(157, 32);
+            this.btnBuildFileNames.Size = new System.Drawing.Size(145, 22);
             this.btnBuildFileNames.Text = "Mix Netflix files names";
             this.btnBuildFileNames.Click += new System.EventHandler(this.BtnBuildFileNames_Click);
             // 
@@ -260,9 +260,9 @@ namespace Desene
             this.pMainContainer.Controls.Add(this.button2);
             this.pMainContainer.Controls.Add(this.button1);
             this.pMainContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pMainContainer.Location = new System.Drawing.Point(0, 35);
+            this.pMainContainer.Location = new System.Drawing.Point(0, 25);
             this.pMainContainer.Name = "pMainContainer";
-            this.pMainContainer.Size = new System.Drawing.Size(1284, 504);
+            this.pMainContainer.Size = new System.Drawing.Size(1284, 514);
             this.pMainContainer.TabIndex = 110;
             this.pMainContainer.Paint += new System.Windows.Forms.PaintEventHandler(this.PMainContainer_Paint);
             this.pMainContainer.Resize += new System.EventHandler(this.PMainContainer_Resize);

@@ -20,10 +20,12 @@ namespace Desene.DetailFormsAndUserControls
     public partial class ucMovieInfo : UserControl
     {
         private BindingSource _bsControlsData;
+        private bool _isEdit;
 
-        public ucMovieInfo()
+        public ucMovieInfo(bool b = true)
         {
             InitializeComponent();
+            _isEdit = b;
 
             InitControls();
 
@@ -340,6 +342,59 @@ namespace Desene.DetailFormsAndUserControls
         private void tbSize_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        public void SetNewPoster(string imgPath)
+        {
+            try
+            {
+                using (Image img = Image.FromFile(imgPath))
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    ms.Close();
+                    var poster = ms.ToArray();
+                    SetPoster(poster, true);
+                }
+
+                Helpers.UnsavedChanges = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void PMovieDetail_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+        }
+
+        private void PMovieDetail_DragDrop(object sender, DragEventArgs e)
+        {
+            var droppedObj = ((string[])e.Data.GetData(DataFormats.FileDrop))[0];
+
+            try
+            {
+                if (File.GetAttributes(droppedObj).HasFlag(FileAttributes.Directory))
+                    return;
+
+                //var moviesExt = new string[] { ".mkv", ".mp4", ".avi" };
+                var picturesExt = new string[] { ".jpg", ".jpeg", ".png", ".bmp" };
+
+                //if (Array.IndexOf(moviesExt, Path.GetExtension(droppedObj).ToLower()) >= 0 && _isEdit)
+                //{
+                //}
+
+                if (Array.IndexOf(picturesExt, Path.GetExtension(droppedObj).ToLower()) >= 0)
+                {
+                    SetNewPoster(droppedObj);
+                }
+            }
+            catch (Exception ex)
+            {
+                MsgBox.Show(ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         //private void CheckSizeMismatch()

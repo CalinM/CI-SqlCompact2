@@ -17,6 +17,7 @@ namespace Desene
         private byte[] _poster;
 
         public int NewId;
+        //public event EventHandler OnImportMovie;
 
         public FrmAddMovie()
         {
@@ -25,6 +26,11 @@ namespace Desene
 
         private void btnImportMovieData_Click(object sender, EventArgs e)
         {
+            //https://stackoverflow.com/questions/1210026/return-a-value-from-an-event-is-there-a-good-practice-for-this
+            //if (OnImportMovie is null) return;
+
+            //OnImportMovie(sender, e);
+
             if (_newMtd != null)
             {
                 if (MsgBox.Show(
@@ -78,32 +84,25 @@ namespace Desene
                 Settings.Default.LastCoverPath = Path.GetFullPath(openFileDialog.FileName);
                 Settings.Default.Save();
 
-                //using (var ms = new MemoryStream())
-                //{
-                //    using (var file = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
-                //    {
-                //        byte[] bytes = new byte[file.Length];
-                //        file.Read(bytes, 0, (int)file.Length);
-                //        ms.Write(bytes, 0, (int)file.Length);
-                //    }
+                SetNewPoster(openFileDialog.FileName);
+            }
+        }
 
-                //    _poster = ms.ToArray();
-                //    ucMovieInfo1.SetPoster(_poster, true);
-                //}
-                try
+        private void SetNewPoster(string imgPath)
+        {
+            try
+            {
+                using (Image img = Image.FromFile(imgPath))
+                using (MemoryStream ms = new MemoryStream())
                 {
-                    using (Image img = Image.FromFile(openFileDialog.FileName))
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                        ms.Close();
-                        _poster = ms.ToArray();
-                        ucMovieInfo1.SetPoster(_poster, true);
-                    }
-                } catch (Exception ex)
-                {
-                    MessageBox.Show(ex.ToString());
+                    img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    ms.Close();
+                    _poster = ms.ToArray();
+                    ucMovieInfo1.SetPoster(_poster, true);
                 }
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
             }
         }
 

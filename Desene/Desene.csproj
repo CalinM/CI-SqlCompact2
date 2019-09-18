@@ -75,6 +75,18 @@
     <Compile Include="DetailFormsAndUserControls\Movies\ucMoviesList.Designer.cs">
       <DependentUpon>ucMoviesList.cs</DependentUpon>
     </Compile>
+    <Compile Include="DetailFormsAndUserControls\Series\FrmBulkEpisodeEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Series\FrmBulkEpisodeEdit.Designer.cs">
+      <DependentUpon>FrmBulkEpisodeEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Series\ucBulkEditFieldValue.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Series\ucBulkEditFieldValue.Designer.cs">
+      <DependentUpon>ucBulkEditFieldValue.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -167,6 +179,12 @@
     <EmbeddedResource Include="DetailFormsAndUserControls\Movies\ucMoviesList.resx">
       <DependentUpon>ucMoviesList.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DetailFormsAndUserControls\Series\FrmBulkEpisodeEdit.resx">
+      <DependentUpon>FrmBulkEpisodeEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DetailFormsAndUserControls\Series\ucBulkEditFieldValue.resx">
+      <DependentUpon>ucBulkEditFieldValue.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DetailFormsAndUserControls\Shared\ucSubtitleStreamDetail.resx">
       <DependentUpon>ucSubtitleStreamDetail.cs</DependentUpon>
     </EmbeddedResource>
@@ -249,6 +267,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\add.png" />
+    <Content Include="Images\addChange.png" />
+    <Content Include="Images\bulkEdit.png" />
     <Content Include="Images\cancel.png" />
     <Content Include="Images\combineNames.png" />
     <Content Include="Images\delete.png" />
@@ -258,6 +278,7 @@
     <Content Include="Images\import.png" />
     <Content Include="Images\info.png" />
     <Content Include="Images\moviesList.png" />
+    <Content Include="Images\reset_slide.png" />
     <Content Include="Images\search.png" />
     <Content Include="Images\undo.png" />
     <Content Include="Properties\AssemblyInfo.tt">

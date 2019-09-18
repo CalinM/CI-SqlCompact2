@@ -1,16 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
 namespace Desene.DetailFormsAndUserControls
 {
-    //private
     public partial class ucSeriesEpisodes : UserControl
     {
         private BindingSource _bsEpisodesGridData;
         private ucSeries _parent;
+        private Dictionary<int, bool> _checkState;
 
         public ucSeriesEpisodes()
         {
@@ -29,7 +31,80 @@ namespace Desene.DetailFormsAndUserControls
             _bsEpisodesGridData = new BindingSource();
             dgvEpisodes.DataSource = _bsEpisodesGridData;
 
+            // The check box column will be virtual.
+            dgvEpisodes.VirtualMode = true;
+
+            dgvEpisodes.Columns.Insert(0, new DataGridViewCheckBoxColumn() { Width = 40, Resizable = DataGridViewTriState.False });
+
+            var headerColCheckBox = ColumnHeaderCheckBox(dgvEpisodes);
+            headerColCheckBox.CheckedChanged += HeaderColCheckBox_CheckedChanged;
+
+            // Initialize the dictionary that contains the boolean check state.
+            _checkState = new Dictionary<int, bool>();
+
             LoadControls(seriesId);
+        }
+
+        private CheckBox ColumnHeaderCheckBox(DataGridView dgv)
+        {
+            var result = new CheckBox
+                {
+                    Size = new Size(15, 15),
+                    BackColor = Color.Transparent,
+
+                    // Reset properties
+                    Padding = new Padding(0),
+                    Margin = new Padding(0),
+                    Text = ""
+                };
+
+            // Add checkbox to datagrid cell
+            dgv.Controls.Add(result);
+            var header = dgv.Columns[0].HeaderCell;
+
+            result.Location = new Point(
+                ((header.Size.Width - result.Size.Width) /2) + 2,
+                ((header.Size.Height - result.Size.Height) /2) - 2);
+
+            /*
+             * ContentBounds values are 0 due to missing header?
+            checkbox.Location = new Point(
+                        (header.ContentBounds.Left +
+                         (header.ContentBounds.Right - header.ContentBounds.Left + checkbox.Size.Width)
+                         /2) - 2,
+                        (header.ContentBounds.Top +
+                         (header.ContentBounds.Bottom - header.ContentBounds.Top + checkbox.Size.Height)
+                         /2) - 2);
+            */
+
+            return result;
+        }
+
+        private void HeaderColCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                dgvEpisodes.SuspendLayout();
+                dgvEpisodes.CurrentCell = null; //when the grid selection is left in place, the checkbox appears not selected
+
+                _checkState = new Dictionary<int, bool>();
+
+                if (((CheckBox)sender).Checked)
+                {
+                    foreach (DataRow episodeRow in ((DataTable)_bsEpisodesGridData.DataSource).Rows)
+                    {
+                        var epIdObj = episodeRow.ItemArray[0];
+                        _checkState.Add((int)epIdObj, true);
+                    }
+                }
+            }
+            finally
+            {
+                dgvEpisodes.Invalidate();
+                dgvEpisodes.ResumeLayout();
+
+                SetBulkEditButtonStateInParent();
+            }
         }
 
         public void LoadControls(int seriesId)
@@ -67,12 +142,78 @@ namespace Desene.DetailFormsAndUserControls
 
         private void dgvEpisodes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0) {
+            if (e.RowIndex >= 0)
+            {
                 var row = (DataRowView)dgvEpisodes.Rows[e.RowIndex].DataBoundItem;
 
-                if (row != null) {
+                if (row != null)
+                {
                     _parent.TryLocateEpisodeInTree((int)row["Id"]);
                 }
+            }
+        }
+
+        private void DgvEpisodes_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 0 && e.RowIndex != -1 /*&& dgvEpisodes.Rows[e.RowIndex].Cells["Id"].Value != null*/)
+            {
+                // Get the episodeId
+                var episodeId = (int)dgvEpisodes.Rows[e.RowIndex].Cells["Id"].Value;
+                _checkState[episodeId] = (bool)dgvEpisodes.Rows[e.RowIndex].Cells[0].Value;
+            }
+        }
+
+        private void DgvEpisodes_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+        {
+            // Handle the notification that the value for a cell in the virtual column
+            // is needed. Get the value from the dictionary if the key exists.
+
+            if (e.ColumnIndex == 0/* && dgvEpisodes.Rows[e.RowIndex].Cells["Id"].Value != null*/)
+            {
+                var episodeId = (int)dgvEpisodes.Rows[e.RowIndex].Cells["Id"].Value;
+                if (_checkState.ContainsKey(episodeId))
+                    e.Value = _checkState[episodeId];
+                else
+                    e.Value = false;
+            }
+        }
+
+        private void DgvEpisodes_CellValuePushed(object sender, DataGridViewCellValueEventArgs e)
+        {
+            // Handle the notification that the value for a cell in the virtual column
+            // needs to be pushed back to the dictionary.
+
+            if (e.ColumnIndex == 0/* && dgvEpisodes.Rows[e.RowIndex].Cells["Id"].Value != null*/)
+            {
+                // Get the episodeId
+                int episodeId = (int)dgvEpisodes.Rows[e.RowIndex].Cells["Id"].Value;
+
+                // Add or update the checked value to the dictionary depending on if the key already exists.
+                if (!_checkState.ContainsKey(episodeId))
+                {
+                    _checkState.Add(episodeId, (bool)e.Value);
+                }
+                else
+                    _checkState[episodeId] = (bool)e.Value;
+
+                SetBulkEditButtonStateInParent();
+            }
+        }
+
+        private void SetBulkEditButtonStateInParent()
+        {
+            _parent.SetBulkEditButtonState(_checkState.Where(item => item.Value).Select(item => item.Key).ToList());
+        }
+
+        //MSDN says here that CellValueChanged won't fire until the cell has lost focus.
+        //BUT ...
+        //The CurrentCellDirtyStateChanged event commits the changes immediately when the cell is clicked.
+        //You manually raise the CellValueChanged event when calling the CommitEdit method.
+        private void DgvEpisodes_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (dgvEpisodes.IsCurrentCellDirty)
+            {
+                dgvEpisodes.CommitEdit(DataGridViewDataErrorContexts.Commit);
             }
         }
     }

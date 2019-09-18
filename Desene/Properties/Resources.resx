@@ -235,4 +235,13 @@
   <data name="owl_carousel_minJS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\owl.carousel.min.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="bulkEdit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\bulkEdit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="addChange" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\addChange.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="reset_slide" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\reset_slide.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

@@ -41,10 +41,9 @@
             // 
             // btnFolderSelector
             // 
-            this.btnFolderSelector.Location = new System.Drawing.Point(925, 39);
-            this.btnFolderSelector.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnFolderSelector.Location = new System.Drawing.Point(617, 25);
             this.btnFolderSelector.Name = "btnFolderSelector";
-            this.btnFolderSelector.Size = new System.Drawing.Size(80, 31);
+            this.btnFolderSelector.Size = new System.Drawing.Size(53, 20);
             this.btnFolderSelector.TabIndex = 11;
             this.btnFolderSelector.Text = "Folder";
             this.btnFolderSelector.UseVisualStyleBackColor = true;
@@ -52,29 +51,28 @@
             // 
             // tbFilesLocation
             // 
-            this.tbFilesLocation.Location = new System.Drawing.Point(185, 39);
-            this.tbFilesLocation.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tbFilesLocation.Location = new System.Drawing.Point(123, 25);
             this.tbFilesLocation.Name = "tbFilesLocation";
-            this.tbFilesLocation.Size = new System.Drawing.Size(728, 26);
+            this.tbFilesLocation.Size = new System.Drawing.Size(487, 20);
             this.tbFilesLocation.TabIndex = 10;
             // 
             // lbLocation
             // 
             this.lbLocation.AutoSize = true;
-            this.lbLocation.Location = new System.Drawing.Point(32, 42);
-            this.lbLocation.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbLocation.Location = new System.Drawing.Point(21, 27);
             this.lbLocation.Name = "lbLocation";
-            this.lbLocation.Size = new System.Drawing.Size(70, 20);
+            this.lbLocation.Size = new System.Drawing.Size(48, 13);
             this.lbLocation.TabIndex = 9;
             this.lbLocation.Text = "Location";
             // 
             // cbSavePosters
             // 
             this.cbSavePosters.AutoSize = true;
-            this.cbSavePosters.Location = new System.Drawing.Point(185, 75);
-            this.cbSavePosters.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbSavePosters.Checked = true;
+            this.cbSavePosters.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbSavePosters.Location = new System.Drawing.Point(123, 49);
             this.cbSavePosters.Name = "cbSavePosters";
-            this.cbSavePosters.Size = new System.Drawing.Size(227, 24);
+            this.cbSavePosters.Size = new System.Drawing.Size(156, 17);
             this.cbSavePosters.TabIndex = 12;
             this.cbSavePosters.Text = "Save movies/series posters";
             this.cbSavePosters.UseVisualStyleBackColor = true;
@@ -83,10 +81,9 @@
             // 
             this.cbSaveMoviesThumbnals.AutoSize = true;
             this.cbSaveMoviesThumbnals.Enabled = false;
-            this.cbSaveMoviesThumbnals.Location = new System.Drawing.Point(185, 109);
-            this.cbSaveMoviesThumbnals.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbSaveMoviesThumbnals.Location = new System.Drawing.Point(123, 71);
             this.cbSaveMoviesThumbnals.Name = "cbSaveMoviesThumbnals";
-            this.cbSaveMoviesThumbnals.Size = new System.Drawing.Size(202, 24);
+            this.cbSaveMoviesThumbnals.Size = new System.Drawing.Size(138, 17);
             this.cbSaveMoviesThumbnals.TabIndex = 13;
             this.cbSaveMoviesThumbnals.Text = "Save movies thumbnals";
             this.cbSaveMoviesThumbnals.UseVisualStyleBackColor = true;
@@ -94,10 +91,11 @@
             // cbSaveEpisodesThumbnals
             // 
             this.cbSaveEpisodesThumbnals.AutoSize = true;
-            this.cbSaveEpisodesThumbnals.Location = new System.Drawing.Point(185, 143);
-            this.cbSaveEpisodesThumbnals.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbSaveEpisodesThumbnals.Checked = true;
+            this.cbSaveEpisodesThumbnals.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbSaveEpisodesThumbnals.Location = new System.Drawing.Point(123, 93);
             this.cbSaveEpisodesThumbnals.Name = "cbSaveEpisodesThumbnals";
-            this.cbSaveEpisodesThumbnals.Size = new System.Drawing.Size(220, 24);
+            this.cbSaveEpisodesThumbnals.Size = new System.Drawing.Size(149, 17);
             this.cbSaveEpisodesThumbnals.TabIndex = 14;
             this.cbSaveEpisodesThumbnals.Text = "Save episodes thumbnails";
             this.cbSaveEpisodesThumbnals.UseVisualStyleBackColor = true;
@@ -105,10 +103,9 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(893, 197);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnCancel.Location = new System.Drawing.Point(595, 128);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(112, 35);
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 16;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -116,10 +113,9 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(772, 197);
-            this.btnOk.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnOk.Location = new System.Drawing.Point(515, 128);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(112, 35);
+            this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 15;
             this.btnOk.Text = "Ok";
             this.btnOk.UseVisualStyleBackColor = true;
@@ -130,19 +126,19 @@
             this.cbPreserveMarkesForExistingThumbnails.AutoSize = true;
             this.cbPreserveMarkesForExistingThumbnails.Checked = true;
             this.cbPreserveMarkesForExistingThumbnails.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbPreserveMarkesForExistingThumbnails.Location = new System.Drawing.Point(211, 177);
-            this.cbPreserveMarkesForExistingThumbnails.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbPreserveMarkesForExistingThumbnails.Enabled = false;
+            this.cbPreserveMarkesForExistingThumbnails.Location = new System.Drawing.Point(141, 115);
             this.cbPreserveMarkesForExistingThumbnails.Name = "cbPreserveMarkesForExistingThumbnails";
-            this.cbPreserveMarkesForExistingThumbnails.Size = new System.Drawing.Size(385, 24);
+            this.cbPreserveMarkesForExistingThumbnails.Size = new System.Drawing.Size(259, 17);
             this.cbPreserveMarkesForExistingThumbnails.TabIndex = 17;
             this.cbPreserveMarkesForExistingThumbnails.Text = "Preserve existence markes for existing thumbnails";
             this.cbPreserveMarkesForExistingThumbnails.UseVisualStyleBackColor = true;
             // 
             // FrmSiteGenParams
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1037, 256);
+            this.ClientSize = new System.Drawing.Size(691, 166);
             this.Controls.Add(this.cbPreserveMarkesForExistingThumbnails);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
@@ -153,6 +149,7 @@
             this.Controls.Add(this.tbFilesLocation);
             this.Controls.Add(this.lbLocation);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmSiteGenParams";

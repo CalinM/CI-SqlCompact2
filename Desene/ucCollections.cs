@@ -107,7 +107,7 @@ namespace Desene
                         ((ucMovieInfo)prevInstance[0]).RefreshControls(DAL.CurrentMTD);
                     else
                     {
-                        var ucMovieInfo = new ucMovieInfo { Dock = DockStyle.Top };
+                        var ucMovieInfo = new ucMovieInfo(false) { Dock = DockStyle.Top };
                         ucMovieInfo.RefreshControls(DAL.CurrentMTD);
 
                         pCollectionElementDetailsContainer.Controls.Add(ucMovieInfo);

@@ -2233,5 +2233,82 @@ namespace Desene
 
             return result;
         }
+
+        public static OperationResult SaveBulkChanges(List<int> selectedEpisodes, List<BulkEditField> fieldValuesControls)
+        {
+            var result = new OperationResult();
+            var episodes = string.Join(",", selectedEpisodes);
+
+            using (var conn = new SqlCeConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+                var tx = conn.BeginTransaction();
+
+                try
+                {
+                    try
+                    {
+                        foreach (var fvc in fieldValuesControls)
+                        {
+                            var cmd = new SqlCeCommand(string.Format(@"
+                                UPDATE FileDetail
+                                   SET {0} = {1}
+                                WHERE Id IN ({2})",
+                                fvc.FieldName, fvc.Value, episodes), conn);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        tx.Rollback();
+                        return result.FailWithMessage(ex);
+                    }
+                }
+                finally
+                {
+                    tx.Commit();
+                }
+            }
+
+            return result;
+        }
+
+        public static string GetMoviesDetails2()
+        {
+            var result = new List<MovieForWeb>();
+
+            using (var conn = new SqlCeConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                var commandSource = new SqlCeCommand(@"
+                    SELECT
+                        vs.BitRate,
+	                    CASE
+                            WHEN Poster IS NULL THEN CONVERT(BIT, 0)
+                            ELSE CONVERT(BIT, 1)
+	                    END AS HasPoster,
+                        fd.*
+                    FROM FileDetail fd
+	                    LEFT OUTER JOIN VideoStream vs ON fd.Id = vs.FileDetailId
+                    WHERE ParentId IS NULL ORDER BY FileName", conn);
+
+                using (var reader = commandSource.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var duration =
+                            reader["Duration"] != DBNull.Value
+                                ? (DateTime?)reader["Duration"]
+                                : null;
+
+                        var mfw = new MovieForWeb();
+                    }
+                }
+            }
+
+            return "";
+        }
     }
 }

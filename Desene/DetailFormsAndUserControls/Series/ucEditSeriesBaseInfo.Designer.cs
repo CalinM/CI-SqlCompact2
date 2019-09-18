@@ -47,10 +47,9 @@
             // 
             this.pbCover.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pbCover.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbCover.Location = new System.Drawing.Point(1076, 44);
-            this.pbCover.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.pbCover.Location = new System.Drawing.Point(587, 24);
             this.pbCover.Name = "pbCover";
-            this.pbCover.Size = new System.Drawing.Size(387, 585);
+            this.pbCover.Size = new System.Drawing.Size(212, 318);
             this.pbCover.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbCover.TabIndex = 193;
             this.pbCover.TabStop = false;
@@ -59,38 +58,34 @@
             // 
             this.tbNotes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbNotes.Location = new System.Drawing.Point(235, 188);
-            this.tbNotes.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tbNotes.Location = new System.Drawing.Point(128, 102);
             this.tbNotes.Multiline = true;
             this.tbNotes.Name = "tbNotes";
-            this.tbNotes.Size = new System.Drawing.Size(794, 400);
+            this.tbNotes.Size = new System.Drawing.Size(435, 219);
             this.tbNotes.TabIndex = 4;
             // 
             // tbRecommendedLink
             // 
             this.tbRecommendedLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbRecommendedLink.Location = new System.Drawing.Point(337, 140);
-            this.tbRecommendedLink.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tbRecommendedLink.Location = new System.Drawing.Point(184, 76);
             this.tbRecommendedLink.Name = "tbRecommendedLink";
-            this.tbRecommendedLink.Size = new System.Drawing.Size(692, 29);
+            this.tbRecommendedLink.Size = new System.Drawing.Size(379, 20);
             this.tbRecommendedLink.TabIndex = 3;
             // 
             // tbRecommended
             // 
-            this.tbRecommended.Location = new System.Drawing.Point(235, 140);
-            this.tbRecommended.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tbRecommended.Location = new System.Drawing.Point(128, 76);
             this.tbRecommended.Name = "tbRecommended";
-            this.tbRecommended.Size = new System.Drawing.Size(88, 29);
+            this.tbRecommended.Size = new System.Drawing.Size(50, 20);
             this.tbRecommended.TabIndex = 2;
             // 
             // lbRecommended
             // 
             this.lbRecommended.AutoSize = true;
-            this.lbRecommended.Location = new System.Drawing.Point(42, 146);
-            this.lbRecommended.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbRecommended.Location = new System.Drawing.Point(23, 79);
             this.lbRecommended.Name = "lbRecommended";
-            this.lbRecommended.Size = new System.Drawing.Size(150, 25);
+            this.lbRecommended.Size = new System.Drawing.Size(82, 13);
             this.lbRecommended.TabIndex = 189;
             this.lbRecommended.Text = "Recommended:";
             // 
@@ -98,19 +93,17 @@
             // 
             this.tbDescriptionLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbDescriptionLink.Location = new System.Drawing.Point(235, 92);
-            this.tbDescriptionLink.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tbDescriptionLink.Location = new System.Drawing.Point(128, 50);
             this.tbDescriptionLink.Name = "tbDescriptionLink";
-            this.tbDescriptionLink.Size = new System.Drawing.Size(794, 29);
+            this.tbDescriptionLink.Size = new System.Drawing.Size(435, 20);
             this.tbDescriptionLink.TabIndex = 1;
             // 
             // pbDescriptionLink
             // 
             this.pbDescriptionLink.AutoSize = true;
-            this.pbDescriptionLink.Location = new System.Drawing.Point(42, 98);
-            this.pbDescriptionLink.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.pbDescriptionLink.Location = new System.Drawing.Point(23, 53);
             this.pbDescriptionLink.Name = "pbDescriptionLink";
-            this.pbDescriptionLink.Size = new System.Drawing.Size(149, 25);
+            this.pbDescriptionLink.Size = new System.Drawing.Size(82, 13);
             this.pbDescriptionLink.TabIndex = 187;
             this.pbDescriptionLink.Text = "Description link:";
             // 
@@ -118,30 +111,27 @@
             // 
             this.tbTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbTitle.Location = new System.Drawing.Point(235, 44);
-            this.tbTitle.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tbTitle.Location = new System.Drawing.Point(128, 24);
             this.tbTitle.Name = "tbTitle";
-            this.tbTitle.Size = new System.Drawing.Size(794, 29);
+            this.tbTitle.Size = new System.Drawing.Size(435, 20);
             this.tbTitle.TabIndex = 0;
             this.tbTitle.TextChanged += new System.EventHandler(this.tbTitle_TextChanged);
             // 
             // lbSeriesTitle
             // 
             this.lbSeriesTitle.AutoSize = true;
-            this.lbSeriesTitle.Location = new System.Drawing.Point(42, 50);
-            this.lbSeriesTitle.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbSeriesTitle.Location = new System.Drawing.Point(23, 27);
             this.lbSeriesTitle.Name = "lbSeriesTitle";
-            this.lbSeriesTitle.Size = new System.Drawing.Size(49, 25);
+            this.lbSeriesTitle.Size = new System.Drawing.Size(27, 13);
             this.lbSeriesTitle.TabIndex = 185;
             this.lbSeriesTitle.Text = "Title";
             // 
             // lbNotes
             // 
             this.lbNotes.AutoSize = true;
-            this.lbNotes.Location = new System.Drawing.Point(42, 194);
-            this.lbNotes.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbNotes.Location = new System.Drawing.Point(23, 105);
             this.lbNotes.Name = "lbNotes";
-            this.lbNotes.Size = new System.Drawing.Size(69, 25);
+            this.lbNotes.Size = new System.Drawing.Size(38, 13);
             this.lbNotes.TabIndex = 184;
             this.lbNotes.Text = "Notes:";
             // 
@@ -149,25 +139,24 @@
             // 
             this.tbTrailer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbTrailer.Location = new System.Drawing.Point(235, 600);
-            this.tbTrailer.Margin = new System.Windows.Forms.Padding(6);
+            this.tbTrailer.Location = new System.Drawing.Point(128, 325);
             this.tbTrailer.Name = "tbTrailer";
-            this.tbTrailer.Size = new System.Drawing.Size(794, 29);
+            this.tbTrailer.Size = new System.Drawing.Size(435, 20);
             this.tbTrailer.TabIndex = 5;
             // 
             // lbTrailer
             // 
             this.lbTrailer.AutoSize = true;
-            this.lbTrailer.Location = new System.Drawing.Point(42, 603);
-            this.lbTrailer.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbTrailer.Location = new System.Drawing.Point(23, 327);
             this.lbTrailer.Name = "lbTrailer";
-            this.lbTrailer.Size = new System.Drawing.Size(73, 25);
+            this.lbTrailer.Size = new System.Drawing.Size(39, 13);
             this.lbTrailer.TabIndex = 195;
             this.lbTrailer.Text = "Trailer:";
             // 
             // ucEditSeriesBaseInfo
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
+            this.AllowDrop = true;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.lbTrailer);
             this.Controls.Add(this.tbTrailer);
@@ -181,9 +170,10 @@
             this.Controls.Add(this.tbTitle);
             this.Controls.Add(this.lbSeriesTitle);
             this.Controls.Add(this.lbNotes);
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "ucEditSeriesBaseInfo";
-            this.Size = new System.Drawing.Size(1522, 672);
+            this.Size = new System.Drawing.Size(830, 364);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.UcEditSeriesBaseInfo_DragDrop);
+            this.DragOver += new System.Windows.Forms.DragEventHandler(this.UcEditSeriesBaseInfo_DragOver);
             ((System.ComponentModel.ISupportInitialize)(this.pbCover)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

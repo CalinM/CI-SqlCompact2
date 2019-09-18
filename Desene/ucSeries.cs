@@ -3,6 +3,7 @@ using Aga.Controls.Tree.NodeControls;
 using Common;
 using DAL;
 using Desene.DetailFormsAndUserControls;
+using Desene.DetailFormsAndUserControls.Series;
 using Desene.EditUserControls;
 using Desene.Properties;
 using System;
@@ -493,6 +494,12 @@ namespace Desene
             Helpers.UnsavedChanges = false;
         }
 
+        public void SetBulkEditButtonState(List<int> selectedIds)
+        {
+            btnBulkEdit.Enabled = selectedIds.Count() > 1;
+            btnBulkEdit.Tag = selectedIds;
+        }
+
         #endregion
 
         #region Filter
@@ -572,6 +579,36 @@ namespace Desene
             {
                 CancelFilter();
             }
+        }
+
+        private void BtnBulkEdit_Click(object sender, EventArgs e)
+        {
+            var selectedEpisodes = (List<int>)btnBulkEdit.Tag;
+
+            var frmBulkEpisodeEdit = new FrmBulkEpisodeEdit(selectedEpisodes.Count) { Owner = _parent };
+
+            if (frmBulkEpisodeEdit.ShowDialog() != DialogResult.OK)
+                return;
+
+            var opRes = DAL.SaveBulkChanges(selectedEpisodes, frmBulkEpisodeEdit.SelectedBulkValues);
+
+            if (!opRes.Success)
+            {
+                MsgBox.Show(string.Format("The following error occurred while saving the builk changes:{0}{0}{1}{0}{0}.No values were changed in the database!", Environment.NewLine, opRes.CustomErrorMessage),
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var sesi = (SeriesEpisodesShortInfo)tvSeries.SelectedNode.Tag;
+
+            var prevInstance = pSeriesDetailsContainer.Controls.Find("ucSeriesEpisodes", false);
+
+            if (prevInstance.Any())
+            {
+                ((ucSeriesEpisodes)prevInstance[0]).LoadControls(sesi.Id);
+            }
+
+            //todo: remove grid selection?
         }
 
         #endregion
