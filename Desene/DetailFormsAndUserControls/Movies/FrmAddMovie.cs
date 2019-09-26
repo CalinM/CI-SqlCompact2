@@ -13,8 +13,8 @@ namespace Desene
 {
     public partial class FrmAddMovie : Form
     {
-        private MovieTechnicalDetails _newMtd;
-        private byte[] _poster;
+        //private MovieTechnicalDetails _newMtd;
+        //private byte[] _poster;
 
         public int NewId;
         //public event EventHandler OnImportMovie;
@@ -22,6 +22,7 @@ namespace Desene
         public FrmAddMovie()
         {
             InitializeComponent();
+            DAL.NewMTD = null;
         }
 
         private void btnImportMovieData_Click(object sender, EventArgs e)
@@ -30,13 +31,16 @@ namespace Desene
             //if (OnImportMovie is null) return;
 
             //OnImportMovie(sender, e);
+            var currentPoster = ucMovieInfo1.TmpPoster;
 
-            if (_newMtd != null)
+            if (DAL.NewMTD != null)
             {
                 if (MsgBox.Show(
                         "The previous movie details and all changes made by hand (except the poster) will be lost. Are you sure you want to continue?",
                         "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                     return;
+
+                currentPoster = DAL.NewMTD.Poster;
             }
 
             using (var rParam = new FrmMTDFromFile(true, false) { Owner = this })
@@ -51,15 +55,16 @@ namespace Desene
                     return;
                 }
 
-                _newMtd = rParam.mtd;
+                DAL.NewMTD = rParam.mtd;
             }
 
-            _newMtd.Poster = _poster;
-            ucMovieInfo1.RefreshControls(_newMtd);
+            DAL.NewMTD.Poster = currentPoster;
+            ucMovieInfo1.TmpPoster = null;
+            ucMovieInfo1.RefreshControls(DAL.NewMTD);
 
-            if (_newMtd.MovieStills.Count > 0)
+            if (DAL.NewMTD.MovieStills.Count > 0)
             {
-                ucMovieInfo1.SetMovieStills(_newMtd.MovieStills);
+                ucMovieInfo1.SetMovieStills(DAL.NewMTD.MovieStills);
                 Size = new Size(900, 625);
             }
             else
@@ -97,10 +102,12 @@ namespace Desene
                 {
                     img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
                     ms.Close();
-                    _poster = ms.ToArray();
-                    ucMovieInfo1.SetPoster(_poster, true);
+
+                    //DAL.NewMTD.Poster = ms.ToArray();
+                    ucMovieInfo1.SetPoster(DAL.NewMTD.Poster);
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
@@ -117,8 +124,8 @@ namespace Desene
                 return;
             }
 
-            _newMtd.Poster = _poster;
-            var opRes = DAL.InsertMTD(_newMtd, null);
+            //DAL.NewMTD.Poster = _poster;
+            var opRes = DAL.InsertMTD(DAL.NewMTD, null);
 
             if (!opRes.Success)
             {
@@ -130,8 +137,8 @@ namespace Desene
                 return;
             }
 
-            _newMtd.Id = (int)opRes.AdditionalDataReturn;
-            DAL.CurrentMTD = _newMtd;
+            DAL.NewMTD.Id = (int)opRes.AdditionalDataReturn;
+            DAL.CurrentMTD = DAL.NewMTD;
             Common.Helpers.UnsavedChanges = false;
 
             DialogResult = DialogResult.OK;

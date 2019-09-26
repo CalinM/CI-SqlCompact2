@@ -11,6 +11,7 @@ namespace Desene.EditUserControls
 {
     public partial class ucEditSeriesBaseInfo : UserControl
     {
+        private bool _isNew;
         private BindingSource _bsControlsData;
 
         public string Title
@@ -58,14 +59,15 @@ namespace Desene.EditUserControls
             }
         }
 
-        public ucEditSeriesBaseInfo()
-        {
-            InitializeComponent();
-        }
+        //public ucEditSeriesBaseInfo()
+        //{
+        //    InitializeComponent();
+        //}
 
         public ucEditSeriesBaseInfo(bool isNew = true)
         {
             InitializeComponent();
+            _isNew = isNew;
 
             if (!isNew)
             {
@@ -117,28 +119,10 @@ namespace Desene.EditUserControls
                 pbCover.Image = Image.FromStream(ms);
             }
 
-            DAL.CurrentMTD.Poster = bytes;
-        }
-
-        public void SetNewPoster(string imgPath)
-        {
-            try
-            {
-                using (Image img = Image.FromFile(imgPath))
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                    ms.Close();
-
-                    Poster= ms.ToArray();
-                }
-
-                Common.Helpers.UnsavedChanges = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+            if (_isNew)
+                Poster = bytes;
+            else
+                DAL.CurrentMTD.Poster = bytes;
         }
 
         private void UcEditSeriesBaseInfo_DragOver(object sender, DragEventArgs e)
@@ -159,7 +143,15 @@ namespace Desene.EditUserControls
 
                 if (Array.IndexOf(picturesExt, Path.GetExtension(droppedObj).ToLower()) >= 0)
                 {
-                    SetNewPoster(droppedObj);
+                    //SetNewPoster(droppedObj);
+                    using (var file = new FileStream(droppedObj, FileMode.Open, FileAccess.Read))
+                    {
+                        var bytes = new byte[file.Length];
+                        file.Read(bytes, 0, (int)file.Length);
+
+                        SetPoster(bytes);
+                        Common.Helpers.UnsavedChanges = true;
+                    }
                 }
             }
             catch (Exception ex)

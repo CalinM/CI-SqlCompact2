@@ -368,9 +368,9 @@ namespace Desene
                     rParam.mtd,
                     new FilesImportParams
                     {
-                         Year = rParam.mtd.Year,
-                         Season = "",
-                         ParentId = ((SeriesEpisodesShortInfo)_prevSelectedNode.Tag).SeriesId
+                        Year = rParam.mtd.Year,
+                        Season = "",
+                        ParentId = ((SeriesEpisodesShortInfo)_prevSelectedNode.Tag).SeriesId
                     });
 
                 if (!opRes.Success)
@@ -418,7 +418,7 @@ namespace Desene
                     var bytes = new byte[file.Length];
                     file.Read(bytes, 0, (int)file.Length);
 
-                    ((ucMovieInfo)prevInstance[0]).SetPoster(bytes, false);
+                    ((ucMovieInfo)prevInstance[0]).SetPoster(bytes); //todo?
                 }
 
                 Helpers.UnsavedChanges = true;

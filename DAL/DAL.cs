@@ -16,6 +16,7 @@ namespace Desene
         public static BindingList<MovieShortInfo> MoviesData;
         public static List<CachedMovieStills> CachedMoviesStills = new List<CachedMovieStills>();
         public static MovieTechnicalDetails CurrentMTD;
+        public static MovieTechnicalDetails NewMTD;
         public static List<string> MovieThemes = new List<string>();
         public static string SectionDetails = string.Empty;
 
@@ -79,12 +80,12 @@ namespace Desene
                     while (reader.Read())
                     {
                         result.Add(new MovieShortInfo
-                                    {
-                                        Id = (int)reader["Id"],
-                                        FileName = reader["FileName"].ToString(),
-                                        HasPoster = (bool)reader["HasPoster"],
-                                        Quality = reader["Quality"].ToString()
-                                    });
+                        {
+                            Id = (int)reader["Id"],
+                            FileName = reader["FileName"].ToString(),
+                            HasPoster = (bool)reader["HasPoster"],
+                            Quality = reader["Quality"].ToString()
+                        });
                     }
                 }
             }
@@ -114,13 +115,13 @@ namespace Desene
                     while (reader.Read())
                     {
                         result.Add(new SeriesEpisodesShortInfo
-                                    {
-                                        Id = (int)reader["Id"],
-                                        FileName = reader["FileName"].ToString(),
-                                        Season = -1,
-                                        SeriesId = (int)reader["Id"],
-                                        IsSeries = true
-                                    });
+                        {
+                            Id = (int)reader["Id"],
+                            FileName = reader["FileName"].ToString(),
+                            Season = -1,
+                            SeriesId = (int)reader["Id"],
+                            IsSeries = true
+                        });
                     }
                 }
             }
@@ -165,15 +166,15 @@ namespace Desene
                         var seasonVal = int.Parse(reader["Season"].ToString());
 
                         result.Add(new SeriesEpisodesShortInfo
-                                    {
-                                        Id = seriesId,
-                                        FileName = seasonVal > 0 ? string.Format("Season {0}", seasonVal) : "Specials",
-                                        Theme = string.Empty,
-                                        Quality = string.Empty,
-                                        Season = seasonVal,
-                                        SeriesId = seriesId,
-                                        IsSeason = true
-                                    });
+                        {
+                            Id = seriesId,
+                            FileName = seasonVal > 0 ? string.Format("Season {0}", seasonVal) : "Specials",
+                            Theme = string.Empty,
+                            Quality = string.Empty,
+                            Season = seasonVal,
+                            SeriesId = seriesId,
+                            IsSeason = true
+                        });
                     }
                 }
             }
@@ -196,15 +197,15 @@ namespace Desene
                     while (reader.Read())
                     {
                         result.Add(new SeriesEpisodesShortInfo
-                                    {
-                                        Id = (int)reader["Id"],
-                                        FileName = reader["FileName"].ToString(),
-                                        Theme = reader["Theme"].ToString(),
-                                        Quality = reader["Quality"].ToString(),
-                                        Season = seasonVal,
-                                        SeriesId = (int)reader["ParentId"],
-                                        IsEpisode = true
-                                    });
+                        {
+                            Id = (int)reader["Id"],
+                            FileName = reader["FileName"].ToString(),
+                            Theme = reader["Theme"].ToString(),
+                            Quality = reader["Quality"].ToString(),
+                            Season = seasonVal,
+                            SeriesId = (int)reader["ParentId"],
+                            IsEpisode = true
+                        });
                     }
                 }
             }
@@ -262,25 +263,25 @@ namespace Desene
                             if (!result.Any(r => r.IsSeries && r.Id == parentId))
                             {
                                 result.Add(new SeriesEpisodesShortInfo
-                                            {
-                                                Id = parentId,
-                                                FileName = reader["SeriesName"].ToString(),
-                                                Season = -1,
-                                                SeriesId = parentId,
-                                                IsSeries = true
-                                            });
+                                {
+                                    Id = parentId,
+                                    FileName = reader["SeriesName"].ToString(),
+                                    Season = -1,
+                                    SeriesId = parentId,
+                                    IsSeries = true
+                                });
                             }
 
                             result.Add(new SeriesEpisodesShortInfo
-                                        {
-                                            Id = (int)reader["Id"],
-                                            FileName = reader["FileName"].ToString(),
-                                            Theme = reader["Theme"].ToString(),
-                                            Quality = reader["Quality"].ToString(),
-                                            Season = int.Parse(reader["Season"].ToString()),
-                                            SeriesId = parentId,
-                                            IsEpisode = true
-                                        });
+                            {
+                                Id = (int)reader["Id"],
+                                FileName = reader["FileName"].ToString(),
+                                Theme = reader["Theme"].ToString(),
+                                Quality = reader["Quality"].ToString(),
+                                Season = int.Parse(reader["Season"].ToString()),
+                                SeriesId = parentId,
+                                IsEpisode = true
+                            });
                         }
                         else
                         {
@@ -289,13 +290,13 @@ namespace Desene
                             if (!result.Any(r => r.IsSeries && r.Id == seriesId))
                             {
                                 result.Add(new SeriesEpisodesShortInfo
-                                    {
-                                        Id = seriesId,
-                                        FileName = reader["FileName"].ToString(),
-                                        Season = -1,
-                                        SeriesId = seriesId,
-                                        IsSeries = true
-                                    });
+                                {
+                                    Id = seriesId,
+                                    FileName = reader["FileName"].ToString(),
+                                    Season = -1,
+                                    SeriesId = seriesId,
+                                    IsSeries = true
+                                });
                             }
                         }
                     }
@@ -304,23 +305,23 @@ namespace Desene
                 var seasonsInSeriesInFilterResult =
                     result.Where(r => r.IsEpisode)
                           .GroupBy(g => new
-                                {
-                                    g.SeriesId,
-                                    g.Season
-                                })
+                          {
+                              g.SeriesId,
+                              g.Season
+                          })
                           .Select(g => g.FirstOrDefault())
                           .ToList();
 
                 foreach (var seasonData in seasonsInSeriesInFilterResult)
                 {
                     result.Add(new SeriesEpisodesShortInfo
-                        {
-                            Id = seasonData.SeriesId,
-                            FileName = string.Format("Season {0}", seasonData.Season),
-                            Season = seasonData.Season,
-                            SeriesId = seasonData.SeriesId,
-                            IsSeason = true
-                        });
+                    {
+                        Id = seasonData.SeriesId,
+                        FileName = string.Format("Season {0}", seasonData.Season),
+                        Season = seasonData.Season,
+                        SeriesId = seasonData.SeriesId,
+                        IsSeason = true
+                    });
                 }
             }
 
@@ -653,7 +654,7 @@ namespace Desene
                         cmd.Parameters.AddWithValue("@Delay", audioStream.Delay);
                         cmd.Parameters.AddWithValue("@Video_Delay", audioStream.Video_Delay);
                         cmd.Parameters.AddWithValue("@StreamSize", audioStream.StreamSize);
-                        cmd.Parameters.AddWithValue("@TitleEmbedded", audioStream.Title);;
+                        cmd.Parameters.AddWithValue("@TitleEmbedded", audioStream.Title); ;
                         cmd.Parameters.AddWithValue("@Language", audioStream.Language);
                         cmd.ExecuteNonQuery();
 
@@ -689,7 +690,7 @@ namespace Desene
                         cmd.Parameters.AddWithValue("@Index", index);
                         cmd.Parameters.AddWithValue("@Format", subtitleStream.Format);
                         cmd.Parameters.AddWithValue("@StreamSize", subtitleStream.StreamSize);
-                        cmd.Parameters.AddWithValue("@TitleEmbedded", subtitleStream.Title);;
+                        cmd.Parameters.AddWithValue("@TitleEmbedded", subtitleStream.Title); ;
                         cmd.Parameters.AddWithValue("@Language", subtitleStream.Language);
                         cmd.ExecuteNonQuery();
 
@@ -989,7 +990,7 @@ namespace Desene
                         cmd.Parameters.AddWithValue("@Delay", audioStream.Delay);
                         cmd.Parameters.AddWithValue("@Video_Delay", audioStream.Video_Delay);
                         cmd.Parameters.AddWithValue("@StreamSize", audioStream.StreamSize);
-                        cmd.Parameters.AddWithValue("@TitleEmbedded", audioStream.Title);;
+                        cmd.Parameters.AddWithValue("@TitleEmbedded", audioStream.Title); ;
                         cmd.Parameters.AddWithValue("@Language", audioStream.Language);
                         cmd.ExecuteNonQuery();
 
@@ -1025,7 +1026,7 @@ namespace Desene
                         cmd.Parameters.AddWithValue("@Index", index);
                         cmd.Parameters.AddWithValue("@Format", subtitleStream.Format);
                         cmd.Parameters.AddWithValue("@StreamSize", subtitleStream.StreamSize);
-                        cmd.Parameters.AddWithValue("@TitleEmbedded", subtitleStream.Title);;
+                        cmd.Parameters.AddWithValue("@TitleEmbedded", subtitleStream.Title); ;
                         cmd.Parameters.AddWithValue("@Language", subtitleStream.Language);
                         cmd.ExecuteNonQuery();
 
@@ -1050,7 +1051,7 @@ namespace Desene
 
             try
             {
-                if (fileSize2.Trim() != string.Empty && fileSize2.ToUpper().EndsWith("GB") || fileSize2.ToUpper().EndsWith("MB") )
+                if (fileSize2.Trim() != string.Empty && fileSize2.ToUpper().EndsWith("GB") || fileSize2.ToUpper().EndsWith("MB"))
                 {
                     var isGb = fileSize2.ToUpper().IndexOf("GB") > 0;
 
@@ -1202,7 +1203,7 @@ namespace Desene
                             cmd.Parameters.AddWithValue("@FrameRate", videoStream.FrameRate);
                             cmd.Parameters.AddWithValue("@Delay", videoStream.Delay);
                             cmd.Parameters.AddWithValue("@StreamSize", videoStream.StreamSize);
-                            cmd.Parameters.AddWithValue("@TitleEmbedded", videoStream.HasTitle ?  videoStream.Title : string.Empty);
+                            cmd.Parameters.AddWithValue("@TitleEmbedded", videoStream.HasTitle ? videoStream.Title : string.Empty);
                             cmd.Parameters.AddWithValue("@Language", videoStream.Language);
                             cmd.Parameters.AddWithValue("@Id", videoStream.Id);
                             cmd.ExecuteNonQuery();
@@ -1240,7 +1241,7 @@ namespace Desene
                             cmd.Parameters.AddWithValue("@Delay", audioStream.Delay);
                             cmd.Parameters.AddWithValue("@Video_Delay", audioStream.Video_Delay);
                             cmd.Parameters.AddWithValue("@StreamSize", audioStream.StreamSize);
-                            cmd.Parameters.AddWithValue("@TitleEmbedded", audioStream.HasTitle ?  audioStream.Title : string.Empty);
+                            cmd.Parameters.AddWithValue("@TitleEmbedded", audioStream.HasTitle ? audioStream.Title : string.Empty);
                             cmd.Parameters.AddWithValue("@Language", audioStream.Language);
                             cmd.Parameters.AddWithValue("@AudioSource", audioStream.AudioSource);
                             cmd.Parameters.AddWithValue("@Id", audioStream.Id);
@@ -1264,7 +1265,7 @@ namespace Desene
                             cmd = new SqlCeCommand(updateString, conn);
                             cmd.Parameters.AddWithValue("@Format", subtitleStream.Format);
                             cmd.Parameters.AddWithValue("@StreamSize", subtitleStream.StreamSize);
-                            cmd.Parameters.AddWithValue("@TitleEmbedded", subtitleStream.HasTitle ?  subtitleStream.Title : string.Empty);
+                            cmd.Parameters.AddWithValue("@TitleEmbedded", subtitleStream.HasTitle ? subtitleStream.Title : string.Empty);
                             cmd.Parameters.AddWithValue("@Language", subtitleStream.Language);
                             cmd.Parameters.AddWithValue("@Id", subtitleStream.Id);
                             cmd.ExecuteNonQuery();
@@ -1350,22 +1351,22 @@ namespace Desene
                             {
                                 mtd.VideoStreams.Add(
                                     new VideoStreamInfo
-                                        {
-                                            Id = (int)reader["Id"],
-                                            Index = (int)reader["Index"],
-                                            Format = reader["Format"].ToString(),
-                                            Format_Profile = reader["Format_Profile"].ToString(),
-                                            BitRateMode = reader["BitRateMode"].ToString(),
-                                            BitRate = reader["BitRate"].ToString(),
-                                            Width = reader["Width"].ToString(),
-                                            Height = reader["Height"].ToString(),
-                                            FrameRate_Mode = reader["FrameRate_Mode"].ToString(),
-                                            FrameRate = reader["FrameRate"].ToString(),
-                                            Delay = reader["Delay"].ToString(),
-                                            StreamSize = reader["StreamSize"].ToString(),
-                                            Title = reader["TitleEmbedded"].ToString(),
-                                            Language = reader["Language"].ToString()
-                                        });
+                                    {
+                                        Id = (int)reader["Id"],
+                                        Index = (int)reader["Index"],
+                                        Format = reader["Format"].ToString(),
+                                        Format_Profile = reader["Format_Profile"].ToString(),
+                                        BitRateMode = reader["BitRateMode"].ToString(),
+                                        BitRate = reader["BitRate"].ToString(),
+                                        Width = reader["Width"].ToString(),
+                                        Height = reader["Height"].ToString(),
+                                        FrameRate_Mode = reader["FrameRate_Mode"].ToString(),
+                                        FrameRate = reader["FrameRate"].ToString(),
+                                        Delay = reader["Delay"].ToString(),
+                                        StreamSize = reader["StreamSize"].ToString(),
+                                        Title = reader["TitleEmbedded"].ToString(),
+                                        Language = reader["Language"].ToString()
+                                    });
                             }
                         }
 
@@ -1379,22 +1380,22 @@ namespace Desene
                             {
                                 mtd.AudioStreams.Add(
                                     new AudioStreamInfo
-                                        {
-                                            Id = (int)reader["Id"],
-                                            Index = (int)reader["Index"],
-                                            Format = reader["Format"].ToString(),
-                                            BitRate = reader["BitRate"].ToString(),
-                                            Channel = reader["Channel"].ToString(),
-                                            ChannelPosition = reader["ChannelPosition"].ToString(),
-                                            SamplingRate = reader["SamplingRate"].ToString(),
-                                            Resolution = reader["Resolution"].ToString(),
-                                            Delay = reader["Delay"].ToString(),
-                                            Video_Delay = reader["Video_Delay"].ToString(),
-                                            StreamSize = reader["StreamSize"].ToString(),
-                                            Title = reader["TitleEmbedded"].ToString(),
-                                            Language = reader["Language"].ToString(),
-                                            AudioSource = (int)reader["AudioSource"]
-                                        });
+                                    {
+                                        Id = (int)reader["Id"],
+                                        Index = (int)reader["Index"],
+                                        Format = reader["Format"].ToString(),
+                                        BitRate = reader["BitRate"].ToString(),
+                                        Channel = reader["Channel"].ToString(),
+                                        ChannelPosition = reader["ChannelPosition"].ToString(),
+                                        SamplingRate = reader["SamplingRate"].ToString(),
+                                        Resolution = reader["Resolution"].ToString(),
+                                        Delay = reader["Delay"].ToString(),
+                                        Video_Delay = reader["Video_Delay"].ToString(),
+                                        StreamSize = reader["StreamSize"].ToString(),
+                                        Title = reader["TitleEmbedded"].ToString(),
+                                        Language = reader["Language"].ToString(),
+                                        AudioSource = (int)reader["AudioSource"]
+                                    });
                             }
                         }
 
@@ -1408,14 +1409,14 @@ namespace Desene
                             {
                                 mtd.SubtitleStreams.Add(
                                     new SubtitleStreamInfo
-                                        {
-                                            Id = (int)reader["Id"],
-                                            Index = (int)reader["Index"],
-                                            Format = reader["Format"].ToString(),
-                                            StreamSize = reader["StreamSize"].ToString(),
-                                            Title = reader["TitleEmbedded"].ToString(),
-                                            Language = reader["Language"].ToString()
-                                        });
+                                    {
+                                        Id = (int)reader["Id"],
+                                        Index = (int)reader["Index"],
+                                        Format = reader["Format"].ToString(),
+                                        StreamSize = reader["StreamSize"].ToString(),
+                                        Title = reader["TitleEmbedded"].ToString(),
+                                        Language = reader["Language"].ToString()
+                                    });
                             }
                         }
                     }
@@ -1940,17 +1941,17 @@ namespace Desene
                         WHERE fd.ParentId > 0
                         ORDER BY ParentId, Season, FileName", conn);
 
-                        /*
-                        LEFT JOIN (
-                            SELECT FileDetailId, MIN(Id) AS MinId
-                            FROM Thumbnails
-                            GROUP BY FileDetailId
-                        ) t on t.FileDetailId = fd.Id
+                    /*
+                    LEFT JOIN (
+                        SELECT FileDetailId, MIN(Id) AS MinId
+                        FROM Thumbnails
+                        GROUP BY FileDetailId
+                    ) t on t.FileDetailId = fd.Id
 
-                        +
+                    +
 
-                        IsNUll -> Has/Not Thumbnails
-                     */
+                    IsNUll -> Has/Not Thumbnails
+                 */
 
                     using (var reader = commandSource.ExecuteReader())
                     {
@@ -2015,7 +2016,7 @@ namespace Desene
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var x = 1;
             }
@@ -2023,7 +2024,7 @@ namespace Desene
             return result;
         }
 
-        public static void FillSeriesDataFromEpisodes(ref List<SeriesForWeb> series ,
+        public static void FillSeriesDataFromEpisodes(ref List<SeriesForWeb> series,
             List<EpisodesForWeb> episodes)
         {
             foreach (var s in series)

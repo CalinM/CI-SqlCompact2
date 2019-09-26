@@ -20,13 +20,26 @@ namespace Desene.DetailFormsAndUserControls
     public partial class ucMovieInfo : UserControl
     {
         private BindingSource _bsControlsData;
-        private bool _isEdit;
+        private bool _isNew;
+        public byte[] TmpPoster; //used when a poster is dragged before initializing the DAL.NewMTD object
 
-        public ucMovieInfo(bool b = true)
+        public ucMovieInfo()
         {
             InitializeComponent();
-            _isEdit = b;
 
+            PostConstructor();
+        }
+
+        public ucMovieInfo(bool isNew)
+        {
+            InitializeComponent();
+            _isNew = isNew;
+
+            PostConstructor();
+        }
+
+        private void PostConstructor()
+        {
             InitControls();
 
             cbTheme.MouseWheel += Utils.Helpers.Combobox_OnMouseWheel;
@@ -36,8 +49,8 @@ namespace Desene.DetailFormsAndUserControls
         private void ucMovieInfo_Load(object sender, EventArgs e)
         {
             tbmDuration.ValidatingType = typeof(TimeSpan);
-            tbDummyForFocus.Location = new Point( tbNotes.Left + 10, tbNotes.Top + 10);
-            tbSizeAsInt.Location = new Point( tbSize.Left + 10, tbSize.Top);
+            tbDummyForFocus.Location = new Point(tbNotes.Left + 10, tbNotes.Top + 10);
+            tbSizeAsInt.Location = new Point(tbSize.Left + 10, tbSize.Top);
         }
 
         private void InitControls()
@@ -150,7 +163,7 @@ namespace Desene.DetailFormsAndUserControls
 
         private void LoadControls2()
         {
-            SetPoster(DAL.CurrentMTD.Poster, false);
+            SetPoster(DAL.CurrentMTD.Poster);
 
             var vsUC = Controls.OfType<UserControl>().FirstOrDefault(uc => uc.Tag != null && uc.Tag.ToString() == "videoStreams");
             if (vsUC == null)
@@ -158,10 +171,10 @@ namespace Desene.DetailFormsAndUserControls
                 Utils.Helpers.AddSectionHeader(this, "Video stream(s)", "V");
 
                 var ucVideoStreams = new ucGenericStreamsWrapper(DAL.CurrentMTD.VideoStreams)
-                                            {
-                                                Dock = DockStyle.Top,
-                                                Tag = "videoStreams"
-                                            };
+                {
+                    Dock = DockStyle.Top,
+                    Tag = "videoStreams"
+                };
 
                 Controls.Add(ucVideoStreams);
                 ucVideoStreams.BringToFront();
@@ -178,10 +191,10 @@ namespace Desene.DetailFormsAndUserControls
                 Utils.Helpers.AddSectionHeader(this, "Audio stream(s)", "A");
 
                 var ucAudioStreams = new ucGenericStreamsWrapper(DAL.CurrentMTD.AudioStreams)
-                                            {
-                                                Dock = DockStyle.Top,
-                                                Tag = "audioStreams"
-                                            };
+                {
+                    Dock = DockStyle.Top,
+                    Tag = "audioStreams"
+                };
 
                 Controls.Add(ucAudioStreams);
                 ucAudioStreams.BringToFront();
@@ -199,10 +212,10 @@ namespace Desene.DetailFormsAndUserControls
                     Utils.Helpers.AddSectionHeader(this, "Subtitle stream(s)", "S");
 
                     var ucSubtitleStreams = new ucGenericStreamsWrapper(DAL.CurrentMTD.SubtitleStreams)
-                                                {
-                                                    Dock = DockStyle.Top,
-                                                    Tag = "subtitleStreams"
-                                                };
+                    {
+                        Dock = DockStyle.Top,
+                        Tag = "subtitleStreams"
+                    };
 
                     Controls.Add(ucSubtitleStreams);
                     ucSubtitleStreams.BringToFront();
@@ -257,7 +270,7 @@ namespace Desene.DetailFormsAndUserControls
             //pMovieDetail.Size = new Size(pMovieDetail.Width, anyVisible ? 865 : 555);
         }
 
-        public void SetPoster(byte[] bytes, bool isNew)
+        public void SetPoster(byte[] bytes)
         {
             if (bytes == null)
             {
@@ -272,7 +285,14 @@ namespace Desene.DetailFormsAndUserControls
                 }
             }
 
-            if (!isNew)
+            if (_isNew)
+            {
+                if (DAL.NewMTD == null)
+                    TmpPoster = bytes;
+                else
+                    DAL.NewMTD.Poster = bytes;
+            }
+            else
                 DAL.CurrentMTD.Poster = bytes;
         }
 
@@ -319,7 +339,7 @@ namespace Desene.DetailFormsAndUserControls
 
         private void tbmDuration_KeyUp(object sender, KeyEventArgs e)
         {
-           Helpers.UnsavedChanges = true;
+            Helpers.UnsavedChanges = true;
         }
 
         private void tbmDuration_TypeValidationCompleted(object sender, TypeValidationEventArgs e)
@@ -354,7 +374,7 @@ namespace Desene.DetailFormsAndUserControls
                     img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
                     ms.Close();
                     var poster = ms.ToArray();
-                    SetPoster(poster, true);
+                    SetPoster(poster);
                 }
 
                 Helpers.UnsavedChanges = true;

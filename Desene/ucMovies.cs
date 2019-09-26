@@ -328,7 +328,7 @@ namespace Desene
                 Helpers.UnsavedChanges = false; //this setter takes care of the buttons states!
 
                 var index = DAL.MoviesData.IndexOf(_previousSelectedMsi);
-                var newIndex = index == DAL.MoviesData.Count-1
+                var newIndex = index == DAL.MoviesData.Count - 1
                     ? index - 1
                     : index;
 
@@ -380,7 +380,7 @@ namespace Desene
                     var bytes = new byte[file.Length];
                     file.Read(bytes, 0, (int)file.Length);
 
-                    ((ucMovieInfo)prevInstance[0]).SetPoster(bytes, false);
+                    ((ucMovieInfo)prevInstance[0]).SetPoster(bytes);
                 }
 
                 Helpers.UnsavedChanges = true;
@@ -560,14 +560,14 @@ namespace Desene
 
         private void scMovies_MouseDown(object sender, MouseEventArgs e)
         {
-           // Get the focused control before the splitter is focused
-           focused = getFocused(Controls);
+            // Get the focused control before the splitter is focused
+            focused = getFocused(Controls);
         }
 
         private Control getFocused(ControlCollection controls)
         {
-           foreach (Control c in controls)
-           {
+            foreach (Control c in controls)
+            {
                 if (c.Focused)
                 {
                     // Return the focused control
@@ -580,22 +580,22 @@ namespace Desene
                     // return the child
                     return getFocused(c.Controls);
                 }
-           }
+            }
 
-           // No control on the form has focus
-           return null;
+            // No control on the form has focus
+            return null;
         }
 
         private void scMovies_MouseUp(object sender, MouseEventArgs e)
         {
-          // If a previous control had focus
-           if (focused != null)
-           {
-              // Return focus and clear the temp variable for
-              // garbage collection
-              focused.Focus();
-              focused = null;
-           }
+            // If a previous control had focus
+            if (focused != null)
+            {
+                // Return focus and clear the temp variable for
+                // garbage collection
+                focused.Focus();
+                focused = null;
+            }
         }
 
         #endregion
