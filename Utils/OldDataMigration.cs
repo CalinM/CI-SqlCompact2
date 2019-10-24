@@ -382,7 +382,7 @@ namespace Utils
                                 cmd.Parameters.AddWithValue("@LastChangeDate", DBNull.Value);
 
                             cmd.Parameters.AddWithValue("@Recommended", reader["Recomandat"].ToString());
-                            cmd.Parameters.AddWithValue("@RecommendedLink", reader["RecomandatLink"].ToString() != "0" ?  reader["RecomandatLink"].ToString() : string.Empty);
+                            cmd.Parameters.AddWithValue("@RecommendedLink", reader["RecomandatLink"].ToString() != "0" ? reader["RecomandatLink"].ToString() : string.Empty);
 
                             var obsList = new List<string>
                                             {
@@ -525,7 +525,7 @@ namespace Utils
                                 cmd.Parameters.AddWithValue("@LastChangeDate", DBNull.Value);
 
                             cmd.Parameters.AddWithValue("@Recommended", reader["Recomandat"].ToString());
-                            cmd.Parameters.AddWithValue("@RecommendedLink", reader["RecomandatLink"].ToString() != "0" ?  reader["RecomandatLink"].ToString() : string.Empty);
+                            cmd.Parameters.AddWithValue("@RecommendedLink", reader["RecomandatLink"].ToString() != "0" ? reader["RecomandatLink"].ToString() : string.Empty);
                             cmd.Parameters.AddWithValue("@DescriptionLink", reader["MoreInfo"].ToString());
                             cmd.Parameters.AddWithValue("@Notes", reader["Obs"].ToString());
 
@@ -587,12 +587,59 @@ namespace Utils
 
             return result;
         }
+
+
+        public static OperationResult ConvertThemeToEnum()
+        {
+            var result = new OperationResult();
+
+            using (var conn = new SqlCeConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+                var tx = conn.BeginTransaction();
+
+                try
+                {
+                    try
+                    {
+                        var updateSQL = @"
+                            UPDATE FileDetail
+                               SET Theme =
+   	                            CASE Theme
+   		                            WHEN 'Craciun' THEN 1
+   		                            WHEN 'Helloween' THEN 2
+   		                            WHEN 'Iarna' THEN 3
+   		                            WHEN 'Pasti' THEN 4
+   		                            WHEN 'Sinterklass' THEN 5
+   		                            WHEN 'Valentine''s day' THEN 6
+   		                            ELSE 0
+	                            END";
+
+                        //var cmd = new SqlCeCommand(updateSQL, conn);
+                        //cmd.ExecuteNonQuery();
+                        using (var cmd = new SqlCeCommand(updateSQL, conn))
+                            cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        tx.Rollback();
+                        return result.FailWithMessage(ex);
+                    }
+                }
+                finally
+                {
+                    tx.Commit();
+                }
+            }
+
+            return result;
+        }
     }
 
     class ShortToLongUrl
     {
         public string ShortUrl { get; set; }
-        public string LongUrl {get; set;}
+        public string LongUrl { get; set; }
 
         public static ShortToLongUrl FromCsv(string csvLine)
         {

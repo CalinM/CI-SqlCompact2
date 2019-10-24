@@ -1,6 +1,6 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace Common
@@ -35,6 +35,24 @@ namespace Common
         ScreenRecording = 5,
     }
 
+    public enum MovieTheme
+    {
+        None = 0,
+
+        Christmas = 1,
+
+        Halloween = 2,
+
+        Winter = 3,
+
+        Easter = 4,
+
+        Sinterklaas = 5,
+
+        [Description("Valentine's Day")]
+        ValentinesDay = 6
+    }
+
     public class EnumSelectorHelper
     {
         public int Index { get; set; }
@@ -57,7 +75,25 @@ namespace Common
                     Text = x.ToString()
                 })
                 .ToList();
-                //.AsReadOnly();
+        }
+
+        public static List<EnumSelectorHelper> EnumDescToList<T>() where T : struct
+        {
+            var result = new List<EnumSelectorHelper>();
+
+            foreach (var value in Enum.GetValues(typeof(T)).Cast<T>())
+            {
+                var fieldInfo = value.GetType().GetField(value.ToString());
+                var attribute = (DescriptionAttribute)Attribute.GetCustomAttribute(fieldInfo, typeof(DescriptionAttribute));
+
+                result.Add(new EnumSelectorHelper
+                {
+                    Index = Convert.ToInt32(value),
+                    Text = attribute != null && attribute.Description.Length > 0 ? attribute.Description : value.ToString()
+                });
+            }
+
+            return result;
         }
     }
 }

@@ -39,6 +39,7 @@ namespace Desene
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
+            //using MessageBox instead of MsgBox because the "owner" is not available yet
             if (!File.Exists("CartoonsRepo.sdf"))
             {
                 var opRes = DatabaseOperations.CreateDatabase();
@@ -59,6 +60,21 @@ namespace Desene
             pMainContainer.Controls.Clear();
 
             DAL.LoadBaseDbValues();
+            ////if (DAL.CheckOldThemeUsage())
+            ////{
+            ////    if (MessageBox.Show("Old 'Theme' (movies) system usage has been detected. Press 'Ok' to update it to the new version!", "Info",
+            ////            MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2) == DialogResult.Cancel)
+            ////    {
+            ////        Close();
+            ////        return;
+            ////    }
+
+            ////    var opRes = OldDataMigration.ConvertThemeToEnum();
+            ////    if (!opRes.Success)
+            ////    {
+            ////        MessageBox.Show(opRes.CustomErrorMessage, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            ////    }
+            ////}
 
             LoadMainWindowConfig();
         }
@@ -115,7 +131,7 @@ namespace Desene
 
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             var buildDate = new DateTime(2010, 1, 1).AddDays(version.Revision);
-            Text = "Movies Indexer v"+ string.Format("{0} (build date {1})", version, buildDate.ToString("dd.MM.yyyy"));
+            Text = "Movies Indexer v" + string.Format("{0} (build date {1})", version, buildDate.ToString("dd.MM.yyyy"));
         }
 
         private void miMovies_Click(object sender, EventArgs e)
@@ -436,11 +452,11 @@ namespace Desene
                         cmd4.Parameters.AddWithValue("@NlAudioSource", "done - " + nlSourceVal);
                         cmd4.Parameters.AddWithValue("@FileDetailId", fileId);
                         cmd4.ExecuteNonQuery();
-                        var x =1;
+                        var x = 1;
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -1023,6 +1039,26 @@ namespace Desene
         private void PMainContainer_Resize(object sender, EventArgs e)
         {
             pMainContainer.Refresh();
+        }
+
+        private void btnGenerateCatalog_Click(object sender, EventArgs e)
+        {
+
+            var genParams = new FrmPDFCatalogGenParams() { Owner = this };
+            if (genParams.ShowDialog() != DialogResult.OK)
+                return;
+
+            var opRes = PdfGenerator.CreateCatalog(genParams.PdfGenParams);
+            if (!opRes.Success)
+            {
+                MessageBox.Show(
+                    string.Format("The following error occurred while creating the catalog (1):{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
+                    "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                MessageBox.Show("Done");
+            }
         }
 
         //public Encoding GetEncoding(string filename)

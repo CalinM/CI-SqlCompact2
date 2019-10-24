@@ -43,7 +43,9 @@ namespace Desene
             this.btnAdd = new System.Windows.Forms.ToolStripButton();
             this.btnDelete = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnGenerateHtml = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.btnGenerateHtml = new System.Windows.Forms.ToolStripMenuItem();
+            this.miGeneratePdf = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.btnFilesDetails = new System.Windows.Forms.ToolStripButton();
             this.btnBuildFileNames = new System.Windows.Forms.ToolStripButton();
@@ -72,7 +74,7 @@ namespace Desene
             this.btnAdd,
             this.btnDelete,
             this.toolStripSeparator2,
-            this.btnGenerateHtml,
+            this.toolStripDropDownButton1,
             this.toolStripSeparator3,
             this.btnFilesDetails,
             this.btnBuildFileNames});
@@ -175,14 +177,33 @@ namespace Desene
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnGenerateHtml,
+            this.miGeneratePdf});
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(67, 22);
+            this.toolStripDropDownButton1.Text = "Generate";
+            // 
             // btnGenerateHtml
             // 
             this.btnGenerateHtml.Image = global::Desene.Properties.Resources.generateHtml;
-            this.btnGenerateHtml.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnGenerateHtml.Name = "btnGenerateHtml";
-            this.btnGenerateHtml.Size = new System.Drawing.Size(110, 22);
+            this.btnGenerateHtml.Size = new System.Drawing.Size(157, 22);
             this.btnGenerateHtml.Text = "Generate HTML";
             this.btnGenerateHtml.Click += new System.EventHandler(this.btnGenerateHtml_Click);
+            // 
+            // miGeneratePdf
+            // 
+            this.miGeneratePdf.Image = global::Desene.Properties.Resources.generatePdf;
+            this.miGeneratePdf.Name = "miGeneratePdf";
+            this.miGeneratePdf.Size = new System.Drawing.Size(157, 22);
+            this.miGeneratePdf.Text = "Generate PDF";
+            this.miGeneratePdf.Click += new System.EventHandler(this.btnGenerateCatalog_Click);
             // 
             // toolStripSeparator3
             // 
@@ -346,7 +367,6 @@ namespace Desene
         private System.Windows.Forms.ToolStripButton btnAdd;
         private System.Windows.Forms.ToolStripButton btnDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripButton btnGenerateHtml;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.Panel pMainContainer;
         private System.Windows.Forms.Button button2;
@@ -362,6 +382,9 @@ namespace Desene
         private System.Windows.Forms.ToolStripButton btnFilesDetails;
         private System.Windows.Forms.ToolStripButton btnBuildFileNames;
         private System.Windows.Forms.ToolStripMenuItem miCollections;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripMenuItem btnGenerateHtml;
+        private System.Windows.Forms.ToolStripMenuItem miGeneratePdf;
     }
 }
 

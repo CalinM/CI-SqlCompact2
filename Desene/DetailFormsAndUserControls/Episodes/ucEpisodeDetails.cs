@@ -91,10 +91,10 @@ namespace Desene.DetailFormsAndUserControls
                     Utils.Helpers.AddSectionHeader(this, "Video stream(s)", "V");
 
                     var ucVideoStreams = new ucGenericStreamsWrapper(DAL.CurrentMTD.VideoStreams)
-                                             {
-                                                 Dock = DockStyle.Top,
-                                                 Tag = "videoStreams"
-                                             };
+                    {
+                        Dock = DockStyle.Top,
+                        Tag = "videoStreams"
+                    };
 
                     Controls.Add(ucVideoStreams);
                     ucVideoStreams.BringToFront();
@@ -111,10 +111,10 @@ namespace Desene.DetailFormsAndUserControls
                     Utils.Helpers.AddSectionHeader(this, "Audio stream(s)", "A");
 
                     var ucAudioStreams = new ucGenericStreamsWrapper(DAL.CurrentMTD.AudioStreams)
-                                             {
-                                                 Dock = DockStyle.Top,
-                                                 Tag = "audioStreams"
-                                             };
+                    {
+                        Dock = DockStyle.Top,
+                        Tag = "audioStreams"
+                    };
 
                     Controls.Add(ucAudioStreams);
                     ucAudioStreams.BringToFront();
@@ -132,10 +132,10 @@ namespace Desene.DetailFormsAndUserControls
                         Utils.Helpers.AddSectionHeader(this, "Subtitle stream(s)", "S");
 
                         var ucSubtitleStreams = new ucGenericStreamsWrapper(DAL.CurrentMTD.SubtitleStreams)
-                                                    {
-                                                        Dock = DockStyle.Top,
-                                                        Tag = "subtitleStreams"
-                                                    };
+                        {
+                            Dock = DockStyle.Top,
+                            Tag = "subtitleStreams"
+                        };
 
                         Controls.Add(ucSubtitleStreams);
                         ucSubtitleStreams.BringToFront();
@@ -172,7 +172,7 @@ namespace Desene.DetailFormsAndUserControls
             _bsControlsData = new BindingSource();
 
             cbQuality.DataSource = Enum.GetValues(typeof(Quality));
-            LoadThemesInControl();
+            cbTheme.DataSource = DAL.MovieThemes;
 
             tbEpisodeName.DataBindings.Add("Text", _bsControlsData, "FileName");
             cbQuality.DataBindings.Add("Text", _bsControlsData, "Quality");
@@ -190,16 +190,15 @@ namespace Desene.DetailFormsAndUserControls
             chbHasEmbeddedTitle.DataBindings.Add("Checked", _bsControlsData, "HasTitle");
         }
 
-        public void LoadThemesInControl(bool refreshText = false)
+        public void RefreshAfterSave()
         {
+            //if a new Theme has been added, it must be placed in list
             cbTheme.DataSource = null;
             cbTheme.DataSource = DAL.MovieThemes;
+            cbTheme.Text = DAL.CurrentMTD.Theme;
 
-            if (refreshText)
-                cbTheme.Text = DAL.CurrentMTD.Theme;
-
-            //after a Save operation, it refreshed the AudioSummary and SubtitleSummary
-            if (tbAudioSummary.DataBindings.Count > 0 && refreshText)
+            //after a Save operation made after a FileDetails refresh, AudioSummary and SubtitleSummary must be manually refreshed
+            if (tbAudioSummary.DataBindings.Count > 0)
             {
                 tbAudioSummary.DataBindings[0].ReadValue();
                 tbSubtitleSummary.DataBindings[0].ReadValue();

@@ -234,21 +234,6 @@ namespace Utils
             return result;
         }
 
-        private static Image CreatePosterThumbnail(int width, int height, Image source)
-        {
-            var newImage = new Bitmap(width, height);
-
-            using (Graphics gr = Graphics.FromImage(newImage))
-            {
-                gr.SmoothingMode = SmoothingMode.HighQuality;
-                gr.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                gr.DrawImage(source, new Rectangle(0, 0, width, height));
-            }
-
-            return newImage;
-        }
-
         private static void formPI_DoWork_GenerateSitePosters_Movies(FrmProgressIndicator sender, DoWorkEventArgs e)
         {
             var siteGenDetails = (KeyValuePair<SiteGenParams, List<MovieForWeb>>)e.Argument;
@@ -277,7 +262,7 @@ namespace Utils
 
                     using (var ms = new MemoryStream(cover))
                     {
-                        var imgOgj = CreatePosterThumbnail(250, 388, Image.FromStream(ms));
+                        var imgOgj = GraphicsHelpers.CreatePosterThumbnail(250, 388, Image.FromStream(ms));
 
                         imgOgj.Save(fileName, ImageFormat.Jpeg);
                     }
@@ -324,7 +309,7 @@ namespace Utils
 
                     using (var ms = new MemoryStream(cover))
                     {
-                        var imgOgj = CreatePosterThumbnail(250, 388, Image.FromStream(ms));
+                        var imgOgj = GraphicsHelpers.CreatePosterThumbnail(250, 388, Image.FromStream(ms));
 
                         imgOgj.Save(fileName, ImageFormat.Jpeg);
                     }

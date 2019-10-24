@@ -436,7 +436,7 @@ namespace Desene
             if (Helpers.UnsavedChanges && !SaveChanges())
                 return;
 
-            using (var rParam = new FrmMTDFromFile(true, false) { Owner = _parent })
+            using (var rParam = new FrmMTDFromFile(false, false) { Owner = _parent })
             {
                 if (rParam.ShowDialog() != DialogResult.OK)
                     return;
@@ -516,6 +516,11 @@ namespace Desene
         private void btnSaveChanges_Click(object sender, EventArgs e)
         {
             SaveChanges();
+
+            var prevInstance = pMovieDetailsContainer.Controls.Find("ucMovieInfo", false);
+
+            if (prevInstance.Any())
+                ((ucMovieInfo)prevInstance[0]).RefreshAfterSave();
         }
 
         private bool SaveChanges()

@@ -311,7 +311,10 @@ namespace Desene
 
             var prevInstance = pSeriesDetailsContainer.Controls.Find("ucEpisodeDetails", false);
             if (prevInstance.Any())
-                ((ucEpisodeDetails)prevInstance[0]).LoadThemesInControl(true);
+            {
+                //((ucEpisodeDetails)prevInstance[0]).LoadThemesInControl();
+                ((ucEpisodeDetails)prevInstance[0]).RefreshAfterSave();
+            }
         }
 
         private OperationResult SaveChanges()

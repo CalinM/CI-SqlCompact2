@@ -65,7 +65,7 @@ namespace Desene.DetailFormsAndUserControls
             tbYear.DataBindings.Add("Text", _bsControlsData, "Year");
 
             cbQuality.DataSource = Enum.GetValues(typeof(Quality));
-            LoadThemesInControl();
+            cbTheme.DataSource = DAL.MovieThemes;
 
             cbQuality.DataBindings.Add("Text", _bsControlsData, "Quality");
             tbSizeAsInt.DataBindings.Add("Text", _bsControlsData, "FileSize"); //SizeAsInt on RefreshControl ... see comment!
@@ -83,18 +83,15 @@ namespace Desene.DetailFormsAndUserControls
             chbTitle.DataBindings.Add("Checked", _bsControlsData, "HasTitle");
         }
 
-        public void LoadThemesInControl(bool refreshText = false)
+        public void RefreshAfterSave()
         {
+            //if a new Theme has been added, it must be placed in list
             cbTheme.DataSource = null;
             cbTheme.DataSource = DAL.MovieThemes;
+            cbTheme.Text = DAL.CurrentMTD.Theme;
 
-            if (refreshText)
-                cbTheme.Text = DAL.CurrentMTD.Theme;
-            //else
-            //    cbTheme.Text = string.Empty;
-
-            //after a Save operation, it refreshed the AudioSummary and SubtitleSummary
-            if (tbAudioSummary.DataBindings.Count > 0 && refreshText)
+            //after a Save operation made after a FileDetails refresh, AudioSummary and SubtitleSummary must be manually refreshed
+            if (tbAudioSummary.DataBindings.Count > 0)
             {
                 tbAudioSummary.DataBindings[0].ReadValue();
                 tbSubtitleSummary.DataBindings[0].ReadValue();

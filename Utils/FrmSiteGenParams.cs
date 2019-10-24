@@ -14,7 +14,7 @@ namespace Utils
         public FrmSiteGenParams(string lastPath)
         {
             _lastPath = lastPath;
-            
+
             InitializeComponent();
         }
 
@@ -24,7 +24,7 @@ namespace Utils
             {
                 if (tbFilesLocation.Text == string.Empty)
                     lbLocation.ForeColor = Color.Red;
-              
+
                 MsgBox.Show("Please specify all required site generation parameters!", @"Error", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
 

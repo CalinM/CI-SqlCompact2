@@ -89,27 +89,7 @@ namespace Desene
                 Settings.Default.LastCoverPath = Path.GetFullPath(openFileDialog.FileName);
                 Settings.Default.Save();
 
-                SetNewPoster(openFileDialog.FileName);
-            }
-        }
-
-        private void SetNewPoster(string imgPath)
-        {
-            try
-            {
-                using (Image img = Image.FromFile(imgPath))
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                    ms.Close();
-
-                    //DAL.NewMTD.Poster = ms.ToArray();
-                    ucMovieInfo1.SetPoster(DAL.NewMTD.Poster);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
+                ucMovieInfo1.SetNewPoster(openFileDialog.FileName);
             }
         }
 

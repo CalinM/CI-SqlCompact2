@@ -65,7 +65,7 @@ namespace Utils
 
             Text = caption;
             progressBar.Maximum = filesCount;
-            lbInfoMessage.Text = @"Initializing ...";
+            lbInfoMessage.Text = infoMessage;//@"Initializing ...";
 
             worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
@@ -89,6 +89,7 @@ namespace Utils
                 worker.ReportProgress(progressBar.Minimum - 1, status);
             }
         }
+
         /// <summary>
         /// Changes the progress bar value only.
         /// </summary>

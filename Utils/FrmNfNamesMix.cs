@@ -177,25 +177,25 @@ namespace Utils
                             MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes;
                 }
 
-                if (replaceSlashWithAnd)
-                {
-                    _fileNamesMix =
-                        _fileNamesMix
-                            .Select(s =>
-                                s.Replace(": ", " - ")
-                                 .Replace(" : ", " - ")
-                                 .Replace(" :", " - ")
-                                 .Replace(":", " - ")
-                                 .Replace("?", string.Empty)
-                                 .Replace("\"", "'")
-                                 .Replace("*", string.Empty)
-                                 .Replace("\\", string.Empty)
-                                 .Replace("/", replaceSlashWithAnd ? "&" : string.Empty)
-                                 .Replace("|", string.Empty)
-                                 .Replace("<", "[")
-                                 .Replace(">", "]"))
-                            .ToList();
-                }
+                //if (replaceSlashWithAnd)
+                //{
+                _fileNamesMix =
+                    _fileNamesMix
+                        .Select(s =>
+                            s.Replace(": ", " - ")
+                             .Replace(" : ", " - ")
+                             .Replace(" :", " - ")
+                             .Replace(":", " - ")
+                             .Replace("?", string.Empty)
+                             .Replace("\"", "'")
+                             .Replace("*", string.Empty)
+                             .Replace("\\", string.Empty)
+                             .Replace("/", replaceSlashWithAnd ? "&" : string.Empty)
+                             .Replace("|", string.Empty)
+                             .Replace("<", "[")
+                             .Replace(">", "]"))
+                        .ToList();
+                //}
 
                 if (isPreview)
                 {

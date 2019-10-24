@@ -2275,7 +2275,44 @@ namespace Desene
             return result;
         }
 
-        public static string GetMoviesDetails2()
+        //public static string GetMoviesDetails2()
+        //{
+        //    var result = new List<MovieForWeb>();
+
+        //    using (var conn = new SqlCeConnection(Constants.ConnectionString))
+        //    {
+        //        conn.Open();
+
+        //        var commandSource = new SqlCeCommand(@"
+        //            SELECT
+        //                vs.BitRate,
+        //             CASE
+        //                    WHEN Poster IS NULL THEN CONVERT(BIT, 0)
+        //                    ELSE CONVERT(BIT, 1)
+        //             END AS HasPoster,
+        //                fd.*
+        //            FROM FileDetail fd
+        //             LEFT OUTER JOIN VideoStream vs ON fd.Id = vs.FileDetailId
+        //            WHERE ParentId IS NULL ORDER BY FileName", conn);
+
+        //        using (var reader = commandSource.ExecuteReader())
+        //        {
+        //            while (reader.Read())
+        //            {
+        //                var duration =
+        //                    reader["Duration"] != DBNull.Value
+        //                        ? (DateTime?)reader["Duration"]
+        //                        : null;
+
+        //                var mfw = new MovieForWeb();
+        //            }
+        //        }
+        //    }
+
+        //    return "";
+        //}
+
+        public static List<MovieForWeb> GetMoviesForWeb(bool loadPoster = false, PDFGenType pdfGenType = PDFGenType.All)
         {
             var result = new List<MovieForWeb>();
 
@@ -2283,7 +2320,7 @@ namespace Desene
             {
                 conn.Open();
 
-                var commandSource = new SqlCeCommand(@"
+                var commandSource = new SqlCeCommand(string.Format(@"
                     SELECT
                         vs.BitRate,
 	                    CASE
@@ -2293,7 +2330,13 @@ namespace Desene
                         fd.*
                     FROM FileDetail fd
 	                    LEFT OUTER JOIN VideoStream vs ON fd.Id = vs.FileDetailId
-                    WHERE ParentId IS NULL ORDER BY FileName", conn);
+                    WHERE ParentId IS NULL {0} ORDER BY FileName",
+                    pdfGenType == PDFGenType.Christmas
+                        ? "AND Theme = 'Craciun'"
+                        : pdfGenType == PDFGenType.Helloween
+                            ? "AND Theme = 'Helloween'"
+                            : string.Empty
+                    ), conn);
 
                 using (var reader = commandSource.ExecuteReader())
                 {
@@ -2305,11 +2348,94 @@ namespace Desene
                                 : null;
 
                         var mfw = new MovieForWeb();
+                        mfw.Id = (int)reader["Id"];
+                        mfw.FN = reader["FileName"].ToString();
+                        mfw.R = reader["Recommended"].ToString();
+                        mfw.RL = reader["RecommendedLink"].ToString();
+                        mfw.Y = reader["Year"].ToString();
+                        mfw.Q = reader["Quality"].ToString();
+                        mfw.S = reader["FileSize2"].ToString();
+                        mfw.B = reader["BitRate"].ToString();
+                        mfw.L = duration == null ? "?" : ((DateTime)duration).ToString("HH:mm:ss");
+                        mfw.A = reader["AudioLanguages"].ToString();
+                        mfw.SU = reader["SubtitleLanguages"].ToString();
+
+                        mfw.DL = reader["DescriptionLink"].ToString();
+                        mfw.T = reader["Theme"].ToString();
+                        mfw.N = reader["Notes"].ToString();
+                        mfw.Nl = string.Empty;
+                        mfw.Tr = GetTrailerId(reader["Trailer"].ToString());
+
+                        //mfw.Cover = reader["Poster"] == DBNull.Value ? null : (byte[])reader["Poster"];
+                        mfw.HasPoster = (bool)reader["HasPoster"];
+
+                        if (loadPoster && mfw.HasPoster)
+                            mfw.Cover = (byte[])reader["Poster"];
+
+                        var insertedDate =
+                            reader["InsertedDate"] == DBNull.Value //SD or bad imports
+                                ? new DateTime(1970, 1, 1)
+                                : (DateTime)reader["InsertedDate"];
+
+                        mfw.InsertedDate = insertedDate;
+
+                        mfw.LastChangeDate =
+                            reader["LastChangeDate"] == DBNull.Value
+                                ? insertedDate
+                                : (DateTime)reader["LastChangeDate"];
+
+                        result.Add(mfw);
                     }
                 }
             }
 
-            return "";
+            return result;
+        }
+
+        public static int GetCount(bool forMovies, PDFGenType pdfGenType = PDFGenType.All)
+        {
+            var result = -1;
+
+            try
+            {
+                using (var conn = new SqlCeConnection(Constants.ConnectionString))
+                {
+                    conn.Open();
+
+                    var sqlStrig =
+                        forMovies
+                            ? string.Format(@"SELECT
+                                    COUNT(1) AS CNT
+                                FROM FileDetail fd
+                                WHERE ParentId IS NULL {0}",
+                                pdfGenType == PDFGenType.Christmas
+                                    ? "AND Theme = 'Craciun'"
+                                    : pdfGenType == PDFGenType.Helloween
+                                        ? "AND Theme = 'Helloween'"
+                                        : string.Empty
+                                )
+                            : @"SELECT
+                                    COUNT(1) AS CNT
+                                FROM FileDetail fd
+                                WHERE ParentId = -1";
+
+                    var commandSource = new SqlCeCommand(sqlStrig, conn);
+
+                    using (var reader = commandSource.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            return (int)reader["CNT"];
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                result = -2;
+            }
+
+            return result;
         }
     }
 }

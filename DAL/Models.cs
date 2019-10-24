@@ -22,7 +22,7 @@ namespace DAL
         public string Theme { get; set; }
         public string Quality { get; set; }
         public int Season { get; set; }
-        public int SeriesId {get; set;}
+        public int SeriesId { get; set; }
 
         public bool IsSeries { get; set; }
         public bool IsSeason { get; set; }
@@ -125,7 +125,7 @@ namespace DAL
         public List<VideoStreamInfo> VideoStreams { get; set; }
         public List<AudioStreamInfo> AudioStreams { get; set; }
         public List<SubtitleStreamInfo> SubtitleStreams { get; set; }
-        public List<byte[]> MovieStills {get; set;}
+        public List<byte[]> MovieStills { get; set; }
 
 
         public MovieTechnicalDetails()
@@ -285,7 +285,7 @@ namespace DAL
     public class MovieForWeb
     {
         public int Id { get; set; }
-        public string FN{ get; set; }   //FileName  *        ~   Titlu
+        public string FN { get; set; }   //FileName  *        ~   Titlu
         public string R { get; set; }   //Recommended  *     ~   Recomandat
         public string RL { get; set; }  //RecommendedLink *  ~   RecomandatLink
         public string Y { get; set; }   //Year  *            ~   An
@@ -319,7 +319,7 @@ namespace DAL
     public class SeriesForWeb
     {
         public int Id { get; set; }
-        public string FN{ get; set; }   //FileName          ~   Titlu
+        public string FN { get; set; }   //FileName          ~   Titlu
         public string R { get; set; }   //Recommended       ~   Recomandat
         public string RL { get; set; }  //RecommendedLink   ~   RecomandatLink
         public string DL { get; set; }  //DescriptionLink   ~   MoreInfo
@@ -343,8 +343,8 @@ namespace DAL
     {
         public int Id { get; set; }
         public int SId { get; set; }    //ParentId          ~   SerialId
-        public string FN{ get; set; }   //FileName          ~   Titlu
-        public int SZ {get; set; }      //Season            ~   Sezon
+        public string FN { get; set; }   //FileName          ~   Titlu
+        public int SZ { get; set; }      //Season            ~   Sezon
         public string Y { get; set; }   //Year              ~   An
         public string Q { get; set; }   //Quality           ~   Calitate
         public string L { get; set; }   //DurationFormatted ~   Durata
@@ -417,9 +417,23 @@ namespace DAL
     }
 
     public class SectionStatistics
-    { 
+    {
         public List<StatisticEl> SectionElements { get; set; }
 
-        //public string 
+        //public string
+    }
+
+    public class PdfGenParams
+    {
+        public string FileName { get; set; }
+        public PDFGenType PDFGenType { get; set; }
+        public bool ForMovies { get; set; }
+    }
+
+    public enum PDFGenType
+    {
+        All = 0,
+        Christmas = 1,
+        Helloween = 2
     }
 }

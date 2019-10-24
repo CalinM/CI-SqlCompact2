@@ -329,7 +329,7 @@ namespace Desene
             if (Helpers.UnsavedChanges && !SaveChanges().Success)
                 return;
 
-            using (var rParam = new FrmMTDFromFile(true, false) { Owner = _parent })
+            using (var rParam = new FrmMTDFromFile(false, true) { Owner = _parent })
             {
                 if (rParam.ShowDialog() != DialogResult.OK)
                     return;

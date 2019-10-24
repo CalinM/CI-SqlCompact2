@@ -49,7 +49,7 @@
             this.btnConfirm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnConfirm.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnConfirm.Enabled = false;
-            this.btnConfirm.Location = new System.Drawing.Point(402, 252);
+            this.btnConfirm.Location = new System.Drawing.Point(571, 326);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(75, 23);
             this.btnConfirm.TabIndex = 4;
@@ -67,7 +67,7 @@
             this.tcNfNamesMix.Location = new System.Drawing.Point(12, 12);
             this.tcNfNamesMix.Name = "tcNfNamesMix";
             this.tcNfNamesMix.SelectedIndex = 0;
-            this.tcNfNamesMix.Size = new System.Drawing.Size(550, 234);
+            this.tcNfNamesMix.Size = new System.Drawing.Size(719, 308);
             this.tcNfNamesMix.TabIndex = 5;
             // 
             // tpLanguage1
@@ -85,6 +85,7 @@
             // 
             this.rtbLanguage1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rtbLanguage1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbLanguage1.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtbLanguage1.Location = new System.Drawing.Point(3, 3);
             this.rtbLanguage1.Name = "rtbLanguage1";
             this.rtbLanguage1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -99,7 +100,7 @@
             this.tpLanguage2.Location = new System.Drawing.Point(4, 22);
             this.tpLanguage2.Name = "tpLanguage2";
             this.tpLanguage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLanguage2.Size = new System.Drawing.Size(472, 163);
+            this.tpLanguage2.Size = new System.Drawing.Size(711, 282);
             this.tpLanguage2.TabIndex = 1;
             this.tpLanguage2.Text = "Language 2 (original)";
             this.tpLanguage2.UseVisualStyleBackColor = true;
@@ -109,10 +110,11 @@
             this.rtbLanguage2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rtbLanguage2.DetectUrls = false;
             this.rtbLanguage2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbLanguage2.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtbLanguage2.Location = new System.Drawing.Point(3, 3);
             this.rtbLanguage2.Name = "rtbLanguage2";
             this.rtbLanguage2.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.rtbLanguage2.Size = new System.Drawing.Size(466, 157);
+            this.rtbLanguage2.Size = new System.Drawing.Size(705, 276);
             this.rtbLanguage2.TabIndex = 3;
             this.rtbLanguage2.Text = "";
             this.rtbLanguage2.TextChanged += new System.EventHandler(this.RtbLanguage1_TextChanged);
@@ -121,7 +123,7 @@
             // 
             this.btnPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPreview.Enabled = false;
-            this.btnPreview.Location = new System.Drawing.Point(483, 252);
+            this.btnPreview.Location = new System.Drawing.Point(652, 326);
             this.btnPreview.Name = "btnPreview";
             this.btnPreview.Size = new System.Drawing.Size(75, 23);
             this.btnPreview.TabIndex = 6;
@@ -133,7 +135,7 @@
             // 
             this.lbFilesExt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbFilesExt.AutoSize = true;
-            this.lbFilesExt.Location = new System.Drawing.Point(16, 257);
+            this.lbFilesExt.Location = new System.Drawing.Point(16, 331);
             this.lbFilesExt.Name = "lbFilesExt";
             this.lbFilesExt.Size = new System.Drawing.Size(76, 13);
             this.lbFilesExt.TabIndex = 7;
@@ -146,7 +148,7 @@
             this.cbFilesExt.Items.AddRange(new object[] {
             ".mkv",
             ".mp4"});
-            this.cbFilesExt.Location = new System.Drawing.Point(98, 254);
+            this.cbFilesExt.Location = new System.Drawing.Point(98, 328);
             this.cbFilesExt.Name = "cbFilesExt";
             this.cbFilesExt.Size = new System.Drawing.Size(77, 21);
             this.cbFilesExt.TabIndex = 8;
@@ -156,7 +158,7 @@
             // 
             this.lbNamingType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbNamingType.AutoSize = true;
-            this.lbNamingType.Location = new System.Drawing.Point(194, 257);
+            this.lbNamingType.Location = new System.Drawing.Point(194, 331);
             this.lbNamingType.Name = "lbNamingType";
             this.lbNamingType.Size = new System.Drawing.Size(66, 13);
             this.lbNamingType.TabIndex = 9;
@@ -170,7 +172,7 @@
             this.cbNamingType.Items.AddRange(new object[] {
             ". ",
             " - "});
-            this.cbNamingType.Location = new System.Drawing.Point(266, 254);
+            this.cbNamingType.Location = new System.Drawing.Point(266, 328);
             this.cbNamingType.Name = "cbNamingType";
             this.cbNamingType.Size = new System.Drawing.Size(77, 21);
             this.cbNamingType.TabIndex = 10;
@@ -180,7 +182,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(574, 281);
+            this.ClientSize = new System.Drawing.Size(743, 355);
             this.Controls.Add(this.cbNamingType);
             this.Controls.Add(this.lbNamingType);
             this.Controls.Add(this.cbFilesExt);

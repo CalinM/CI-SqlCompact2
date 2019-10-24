@@ -86,3 +86,6 @@ bin
 /Common/bin/Debug/*.pdb
 *.pdb
 *.pdb
+Common/obj/Debug/Common.csproj.CoreCompileInputs.cache
+Common/obj/Debug/Common.csproj.FileListAbsolute.txt
+Common/obj/Debug/Common.pdb

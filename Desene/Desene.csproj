@@ -234,6 +234,8 @@
     <None Include="app.manifest">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Images\Christmas-Tree-icon.png.data" />
+    <None Include="Images\Pumpkin-icon.png.data" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -274,6 +276,7 @@
     <Content Include="Images\delete.png" />
     <Content Include="Images\exit.png" />
     <Content Include="Images\export.png" />
+    <Content Include="Images\generatePdf.png" />
     <Content Include="Images\image.png" />
     <Content Include="Images\import.png" />
     <Content Include="Images\info.png" />
