@@ -75,7 +75,7 @@ namespace Utils
             var document = catalogGenDet.Key;
             var pdfGenParams = catalogGenDet.Value;
 
-            var movies = Desene.DAL.GetMoviesForWeb(true, pdfGenParams.PDFGenType);
+            var movies = Desene.DAL.GetMoviesForPDF(pdfGenParams);
 
             //var style = document.Styles["Normal"];
 
@@ -164,7 +164,7 @@ namespace Utils
 
                     var rowD2 = dataTable.AddRow();
                     rowD2.Cells[0].Format.Alignment = ParagraphAlignment.Center;
-                    rowD2.Cells[0].AddParagraph(string.Format("{0}, {1}", movieObj.R, str));
+                    rowD2.Cells[0].AddParagraph(string.Format("{0}, {1}{2}", movieObj.R, str, pdfGenParams.ForMovies ? string.Empty : ", " + movieObj.B + "ep."));
                     rowD2.Cells[0].AddParagraph("");
 
 

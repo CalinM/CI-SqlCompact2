@@ -31,11 +31,13 @@ namespace Utils
             {
                 FileName = tbFilesLocation.Text,
                 PDFGenType =
-                    rbAll.Checked
-                        ? PDFGenType.All
-                        : rbChristmas.Checked
-                            ? PDFGenType.Christmas
-                            : PDFGenType.Helloween,
+                    rbMovies.Checked
+                        ? rbAll.Checked
+                            ? PDFGenType.All
+                            : rbChristmas.Checked
+                                ? PDFGenType.Christmas
+                                : PDFGenType.Helloween
+                        : PDFGenType.All,
                 ForMovies = rbMovies.Checked
             };
 

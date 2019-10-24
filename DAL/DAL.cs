@@ -1913,13 +1913,11 @@ namespace Desene
         {
             var result = new List<EpisodesForWeb>();
 
-            try
+            using (var conn = new SqlCeConnection(Constants.ConnectionString))
             {
-                using (var conn = new SqlCeConnection(Constants.ConnectionString))
-                {
-                    conn.Open();
+                conn.Open();
 
-                    var commandSource = new SqlCeCommand(@"
+                var commandSource = new SqlCeCommand(@"
                         SELECT
                             fd.Id,
                             fd.ParentId,
@@ -1941,84 +1939,79 @@ namespace Desene
                         WHERE fd.ParentId > 0
                         ORDER BY ParentId, Season, FileName", conn);
 
-                    /*
-                    LEFT JOIN (
-                        SELECT FileDetailId, MIN(Id) AS MinId
-                        FROM Thumbnails
-                        GROUP BY FileDetailId
-                    ) t on t.FileDetailId = fd.Id
+                /*
+                LEFT JOIN (
+                    SELECT FileDetailId, MIN(Id) AS MinId
+                    FROM Thumbnails
+                    GROUP BY FileDetailId
+                ) t on t.FileDetailId = fd.Id
 
-                    +
+                +
 
-                    IsNUll -> Has/Not Thumbnails
-                 */
+                IsNUll -> Has/Not Thumbnails
+             */
 
-                    using (var reader = commandSource.ExecuteReader())
+                using (var reader = commandSource.ExecuteReader())
+                {
+                    while (reader.Read())
                     {
-                        while (reader.Read())
+                        var duration =
+                            reader["Duration"] != DBNull.Value
+                                ? (DateTime?)reader["Duration"]
+                                : null;
+
+                        var seasonNo = 0;
+                        if (reader["Season"].ToString() != string.Empty)
+                            int.TryParse(reader["Season"].ToString(), out seasonNo);
+
+                        var efw = new EpisodesForWeb();
+                        efw.Id = (int)reader["Id"];
+                        efw.SId = (int)reader["ParentId"];
+                        efw.FN = reader["FileName"].ToString();
+                        efw.SZ = seasonNo;
+                        efw.Y = reader["Year"].ToString();
+                        efw.Q = reader["Quality"].ToString();
+                        efw.L = duration == null ? "?" : ((DateTime)duration).ToString("HH:mm:ss");
+                        efw.S = reader["FileSize2"].ToString();
+
+                        if (reader["FileSize"] == DBNull.Value)
+                            efw.Si = 0;
+                        else
                         {
-                            var duration =
-                                reader["Duration"] != DBNull.Value
-                                    ? (DateTime?)reader["Duration"]
-                                    : null;
+                            long siLong = 0;
 
-                            var seasonNo = 0;
-                            if (reader["Season"].ToString() != string.Empty)
-                                int.TryParse(reader["Season"].ToString(), out seasonNo);
-
-                            var efw = new EpisodesForWeb();
-                            efw.Id = (int)reader["Id"];
-                            efw.SId = (int)reader["ParentId"];
-                            efw.FN = reader["FileName"].ToString();
-                            efw.SZ = seasonNo;
-                            efw.Y = reader["Year"].ToString();
-                            efw.Q = reader["Quality"].ToString();
-                            efw.L = duration == null ? "?" : ((DateTime)duration).ToString("HH:mm:ss");
-                            efw.S = reader["FileSize2"].ToString();
-
-                            if (reader["FileSize"] == DBNull.Value)
-                                efw.Si = 0;
+                            if (long.TryParse(reader["FileSize"].ToString(), out siLong))
+                                efw.Si = siLong;
                             else
-                            {
-                                long siLong = 0;
-
-                                if (long.TryParse(reader["FileSize"].ToString(), out siLong))
-                                    efw.Si = siLong;
-                                else
-                                    efw.Si = 0;
-                            }
-
-                            //efw.Si = reader["FileSize"] != DBNull.Value ? (long)reader["FileSize"] : -1;
-                            efw.A = reader["AudioLanguages"].ToString();
-                            efw.SU = reader["SubtitleLanguages"].ToString();
-                            efw.T = reader["Theme"].ToString();
-                            efw.N = reader["Notes"].ToString();
-
-                            var insertedDate =
-                                reader["InsertedDate"] == DBNull.Value //SD or bad imports
-                                    ? new DateTime(1970, 1, 1)
-                                    : (DateTime)reader["InsertedDate"];
-
-                            efw.InsertedDate = insertedDate;
-
-                            efw.LastChangeDate =
-                                reader["LastChangeDate"] == DBNull.Value
-                                    ? insertedDate
-                                    : (DateTime)reader["LastChangeDate"];
-
-                            //if (loadThumbnails)
-                            //{
-                            //    efw.MovieStills = LoadMovieStills(efw.Id).MovieStills;
-                            //}
-
-                            result.Add(efw);
+                                efw.Si = 0;
                         }
+
+                        //efw.Si = reader["FileSize"] != DBNull.Value ? (long)reader["FileSize"] : -1;
+                        efw.A = reader["AudioLanguages"].ToString();
+                        efw.SU = reader["SubtitleLanguages"].ToString();
+                        efw.T = reader["Theme"].ToString();
+                        efw.N = reader["Notes"].ToString();
+
+                        var insertedDate =
+                            reader["InsertedDate"] == DBNull.Value //SD or bad imports
+                                ? new DateTime(1970, 1, 1)
+                                : (DateTime)reader["InsertedDate"];
+
+                        efw.InsertedDate = insertedDate;
+
+                        efw.LastChangeDate =
+                            reader["LastChangeDate"] == DBNull.Value
+                                ? insertedDate
+                                : (DateTime)reader["LastChangeDate"];
+
+                        //if (loadThumbnails)
+                        //{
+                        //    efw.MovieStills = LoadMovieStills(efw.Id).MovieStills;
+                        //}
+
+                        result.Add(efw);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                var x = 1;
             }
 
             return result;
@@ -2116,7 +2109,7 @@ namespace Desene
                 /*
                  *SELECT fd1.Id, fd1.FileName, sum()
                     FROM FileDetail fd1
-	                    LEFT OUTER JOIN FileDetail fd2 ON fd1.Id = fd2.ParentId
+                        LEFT OUTER JOIN FileDetail fd2 ON fd1.Id = fd2.ParentId
                     WHERE fd1.ParentId = -1
                     ORDER BY fd1.FileName
                  */
@@ -2312,7 +2305,7 @@ namespace Desene
         //    return "";
         //}
 
-        public static List<MovieForWeb> GetMoviesForWeb(bool loadPoster = false, PDFGenType pdfGenType = PDFGenType.All)
+        public static List<MovieForWeb> GetMoviesForPDF(PdfGenParams pdfGenParams)
         {
             var result = new List<MovieForWeb>();
 
@@ -2321,22 +2314,24 @@ namespace Desene
                 conn.Open();
 
                 var commandSource = new SqlCeCommand(string.Format(@"
-                    SELECT
-                        vs.BitRate,
-	                    CASE
-                            WHEN Poster IS NULL THEN CONVERT(BIT, 0)
-                            ELSE CONVERT(BIT, 1)
-	                    END AS HasPoster,
-                        fd.*
-                    FROM FileDetail fd
-	                    LEFT OUTER JOIN VideoStream vs ON fd.Id = vs.FileDetailId
-                    WHERE ParentId IS NULL {0} ORDER BY FileName",
-                    pdfGenType == PDFGenType.Christmas
-                        ? "AND Theme = 'Craciun'"
-                        : pdfGenType == PDFGenType.Helloween
-                            ? "AND Theme = 'Helloween'"
-                            : string.Empty
-                    ), conn);
+                        SELECT
+	                        CASE
+                                WHEN Poster IS NULL THEN CONVERT(BIT, 0)
+                                ELSE CONVERT(BIT, 1)
+	                        END AS HasPoster,
+                            fd.*
+                        FROM FileDetail fd
+                        WHERE {0} {1}
+                        ORDER BY FileName",
+                        pdfGenParams.ForMovies
+                            ? "ParentId IS NULL"
+                            : "ParentId = -1",
+                        pdfGenParams.PDFGenType == PDFGenType.Christmas
+                            ? "AND Theme = 'Craciun'"
+                            : pdfGenParams.PDFGenType == PDFGenType.Helloween
+                                ? "AND Theme = 'Helloween'"
+                                : string.Empty
+                        ), conn);
 
                 using (var reader = commandSource.ExecuteReader())
                 {
@@ -2355,7 +2350,7 @@ namespace Desene
                         mfw.Y = reader["Year"].ToString();
                         mfw.Q = reader["Quality"].ToString();
                         mfw.S = reader["FileSize2"].ToString();
-                        mfw.B = reader["BitRate"].ToString();
+                        //mfw.B = reader["BitRate"].ToString();
                         mfw.L = duration == null ? "?" : ((DateTime)duration).ToString("HH:mm:ss");
                         mfw.A = reader["AudioLanguages"].ToString();
                         mfw.SU = reader["SubtitleLanguages"].ToString();
@@ -2369,7 +2364,7 @@ namespace Desene
                         //mfw.Cover = reader["Poster"] == DBNull.Value ? null : (byte[])reader["Poster"];
                         mfw.HasPoster = (bool)reader["HasPoster"];
 
-                        if (loadPoster && mfw.HasPoster)
+                        if (mfw.HasPoster)
                             mfw.Cover = (byte[])reader["Poster"];
 
                         var insertedDate =
@@ -2385,6 +2380,21 @@ namespace Desene
                                 : (DateTime)reader["LastChangeDate"];
 
                         result.Add(mfw);
+                    }
+                }
+
+                if (!pdfGenParams.ForMovies)
+                {
+                    var episodes = GetEpisodesForWeb(true);
+
+                    foreach (var s in result)
+                    {
+                        var episodesForSeries = episodes.Where(e => e.SId == s.Id).OrderBy(o => o.SZ).ToList();
+
+                        var audios = string.Join(",", episodesForSeries.Select(d => d.A).Distinct()).Replace(", ", ",");
+                        s.A = string.Join(", ", audios.Split(',').Distinct());
+
+                        s.B = episodesForSeries.Count().ToString();
                     }
                 }
             }

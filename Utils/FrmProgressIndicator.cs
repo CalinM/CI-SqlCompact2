@@ -150,7 +150,7 @@ namespace Utils
 
             //do not update the text if a cancellation request is pending
             if (e.UserState != null && !worker.CancellationPending)
-                lbInfoMessage.Text = e.UserState.ToString();
+                lbInfoMessage.Text = e.UserState.ToString().Replace("&", "&&");
         }
 
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
