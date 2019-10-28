@@ -59,3 +59,8 @@ C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\de\PdfSharp-gdi.resources.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\de\PdfSharp.Charting-gdi.resources.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.Properties.Resources.resources
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmPDFCatalogGenParams.resources
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Microsoft.WindowsAPICodePack.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Microsoft.WindowsAPICodePack.xml
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Microsoft.WindowsAPICodePack.Shell.xml
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmToast.resources

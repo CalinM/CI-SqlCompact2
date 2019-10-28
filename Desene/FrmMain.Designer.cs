@@ -34,11 +34,13 @@ namespace Desene
             this.mainMenu = new System.Windows.Forms.ToolStrip();
             this.btnCategory = new System.Windows.Forms.ToolStripDropDownButton();
             this.miMovies = new System.Windows.Forms.ToolStripMenuItem();
+            this.miMoviesList = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.miCollections = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.miSeries = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.miExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnMoviesList = new System.Windows.Forms.ToolStripButton();
             this.separatorMainButtons = new System.Windows.Forms.ToolStripSeparator();
             this.btnAdd = new System.Windows.Forms.ToolStripButton();
             this.btnDelete = new System.Windows.Forms.ToolStripButton();
@@ -69,7 +71,6 @@ namespace Desene
             this.mainMenu.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnCategory,
-            this.btnMoviesList,
             this.separatorMainButtons,
             this.btnAdd,
             this.btnDelete,
@@ -89,7 +90,10 @@ namespace Desene
             this.btnCategory.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnCategory.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miMovies,
+            this.miMoviesList,
+            this.toolStripSeparator1,
             this.miCollections,
+            this.toolStripSeparator4,
             this.miSeries,
             this.toolStripMenuItem1,
             this.miExit});
@@ -107,6 +111,20 @@ namespace Desene
             this.miMovies.Text = "Movies";
             this.miMovies.Click += new System.EventHandler(this.miMovies_Click);
             // 
+            // miMoviesList
+            // 
+            this.miMoviesList.Image = global::Desene.Properties.Resources.moviesList;
+            this.miMoviesList.Name = "miMoviesList";
+            this.miMoviesList.Size = new System.Drawing.Size(133, 22);
+            this.miMoviesList.Tag = "1";
+            this.miMoviesList.Text = "Movies list";
+            this.miMoviesList.Click += new System.EventHandler(this.miMoviesList_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(130, 6);
+            // 
             // miCollections
             // 
             this.miCollections.Name = "miCollections";
@@ -114,6 +132,11 @@ namespace Desene
             this.miCollections.Tag = "1";
             this.miCollections.Text = "Collections";
             this.miCollections.Click += new System.EventHandler(this.miCollections_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(130, 6);
             // 
             // miSeries
             // 
@@ -135,15 +158,6 @@ namespace Desene
             this.miExit.Size = new System.Drawing.Size(133, 22);
             this.miExit.Text = "Exit";
             this.miExit.Click += new System.EventHandler(this.miExit_Click);
-            // 
-            // btnMoviesList
-            // 
-            this.btnMoviesList.Image = global::Desene.Properties.Resources.moviesList;
-            this.btnMoviesList.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnMoviesList.Name = "btnMoviesList";
-            this.btnMoviesList.Size = new System.Drawing.Size(83, 22);
-            this.btnMoviesList.Text = "Movies list";
-            this.btnMoviesList.Click += new System.EventHandler(this.btnMoviesList_Click);
             // 
             // separatorMainButtons
             // 
@@ -338,6 +352,7 @@ namespace Desene
             this.Controls.Add(this.pMainContainer);
             this.Controls.Add(this.mainMenu);
             this.Controls.Add(this.statusStrip);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(1295, 585);
             this.Name = "FrmMain";
             this.Text = "CartoonsRepo";
@@ -378,13 +393,15 @@ namespace Desene
         private System.Windows.Forms.ToolStripStatusLabel sslbAdditionalInfo1;
         private System.Windows.Forms.ToolStripStatusLabel sslbAdditionalInfo2;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.ToolStripButton btnMoviesList;
         private System.Windows.Forms.ToolStripButton btnFilesDetails;
         private System.Windows.Forms.ToolStripButton btnBuildFileNames;
         private System.Windows.Forms.ToolStripMenuItem miCollections;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripMenuItem btnGenerateHtml;
         private System.Windows.Forms.ToolStripMenuItem miGeneratePdf;
+        private System.Windows.Forms.ToolStripMenuItem miMoviesList;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
     }
 }
 

@@ -33,6 +33,12 @@
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Primitives.4.0.1\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAPICodePack-Core.1.1.1\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
     <Reference Include="MigraDoc.DocumentObjectModel-gdi, Version=1.51.5186.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
       <HintPath>..\packages\PDFsharp-MigraDoc-gdi.1.51.5186-beta\lib\net20\MigraDoc.DocumentObjectModel-gdi.dll</HintPath>
     </Reference>
@@ -52,6 +58,7 @@
     <Reference Include="PdfSharp.Charting-gdi, Version=1.51.5185.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
       <HintPath>..\packages\PDFsharp-MigraDoc-gdi.1.51.5186-beta\lib\net20\PdfSharp.Charting-gdi.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -147,6 +154,12 @@
     <Compile Include="FrmNfNamesMix.Designer.cs">
       <DependentUpon>FrmNfNamesMix.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmToast.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmToast.Designer.cs">
+      <DependentUpon>FrmToast.cs</DependentUpon>
+    </Compile>
     <Compile Include="GraphicsHelpers.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="MediaInfoDLL.cs" />
@@ -217,6 +230,9 @@
     <EmbeddedResource Include="FrmNfNamesMix.resx">
       <DependentUpon>FrmNfNamesMix.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmToast.resx">
+      <DependentUpon>FrmToast.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -236,6 +252,17 @@
     <None Include="Resources\Christmas-Tree-icon.png.data" />
     <None Include="Resources\Pumpkin-icon.png.data" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\confirmation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\information.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\warning.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

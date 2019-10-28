@@ -15,7 +15,7 @@ namespace Utils
 {
     public class SiteGenerator
     {
-        public static OperationResult GenerateSiteFiles(SiteGenParams siteGenParams)
+        public static OperationResult GenerateSiteFiles(SiteGenParams siteGenParams, IntPtr handle)
         {
             var result = new OperationResult();
             var jsS = new JavaScriptSerializer();
@@ -32,11 +32,11 @@ namespace Utils
                 if (!Directory.Exists(imgsPath))
                     Directory.CreateDirectory(imgsPath);
 
-                var fromProgressIndicator = new FrmProgressIndicator("Site generation - Movies Posters", "-", moviesData.Count);
-                fromProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<MovieForWeb>>(siteGenParams, moviesData);
-                fromProgressIndicator.DoWork += formPI_DoWork_GenerateSitePosters_Movies;
+                var frmProgressIndicator = new FrmProgressIndicator("Site generation - Movies Posters", "-", moviesData.Count);
+                frmProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<MovieForWeb>>(siteGenParams, moviesData);
+                frmProgressIndicator.DoWork += formPI_DoWork_GenerateSitePosters_Movies;
 
-                switch (fromProgressIndicator.ShowDialog())
+                switch (frmProgressIndicator.ShowDialog())
                 {
                     case DialogResult.Cancel:
                         result.Success = false;
@@ -46,12 +46,12 @@ namespace Utils
 
                     case DialogResult.Abort:
                         result.Success = false;
-                        result.CustomErrorMessage = fromProgressIndicator.Result.Error.Message;
+                        result.CustomErrorMessage = frmProgressIndicator.Result.Error.Message;
 
                         return result;
 
                     case DialogResult.OK:
-                        result.AdditionalDataReturn = fromProgressIndicator.Result.Result;
+                        result.AdditionalDataReturn = frmProgressIndicator.Result.Result;
                         break;
                 }
             }

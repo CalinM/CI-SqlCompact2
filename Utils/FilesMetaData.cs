@@ -67,21 +67,21 @@ namespace Utils
                 //https://sourceforge.net/p/mediainfo/discussion/297610/thread/d51f253c/?limit=25
 
                 var mtd = new MovieTechnicalDetails
-                                {
-                                    FileName = mi.Get(StreamKind.General, 0, "FileName"),
-                                    InitialPath = filePath,
-                                    Format = mi.Get(StreamKind.General, 0, "Format"),
-                                    FileSize = mi.Get(StreamKind.General, 0, "FileSize"), 			    // to calculate totals
-                                    FileSize2 = mi.Get(StreamKind.General, 0, "FileSize/String"),	    // for display
-                                    Title = mi.Get(StreamKind.General, 0, "Title"),                     // to detect texts
-                                    Encoded_Application = mi.Get(StreamKind.General, 0, "Encoded_Application"),
-                                    Cover = mi.Get(StreamKind.General, 0, "Cover"),                     // to detect texts
-                                    Duration = mi.Get(StreamKind.General, 0, "Duration"),               // recalculated in Duration2
+                {
+                    FileName = mi.Get(StreamKind.General, 0, "FileName"),
+                    InitialPath = filePath,
+                    Format = mi.Get(StreamKind.General, 0, "Format"),
+                    FileSize = mi.Get(StreamKind.General, 0, "FileSize"),               // to calculate totals
+                    FileSize2 = mi.Get(StreamKind.General, 0, "FileSize/String"),       // for display
+                    Title = mi.Get(StreamKind.General, 0, "Title"),                     // to detect texts
+                    Encoded_Application = mi.Get(StreamKind.General, 0, "Encoded_Application"),
+                    Cover = mi.Get(StreamKind.General, 0, "Cover"),                     // to detect texts
+                    Duration = mi.Get(StreamKind.General, 0, "Duration"),               // recalculated in Duration2
 
-                                    //no, not here, to it will look nicer (shorter)  as summary: ro, dut, eng
-                                    //AudioLanguages = mi.Get(StreamKind.General, 0, "Audio_Language_List").Replace(" / ", ", "),
-                                    //SubtitleLanguages = mi.Get(StreamKind.General, 0, "Text_Language_List").Replace(" / ", ", "),
-                                };
+                    //no, not here, to it will look nicer (shorter)  as summary: ro, dut, eng
+                    //AudioLanguages = mi.Get(StreamKind.General, 0, "Audio_Language_List").Replace(" / ", ", "),
+                    //SubtitleLanguages = mi.Get(StreamKind.General, 0, "Text_Language_List").Replace(" / ", ", "),
+                };
 
                 var vcStr = mi.Get(StreamKind.General, 0, "VideoCount");
                 var vc = int.TryParse(vcStr, out var tmpInt) ? tmpInt : 0;
@@ -90,21 +90,21 @@ namespace Utils
                 {
                     mtd.VideoStreams.Add(
                         new VideoStreamInfo
-                            {
-                                Index = i + 1,
-                                Format = mi.Get(StreamKind.Video, i, "Format"),
-                                Format_Profile = mi.Get(StreamKind.Video, i, "Format_Profile"),
-                                BitRateMode = mi.Get(StreamKind.Video, i, "BitRate_Mode/String"),
-                                BitRate = mi.Get(StreamKind.Video, i, "BitRate/String"),
-                                Width = mi.Get(StreamKind.Video, i, "Width"),
-                                Height = mi.Get(StreamKind.Video, i, "Height"),
-                                FrameRate_Mode = mi.Get(StreamKind.Video, i, "FrameRate_Mode/String"),
-                                FrameRate = mi.Get(StreamKind.Video, i, "FrameRate/String"),
-                                Delay = mi.Get(StreamKind.Video, i, "Delay/String"),
-                                StreamSize = mi.Get(StreamKind.Video, i, "StreamSize/String"),
-                                Title = mi.Get(StreamKind.Video, i, "Title"),				        // to detect texts
-                                Language = mi.Get(StreamKind.Video, i, "Language/String")
-                            });
+                        {
+                            Index = i + 1,
+                            Format = mi.Get(StreamKind.Video, i, "Format"),
+                            Format_Profile = mi.Get(StreamKind.Video, i, "Format_Profile"),
+                            BitRateMode = mi.Get(StreamKind.Video, i, "BitRate_Mode/String"),
+                            BitRate = mi.Get(StreamKind.Video, i, "BitRate/String"),
+                            Width = mi.Get(StreamKind.Video, i, "Width"),
+                            Height = mi.Get(StreamKind.Video, i, "Height"),
+                            FrameRate_Mode = mi.Get(StreamKind.Video, i, "FrameRate_Mode/String"),
+                            FrameRate = mi.Get(StreamKind.Video, i, "FrameRate/String"),
+                            Delay = mi.Get(StreamKind.Video, i, "Delay/String"),
+                            StreamSize = mi.Get(StreamKind.Video, i, "StreamSize/String"),
+                            Title = mi.Get(StreamKind.Video, i, "Title"),                       // to detect texts
+                            Language = mi.Get(StreamKind.Video, i, "Language/String")
+                        });
                 }
 
                 var acStr = mi.Get(StreamKind.General, 0, "AudioCount");
@@ -114,22 +114,22 @@ namespace Utils
                 {
                     mtd.AudioStreams.Add(
                         new AudioStreamInfo
-                            {
-                                Index = i + 1,
-                                Format = mi.Get(StreamKind.Audio, i, "Format"),
-                                BitRate = mi.Get(StreamKind.Audio, i, "BitRate/String"),
-                                Channel = mi.Get(StreamKind.Audio, i, "Channel(s)/String"),
-                                ChannelPosition = mi.Get(StreamKind.Audio, i, "ChannelPositions"),
-                                SamplingRate = mi.Get(StreamKind.Audio, i, "SamplingRate/String"),
-                                Resolution = mi.Get(StreamKind.Audio, i, "Resolution/String"),
-                                Delay = mi.Get(StreamKind.Audio, i, "Delay/String"),
-                                Video_Delay = mi.Get(StreamKind.Audio, i, "Video_Delay/String"),
-                                StreamSize = mi.Get(StreamKind.Audio, i, "StreamSize/String"),
-                                Title = mi.Get(StreamKind.Audio, i, "Title"),				        // to detect texts
-                                Language = mi.Get(StreamKind.Audio, i, "Language"), //Language/String
-                                Default = mi.Get(StreamKind.Audio, i, "Default").ToLower() == "yes",
-                                Forced = mi.Get(StreamKind.Audio, i, "Forced").ToLower() == "yes"
-                            });
+                        {
+                            Index = i + 1,
+                            Format = mi.Get(StreamKind.Audio, i, "Format"),
+                            BitRate = mi.Get(StreamKind.Audio, i, "BitRate/String"),
+                            Channel = mi.Get(StreamKind.Audio, i, "Channel(s)/String"),
+                            ChannelPosition = mi.Get(StreamKind.Audio, i, "ChannelPositions"),
+                            SamplingRate = mi.Get(StreamKind.Audio, i, "SamplingRate/String"),
+                            Resolution = mi.Get(StreamKind.Audio, i, "Resolution/String"),
+                            Delay = mi.Get(StreamKind.Audio, i, "Delay/String"),
+                            Video_Delay = mi.Get(StreamKind.Audio, i, "Video_Delay/String"),
+                            StreamSize = mi.Get(StreamKind.Audio, i, "StreamSize/String"),
+                            Title = mi.Get(StreamKind.Audio, i, "Title"),                       // to detect texts
+                            Language = mi.Get(StreamKind.Audio, i, "Language"), //Language/String
+                            Default = mi.Get(StreamKind.Audio, i, "Default").ToLower() == "yes",
+                            Forced = mi.Get(StreamKind.Audio, i, "Forced").ToLower() == "yes"
+                        });
                 }
 
                 var tcStr = mi.Get(StreamKind.General, 0, "TextCount");
@@ -139,15 +139,15 @@ namespace Utils
                 {
                     mtd.SubtitleStreams.Add(
                         new SubtitleStreamInfo
-                            {
-                                Index = i + 1,
-                                Format = mi.Get(StreamKind.Text, i, "Format"),
-                                StreamSize = mi.Get(StreamKind.Text, i, "StreamSize/String"),
-                                Title = mi.Get(StreamKind.Text, i, "Title"),    			        // to detect texts
-                                Language = mi.Get(StreamKind.Text, i, "Language"),
-                                Default = mi.Get(StreamKind.Audio, i, "Default").ToLower() == "yes",
-                                Forced = mi.Get(StreamKind.Audio, i, "Forced").ToLower() == "yes"
-                            });
+                        {
+                            Index = i + 1,
+                            Format = mi.Get(StreamKind.Text, i, "Format"),
+                            StreamSize = mi.Get(StreamKind.Text, i, "StreamSize/String"),
+                            Title = mi.Get(StreamKind.Text, i, "Title"),                        // to detect texts
+                            Language = mi.Get(StreamKind.Text, i, "Language"),
+                            Default = mi.Get(StreamKind.Audio, i, "Default").ToLower() == "yes",
+                            Forced = mi.Get(StreamKind.Audio, i, "Forced").ToLower() == "yes"
+                        });
                 }
 
                 result.AdditionalDataReturn = mtd;
@@ -172,7 +172,7 @@ namespace Utils
 
                 if (mtd.DurationAsInt > 0)
                 {
-                    var durationInSec =  mtd.DurationAsInt / 1000;
+                    var durationInSec = mtd.DurationAsInt / 1000;
 
                     for (var j = 1; j <= 3; j++)
                     {
@@ -235,10 +235,10 @@ namespace Utils
                         {
                             technicalDetailsImportErrorBgw.Add(
                                 new TechnicalDetailsImportError
-                                    {
-                                        FilePath = filePath,
-                                        ErrorMesage = opRes2.CustomErrorMessage
-                                    });
+                                {
+                                    FilePath = filePath,
+                                    ErrorMesage = opRes2.CustomErrorMessage
+                                });
                         }
 
                         opRes2 = Desene.DAL.InsertMTD2(mtdObj, arguments.Key);
@@ -261,10 +261,10 @@ namespace Utils
                 else
                     technicalDetailsImportErrorBgw.Add(
                         new TechnicalDetailsImportError
-                            {
-                                FilePath = filePath,
-                                ErrorMesage = opRes.CustomErrorMessage
-                            });
+                        {
+                            FilePath = filePath,
+                            ErrorMesage = opRes.CustomErrorMessage
+                        });
 
                 i++;
 
@@ -318,10 +318,10 @@ namespace Utils
                 else
                     technicalDetailsImportErrorBgw.Add(
                         new TechnicalDetailsImportError
-                            {
-                                FilePath = filePath,
-                                ErrorMesage = opRes.CustomErrorMessage
-                            });
+                        {
+                            FilePath = filePath,
+                            ErrorMesage = opRes.CustomErrorMessage
+                        });
 
                 i++;
 

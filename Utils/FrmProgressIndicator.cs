@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.WindowsAPICodePack.Taskbar;
+using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -63,6 +64,9 @@ namespace Utils
         {
             InitializeComponent();
 
+            //for an operation started by a drag & drop action, the parent is unknown
+            this.Owner = (Form)(FromHandle(Common.Helpers.MainFormHandle));
+
             Text = caption;
             progressBar.Maximum = filesCount;
             lbInfoMessage.Text = infoMessage;//@"Initializing ...";
@@ -75,34 +79,6 @@ namespace Utils
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
         }
 
-        /// <summary>
-        /// Changes the status text only.
-        /// </summary>
-        /// <param name="status">New status text.</param>
-        public void SetProgress(string status)
-        {
-            //do not update the text if it didn't change
-            //or if a cancellation request is pending
-            if (status != lastStatus && !worker.CancellationPending)
-            {
-                lastStatus = status;
-                worker.ReportProgress(progressBar.Minimum - 1, status);
-            }
-        }
-
-        /// <summary>
-        /// Changes the progress bar value only.
-        /// </summary>
-        /// <param name="percent">New value for the progress bar.</param>
-        public void SetProgress(int percent)
-        {
-            //do not update the progress bar if the value didn't change
-            if (percent != lastPercent)
-            {
-                lastPercent = percent;
-                worker.ReportProgress(percent);
-            }
-        }
         /// <summary>
         /// Changes both progress bar value and status text.
         /// </summary>
@@ -139,14 +115,22 @@ namespace Utils
         {
             //the background worker started
             //let's call the user's event handler
-            if (DoWork != null) DoWork(this, e);
+            if (DoWork != null)
+            {
+                TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal, Common.Helpers.MainFormHandle);
+                DoWork(this, e);
+            }
         }
 
         void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             //make sure the new value is valid for the progress bar and update it
             if (e.ProgressPercentage >= progressBar.Minimum && e.ProgressPercentage <= progressBar.Maximum)
+            {
                 progressBar.Value = e.ProgressPercentage;
+
+                TaskbarManager.Instance.SetProgressValue(progressBar.Value, progressBar.Maximum, Common.Helpers.MainFormHandle);
+            }
 
             //do not update the text if a cancellation request is pending
             if (e.UserState != null && !worker.CancellationPending)
@@ -169,6 +153,7 @@ namespace Utils
                 DialogResult = DialogResult.OK;
             }
 
+            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress, Common.Helpers.MainFormHandle);
             Close();
         }
     }

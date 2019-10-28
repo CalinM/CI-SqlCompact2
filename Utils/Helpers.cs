@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Common;
 
 namespace Utils
 {
@@ -38,7 +39,7 @@ namespace Utils
             var lbHeaderText = new Label();
             lbHeaderText.ForeColor = Color.White;
             lbHeaderText.Font = new Font(lbHeaderText.Font, FontStyle.Bold);
-            lbHeaderText.Location = new Point(9,6);
+            lbHeaderText.Location = new Point(9, 6);
             lbHeaderText.AutoSize = false;
             lbHeaderText.Size = new Size(350, 15);
             lbHeaderText.Text = caption;
@@ -47,6 +48,14 @@ namespace Utils
 
             sender.Controls.Add(pHeader);
             pHeader.BringToFront();
+        }
+
+        public static void ShowToastForm(StartPosition2 startPosition, MessageType messageType, string title, string message, int duration,
+            Form parentForm)
+        {
+            var t = new FrmToast(startPosition, messageType, title, message, duration);
+            t.Show();
+            parentForm.Focus(); //https://stackoverflow.com/questions/156046/show-a-form-without-stealing-focus
         }
     }
 
@@ -57,12 +66,12 @@ namespace Utils
 
         private const int WM_SETREDRAW = 11;
 
-        public static void SuspendDrawing( Control parent )
+        public static void SuspendDrawing(Control parent)
         {
             SendMessage(parent.Handle, WM_SETREDRAW, false, 0);
         }
 
-        public static void ResumeDrawing( Control parent )
+        public static void ResumeDrawing(Control parent)
         {
             SendMessage(parent.Handle, WM_SETREDRAW, true, 0);
             parent.Refresh();

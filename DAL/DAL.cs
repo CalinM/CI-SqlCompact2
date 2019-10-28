@@ -182,6 +182,12 @@ namespace Desene
             return result;
         }
 
+        /// <summary>
+        /// Called when the Sesson treeview item is expanded
+        /// </summary>
+        /// <param name="seriesId"></param>
+        /// <param name="seasonVal"></param>
+        /// <returns></returns>
         public static List<SeriesEpisodesShortInfo> GetEpisodesInSeason(int seriesId, int seasonVal)
         {
             var result = new List<SeriesEpisodesShortInfo>();
@@ -213,6 +219,11 @@ namespace Desene
             return result;
         }
 
+        /// <summary>
+        /// Provide data to the SeriesEpisodes (summary) gridview
+        /// </summary>
+        /// <param name="seriesId"></param>
+        /// <returns></returns>
         public static DataTable GetEpisodesInSeries(int seriesId)
         {
             var result = new DataTable();
@@ -221,7 +232,18 @@ namespace Desene
             {
                 conn.Open();
 
-                var commandSource = new SqlCeCommand(string.Format("SELECT * FROM FileDetail WHERE ParentId = {0} ORDER BY Season, FileName", seriesId), conn);
+                var commandSource =
+                    new SqlCeCommand(
+                        string.Format(@"
+                            SELECT
+                                CASE
+                                    WHEN fd.Season = -2 THEN 'Specials'
+                                    ELSE fd.Season
+                                END AS Season2,
+                                fd.*
+                            FROM FileDetail fd
+                            WHERE ParentId = {0}
+                            ORDER BY Season2, FileName", seriesId), conn);
 
                 using (var reader = commandSource.ExecuteReader())
                 {

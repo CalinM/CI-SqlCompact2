@@ -23,6 +23,8 @@ namespace Common
         public static Func<Boolean, object> GenericSetButtonsState;
         public static Action<Boolean> GenericSetButtonsState2;
 
+        public static IntPtr MainFormHandle;
+
         public static void OnTextChanged(object sender, EventArgs eventArgs)
         {
             UnsavedChanges = true;

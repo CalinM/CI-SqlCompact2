@@ -81,3 +81,7 @@ C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\PdfSharp.Charting-gdi.xml
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\de\MigraDoc.Rendering-gdi.resources.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\de\PdfSharp-gdi.resources.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\de\PdfSharp.Charting-gdi.resources.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Microsoft.WindowsAPICodePack.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Microsoft.WindowsAPICodePack.Shell.xml
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Microsoft.WindowsAPICodePack.xml

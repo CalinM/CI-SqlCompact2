@@ -31,27 +31,19 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pSeparator_Caption = new System.Windows.Forms.Panel();
             this.lbSeriesEpisodesCaption = new System.Windows.Forms.Label();
             this.dgvEpisodes = new System.Windows.Forms.DataGridView();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSeason = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFIleName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colYear = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFileSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colQuality = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAutio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lbNoEpisodeWarning = new System.Windows.Forms.Label();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -61,6 +53,14 @@
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSeason = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFIleName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colYear = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFileSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colQuality = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAutio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pSeparator_Caption.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEpisodes)).BeginInit();
             this.SuspendLayout();
@@ -146,74 +146,6 @@
             this.dgvEpisodes.CurrentCellDirtyStateChanged += new System.EventHandler(this.DgvEpisodes_CurrentCellDirtyStateChanged);
             this.dgvEpisodes.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvEpisodes_DataBindingComplete);
             // 
-            // Id
-            // 
-            this.Id.DataPropertyName = "Id";
-            this.Id.FillWeight = 50F;
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            this.Id.Width = 50;
-            // 
-            // colSeason
-            // 
-            this.colSeason.DataPropertyName = "Season";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colSeason.DefaultCellStyle = dataGridViewCellStyle2;
-            this.colSeason.HeaderText = "Season";
-            this.colSeason.Name = "colSeason";
-            this.colSeason.Width = 50;
-            // 
-            // colFIleName
-            // 
-            this.colFIleName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colFIleName.DataPropertyName = "FileName";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.colFIleName.DefaultCellStyle = dataGridViewCellStyle3;
-            this.colFIleName.HeaderText = "File name";
-            this.colFIleName.Name = "colFIleName";
-            // 
-            // colYear
-            // 
-            this.colYear.DataPropertyName = "Year";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colYear.DefaultCellStyle = dataGridViewCellStyle4;
-            this.colYear.HeaderText = "Year";
-            this.colYear.Name = "colYear";
-            this.colYear.Width = 50;
-            // 
-            // colFileSize
-            // 
-            this.colFileSize.DataPropertyName = "FileSize2";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.colFileSize.DefaultCellStyle = dataGridViewCellStyle5;
-            this.colFileSize.HeaderText = "Size";
-            this.colFileSize.Name = "colFileSize";
-            this.colFileSize.Width = 60;
-            // 
-            // colDuration
-            // 
-            this.colDuration.DataPropertyName = "Duration";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "HH:mm:ss";
-            this.colDuration.DefaultCellStyle = dataGridViewCellStyle6;
-            this.colDuration.HeaderText = "Duration";
-            this.colDuration.Name = "colDuration";
-            this.colDuration.Width = 60;
-            // 
-            // colQuality
-            // 
-            this.colQuality.DataPropertyName = "Quality";
-            this.colQuality.HeaderText = "Quality";
-            this.colQuality.Name = "colQuality";
-            this.colQuality.Width = 40;
-            // 
-            // colAutio
-            // 
-            this.colAutio.DataPropertyName = "AudioLanguages";
-            this.colAutio.HeaderText = "Audio";
-            this.colAutio.Name = "colAutio";
-            this.colAutio.Width = 200;
-            // 
             // lbNoEpisodeWarning
             // 
             this.lbNoEpisodeWarning.ForeColor = System.Drawing.Color.Gray;
@@ -291,6 +223,75 @@
             this.dataGridViewTextBoxColumn8.HeaderText = "Audio";
             this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
             this.dataGridViewTextBoxColumn8.Width = 200;
+            // 
+            // Id
+            // 
+            this.Id.DataPropertyName = "Id";
+            this.Id.FillWeight = 50F;
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.Visible = false;
+            this.Id.Width = 50;
+            // 
+            // colSeason
+            // 
+            this.colSeason.DataPropertyName = "Season2";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colSeason.DefaultCellStyle = dataGridViewCellStyle2;
+            this.colSeason.HeaderText = "Season";
+            this.colSeason.Name = "colSeason";
+            this.colSeason.Width = 50;
+            // 
+            // colFIleName
+            // 
+            this.colFIleName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colFIleName.DataPropertyName = "FileName";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.colFIleName.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colFIleName.HeaderText = "File name";
+            this.colFIleName.Name = "colFIleName";
+            // 
+            // colYear
+            // 
+            this.colYear.DataPropertyName = "Year";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colYear.DefaultCellStyle = dataGridViewCellStyle4;
+            this.colYear.HeaderText = "Year";
+            this.colYear.Name = "colYear";
+            this.colYear.Width = 50;
+            // 
+            // colFileSize
+            // 
+            this.colFileSize.DataPropertyName = "FileSize2";
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.colFileSize.DefaultCellStyle = dataGridViewCellStyle5;
+            this.colFileSize.HeaderText = "Size";
+            this.colFileSize.Name = "colFileSize";
+            this.colFileSize.Width = 60;
+            // 
+            // colDuration
+            // 
+            this.colDuration.DataPropertyName = "Duration";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle6.Format = "HH:mm:ss";
+            this.colDuration.DefaultCellStyle = dataGridViewCellStyle6;
+            this.colDuration.HeaderText = "Duration";
+            this.colDuration.Name = "colDuration";
+            this.colDuration.Width = 60;
+            // 
+            // colQuality
+            // 
+            this.colQuality.DataPropertyName = "Quality";
+            this.colQuality.HeaderText = "Quality";
+            this.colQuality.Name = "colQuality";
+            this.colQuality.Width = 40;
+            // 
+            // colAutio
+            // 
+            this.colAutio.DataPropertyName = "AudioLanguages";
+            this.colAutio.HeaderText = "Audio";
+            this.colAutio.Name = "colAutio";
+            this.colAutio.Width = 200;
             // 
             // ucSeriesEpisodes
             // 

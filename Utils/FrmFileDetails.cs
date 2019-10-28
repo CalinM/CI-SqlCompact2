@@ -24,6 +24,9 @@ namespace Utils
         {
             InitializeComponent();
 
+            //for an operation started by a drag & drop action, the parent is unknown
+            this.Owner = (Form)(FromHandle(Common.Helpers.MainFormHandle));
+
             var dgvType = dgvFilesDetails.GetType();
             var pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
             pi.SetValue(dgvFilesDetails, true, null);
@@ -44,28 +47,28 @@ namespace Utils
                 {
                     dgvFilesDetails.Columns.Add(
                         new DataGridViewTextBoxColumn
-                            {
-                                AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
-                                ValueType = typeof(string),
-                                DataPropertyName = tCol.ColumnName,
-                                Name = "col" + tCol.ColumnName.Replace(" ", ""),
-                                HeaderText =  tCol.ColumnName,
-                                Width = tCol.ColumnName == "Filename" ? 300 : tCol.ColumnName == "Error" ? 100 : 50
-                            });
+                        {
+                            AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
+                            ValueType = typeof(string),
+                            DataPropertyName = tCol.ColumnName,
+                            Name = "col" + tCol.ColumnName.Replace(" ", ""),
+                            HeaderText = tCol.ColumnName,
+                            Width = tCol.ColumnName == "Filename" ? 300 : tCol.ColumnName == "Error" ? 100 : 50
+                        });
                 }
                 else
                 //if (tCol.ColumnName.StartsWith("Default") || tCol.ColumnName.StartsWith("Forced"))
                 {
                     dgvFilesDetails.Columns.Add(
                         new DataGridViewCheckBoxColumn
-                            {
-                                AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
-                                ValueType = typeof(bool),
-                                DataPropertyName = tCol.ColumnName,
-                                Name = "col" + tCol.ColumnName.Replace(" ", ""),
-                                HeaderText = tCol.ColumnName,
-                                Width = 50
-                            });
+                        {
+                            AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
+                            ValueType = typeof(bool),
+                            DataPropertyName = tCol.ColumnName,
+                            Name = "col" + tCol.ColumnName.Replace(" ", ""),
+                            HeaderText = tCol.ColumnName,
+                            Width = 50
+                        });
                 }
             }
         }
@@ -74,7 +77,7 @@ namespace Utils
         {
             if (!items.Any()) return null;
 
-            var table = new DataTable { TableName = "FilesDetails" } ;
+            var table = new DataTable { TableName = "FilesDetails" };
 
             var keyCollection = new List<string>();
 
@@ -124,8 +127,8 @@ namespace Utils
                         _fileDetails.WriteXml(sw);
 
                         var sr = File.CreateText(saveDialog.FileName);
-			            sr.WriteLine(sw.ToString());
-			            sr.Close();
+                        sr.WriteLine(sw.ToString());
+                        sr.Close();
                     }
                 }
 
@@ -154,8 +157,8 @@ namespace Utils
                         _fileDetails.WriteXml(sw);
 
                         var sr = File.CreateText(saveDialog.FileName);
-			            sr.WriteLine(_fileDetails.ToCsv());
-			            sr.Close();
+                        sr.WriteLine(_fileDetails.ToCsv());
+                        sr.Close();
                     }
                 }
 

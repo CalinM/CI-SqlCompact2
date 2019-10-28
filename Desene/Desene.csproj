@@ -34,6 +34,9 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Images\icon1.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -277,6 +280,7 @@
     <Content Include="Images\exit.png" />
     <Content Include="Images\export.png" />
     <Content Include="Images\generatePdf.png" />
+    <Content Include="Images\icon1.ico" />
     <Content Include="Images\image.png" />
     <Content Include="Images\import.png" />
     <Content Include="Images\info.png" />

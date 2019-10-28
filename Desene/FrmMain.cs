@@ -23,6 +23,7 @@ using Helpers = Utils.Helpers;
 using System.Text;
 using System.Drawing.Text;
 
+
 namespace Desene
 {
     public partial class FrmMain : BaseApplicationForm
@@ -60,23 +61,10 @@ namespace Desene
             pMainContainer.Controls.Clear();
 
             DAL.LoadBaseDbValues();
-            ////if (DAL.CheckOldThemeUsage())
-            ////{
-            ////    if (MessageBox.Show("Old 'Theme' (movies) system usage has been detected. Press 'Ok' to update it to the new version!", "Info",
-            ////            MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2) == DialogResult.Cancel)
-            ////    {
-            ////        Close();
-            ////        return;
-            ////    }
-
-            ////    var opRes = OldDataMigration.ConvertThemeToEnum();
-            ////    if (!opRes.Success)
-            ////    {
-            ////        MessageBox.Show(opRes.CustomErrorMessage, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            ////    }
-            ////}
 
             LoadMainWindowConfig();
+
+            Common.Helpers.MainFormHandle = Handle;
         }
 
         protected override void OnActivated(EventArgs e)
@@ -176,6 +164,48 @@ namespace Desene
             }
         }
 
+        private void miMoviesList_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                DrawingControl.SuspendDrawing(pMainContainer);
+                ClearAllDelegates();
+
+                var senderItem = (ToolStripMenuItem)sender;
+                if (!senderItem.Checked)
+                {
+                    MarkCurrentCategory(senderItem);
+                    GetStatistics(true, false);
+
+                    pMainContainer.Controls.Clear();
+                    pMainContainer.Controls.Add(new ucMoviesList(this) { Dock = DockStyle.Fill });
+                }
+                else
+                {
+                    if (!(OnCloseModule is null))
+                        OnCloseModule(sender, e);
+
+                    senderItem.Checked = false;
+
+                    pMainContainer.Controls.Clear();
+
+                    GetStatistics(false, false);
+                }
+
+                SetMainCrudButtonsState(senderItem.Checked, "Add movie");
+
+                //todo: check if necessary
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+            finally
+            {
+                DrawingControl.ResumeDrawing(pMainContainer);
+                Cursor = Cursors.Default;
+            }
+        }
+
         private void miCollections_Click(object sender, EventArgs e)
         {
             try
@@ -248,28 +278,7 @@ namespace Desene
 
         private void btnMoviesList_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Cursor = Cursors.WaitCursor;
-                DrawingControl.SuspendDrawing(pMainContainer);
-                ClearAllDelegates();
 
-                miMovies.Checked = false;
-                miCollections.Checked = false;
-                miSeries.Checked = false;
-
-                pMainContainer.Controls.Clear();
-                pMainContainer.Controls.Add(new ucMoviesList(this) { Dock = DockStyle.Fill });
-
-                //todo: check if necessary
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-            }
-            finally
-            {
-                DrawingControl.ResumeDrawing(pMainContainer);
-                Cursor = Cursors.Default;
-            }
         }
 
         private void GetStatistics(bool show, bool forSeries)
@@ -768,7 +777,7 @@ namespace Desene
             Settings.Default.Save();
 
 
-            var opRes = SiteGenerator.GenerateSiteFiles(genParams.SiteGenParams);
+            var opRes = SiteGenerator.GenerateSiteFiles(genParams.SiteGenParams, this.Handle);
 
             if (!opRes.Success)
             {
@@ -882,7 +891,8 @@ namespace Desene
             Directory.GetFiles(path, "*.*");
 
             if (!files.ToList().DistinctBy(Path.GetExtension).Any())
-                MsgBox.Show("The folder is empty!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "File details",
+                    string.Format("The specified folder '{0}' is empty!", path), 5000, this);
             else
             {
                 var param = new FilesImportParams
@@ -896,7 +906,8 @@ namespace Desene
 
                 if (opRes.AdditionalDataReturn == null)
                 {
-                    MsgBox.Show("There was an issue and no files details were retrieved!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "File details",
+                        string.Format("No details retrieved. {0}", opRes.CustomErrorMessage), 5000, this);
                     return;
                 }
 
@@ -937,7 +948,8 @@ namespace Desene
 
                 if (!displayResult.Any())
                 {
-                    MsgBox.Show("Something went wrong while processing the files details!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "File details",
+                        "Something went wrong while processing the files details!", 5000, this);
                     return;
                 }
 
@@ -1043,7 +1055,6 @@ namespace Desene
 
         private void btnGenerateCatalog_Click(object sender, EventArgs e)
         {
-
             var genParams = new FrmPDFCatalogGenParams() { Owner = this };
             if (genParams.ShowDialog() != DialogResult.OK)
                 return;
@@ -1057,9 +1068,12 @@ namespace Desene
             }
             else
             {
-                MessageBox.Show("Done");
+                Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Error, "PDF Catalog Generation",
+                    string.Format("The catalog has been succesfully created and saved in '{0}'", genParams.PdfGenParams.FileName), 10000, this);
             }
         }
+
+
 
         //public Encoding GetEncoding(string filename)
         //{

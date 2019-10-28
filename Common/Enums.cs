@@ -60,6 +60,23 @@ namespace Common
         public string Text { get; set; }
     }
 
+    public enum StartPosition2
+    {
+        TopLeft = 0,
+        TopRight = 1,
+        BottomLeft = 2,
+        BottomRight = 3
+    }
+
+    public enum MessageType
+    {
+        Information = 0,
+        Warning = 1,
+        Error = 2,
+        Confirmation = 3
+    }
+
+
     public class EnumHelpers
     {
         public static List<EnumSelectorHelper> EnumToList<T>() where T : struct
