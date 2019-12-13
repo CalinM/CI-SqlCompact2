@@ -19,6 +19,8 @@ namespace Desene
         public static MovieTechnicalDetails NewMTD;
         public static List<string> MovieThemes = new List<string>();
         public static string SectionDetails = string.Empty;
+        public static SeriesType SeriesType = SeriesType.Final;
+
 
         public static OperationResult LoadBaseDbValues()
         {
@@ -108,9 +110,10 @@ namespace Desene
                     WHERE fd1.ParentId = -1
                     ORDER BY fd1.FileName
                  */
-                var commandSource = new SqlCeCommand("SELECT * FROM FileDetail WHERE ParentId = -1 ORDER BY FileName", conn);
+                var cmd = new SqlCeCommand("SELECT * FROM FileDetail WHERE ParentId = @displayType ORDER BY FileName", conn);
+                cmd.Parameters.AddWithValue("@displayType", (int)SeriesType);
 
-                using (var reader = commandSource.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
@@ -381,7 +384,7 @@ namespace Desene
                             @Poster,
                             @Notes,
                             @Trailer,
-                            -1)";
+                            @displayType)";
 
                     var cmd = new SqlCeCommand(insertString, conn);
                     cmd.Parameters.AddWithValue("@FileName", title);
@@ -392,6 +395,7 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@Poster", poster ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@Notes", notes);
                     cmd.Parameters.AddWithValue("@Trailer", trailer);
+                    cmd.Parameters.AddWithValue("@displayType", (int)SeriesType);
 
                     cmd.ExecuteNonQuery();
                     cmd.CommandText = "Select @@Identity";
@@ -1165,7 +1169,7 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@CoverEmbedded", CurrentMTD.Cover);
                     cmd.Parameters.AddWithValue("@Season", CurrentMTD.Season);
                     //cmd.Parameters.AddWithValue("@Quality", CurrentMTD.ParentId > 0 ? GetQualityStrFromSize(CurrentMTD) : string.Empty);
-                    cmd.Parameters.AddWithValue("@Quality", CurrentMTD.ParentId != -1 ? GetQualityStrFromSize(CurrentMTD) : string.Empty);
+                    cmd.Parameters.AddWithValue("@Quality", (int)CurrentMTD.ParentId == 0 ? GetQualityStrFromSize(CurrentMTD) : string.Empty);
 
                     CurrentMTD.AudioLanguages = string.Join(", ", CurrentMTD.AudioStreams.Select(a => a.Language == "" ? "?" : a.Language).Distinct());
                     cmd.Parameters.AddWithValue("@AudioLanguages", CurrentMTD.AudioLanguages);
@@ -1639,7 +1643,7 @@ namespace Desene
                         sqlString = @"
                             SELECT
 	                            0 AS Pos,
-	                            0 AS Size,
+	                            '0' AS Size,
 
 	                            COUNT(*) AS CountOf
                             FROM FileDetail
@@ -1689,7 +1693,7 @@ namespace Desene
                         if (seriesCount > 0)
                         {
                             resultStr =
-                                string.Format("There are currently {0} Series in list, with {1} episodes, having a total size of {2}.",
+                                string.Format("There are currently {0} Series in list, summing {1} episodes, having a total size of {2}.",
                                     seriesCount,
                                     episodesCount,
                                     episodesSize);
@@ -1885,7 +1889,7 @@ namespace Desene
             return s.Replace("https://www.youtube.com/watch?v=", "");
         }
 
-        public static List<SeriesForWeb> GetSeriesForWeb()
+        public static List<SeriesForWeb> GetSeriesForWeb(SeriesType st)
         {
             var result = new List<SeriesForWeb>();
 
@@ -1893,7 +1897,7 @@ namespace Desene
             {
                 conn.Open();
 
-                var commandSource = new SqlCeCommand(@"
+                var cmd = new SqlCeCommand(@"
                     SELECT
                         fd.Id,
                         fd.FileName,
@@ -1906,10 +1910,12 @@ namespace Desene
                             ELSE CONVERT(BIT, 1)
 	                    END AS HasPoster
                     FROM FileDetail fd
-                    WHERE fd.ParentId = -1
+                    WHERE fd.ParentId = @seriesType
                     ORDER BY fd.FileName", conn);
 
-                using (var reader = commandSource.ExecuteReader())
+                cmd.Parameters.AddWithValue("@seriesType", (int)st);
+
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
@@ -1931,7 +1937,7 @@ namespace Desene
             return result;
         }
 
-        public static List<EpisodesForWeb> GetEpisodesForWeb(bool preserveMarkesForExistingThumbnails)
+        public static List<EpisodesForWeb> GetEpisodesForWeb(bool preserveMarkesForExistingThumbnails, SeriesType st)
         {
             var result = new List<EpisodesForWeb>();
 
@@ -1939,7 +1945,7 @@ namespace Desene
             {
                 conn.Open();
 
-                var commandSource = new SqlCeCommand(@"
+                var cmd = new SqlCeCommand(@"
                         SELECT
                             fd.Id,
                             fd.ParentId,
@@ -1957,8 +1963,8 @@ namespace Desene
                             fd.InsertedDate,
                             fd.LastChangeDate
                         FROM FileDetail fd
-
-                        WHERE fd.ParentId > 0
+                            LEFT OUTER JOIN FileDetail p ON p.Id = fd.ParentId
+                        WHERE fd.ParentId > 0 AND p.ParentId = @seriesType
                         ORDER BY ParentId, Season, FileName", conn);
 
                 /*
@@ -1972,8 +1978,9 @@ namespace Desene
 
                 IsNUll -> Has/Not Thumbnails
              */
+                cmd.Parameters.AddWithValue("@seriesType", (int)st);
 
-                using (var reader = commandSource.ExecuteReader())
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
@@ -2407,7 +2414,7 @@ namespace Desene
 
                 if (!pdfGenParams.ForMovies)
                 {
-                    var episodes = GetEpisodesForWeb(true);
+                    var episodes = GetEpisodesForWeb(true, SeriesType.Final);
 
                     foreach (var s in result)
                     {

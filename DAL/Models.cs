@@ -438,4 +438,21 @@ namespace DAL
         Christmas = 1,
         Helloween = 2
     }
+
+    public class GeneratedJSData
+    {
+        public string MoviesData { get; set; }
+
+        public string SeriesData { get; set; }
+
+        public string RecordingsData { get; set; }
+
+        public GeneratedJSData() { }
+        public GeneratedJSData(string moviesData, string seriesData, string recordingsData)
+        {
+            MoviesData = moviesData;
+            SeriesData = seriesData;
+            RecordingsData = recordingsData;
+        }
+    }
 }

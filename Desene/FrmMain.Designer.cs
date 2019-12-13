@@ -61,6 +61,7 @@ namespace Desene
             this.button4 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.miRecordings = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.pMainContainer.SuspendLayout();
@@ -95,6 +96,7 @@ namespace Desene
             this.miCollections,
             this.toolStripSeparator4,
             this.miSeries,
+            this.miRecordings,
             this.toolStripMenuItem1,
             this.miExit});
             this.btnCategory.Image = ((System.Drawing.Image)(resources.GetObject("btnCategory.Image")));
@@ -106,7 +108,7 @@ namespace Desene
             // miMovies
             // 
             this.miMovies.Name = "miMovies";
-            this.miMovies.Size = new System.Drawing.Size(133, 22);
+            this.miMovies.Size = new System.Drawing.Size(180, 22);
             this.miMovies.Tag = "1";
             this.miMovies.Text = "Movies";
             this.miMovies.Click += new System.EventHandler(this.miMovies_Click);
@@ -115,7 +117,7 @@ namespace Desene
             // 
             this.miMoviesList.Image = global::Desene.Properties.Resources.moviesList;
             this.miMoviesList.Name = "miMoviesList";
-            this.miMoviesList.Size = new System.Drawing.Size(133, 22);
+            this.miMoviesList.Size = new System.Drawing.Size(180, 22);
             this.miMoviesList.Tag = "1";
             this.miMoviesList.Text = "Movies list";
             this.miMoviesList.Click += new System.EventHandler(this.miMoviesList_Click);
@@ -123,12 +125,12 @@ namespace Desene
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(130, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // miCollections
             // 
             this.miCollections.Name = "miCollections";
-            this.miCollections.Size = new System.Drawing.Size(133, 22);
+            this.miCollections.Size = new System.Drawing.Size(180, 22);
             this.miCollections.Tag = "1";
             this.miCollections.Text = "Collections";
             this.miCollections.Click += new System.EventHandler(this.miCollections_Click);
@@ -136,12 +138,12 @@ namespace Desene
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(130, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
             // 
             // miSeries
             // 
             this.miSeries.Name = "miSeries";
-            this.miSeries.Size = new System.Drawing.Size(133, 22);
+            this.miSeries.Size = new System.Drawing.Size(180, 22);
             this.miSeries.Tag = "1";
             this.miSeries.Text = "Series";
             this.miSeries.Click += new System.EventHandler(this.miSeries_Click);
@@ -149,13 +151,13 @@ namespace Desene
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(130, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
             // 
             // miExit
             // 
             this.miExit.Image = global::Desene.Properties.Resources.exit;
             this.miExit.Name = "miExit";
-            this.miExit.Size = new System.Drawing.Size(133, 22);
+            this.miExit.Size = new System.Drawing.Size(180, 22);
             this.miExit.Text = "Exit";
             this.miExit.Click += new System.EventHandler(this.miExit_Click);
             // 
@@ -343,6 +345,13 @@ namespace Desene
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // miRecordings
+            // 
+            this.miRecordings.Name = "miRecordings";
+            this.miRecordings.Size = new System.Drawing.Size(180, 22);
+            this.miRecordings.Text = "Recordings";
+            this.miRecordings.Click += new System.EventHandler(this.miRecordings_Click);
+            // 
             // FrmMain
             // 
             this.AllowDrop = true;
@@ -402,6 +411,7 @@ namespace Desene
         private System.Windows.Forms.ToolStripMenuItem miMoviesList;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem miRecordings;
     }
 }
 

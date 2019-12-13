@@ -26,7 +26,7 @@ namespace Desene
         private bool _isFiltered;
         private Timer _genericTimer;
 
-        public ucSeries(FrmMain parent)
+        public ucSeries(FrmMain parent, SeriesType st)
         {
             InitializeComponent();
 
@@ -34,6 +34,7 @@ namespace Desene
             _parent.OnAddButtonPress += AddSeries;
             _parent.OnDeleteButtonPress += DeleteSeries;
 
+            DAL.SeriesType = st;
             Helpers.GenericSetButtonsState2 = SetSaveButtonState;
 
             pDummyMenuForShortCutKeys.SendToBack();

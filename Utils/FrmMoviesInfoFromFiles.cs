@@ -22,31 +22,25 @@ namespace Utils
 
         private void btnFolderSelector_Click(object sender, EventArgs e)
         {
-            using (var folderBrowserDialog = new FolderBrowserDialog())
+            var selectedPath = Helpers.SelectFolder("Please select the movies location (folder)", Settings.Default.LastPath);
+            if (string.IsNullOrEmpty(selectedPath))
+                return;
+
+            Settings.Default.LastPath = selectedPath;
+            Settings.Default.Save();
+
+            tbFilesLocation.Text = selectedPath;
+
+            var files = Directory.GetFiles(selectedPath, "*.*");
+
+            if (!files.ToList().DistinctBy(Path.GetExtension).Any())
+                cbFileExtensions.Text = @"folder empty!";
+            else
             {
-                folderBrowserDialog.Description = "Please select the episodes location (folder)";
-                folderBrowserDialog.ShowNewFolderButton = false;
-                folderBrowserDialog.SelectedPath = Settings.Default.LastPath;
-
-                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                var ext = "*" + Path.GetExtension(files.ToList().DistinctBy(Path.GetExtension).FirstOrDefault());
+                if (cbFileExtensions.Items.IndexOf(ext) >= 0)
                 {
-                    Settings.Default.LastPath = folderBrowserDialog.SelectedPath;
-                    Settings.Default.Save();
-
-                    tbFilesLocation.Text = folderBrowserDialog.SelectedPath;
-
-                    var files = Directory.GetFiles(folderBrowserDialog.SelectedPath, "*.*");
-
-                    if (!files.ToList().DistinctBy(Path.GetExtension).Any())
-                        cbFileExtensions.Text = @"folder empty!";
-                    else
-                    {
-                        var ext = "*" + Path.GetExtension(files.ToList().DistinctBy(Path.GetExtension).FirstOrDefault());
-                        if (cbFileExtensions.Items.IndexOf(ext) >= 0)
-                        {
-                            cbFileExtensions.Text = ext;
-                        }
-                    }
+                    cbFileExtensions.Text = ext;
                 }
             }
         }

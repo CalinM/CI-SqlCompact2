@@ -3,6 +3,9 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Common;
+using Microsoft.Win32;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using Utils.Properties;
 
 namespace Utils
 {
@@ -53,9 +56,62 @@ namespace Utils
         public static void ShowToastForm(StartPosition2 startPosition, MessageType messageType, string title, string message, int duration,
             Form parentForm)
         {
-            var t = new FrmToast(startPosition, messageType, title, message, duration);
-            t.Show();
-            parentForm.Focus(); //https://stackoverflow.com/questions/156046/show-a-form-without-stealing-focus
+            var f = new FrmToast(startPosition, messageType, title, message, duration);
+            f.Show();
+
+            if (parentForm != null)
+                parentForm.Focus(); //https://stackoverflow.com/questions/156046/show-a-form-without-stealing-focus
+        }
+
+        public static string SelectFolder(string title, string lastPath)
+        {
+            using (var dialog = new CommonOpenFileDialog())
+            {
+                dialog.IsFolderPicker = true;
+                dialog.Title = title;
+                dialog.InitialDirectory = lastPath;
+                dialog.DialogOpening += Dialog_DialogOpening;
+
+                return dialog.ShowDialog() == CommonFileDialogResult.Ok ? dialog.FileName : null;
+            }
+        }
+
+        private static void Dialog_DialogOpening(object sender, EventArgs e)
+        {
+            if (Settings.Default.FolderCfgNotShown > 10)
+                return;
+
+            var currentConfig = GetCurrentFolderBehavior();
+
+            if (currentConfig != null && currentConfig == 0)
+            {
+                ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "Folders behavior",
+                    "Change the 'NavPaneExpandToCurrentFolder' registry property to 1 in order to have the folder tree automatically expand to the current selection", 10000, Form.ActiveForm);
+
+                Settings.Default.FolderCfgNotShown = Settings.Default.FolderCfgNotShown + 1;
+                Settings.Default.Save();
+            }
+        }
+
+        private static int? GetCurrentFolderBehavior()
+        {
+            try
+            {
+                //https://www.softwareok.com/?seite=faq-Windows-10&faq=65
+                using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"))
+                {
+                    if (key != null)
+                    {
+                        var o = key.GetValue("NavPaneExpandToCurrentFolder");
+                        if (o != null)
+                            return int.Parse(o.ToString());
+                    }
+                }
+            }
+            catch
+            { }
+
+            return null;
         }
     }
 

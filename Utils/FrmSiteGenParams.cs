@@ -49,17 +49,11 @@ namespace Utils
 
         private void BtnFolderSelector_Click(object sender, EventArgs e)
         {
-            using (var folderBrowserDialog = new FolderBrowserDialog())
-            {
-                folderBrowserDialog.Description = "Select a folder to save the generated files:";
-                folderBrowserDialog.ShowNewFolderButton = true;
-                folderBrowserDialog.SelectedPath = _lastPath;
+            var selectedPath = Helpers.SelectFolder("Select a folder to save the generated files:", _lastPath);
+            if (string.IsNullOrEmpty(selectedPath))
+                return;
 
-                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
-                {
-                    tbFilesLocation.Text = folderBrowserDialog.SelectedPath;
-                }
-            }
+            tbFilesLocation.Text = selectedPath;
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)

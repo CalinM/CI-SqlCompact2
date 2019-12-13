@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MediaToolkit, Version=1.1.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediaToolkit.1.1.0.1\lib\net40\MediaToolkit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Primitives.4.0.1\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
     </Reference>
@@ -91,7 +94,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DatabaseOperations.cs" />
-    <Compile Include="ExtendedFolderBrowser.cs" />
     <Compile Include="FilesMetaData.cs" />
     <Compile Include="FlashWindow.cs" />
     <Compile Include="FrmElementsInfoFromFiles.cs">

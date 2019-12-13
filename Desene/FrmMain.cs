@@ -218,6 +218,7 @@ namespace Desene
                 if (!senderItem.Checked)
                 {
                     MarkCurrentCategory(senderItem);
+                    GetStatistics(false, false); //not implemented! ... todo
 
                     pMainContainer.Controls.Clear();
                     pMainContainer.Controls.Add(new ucCollections(this) { Dock = DockStyle.Fill });
@@ -243,6 +244,16 @@ namespace Desene
 
         private void miSeries_Click(object sender, EventArgs e)
         {
+            LoadSeriesTypeControls(sender, SeriesType.Final);
+        }
+
+        private void miRecordings_Click(object sender, EventArgs e)
+        {
+            LoadSeriesTypeControls(sender, SeriesType.Recordings);
+        }
+
+        private void LoadSeriesTypeControls(object sender, SeriesType st)
+        {
             try
             {
                 Cursor = Cursors.WaitCursor;
@@ -253,17 +264,20 @@ namespace Desene
                 if (!senderItem.Checked)
                 {
                     MarkCurrentCategory(senderItem);
+                    GetStatistics(true, true);
 
                     pMainContainer.Controls.Clear();
-                    pMainContainer.Controls.Add(new ucSeries(this) { Dock = DockStyle.Fill });
+                    pMainContainer.Controls.Add(new ucSeries(this, st) { Dock = DockStyle.Fill });
                 }
                 else
                 {
                     senderItem.Checked = false;
                     pMainContainer.Controls.Clear();
+
+                    GetStatistics(false, true);
                 }
 
-                SetMainCrudButtonsState(senderItem.Checked, "Add series");
+                SetMainCrudButtonsState(senderItem.Checked, "Add " + (st == SeriesType.Final ? "series" : "recordings group"));
 
                 //todo: check if necessary
                 GC.Collect();
@@ -274,11 +288,6 @@ namespace Desene
                 DrawingControl.ResumeDrawing(pMainContainer);
                 Cursor = Cursors.Default;
             }
-        }
-
-        private void btnMoviesList_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void GetStatistics(bool show, bool forSeries)
@@ -711,59 +720,59 @@ namespace Desene
 
         private void button3_Click(object sender, EventArgs e)
         {
-            ////MsgBox.Show("desc", "title", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk,MessageBoxDefaultButton.Button1,
-            ////    new Font("Times New Roman", 15, FontStyle.Bold) );
-            ///
+            //////MsgBox.Show("desc", "title", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk,MessageBoxDefaultButton.Button1,
+            //////    new Font("Times New Roman", 15, FontStyle.Bold) );
+            /////
 
-            var moviesData = Desene.DAL.GetMoviesForWeb();
+            //var moviesData = Desene.DAL.GetMoviesForWeb();
 
-            /*
-                select top 50 FileName, InsertedDate from FIleDetail
-                where ParentId is null
-                order by insertedDate desc
-            */
+            ///*
+            //    select top 50 FileName, InsertedDate from FIleDetail
+            //    where ParentId is null
+            //    order by insertedDate desc
+            //*/
 
-            var newMovies =
-                moviesData
-                    .OrderByDescending(o => o.InsertedDate)
-                    .Select(md => md.FN)
-                    .Take(25)
-                    .ToList();
+            //var newMovies =
+            //    moviesData
+            //        .OrderByDescending(o => o.InsertedDate)
+            //        .Select(md => md.FN)
+            //        .Take(25)
+            //        .ToList();
 
 
-            /*
-                select top 50 FileName, LastChangeDate,
-                DATEDIFF(d, InsertedDate, LastChangeDate) AS Diff
-                from FIleDetail
-                where ParentId is null and DATEDIFF(d, InsertedDate, LastChangeDate) > 1
-                order by LastChangeDate des
-            */
+            ///*
+            //    select top 50 FileName, LastChangeDate,
+            //    DATEDIFF(d, InsertedDate, LastChangeDate) AS Diff
+            //    from FIleDetail
+            //    where ParentId is null and DATEDIFF(d, InsertedDate, LastChangeDate) > 1
+            //    order by LastChangeDate des
+            //*/
 
-            var updatedMovies =
-                moviesData
-                    .Where(md => md.LastChangeDate.Subtract(md.InsertedDate).Days > 1)
-                    .OrderByDescending(o => o.LastChangeDate)
-                    .Select(md => md.FN)
-                    .Take(25)
-                    .ToList();
+            //var updatedMovies =
+            //    moviesData
+            //        .Where(md => md.LastChangeDate.Subtract(md.InsertedDate).Days > 1)
+            //        .OrderByDescending(o => o.LastChangeDate)
+            //        .Select(md => md.FN)
+            //        .Take(25)
+            //        .ToList();
 
-            var seriesData = Desene.DAL.GetSeriesForWeb();
-            var episodesData = Desene.DAL.GetEpisodesForWeb(true);
+            //var seriesData = Desene.DAL.GetSeriesForWeb();
+            //var episodesData = Desene.DAL.GetEpisodesForWeb(true);
 
-            var seriesWithInsertedEp = new List<int>();
+            //var seriesWithInsertedEp = new List<int>();
 
-            foreach (var epData in episodesData.OrderByDescending(o => o.InsertedDate))
-            {
-                if (seriesWithInsertedEp.IndexOf(epData.SId) == -1)
-                {
-                    seriesWithInsertedEp.Add(epData.SId);
+            //foreach (var epData in episodesData.OrderByDescending(o => o.InsertedDate))
+            //{
+            //    if (seriesWithInsertedEp.IndexOf(epData.SId) == -1)
+            //    {
+            //        seriesWithInsertedEp.Add(epData.SId);
 
-                    if (seriesWithInsertedEp.Count() >= 10)
-                        break;
-                }
-            }
+            //        if (seriesWithInsertedEp.Count() >= 10)
+            //            break;
+            //    }
+            //}
 
-            var x = 1;
+            //var x = 1;
         }
 
         private void btnGenerateHtml_Click(object sender, EventArgs e)
@@ -815,7 +824,7 @@ namespace Desene
 
             #region Site scripts
 
-            var serializedData = (KeyValuePair<string, string>)opRes.AdditionalDataReturn;
+            var serializedData = (GeneratedJSData)opRes.AdditionalDataReturn;
 
             var scriptPath = Path.Combine(genParams.SiteGenParams.Location, "Scripts");
             if (!Directory.Exists(scriptPath))
@@ -823,8 +832,9 @@ namespace Desene
 
             //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiFilme_{genUniqueId}.js"), serializedData.Key);
             //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiSeriale_{genUniqueId}.js"), serializedData.Value);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiFilme.js"), serializedData.Key);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiSeriale.js"), serializedData.Value);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiFilme.js"), serializedData.MoviesData);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiSeriale.js"), serializedData.SeriesData);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiRecordings.js"), serializedData.RecordingsData);
 
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery-2.2.4.min.js"), Resources.jquery_2_2_4_min);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\desene.js"), Resources.deseneJS);
@@ -866,20 +876,14 @@ namespace Desene
 
         private void btnFilesDetails_Click(object sender, EventArgs e)
         {
-            using (var folderBrowserDialog = new FolderBrowserDialog())
-            {
-                folderBrowserDialog.Description = "Please select the files location";
-                folderBrowserDialog.ShowNewFolderButton = false;
-                folderBrowserDialog.SelectedPath = Settings.Default.LastPath;
+            var selectedPath = Helpers.SelectFolder("Please select the files location", Settings.Default.LastPath);
+            if (string.IsNullOrEmpty(selectedPath))
+                return;
 
-                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
-                {
-                    Settings.Default.LastPath = folderBrowserDialog.SelectedPath;
-                    Settings.Default.Save();
+            Settings.Default.LastPath = selectedPath;
+            Settings.Default.Save();
 
-                    GetFilesDetails(folderBrowserDialog.SelectedPath);
-                }
-            }
+            GetFilesDetails(selectedPath);
         }
 
         private void GetFilesDetails(string path)

@@ -7,7 +7,11 @@ using System.Windows.Forms;
 using Common;
 using DAL;
 using MediaInfoLib;
-
+using MediaToolkit;
+using MediaToolkit.Model;
+using MediaToolkit.Options;
+using Microsoft.WindowsAPICodePack.Shell;
+using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 using NReco.VideoConverter;
 
 namespace Utils
@@ -82,6 +86,23 @@ namespace Utils
                     //AudioLanguages = mi.Get(StreamKind.General, 0, "Audio_Language_List").Replace(" / ", ", "),
                     //SubtitleLanguages = mi.Get(StreamKind.General, 0, "Text_Language_List").Replace(" / ", ", "),
                 };
+
+                if (mtd.Duration == "0" || mtd.Duration == string.Empty) //CMA: enable this only for TS?
+                {
+                    var tsDurationFallback = GetVideoDuration(filePath);
+
+                    mtd.Duration = ((int)tsDurationFallback.TotalMilliseconds).ToString();
+                }
+
+                if (mtd.Duration.Contains("."))
+                {
+                    decimal d = 0;
+                    if (decimal.TryParse(mtd.Duration, out d))
+                    {
+                        mtd.Duration = ((int)d).ToString();
+                    }
+                }
+
 
                 var vcStr = mi.Get(StreamKind.General, 0, "VideoCount");
                 var vc = int.TryParse(vcStr, out var tmpInt) ? tmpInt : 0;
@@ -160,19 +181,62 @@ namespace Utils
             return result;
         }
 
+        private static TimeSpan GetVideoDuration(string filePath)
+        {
+            using (var shell = ShellObject.FromParsingName(filePath))
+            {
+                IShellProperty prop = shell.Properties.System.Media.Duration;
+                var t = (ulong)prop.ValueAsObject;
+                return TimeSpan.FromTicks((long)t);
+            }
+        }
+
         //MOVIES & EPISODES -> Method used to extract the image frames from the processed/specified file
         public static OperationResult GetMovieStills(MovieTechnicalDetails mtd, FFMpegConverter ffMpegConverter)
         {
             var result = new OperationResult();
 
+            if (mtd.DurationAsInt <= 0)
+                return result;
+
+            var durationInSec = mtd.DurationAsInt / 1000;
+
             try
             {
-                if (ffMpegConverter == null)
-                    ffMpegConverter = new FFMpegConverter();
-
-                if (mtd.DurationAsInt > 0)
+                if (Path.GetExtension(mtd.InitialPath) == ".ts")
                 {
-                    var durationInSec = mtd.DurationAsInt / 1000;
+                    var inputFile = new MediaFile { Filename = mtd.InitialPath };
+
+                    var tempFile = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), "tmpStill.jpg");
+                    var outputFile = new MediaFile { Filename = tempFile };
+
+                    using (var engine = new Engine())
+                    {
+                        engine.GetMetadata(inputFile);
+
+                        for (var j = 1; j <= 3; j++)
+                        {
+                            var position = (durationInSec * (25 * j)) / 100; //%
+
+                            var options = new ConversionOptions { Seek = TimeSpan.FromSeconds(position) };
+                            engine.GetThumbnail(inputFile, outputFile, options);
+
+                            using (var file = new FileStream(tempFile, FileMode.Open, FileAccess.Read))
+                            {
+                                var bytes = new byte[file.Length];
+                                file.Read(bytes, 0, (int)file.Length);
+
+                                mtd.MovieStills.Add(bytes);
+                            }
+                        }
+
+                        File.Delete(tempFile);
+                    }
+                }
+                else
+                {
+                    if (ffMpegConverter == null)
+                        ffMpegConverter = new FFMpegConverter();
 
                     for (var j = 1; j <= 3; j++)
                     {

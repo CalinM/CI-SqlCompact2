@@ -76,6 +76,12 @@ namespace Common
         Confirmation = 3
     }
 
+    public enum SeriesType
+    {
+        Final = -1,
+        Recordings = -100
+    }
+
 
     public class EnumHelpers
     {

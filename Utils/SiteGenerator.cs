@@ -97,8 +97,8 @@ namespace Utils
 
             #region Series
 
-            var seriesData = Desene.DAL.GetSeriesForWeb();
-            var episodesData = Desene.DAL.GetEpisodesForWeb(siteGenParams.PreserveMarkesForExistingThumbnails);
+            var seriesData = Desene.DAL.GetSeriesForWeb(SeriesType.Final);
+            var episodesData = Desene.DAL.GetEpisodesForWeb(siteGenParams.PreserveMarkesForExistingThumbnails, SeriesType.Final);
 
 
             var seriesWithInsertedEp = new List<int>();
@@ -116,14 +116,139 @@ namespace Utils
 
             #region Series posters
 
+            result = SavePosters(siteGenParams, seriesData, "Series");
+            if (!result.Success)
+                return result;
+
+            #endregion
+
+            #region Series Episodes thumbnails
+
+            result = SaveThumbnails(siteGenParams, episodesData, "Series");
+            if (!result.Success)
+                return result;
+
+            #endregion
+
+            #region Extract Series Details - leave it after Thumbnail generation
+
+            Desene.DAL.FillSeriesDataFromEpisodes(ref seriesData, episodesData);
+
+            var seriesListDetails =
+                string.Format("The current list contains: {0} Series, combined having {1} episodes, (summing aprox. {2} GB)",
+                    seriesData.Count,
+                    episodesData.Count,
+                    //episodes.Sum(s => s.DimensiuneInt) / 1024
+                    "?");
+
+            var detSerialeInfo =
+                string.Format("var detaliiSeriale = {0}; var detaliiEpisoade = {1}; var detaliiListaS = '{2}'; var newSeriesEpisodes = {3}",
+                    jsS.Serialize(seriesData),
+                    jsS.Serialize(episodesData),
+                    seriesListDetails,
+                    jsS.Serialize(seriesWithInsertedEp));
+
+            #endregion
+
+            #endregion
+
+
+            #region Recordings
+
+            var recordingsData = Desene.DAL.GetSeriesForWeb(SeriesType.Recordings);
+            var recordingsEpisodesData = Desene.DAL.GetEpisodesForWeb(siteGenParams.PreserveMarkesForExistingThumbnails, SeriesType.Recordings);
+            var detRecordingsInfo = "var detaliiRecordings = []; var detaliiEpisoadeRecordings = []; var detaliiListaR = '-'; var newRecordingsEpisodes = []";
+
+            if (recordingsData.Any())
+            {
+                var recordingsWithInsertedEp = new List<int>();
+
+                foreach (var epData in recordingsEpisodesData.OrderByDescending(o => o.InsertedDate))
+                {
+                    if (recordingsWithInsertedEp.IndexOf(epData.SId) == -1)
+                    {
+                        recordingsWithInsertedEp.Add(epData.SId);
+
+                        if (recordingsWithInsertedEp.Count() >= 25)
+                            break;
+                    }
+                }
+
+
+                #region Recordings posters
+
+                result = SavePosters(siteGenParams, recordingsData, "Recordings");
+                if (!result.Success)
+                    return result;
+
+                #endregion
+
+
+                #region Recordings Episodes thumbnails
+
+                result = SaveThumbnails(siteGenParams, recordingsEpisodesData, "Recordings");
+                if (!result.Success)
+                    return result;
+
+                #endregion
+
+
+                #region Extract Recordings Details - leave it after Thumbnail generation
+
+                Desene.DAL.FillSeriesDataFromEpisodes(ref recordingsData, recordingsEpisodesData);
+
+                var recordingsListDetails =
+                    string.Format("The current list contains: {0} Series, combined having {1} episodes, (summing aprox. {2} GB)",
+                        recordingsData.Count,
+                        recordingsEpisodesData.Count,
+                        //episodes.Sum(s => s.DimensiuneInt) / 1024
+                        "?");
+
+                detRecordingsInfo =
+                    string.Format("var detaliiRecordings = {0}; var detaliiEpisoadeRecordings = {1}; var detaliiListaR = '{2}'; var newRecordingsEpisodes = {3}",
+                        jsS.Serialize(recordingsData),
+                        jsS.Serialize(recordingsEpisodesData),
+                        recordingsListDetails,
+                        jsS.Serialize(recordingsWithInsertedEp));
+
+                #endregion
+            }
+
+            #endregion
+
+
+            result.AdditionalDataReturn = new GeneratedJSData(detMovieInfo, detSerialeInfo, detRecordingsInfo);
+            return result;
+        }
+
+        private static OperationResult SavePosters(SiteGenParams siteGenParams, List<SeriesForWeb> data, string caption)
+        {
+            var result = new OperationResult();
+
             if (siteGenParams.SavePosters)
             {
                 var imgsPath = Path.Combine(siteGenParams.Location, "Imgs\\Seriale");
+                var existingPostersForIds = new List<int>();
+
                 if (!Directory.Exists(imgsPath))
                     Directory.CreateDirectory(imgsPath);
+                else
+                {
+                    var d = new DirectoryInfo(imgsPath);
+                    var Files = d.GetFiles("*.jpg");
 
-                var fromProgressIndicator = new FrmProgressIndicator("Site generation - Series posters", "-", seriesData.Count);
-                fromProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<SeriesForWeb>>(siteGenParams, seriesData);
+                    foreach (FileInfo file in Files)
+                    {
+                        var id = int.Parse(file.Name.Split('-', '.')[1]);
+                        if (!existingPostersForIds.Contains(id))
+                            existingPostersForIds.Add(id);
+                    }
+                }
+
+                var idsToSavePosters = new List<SeriesForWeb>(data.Where(x => !existingPostersForIds.Contains(x.Id)));
+
+                var fromProgressIndicator = new FrmProgressIndicator(string.Format("Site generation - {0} posters", caption), "-", idsToSavePosters.Count);
+                fromProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<SeriesForWeb>>(siteGenParams, idsToSavePosters);
                 fromProgressIndicator.DoWork += formPI_DoWork_GenerateSitePosters_Series;
 
                 switch (fromProgressIndicator.ShowDialog())
@@ -146,18 +271,37 @@ namespace Utils
                 }
             }
 
-            #endregion
+            return result;
+        }
 
-            #region Episodes thumbnails
+        private static OperationResult SaveThumbnails(SiteGenParams siteGenParams, List<EpisodesForWeb> data, string caption)
+        {
+            var result = new OperationResult();
 
             if (siteGenParams.SaveEpisodesThumbnals)
             {
                 var imgsPath = Path.Combine(siteGenParams.Location, "Imgs\\Seriale\\Thumbnails");
+                var existingThumbnailsForIds = new List<int>();
+
                 if (!Directory.Exists(imgsPath))
                     Directory.CreateDirectory(imgsPath);
+                else
+                {
+                    var d = new DirectoryInfo(imgsPath);
+                    var Files = d.GetFiles("*.jpg");
 
-                var fromProgressIndicator = new FrmProgressIndicator("Site generation - Episodes thumbnails", "-", episodesData.Count);
-                fromProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<EpisodesForWeb>>(siteGenParams, episodesData);
+                    foreach (FileInfo file in Files)
+                    {
+                        var id = int.Parse(file.Name.Split('-')[1]);
+                        if (!existingThumbnailsForIds.Contains(id))
+                            existingThumbnailsForIds.Add(id);
+                    }
+                }
+
+                var idsToSaveThumbnails = new List<EpisodesForWeb>(data.Where(x => !existingThumbnailsForIds.Contains(x.Id)));
+
+                var fromProgressIndicator = new FrmProgressIndicator(string.Format("Site generation - Episodes ({0}) thumbnails", caption), "-", idsToSaveThumbnails.Count);
+                fromProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<EpisodesForWeb>>(siteGenParams, idsToSaveThumbnails);
                 fromProgressIndicator.DoWork += formPI_DoWork_GenerateSiteEpisodes_Thumbnails;
 
                 switch (fromProgressIndicator.ShowDialog())
@@ -178,12 +322,17 @@ namespace Utils
                         result.AdditionalDataReturn = fromProgressIndicator.Result.Result;
                         break;
                 }
+
+                foreach (var episodeForWeb in data.Where(x => existingThumbnailsForIds.Contains(x.Id)))
+                {
+                    episodeForWeb.Th = 1;
+                }
             }
             else
             if (siteGenParams.PreserveMarkesForExistingThumbnails && Directory.Exists(Path.Combine(siteGenParams.Location, "Imgs\\Seriale\\Thumbnails\\")))
             {
-                var fromProgressIndicator = new FrmProgressIndicator("Setting the episodes thumbnails marker from existing files", "-", episodesData.Count);
-                fromProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<EpisodesForWeb>>(siteGenParams, episodesData);
+                var fromProgressIndicator = new FrmProgressIndicator("Setting the episodes thumbnails marker from existing files", "-", data.Count);
+                fromProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<EpisodesForWeb>>(siteGenParams, data);
                 fromProgressIndicator.DoWork += formPI_DoWork_GenerateSiteEpisodes_Thumbnails2;
 
                 switch (fromProgressIndicator.ShowDialog())
@@ -206,31 +355,6 @@ namespace Utils
                 }
             }
 
-            #endregion
-
-            #region Extract Details - leave it after Thumbnail generation
-
-            Desene.DAL.FillSeriesDataFromEpisodes(ref seriesData, episodesData);
-
-            var seriesListDetails =
-                string.Format("The current list contains: {0} Series, combined having {1} episodes, (summing aprox. {2} GB)",
-                    seriesData.Count,
-                    episodesData.Count,
-                    //episodes.Sum(s => s.DimensiuneInt) / 1024
-                    "?");
-
-            var detSerialeInfo =
-                string.Format("var detaliiSeriale = {0}; var detaliiEpisoade = {1}; var detaliiListaS = '{2}'; var newSeriesEpisodes = {3}",
-                    jsS.Serialize(seriesData),
-                    jsS.Serialize(episodesData),
-                    seriesListDetails,
-                    jsS.Serialize(seriesWithInsertedEp));
-
-            #endregion
-
-            #endregion
-
-            result.AdditionalDataReturn = new KeyValuePair<string, string>(detMovieInfo, detSerialeInfo);
             return result;
         }
 
