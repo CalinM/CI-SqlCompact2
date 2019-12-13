@@ -65,6 +65,7 @@ C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Microsoft.WindowsAPICodePack.Shel
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\NReco.VideoConverter.dll
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\MediaToolkit.dll
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\MigraDoc.Rendering-gdi.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Microsoft.WindowsAPICodePack.dll
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\PdfSharp.Charting-gdi.dll
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Aga.Controls.pdb
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Common.pdb
