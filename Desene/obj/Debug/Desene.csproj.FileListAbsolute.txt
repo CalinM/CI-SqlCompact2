@@ -97,3 +97,4 @@ C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.csproj.CoreCompileInputs.c
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.csproj.CopyComplete
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.exe
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.pdb
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Ookii.Dialogs.dll

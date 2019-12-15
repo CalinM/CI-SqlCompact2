@@ -56,6 +56,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\NReco.VideoConverter.dll</HintPath>
     </Reference>
+    <Reference Include="Ookii.Dialogs">
+      <HintPath>..\_Tools\Ookii.Dialogs.dll</HintPath>
+    </Reference>
     <Reference Include="PdfSharp-gdi">
       <HintPath>..\_Tools\MigraDoc\PdfSharp-gdi.dll</HintPath>
     </Reference>

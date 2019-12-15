@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using Common;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using Ookii.Dialogs;
 using Utils.Properties;
 
 namespace Utils
@@ -65,18 +66,42 @@ namespace Utils
 
         public static string SelectFolder(string title, string lastPath)
         {
-            using (var dialog = new CommonOpenFileDialog())
-            {
-                dialog.IsFolderPicker = true;
-                dialog.Title = title;
-                dialog.InitialDirectory = lastPath;
-                dialog.DialogOpening += Dialog_DialogOpening;
+            //using (var dialog = new CommonOpenFileDialog())
+            //{
+            //    dialog.IsFolderPicker = true;
+            //    dialog.Title = title;
+            //    dialog.InitialDirectory = lastPath;
+            //    dialog.DialogOpening += Dialog_DialogOpening;
 
-                return dialog.ShowDialog() == CommonFileDialogResult.Ok ? dialog.FileName : null;
+            //    return dialog.ShowDialog() == CommonFileDialogResult.Ok ? dialog.FileName : null;
+            //}
+
+            /*
+            CMA:
+            due to HIGH DPI issues:
+                - no force DPI awareness => when showing a CommonOpenFileDialog the main form is scaled down
+                - with force DPI awareness => column treeview incorrectly rendered and the MoviesStills panel height is incorrectly determined
+            (fixed attempted: https://stackoverflow.com/questions/42975285/commonopenfiledialog-cause-windows-form-to-shrink?rq=1)
+
+            For now, the Ookii dialog is used
+            */
+            ShowNotificationAutoExpandToSelection();
+
+            using (var dialog = new VistaFolderBrowserDialog())
+            {
+                dialog.Description = title;
+                dialog.UseDescriptionForTitle = true;
+
+                return dialog.ShowDialog(Form.ActiveForm) == DialogResult.OK ? dialog.SelectedPath : null;
             }
         }
 
-        private static void Dialog_DialogOpening(object sender, EventArgs e)
+        //private static void Dialog_DialogOpening(object sender, EventArgs e)
+        //{
+        //    ShowNotificationAutoExpandToSelection();
+        //}
+
+        private static void ShowNotificationAutoExpandToSelection()
         {
             if (Settings.Default.FolderCfgNotShown > 10)
                 return;
@@ -90,7 +115,7 @@ namespace Utils
 
                 Settings.Default.FolderCfgNotShown = Settings.Default.FolderCfgNotShown + 1;
                 Settings.Default.Save();
-            }
+            }            
         }
 
         private static int? GetCurrentFolderBehavior()
