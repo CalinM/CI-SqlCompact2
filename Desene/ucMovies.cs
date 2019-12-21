@@ -428,6 +428,12 @@ namespace Desene
 
         private void btnRefreshMovieData_Click(object sender, EventArgs e)
         {
+            MsgBox.Show(
+                    "Buggy. Currently not available.",
+                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            return;
+
             //if (MsgBox.Show(
             //        "The previous movie details and all changes made by hand will be lost. Are you sure you want to continue?",
             //        "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
