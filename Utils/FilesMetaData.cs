@@ -87,6 +87,7 @@ namespace Utils
                     //SubtitleLanguages = mi.Get(StreamKind.General, 0, "Text_Language_List").Replace(" / ", ", "),
                 };
 
+
                 if (mtd.Duration == "0" || mtd.Duration == string.Empty) //CMA: enable this only for TS?
                 {
                     var tsDurationFallback = GetVideoDuration(filePath);
@@ -109,6 +110,17 @@ namespace Utils
 
                 for (var i = 0; i < vc; i++)
                 {
+                    var bitRate = mi.Get(StreamKind.Video, i, "BitRate/String");
+                    if (string.IsNullOrEmpty(bitRate))
+                        bitRate = mi.Get(StreamKind.Video, i, "BitRate_Maximum/String");
+                    if (string.IsNullOrEmpty(bitRate))
+                        bitRate = "unknown";
+                        
+                    var delay =
+                        Desene.DAL.SeriesType == SeriesType.Recordings
+                            ? string.Empty //weird values (20h+, etc)
+                            : mi.Get(StreamKind.Video, i, "Delay/String");
+
                     mtd.VideoStreams.Add(
                         new VideoStreamInfo
                         {
@@ -116,12 +128,12 @@ namespace Utils
                             Format = mi.Get(StreamKind.Video, i, "Format"),
                             Format_Profile = mi.Get(StreamKind.Video, i, "Format_Profile"),
                             BitRateMode = mi.Get(StreamKind.Video, i, "BitRate_Mode/String"),
-                            BitRate = mi.Get(StreamKind.Video, i, "BitRate/String"),
+                            BitRate = bitRate,
                             Width = mi.Get(StreamKind.Video, i, "Width"),
                             Height = mi.Get(StreamKind.Video, i, "Height"),
                             FrameRate_Mode = mi.Get(StreamKind.Video, i, "FrameRate_Mode/String"),
                             FrameRate = mi.Get(StreamKind.Video, i, "FrameRate/String"),
-                            Delay = mi.Get(StreamKind.Video, i, "Delay/String"),
+                            Delay = delay,
                             StreamSize = mi.Get(StreamKind.Video, i, "StreamSize/String"),
                             Title = mi.Get(StreamKind.Video, i, "Title"),                       // to detect texts
                             Language = mi.Get(StreamKind.Video, i, "Language/String")
@@ -133,6 +145,11 @@ namespace Utils
 
                 for (var i = 0; i < ac; i++)
                 {
+                    var delay =
+                        Desene.DAL.SeriesType == SeriesType.Recordings
+                            ? string.Empty //weird values (20h+, etc)
+                            : mi.Get(StreamKind.Audio, i, "Delay/String");
+
                     mtd.AudioStreams.Add(
                         new AudioStreamInfo
                         {
@@ -143,7 +160,7 @@ namespace Utils
                             ChannelPosition = mi.Get(StreamKind.Audio, i, "ChannelPositions"),
                             SamplingRate = mi.Get(StreamKind.Audio, i, "SamplingRate/String"),
                             Resolution = mi.Get(StreamKind.Audio, i, "Resolution/String"),
-                            Delay = mi.Get(StreamKind.Audio, i, "Delay/String"),
+                            Delay = delay,
                             Video_Delay = mi.Get(StreamKind.Audio, i, "Video_Delay/String"),
                             StreamSize = mi.Get(StreamKind.Audio, i, "StreamSize/String"),
                             Title = mi.Get(StreamKind.Audio, i, "Title"),                       // to detect texts
@@ -347,7 +364,7 @@ namespace Utils
         private static void formPI_DoWork_RetrieveFilesInfo(FrmProgressIndicator sender, DoWorkEventArgs e)
         {
             var arguments = (KeyValuePair<FilesImportParams, string[]>)e.Argument;
-
+            
             var mi = new MediaInfo();
             FFMpegConverter ffMpegConverter = null;
 
@@ -369,11 +386,22 @@ namespace Utils
                     return;
                 }
 
+                if (arguments.Key.SkipMultiVersion &&
+                    (Path.GetFileNameWithoutExtension(filePath).EndsWith(" v2") || 
+                     Path.GetFileNameWithoutExtension(filePath).EndsWith(" v3") ||
+                     Path.GetFileNameWithoutExtension(filePath).EndsWith(" v4")))
+                {
+                    continue;
+                }
+
                 var opRes = GetFileTechnicalDetails(filePath, mi);
 
                 if (opRes.Success)
                 {
                     var mtdObj = (MovieTechnicalDetails)opRes.AdditionalDataReturn;
+
+                    if (Desene.DAL.SeriesType == SeriesType.Recordings)
+                        mtdObj.AudioStreams[0].Language = arguments.Key.RecordingAudio;
 
                     GetMovieStills(mtdObj, ffMpegConverter);
 

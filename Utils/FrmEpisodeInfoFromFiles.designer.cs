@@ -41,50 +41,60 @@
             this.cbGenerateThumbnails = new System.Windows.Forms.CheckBox();
             this.lbWarning = new System.Windows.Forms.Label();
             this.cbSeason = new System.Windows.Forms.ComboBox();
-            this.buttonEdit1 = new Utils.ButtonEdit();
+            this.pRercordingSpecifics = new System.Windows.Forms.Panel();
+            this.lbSkipMultiVersion = new System.Windows.Forms.Label();
+            this.cbSkipMultiVersion = new System.Windows.Forms.CheckBox();
+            this.cbLanguages = new Utils.SeparatorComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.pRercordingSpecifics.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbLocation
             // 
             this.lbLocation.AutoSize = true;
-            this.lbLocation.Location = new System.Drawing.Point(26, 28);
+            this.lbLocation.Location = new System.Drawing.Point(39, 43);
+            this.lbLocation.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbLocation.Name = "lbLocation";
-            this.lbLocation.Size = new System.Drawing.Size(48, 13);
+            this.lbLocation.Size = new System.Drawing.Size(70, 20);
             this.lbLocation.TabIndex = 0;
             this.lbLocation.Text = "Location";
             // 
             // tbFilesLocation
             // 
-            this.tbFilesLocation.Location = new System.Drawing.Point(127, 24);
+            this.tbFilesLocation.Location = new System.Drawing.Point(190, 37);
+            this.tbFilesLocation.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbFilesLocation.Name = "tbFilesLocation";
-            this.tbFilesLocation.Size = new System.Drawing.Size(487, 20);
+            this.tbFilesLocation.Size = new System.Drawing.Size(728, 26);
             this.tbFilesLocation.TabIndex = 1;
             this.tbFilesLocation.TextChanged += new System.EventHandler(this.tbFilesLocation_TextChanged);
             // 
             // lbFilesExtensions
             // 
             this.lbFilesExtensions.AutoSize = true;
-            this.lbFilesExtensions.Location = new System.Drawing.Point(26, 53);
+            this.lbFilesExtensions.Location = new System.Drawing.Point(39, 82);
+            this.lbFilesExtensions.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbFilesExtensions.Name = "lbFilesExtensions";
-            this.lbFilesExtensions.Size = new System.Drawing.Size(81, 13);
+            this.lbFilesExtensions.Size = new System.Drawing.Size(122, 20);
             this.lbFilesExtensions.TabIndex = 2;
             this.lbFilesExtensions.Text = "Files extensions";
             // 
             // lbSeason
             // 
             this.lbSeason.AutoSize = true;
-            this.lbSeason.Location = new System.Drawing.Point(26, 81);
+            this.lbSeason.Location = new System.Drawing.Point(39, 125);
+            this.lbSeason.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbSeason.Name = "lbSeason";
-            this.lbSeason.Size = new System.Drawing.Size(43, 13);
+            this.lbSeason.Size = new System.Drawing.Size(64, 20);
             this.lbSeason.TabIndex = 3;
             this.lbSeason.Text = "Season";
             // 
             // lbYear
             // 
             this.lbYear.AutoSize = true;
-            this.lbYear.Location = new System.Drawing.Point(26, 108);
+            this.lbYear.Location = new System.Drawing.Point(39, 166);
+            this.lbYear.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbYear.Name = "lbYear";
-            this.lbYear.Size = new System.Drawing.Size(29, 13);
+            this.lbYear.Size = new System.Drawing.Size(43, 20);
             this.lbYear.TabIndex = 4;
             this.lbYear.Text = "Year";
             // 
@@ -96,24 +106,27 @@
             "*.mp4",
             "*.avi",
             "*.ts"});
-            this.cbFileExtensions.Location = new System.Drawing.Point(127, 50);
+            this.cbFileExtensions.Location = new System.Drawing.Point(190, 77);
+            this.cbFileExtensions.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cbFileExtensions.Name = "cbFileExtensions";
-            this.cbFileExtensions.Size = new System.Drawing.Size(89, 21);
+            this.cbFileExtensions.Size = new System.Drawing.Size(132, 28);
             this.cbFileExtensions.TabIndex = 5;
             this.cbFileExtensions.SelectedIndexChanged += new System.EventHandler(this.cbFileExtensions_SelectedIndexChanged);
             // 
             // tbYear
             // 
-            this.tbYear.Location = new System.Drawing.Point(127, 105);
+            this.tbYear.Location = new System.Drawing.Point(190, 162);
+            this.tbYear.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbYear.Name = "tbYear";
-            this.tbYear.Size = new System.Drawing.Size(89, 20);
+            this.tbYear.Size = new System.Drawing.Size(132, 26);
             this.tbYear.TabIndex = 7;
             // 
             // btnFolderSelector
             // 
-            this.btnFolderSelector.Location = new System.Drawing.Point(620, 24);
+            this.btnFolderSelector.Location = new System.Drawing.Point(930, 37);
+            this.btnFolderSelector.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnFolderSelector.Name = "btnFolderSelector";
-            this.btnFolderSelector.Size = new System.Drawing.Size(53, 20);
+            this.btnFolderSelector.Size = new System.Drawing.Size(80, 31);
             this.btnFolderSelector.TabIndex = 8;
             this.btnFolderSelector.Text = "Folder";
             this.btnFolderSelector.UseVisualStyleBackColor = true;
@@ -121,9 +134,10 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(517, 170);
+            this.btnOk.Location = new System.Drawing.Point(776, 262);
+            this.btnOk.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
+            this.btnOk.Size = new System.Drawing.Size(112, 35);
             this.btnOk.TabIndex = 9;
             this.btnOk.Text = "Ok";
             this.btnOk.UseVisualStyleBackColor = true;
@@ -131,9 +145,10 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(598, 170);
+            this.btnCancel.Location = new System.Drawing.Point(897, 262);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(112, 35);
             this.btnCancel.TabIndex = 10;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -142,9 +157,10 @@
             // cbGenerateThumbnails
             // 
             this.cbGenerateThumbnails.AutoSize = true;
-            this.cbGenerateThumbnails.Location = new System.Drawing.Point(127, 132);
+            this.cbGenerateThumbnails.Location = new System.Drawing.Point(190, 203);
+            this.cbGenerateThumbnails.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cbGenerateThumbnails.Name = "cbGenerateThumbnails";
-            this.cbGenerateThumbnails.Size = new System.Drawing.Size(302, 17);
+            this.cbGenerateThumbnails.Size = new System.Drawing.Size(458, 24);
             this.cbGenerateThumbnails.TabIndex = 11;
             this.cbGenerateThumbnails.Text = "Use the first frame at 25-50-75% from duration as thumbnail";
             this.cbGenerateThumbnails.UseVisualStyleBackColor = true;
@@ -154,9 +170,10 @@
             // 
             this.lbWarning.AutoSize = true;
             this.lbWarning.ForeColor = System.Drawing.Color.Red;
-            this.lbWarning.Location = new System.Drawing.Point(124, 149);
+            this.lbWarning.Location = new System.Drawing.Point(186, 229);
+            this.lbWarning.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbWarning.Name = "lbWarning";
-            this.lbWarning.Size = new System.Drawing.Size(283, 13);
+            this.lbWarning.Size = new System.Drawing.Size(418, 20);
             this.lbWarning.TabIndex = 12;
             this.lbWarning.Text = "Warning! The import operation will take significantly longer!";
             this.lbWarning.Visible = false;
@@ -165,33 +182,75 @@
             // 
             this.cbSeason.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSeason.FormattingEnabled = true;
-            this.cbSeason.Location = new System.Drawing.Point(127, 79);
+            this.cbSeason.Location = new System.Drawing.Point(190, 122);
+            this.cbSeason.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cbSeason.Name = "cbSeason";
-            this.cbSeason.Size = new System.Drawing.Size(89, 21);
+            this.cbSeason.Size = new System.Drawing.Size(132, 28);
             this.cbSeason.TabIndex = 14;
             this.cbSeason.SelectedIndexChanged += new System.EventHandler(this.cbSeason_SelectedIndexChanged);
             // 
-            // buttonEdit1
+            // pRercordingSpecifics
             // 
-            this.buttonEdit1.ButtonCursor = System.Windows.Forms.Cursors.Default;
-            this.buttonEdit1.ButtonImage = null;
-            this.buttonEdit1.ButtonImageForceWidth = 16;
-            this.buttonEdit1.ButtonImageSizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.buttonEdit1.ButtonToolTip = "";
-            this.buttonEdit1.ButtonVisible = false;
-            this.buttonEdit1.Location = new System.Drawing.Point(443, 90);
-            this.buttonEdit1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.buttonEdit1.Name = "buttonEdit1";
-            this.buttonEdit1.Size = new System.Drawing.Size(68, 20);
-            this.buttonEdit1.TabIndex = 15;
-            this.buttonEdit1.Visible = false;
+            this.pRercordingSpecifics.Controls.Add(this.lbSkipMultiVersion);
+            this.pRercordingSpecifics.Controls.Add(this.cbSkipMultiVersion);
+            this.pRercordingSpecifics.Controls.Add(this.cbLanguages);
+            this.pRercordingSpecifics.Controls.Add(this.label1);
+            this.pRercordingSpecifics.Location = new System.Drawing.Point(556, 71);
+            this.pRercordingSpecifics.Name = "pRercordingSpecifics";
+            this.pRercordingSpecifics.Size = new System.Drawing.Size(377, 115);
+            this.pRercordingSpecifics.TabIndex = 18;
+            // 
+            // lbSkipMultiVersion
+            // 
+            this.lbSkipMultiVersion.AutoSize = true;
+            this.lbSkipMultiVersion.Location = new System.Drawing.Point(10, 54);
+            this.lbSkipMultiVersion.Name = "lbSkipMultiVersion";
+            this.lbSkipMultiVersion.Size = new System.Drawing.Size(200, 20);
+            this.lbSkipMultiVersion.TabIndex = 21;
+            this.lbSkipMultiVersion.Text = "Skip multi-version episodes";
+            // 
+            // cbSkipMultiVersion
+            // 
+            this.cbSkipMultiVersion.AutoSize = true;
+            this.cbSkipMultiVersion.Checked = true;
+            this.cbSkipMultiVersion.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbSkipMultiVersion.Location = new System.Drawing.Point(220, 55);
+            this.cbSkipMultiVersion.Name = "cbSkipMultiVersion";
+            this.cbSkipMultiVersion.Size = new System.Drawing.Size(22, 21);
+            this.cbSkipMultiVersion.TabIndex = 20;
+            this.cbSkipMultiVersion.UseVisualStyleBackColor = true;
+            // 
+            // cbLanguages
+            // 
+            this.cbLanguages.AutoAdjustItemHeight = false;
+            this.cbLanguages.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.cbLanguages.DropDownWidth = 250;
+            this.cbLanguages.FormattingEnabled = true;
+            this.cbLanguages.Location = new System.Drawing.Point(220, 8);
+            this.cbLanguages.Name = "cbLanguages";
+            this.cbLanguages.SeparatorColor = System.Drawing.Color.Black;
+            this.cbLanguages.SeparatorMargin = 1;
+            this.cbLanguages.SeparatorStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+            this.cbLanguages.SeparatorWidth = 1;
+            this.cbLanguages.Size = new System.Drawing.Size(142, 27);
+            this.cbLanguages.TabIndex = 19;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 9);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(174, 20);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "Default audio language";
             // 
             // FrmEpisodeInfoFromFiles
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(694, 206);
-            this.Controls.Add(this.buttonEdit1);
+            this.ClientSize = new System.Drawing.Size(1041, 317);
+            this.Controls.Add(this.pRercordingSpecifics);
             this.Controls.Add(this.cbSeason);
             this.Controls.Add(this.lbWarning);
             this.Controls.Add(this.cbGenerateThumbnails);
@@ -206,6 +265,7 @@
             this.Controls.Add(this.tbFilesLocation);
             this.Controls.Add(this.lbLocation);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmEpisodeInfoFromFiles";
@@ -213,6 +273,8 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Import Episodes from Files";
+            this.pRercordingSpecifics.ResumeLayout(false);
+            this.pRercordingSpecifics.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -233,6 +295,10 @@
         private System.Windows.Forms.CheckBox cbGenerateThumbnails;
         private System.Windows.Forms.Label lbWarning;
         private System.Windows.Forms.ComboBox cbSeason;
-        private ButtonEdit buttonEdit1;
+        private System.Windows.Forms.Panel pRercordingSpecifics;
+        private SeparatorComboBox cbLanguages;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbSkipMultiVersion;
+        private System.Windows.Forms.CheckBox cbSkipMultiVersion;
     }
 }

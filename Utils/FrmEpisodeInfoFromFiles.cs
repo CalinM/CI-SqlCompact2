@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using Common.ExtensionMethods;
 
 using DAL;
+using Common;
+using Utils;
 
 namespace Utils
 {
@@ -39,6 +41,23 @@ namespace Utils
             {
                 cbSeason.SelectedItem = _seasons.FirstOrDefault(e => (int)e.Value == seasonId);
                 Text = string.Format("Refresh episodes data in Season {0}", seasonId);
+            }
+
+            if (Desene.DAL.SeriesType == SeriesType.Recordings)
+            {
+                pRercordingSpecifics.Visible = true; 
+
+                cbLanguages.DataSource = Languages.Iso639;
+                cbLanguages.ValueMember = "Code";
+                cbLanguages.DisplayMember = "Name";
+                cbLanguages.SetSeparator(3);
+
+                cbSkipMultiVersion.Checked = true;
+            }
+            else
+            {
+                pRercordingSpecifics.Visible = false;
+                cbSkipMultiVersion.Checked = false;
             }
         }
 
@@ -128,7 +147,9 @@ namespace Utils
                 FilesExtension = cbFileExtensions.Text,
                 Season = ((SelectableElement)cbSeason.SelectedItem).Value.ToString(),
                 Year = tbYear.Text,
-                GenerateThumbnail = cbGenerateThumbnails.Checked
+                GenerateThumbnail = cbGenerateThumbnails.Checked,
+                RecordingAudio = cbLanguages.SelectedValue.ToString(),
+                SkipMultiVersion = cbSkipMultiVersion.Checked
             };
 
             DialogResult = DialogResult.OK;
