@@ -83,7 +83,6 @@
             // 
             this.scMovies.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scMovies.Location = new System.Drawing.Point(0, 0);
-            this.scMovies.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.scMovies.Name = "scMovies";
             // 
             // scMovies.Panel1
@@ -96,9 +95,8 @@
             // 
             this.scMovies.Panel2.AutoScroll = true;
             this.scMovies.Panel2.Controls.Add(this.scSeriesDetails);
-            this.scMovies.Size = new System.Drawing.Size(1466, 1114);
-            this.scMovies.SplitterDistance = 450;
-            this.scMovies.SplitterWidth = 6;
+            this.scMovies.Size = new System.Drawing.Size(977, 724);
+            this.scMovies.SplitterDistance = 300;
             this.scMovies.TabIndex = 0;
             this.scMovies.MouseDown += new System.Windows.Forms.MouseEventHandler(this.scMovies_MouseDown);
             this.scMovies.MouseUp += new System.Windows.Forms.MouseEventHandler(this.scMovies_MouseUp);
@@ -109,20 +107,18 @@
             this.panel1.Controls.Add(this.pDummyMenuForShortCutKeys);
             this.panel1.Controls.Add(this.dgvMoviesList);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 62);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.panel1.Location = new System.Drawing.Point(0, 40);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(450, 1052);
+            this.panel1.Size = new System.Drawing.Size(300, 684);
             this.panel1.TabIndex = 105;
             // 
             // pDummyMenuForShortCutKeys
             // 
             this.pDummyMenuForShortCutKeys.Controls.Add(this.lbDoNotDelete);
             this.pDummyMenuForShortCutKeys.Controls.Add(this.menuStrip1);
-            this.pDummyMenuForShortCutKeys.Location = new System.Drawing.Point(87, 454);
-            this.pDummyMenuForShortCutKeys.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pDummyMenuForShortCutKeys.Location = new System.Drawing.Point(58, 295);
             this.pDummyMenuForShortCutKeys.Name = "pDummyMenuForShortCutKeys";
-            this.pDummyMenuForShortCutKeys.Size = new System.Drawing.Size(278, 145);
+            this.pDummyMenuForShortCutKeys.Size = new System.Drawing.Size(185, 94);
             this.pDummyMenuForShortCutKeys.TabIndex = 120;
             // 
             // lbDoNotDelete
@@ -130,16 +126,14 @@
             this.lbDoNotDelete.AutoSize = true;
             this.lbDoNotDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbDoNotDelete.ForeColor = System.Drawing.Color.Red;
-            this.lbDoNotDelete.Location = new System.Drawing.Point(22, 88);
-            this.lbDoNotDelete.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbDoNotDelete.Location = new System.Drawing.Point(15, 57);
             this.lbDoNotDelete.Name = "lbDoNotDelete";
-            this.lbDoNotDelete.Size = new System.Drawing.Size(228, 20);
+            this.lbDoNotDelete.Size = new System.Drawing.Size(153, 13);
             this.lbDoNotDelete.TabIndex = 1;
             this.lbDoNotDelete.Text = "Do Not Delete (design) !!!";
             // 
             // menuStrip1
             // 
-            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miSave_ForShortCutOnly,
@@ -147,8 +141,9 @@
             this.menuStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 1, 0, 1);
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuStrip1.Size = new System.Drawing.Size(278, 64);
+            this.menuStrip1.Size = new System.Drawing.Size(185, 60);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -157,7 +152,7 @@
             this.miSave_ForShortCutOnly.Image = global::Desene.Properties.Resources.save;
             this.miSave_ForShortCutOnly.Name = "miSave_ForShortCutOnly";
             this.miSave_ForShortCutOnly.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.miSave_ForShortCutOnly.Size = new System.Drawing.Size(268, 28);
+            this.miSave_ForShortCutOnly.Size = new System.Drawing.Size(180, 28);
             this.miSave_ForShortCutOnly.Click += new System.EventHandler(this.btnSaveChanges_Click);
             // 
             // miUndo_ForShortCutOnly
@@ -165,7 +160,7 @@
             this.miUndo_ForShortCutOnly.Image = global::Desene.Properties.Resources.undo;
             this.miUndo_ForShortCutOnly.Name = "miUndo_ForShortCutOnly";
             this.miUndo_ForShortCutOnly.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.miUndo_ForShortCutOnly.Size = new System.Drawing.Size(268, 28);
+            this.miUndo_ForShortCutOnly.Size = new System.Drawing.Size(180, 28);
             this.miUndo_ForShortCutOnly.Click += new System.EventHandler(this.btnUndo_Click);
             // 
             // dgvMoviesList
@@ -188,15 +183,14 @@
             this.colTitle,
             this.Calitate});
             this.dgvMoviesList.GridColor = System.Drawing.Color.WhiteSmoke;
-            this.dgvMoviesList.Location = new System.Drawing.Point(22, 0);
-            this.dgvMoviesList.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dgvMoviesList.Location = new System.Drawing.Point(15, 0);
             this.dgvMoviesList.MultiSelect = false;
             this.dgvMoviesList.Name = "dgvMoviesList";
             this.dgvMoviesList.ReadOnly = true;
             this.dgvMoviesList.RowHeadersVisible = false;
             this.dgvMoviesList.RowHeadersWidth = 62;
             this.dgvMoviesList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMoviesList.Size = new System.Drawing.Size(428, 1052);
+            this.dgvMoviesList.Size = new System.Drawing.Size(285, 684);
             this.dgvMoviesList.TabIndex = 105;
             this.dgvMoviesList.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvMoviesList_CellPainting);
             this.dgvMoviesList.SelectionChanged += new System.EventHandler(this.dgvMoviesList_SelectionChanged);
@@ -236,9 +230,8 @@
             this.pFilters.Controls.Add(this.lbFilter);
             this.pFilters.Dock = System.Windows.Forms.DockStyle.Top;
             this.pFilters.Location = new System.Drawing.Point(0, 0);
-            this.pFilters.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pFilters.Name = "pFilters";
-            this.pFilters.Size = new System.Drawing.Size(450, 62);
+            this.pFilters.Size = new System.Drawing.Size(300, 40);
             this.pFilters.TabIndex = 104;
             // 
             // tbFilter
@@ -247,10 +240,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.tbFilter.ForeColor = System.Drawing.Color.Silver;
-            this.tbFilter.Location = new System.Drawing.Point(70, 14);
-            this.tbFilter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tbFilter.Location = new System.Drawing.Point(47, 9);
             this.tbFilter.Name = "tbFilter";
-            this.tbFilter.Size = new System.Drawing.Size(378, 26);
+            this.tbFilter.Size = new System.Drawing.Size(253, 20);
             this.tbFilter.TabIndex = 17;
             this.tbFilter.ButtonClick += new System.EventHandler(this.tbFilter_ButtonClick);
             this.tbFilter.TextChanged += new System.EventHandler(this.tbFilter_TextChanged);
@@ -260,10 +252,9 @@
             this.lbFilter.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.lbFilter.AutoSize = true;
             this.lbFilter.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lbFilter.Location = new System.Drawing.Point(18, 18);
-            this.lbFilter.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbFilter.Location = new System.Drawing.Point(12, 12);
             this.lbFilter.Name = "lbFilter";
-            this.lbFilter.Size = new System.Drawing.Size(48, 20);
+            this.lbFilter.Size = new System.Drawing.Size(32, 13);
             this.lbFilter.TabIndex = 15;
             this.lbFilter.Text = "Filter:";
             // 
@@ -272,7 +263,6 @@
             this.scSeriesDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scSeriesDetails.IsSplitterFixed = true;
             this.scSeriesDetails.Location = new System.Drawing.Point(0, 0);
-            this.scSeriesDetails.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.scSeriesDetails.Name = "scSeriesDetails";
             // 
             // scSeriesDetails.Panel1
@@ -282,9 +272,8 @@
             // scSeriesDetails.Panel2
             // 
             this.scSeriesDetails.Panel2.Controls.Add(this.pMovieDetailsContainer);
-            this.scSeriesDetails.Size = new System.Drawing.Size(1010, 1114);
-            this.scSeriesDetails.SplitterDistance = 37;
-            this.scSeriesDetails.SplitterWidth = 6;
+            this.scSeriesDetails.Size = new System.Drawing.Size(673, 724);
+            this.scSeriesDetails.SplitterDistance = 25;
             this.scSeriesDetails.TabIndex = 1;
             // 
             // pSeriesSecondToolbar
@@ -293,19 +282,17 @@
             this.pSeriesSecondToolbar.Controls.Add(this.panel2);
             this.pSeriesSecondToolbar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pSeriesSecondToolbar.Location = new System.Drawing.Point(0, 0);
-            this.pSeriesSecondToolbar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pSeriesSecondToolbar.Name = "pSeriesSecondToolbar";
-            this.pSeriesSecondToolbar.Size = new System.Drawing.Size(37, 1114);
+            this.pSeriesSecondToolbar.Size = new System.Drawing.Size(25, 724);
             this.pSeriesSecondToolbar.TabIndex = 0;
             // 
             // panel3
             // 
             this.panel3.Controls.Add(this.toolStrip1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(0, 62);
-            this.panel3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.panel3.Location = new System.Drawing.Point(0, 40);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(37, 1052);
+            this.panel3.Size = new System.Drawing.Size(25, 684);
             this.panel3.TabIndex = 1;
             // 
             // toolStrip1
@@ -322,8 +309,8 @@
             this.btnUndo});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
-            this.toolStrip1.Size = new System.Drawing.Size(37, 1052);
+            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
+            this.toolStrip1.Size = new System.Drawing.Size(25, 684);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -333,7 +320,7 @@
             this.btnImportMovies.Image = global::Desene.Properties.Resources.import;
             this.btnImportMovies.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImportMovies.Name = "btnImportMovies";
-            this.btnImportMovies.Size = new System.Drawing.Size(30, 20);
+            this.btnImportMovies.Size = new System.Drawing.Size(20, 20);
             this.btnImportMovies.Text = "Import movies data from files";
             this.btnImportMovies.ToolTipText = "Import movies data from files";
             this.btnImportMovies.Click += new System.EventHandler(this.btnImportMovies_Click);
@@ -345,7 +332,7 @@
             this.btnRefreshMovieData.Image = global::Desene.Properties.Resources.refresh;
             this.btnRefreshMovieData.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRefreshMovieData.Name = "btnRefreshMovieData";
-            this.btnRefreshMovieData.Size = new System.Drawing.Size(30, 20);
+            this.btnRefreshMovieData.Size = new System.Drawing.Size(20, 20);
             this.btnRefreshMovieData.Text = "Refresh movie details from file";
             this.btnRefreshMovieData.Click += new System.EventHandler(this.btnRefreshMovieData_Click);
             // 
@@ -357,14 +344,14 @@
             this.btnLoadPoster.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoadPoster.Margin = new System.Windows.Forms.Padding(0, 5, 0, 2);
             this.btnLoadPoster.Name = "btnLoadPoster";
-            this.btnLoadPoster.Size = new System.Drawing.Size(30, 20);
+            this.btnLoadPoster.Size = new System.Drawing.Size(20, 20);
             this.btnLoadPoster.Text = "Load Movie poster";
             this.btnLoadPoster.Click += new System.EventHandler(this.btnLoadPoster_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(30, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(20, 6);
             // 
             // btnSaveChanges
             // 
@@ -374,7 +361,7 @@
             this.btnSaveChanges.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnSaveChanges.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSaveChanges.Name = "btnSaveChanges";
-            this.btnSaveChanges.Size = new System.Drawing.Size(30, 20);
+            this.btnSaveChanges.Size = new System.Drawing.Size(20, 20);
             this.btnSaveChanges.Text = "Save changes";
             this.btnSaveChanges.ToolTipText = "Save changes\r\nCTRL+S";
             this.btnSaveChanges.Click += new System.EventHandler(this.btnSaveChanges_Click);
@@ -386,7 +373,7 @@
             this.btnUndo.Image = global::Desene.Properties.Resources.undo;
             this.btnUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnUndo.Name = "btnUndo";
-            this.btnUndo.Size = new System.Drawing.Size(30, 20);
+            this.btnUndo.Size = new System.Drawing.Size(20, 20);
             this.btnUndo.Text = "Undo";
             this.btnUndo.ToolTipText = "Undo changes\r\nCTRL+Z";
             this.btnUndo.Click += new System.EventHandler(this.btnUndo_Click);
@@ -396,10 +383,9 @@
             this.panel2.Controls.Add(this.toolStrip2);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel2.Name = "panel2";
-            this.panel2.Padding = new System.Windows.Forms.Padding(0, 12, 0, 0);
-            this.panel2.Size = new System.Drawing.Size(37, 62);
+            this.panel2.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
+            this.panel2.Size = new System.Drawing.Size(25, 40);
             this.panel2.TabIndex = 0;
             // 
             // toolStrip2
@@ -409,10 +395,10 @@
             this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.bntSort});
-            this.toolStrip2.Location = new System.Drawing.Point(0, 12);
+            this.toolStrip2.Location = new System.Drawing.Point(0, 8);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
-            this.toolStrip2.Size = new System.Drawing.Size(49, 50);
+            this.toolStrip2.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
+            this.toolStrip2.Size = new System.Drawing.Size(33, 32);
             this.toolStrip2.TabIndex = 2;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -436,7 +422,7 @@
             this.miSortByName.Checked = true;
             this.miSortByName.CheckState = System.Windows.Forms.CheckState.Checked;
             this.miSortByName.Name = "miSortByName";
-            this.miSortByName.Size = new System.Drawing.Size(270, 34);
+            this.miSortByName.Size = new System.Drawing.Size(180, 22);
             this.miSortByName.Tag = "FileName";
             this.miSortByName.Text = "Name (default)";
             this.miSortByName.Click += new System.EventHandler(this.SortMoviesGrid);
@@ -444,17 +430,19 @@
             // miSortByInsertDate
             // 
             this.miSortByInsertDate.Name = "miSortByInsertDate";
-            this.miSortByInsertDate.Size = new System.Drawing.Size(270, 34);
-            this.miSortByInsertDate.Tag = "InsertedDate";
+            this.miSortByInsertDate.Size = new System.Drawing.Size(180, 22);
+            this.miSortByInsertDate.Tag = "InsertedDate DESC";
             this.miSortByInsertDate.Text = "Insert date";
+            this.miSortByInsertDate.ToolTipText = "Reverse order (last inserted is the first)";
             this.miSortByInsertDate.Click += new System.EventHandler(this.SortMoviesGrid);
             // 
             // miSortByLastChangedDate
             // 
             this.miSortByLastChangedDate.Name = "miSortByLastChangedDate";
-            this.miSortByLastChangedDate.Size = new System.Drawing.Size(270, 34);
-            this.miSortByLastChangedDate.Tag = "LastChangeDate";
+            this.miSortByLastChangedDate.Size = new System.Drawing.Size(180, 22);
+            this.miSortByLastChangedDate.Tag = "LastChangeDate  DESC";
             this.miSortByLastChangedDate.Text = "Last changed date";
+            this.miSortByLastChangedDate.ToolTipText = "Reverse order (last edited is the first)";
             this.miSortByLastChangedDate.Click += new System.EventHandler(this.SortMoviesGrid);
             // 
             // pMovieDetailsContainer
@@ -464,19 +452,17 @@
             this.pMovieDetailsContainer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.pMovieDetailsContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pMovieDetailsContainer.Location = new System.Drawing.Point(0, 0);
-            this.pMovieDetailsContainer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pMovieDetailsContainer.Name = "pMovieDetailsContainer";
-            this.pMovieDetailsContainer.Size = new System.Drawing.Size(967, 1114);
+            this.pMovieDetailsContainer.Size = new System.Drawing.Size(644, 724);
             this.pMovieDetailsContainer.TabIndex = 0;
             // 
             // ucMovies
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.scMovies);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "ucMovies";
-            this.Size = new System.Drawing.Size(1466, 1114);
+            this.Size = new System.Drawing.Size(977, 724);
             this.Load += new System.EventHandler(this.ucMovies_Load);
             this.scMovies.Panel1.ResumeLayout(false);
             this.scMovies.Panel2.ResumeLayout(false);

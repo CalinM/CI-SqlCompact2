@@ -13,18 +13,6 @@ C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\PdfSharp-gdi.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\PdfSharp.Charting-gdi.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Common.pdb
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.pdb
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Microsoft.WindowsAPICodePack.xml
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Microsoft.WindowsAPICodePack.Shell.xml
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\MigraDoc.DocumentObjectModel-gdi.xml
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\MigraDoc.Rendering-gdi.xml
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\MigraDoc.RtfRendering-gdi.xml
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\PdfSharp-gdi.xml
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\PdfSharp.Charting-gdi.xml
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\de\MigraDoc.DocumentObjectModel-gdi.resources.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\de\MigraDoc.Rendering-gdi.resources.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\de\MigraDoc.RtfRendering-gdi.resources.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\de\PdfSharp-gdi.resources.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\de\PdfSharp.Charting-gdi.resources.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csprojAssemblyReference.cache
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmElementsInfoFromFiles.resources
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmEpisodeInfoFromFiles.resources
@@ -78,3 +66,4 @@ C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.csproj.CopyComplete
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.dll
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.pdb
 C:\Work\_Utils\CI SqlCompact2\Utils\bin\Debug\Ookii.Dialogs.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Ookii.Dialogs.dll

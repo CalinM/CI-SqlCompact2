@@ -37,7 +37,7 @@ namespace Utils
             {
                 openFileDialog.Title = "Episode file";
                 openFileDialog.Filter = "Video files (*.mkv, *.mp4, *.m4v, *.avi)|*.mkv;*.mp4;*.m4v;*.avi|All files (*.*)|*.*";
-                openFileDialog.InitialDirectory = Settings.Default.LastPath;
+                openFileDialog.InitialDirectory = !string.IsNullOrEmpty(Settings.Default.LastPath) ? Path.GetDirectoryName(Settings.Default.LastPath) : "";
 
                 if (openFileDialog.ShowDialog() != DialogResult.OK) return;
 

@@ -18,16 +18,6 @@ C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Common.pdb
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\DAL.pdb
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.pdb
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.dll.config
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\MigraDoc.DocumentObjectModel-gdi.xml
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\PdfSharp-gdi.xml
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Microsoft.WindowsAPICodePack.Shell.xml
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\MigraDoc.Rendering-gdi.xml
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Microsoft.WindowsAPICodePack.xml
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\PdfSharp.Charting-gdi.xml
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\de\MigraDoc.DocumentObjectModel-gdi.resources.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\de\PdfSharp-gdi.resources.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\de\MigraDoc.Rendering-gdi.resources.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\de\PdfSharp.Charting-gdi.resources.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csprojAssemblyReference.cache
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmAddCollection.resources
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmAddMovie.resources
@@ -98,3 +88,4 @@ C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.csproj.CopyComplete
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.exe
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.pdb
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Ookii.Dialogs.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Ookii.Dialogs.dll

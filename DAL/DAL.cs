@@ -51,7 +51,7 @@ namespace Desene
             }
         }
 
-        public static BindingList<MovieShortInfo> GetMoviesGridData()
+        public static BindingList<MovieShortInfo> GetMoviesGridData(string sortField)
         {
             var result = new BindingList<MovieShortInfo>();
 
@@ -75,7 +75,7 @@ namespace Desene
 
                     FROM FileDetail
                     WHERE ParentId IS NULL
-                    ORDER BY FileName", conn);
+                    ORDER BY " + sortField, conn);
 
                 using (var reader = commandSource.ExecuteReader())
                 {

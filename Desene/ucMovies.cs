@@ -26,6 +26,7 @@ namespace Desene
         private MovieShortInfo _previousSelectedMsi;
         private Timer _genericTimer;
         private string _lookupStartingWith = string.Empty;
+        private string _currentSortField = "FileName";
 
         public ucMovies(FrmMain parent)
         {
@@ -41,38 +42,6 @@ namespace Desene
 
             dgvMoviesList.GetType().GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(dgvMoviesList, true, null);
             dgvMoviesList.AutoGenerateColumns = false;
-
-            //var toolStrip2 = new ToolStrip
-            //{
-            //    BackColor = SystemColors.Control,
-            //    Dock = DockStyle.Left,
-            //    GripStyle = ToolStripGripStyle.Hidden,
-            //    ImageScalingSize = new Size(16, 16),
-            //    Location = new Point(0, 0),
-            //    Name = "toolStrip2",
-            //    Padding = new Padding(0, 0, 3, 0),
-            //    TabIndex = 2,
-            //    Text = "toolStrip2",
-            //    //Margin = new Padding(0, 50, 0, 0) CMA: the top specing is set on the parent (panel2) ... padding
-            //};
-
-            //var btnSort = new ToolStripButton
-            //{
-            //    DisplayStyle = ToolStripItemDisplayStyle.Image,
-            //    Image = Resources.sort,
-            //    ImageTransparentColor = Color.Magenta,
-            //    Name = "btnSort",
-            //    Size = new Size(16, 16),
-            //    Text = "Import movies data from files",
-            //    ToolTipText = "Import movies data from files"
-            //};
-
-
-            //toolStrip2.Items.AddRange(new ToolStripItem[] {
-            //btnSort});
-
-            //panel2.Controls.Add(toolStrip2);
-
         }
 
         private void ucMovies_Load(object sender, EventArgs e)
@@ -82,10 +51,12 @@ namespace Desene
             _preventEvent = false;
         }
 
-        private void ReloadData()
+        private void ReloadData(bool resetCachedstills = false)
         {
-            DAL.MoviesData = DAL.GetMoviesGridData();
-            DAL.CachedMoviesStills = new List<CachedMovieStills>();
+            DAL.MoviesData = DAL.GetMoviesGridData(_currentSortField);
+
+            if (resetCachedstills)
+                DAL.CachedMoviesStills = new List<CachedMovieStills>();
 
             RefreshGrid();
 
@@ -318,7 +289,7 @@ namespace Desene
 
             if (frmAddMovie.ShowDialog() != DialogResult.OK)
             {
-                Common.Helpers.UnsavedChanges = false;
+                Helpers.UnsavedChanges = false;
                 return;
             }
 
@@ -455,22 +426,11 @@ namespace Desene
                 frmIE.ShowDialog();
             }
 
-            ReloadData();
+            ReloadData(true);
         }
 
         private void btnRefreshMovieData_Click(object sender, EventArgs e)
         {
-            //MsgBox.Show(
-            //        "Buggy. Currently not available.",
-            //        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-            //return;
-
-            //if (MsgBox.Show(
-            //        "The previous movie details and all changes made by hand will be lost. Are you sure you want to continue?",
-            //        "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-            //    return;
-
             if (Helpers.UnsavedChanges && !SaveChanges())
                 return;
 
@@ -647,8 +607,8 @@ namespace Desene
 
             var currentMenuItem = (ToolStripMenuItem)sender;
             currentMenuItem.Checked = true;
-            MessageBox.Show(currentMenuItem.Tag.ToString());
-
+            _currentSortField = currentMenuItem.Tag.ToString();
+            ReloadData();
         }
     }
 }

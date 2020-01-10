@@ -3,8 +3,6 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-using DAL;
-
 using Desene.Properties;
 
 using Utils;
@@ -82,7 +80,7 @@ namespace Desene
             {
                 openFileDialog.Title = "Choose a poster";
                 openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*";
-                openFileDialog.InitialDirectory = Settings.Default.LastCoverPath;
+                openFileDialog.InitialDirectory = !string.IsNullOrEmpty(Settings.Default.LastCoverPath) ? Path.GetDirectoryName(Settings.Default.LastCoverPath) : "";
 
                 if (openFileDialog.ShowDialog() != DialogResult.OK) return;
 
