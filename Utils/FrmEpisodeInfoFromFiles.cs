@@ -148,7 +148,7 @@ namespace Utils
                 Season = ((SelectableElement)cbSeason.SelectedItem).Value.ToString(),
                 Year = tbYear.Text,
                 GenerateThumbnail = cbGenerateThumbnails.Checked,
-                RecordingAudio = cbLanguages.SelectedValue.ToString(),
+                RecordingAudio = (string)cbLanguages.SelectedValue,
                 SkipMultiVersion = cbSkipMultiVersion.Checked
             };
 

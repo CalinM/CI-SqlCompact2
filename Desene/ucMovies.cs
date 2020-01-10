@@ -41,6 +41,38 @@ namespace Desene
 
             dgvMoviesList.GetType().GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(dgvMoviesList, true, null);
             dgvMoviesList.AutoGenerateColumns = false;
+
+            //var toolStrip2 = new ToolStrip
+            //{
+            //    BackColor = SystemColors.Control,
+            //    Dock = DockStyle.Left,
+            //    GripStyle = ToolStripGripStyle.Hidden,
+            //    ImageScalingSize = new Size(16, 16),
+            //    Location = new Point(0, 0),
+            //    Name = "toolStrip2",
+            //    Padding = new Padding(0, 0, 3, 0),
+            //    TabIndex = 2,
+            //    Text = "toolStrip2",
+            //    //Margin = new Padding(0, 50, 0, 0) CMA: the top specing is set on the parent (panel2) ... padding
+            //};
+
+            //var btnSort = new ToolStripButton
+            //{
+            //    DisplayStyle = ToolStripItemDisplayStyle.Image,
+            //    Image = Resources.sort,
+            //    ImageTransparentColor = Color.Magenta,
+            //    Name = "btnSort",
+            //    Size = new Size(16, 16),
+            //    Text = "Import movies data from files",
+            //    ToolTipText = "Import movies data from files"
+            //};
+
+
+            //toolStrip2.Items.AddRange(new ToolStripItem[] {
+            //btnSort});
+
+            //panel2.Controls.Add(toolStrip2);
+
         }
 
         private void ucMovies_Load(object sender, EventArgs e)
@@ -428,11 +460,11 @@ namespace Desene
 
         private void btnRefreshMovieData_Click(object sender, EventArgs e)
         {
-            MsgBox.Show(
-                    "Buggy. Currently not available.",
-                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //MsgBox.Show(
+            //        "Buggy. Currently not available.",
+            //        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-            return;
+            //return;
 
             //if (MsgBox.Show(
             //        "The previous movie details and all changes made by hand will be lost. Are you sure you want to continue?",
@@ -464,17 +496,6 @@ namespace Desene
                     return;
                 }
 
-                rParam.mtd.DescriptionLink = DAL.CurrentMTD.DescriptionLink;
-                rParam.mtd.Recommended = DAL.CurrentMTD.Recommended;
-                rParam.mtd.RecommendedLink = DAL.CurrentMTD.RecommendedLink;
-                rParam.mtd.Year = DAL.CurrentMTD.Year;
-                rParam.mtd.Theme = DAL.CurrentMTD.Theme;
-                rParam.mtd.Notes = DAL.CurrentMTD.Notes;
-                rParam.mtd.Trailer = DAL.CurrentMTD.Trailer;
-                rParam.mtd.StreamLink = DAL.CurrentMTD.StreamLink;
-                rParam.mtd.Poster = DAL.CurrentMTD.Poster;
-                rParam.mtd.InsertedDate = DAL.CurrentMTD.InsertedDate;
-                rParam.mtd.LastChangeDate = DateTime.Now;
 
                 //not using UpdateMTD in order to avoud additional check regarding the number of streams
                 opRes = DAL.InsertMTD(rParam.mtd, null);
@@ -614,6 +635,20 @@ namespace Desene
         private void scMovies_Resize(object sender, EventArgs e)
         {
             //scMovies.Panel2MinSize = scMovies.Width - scMovies.SplitterWidth - 300;
+        }
+
+        private void SortMoviesGrid(object sender, EventArgs e)
+        {
+            //uncheck all item
+            foreach (ToolStripMenuItem item in bntSort.DropDownItems)
+            {
+                item.Checked = false;
+            }
+
+            var currentMenuItem = (ToolStripMenuItem)sender;
+            currentMenuItem.Checked = true;
+            MessageBox.Show(currentMenuItem.Tag.ToString());
+
         }
     }
 }

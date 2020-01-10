@@ -98,7 +98,20 @@ namespace Utils
                 mtd.Year = Desene.DAL.CurrentMTD.Year;
                 mtd.Season = Desene.DAL.CurrentMTD.Season;
 
-                Desene.DAL.CurrentMTD = mtd;
+                mtd.DescriptionLink = Desene.DAL.CurrentMTD.DescriptionLink;
+                mtd.Recommended = Desene.DAL.CurrentMTD.Recommended;
+                mtd.RecommendedLink = Desene.DAL.CurrentMTD.RecommendedLink;
+                mtd.Year = Desene.DAL.CurrentMTD.Year;
+                mtd.Theme = Desene.DAL.CurrentMTD.Theme;
+                mtd.Notes = Desene.DAL.CurrentMTD.Notes;
+                mtd.Trailer = Desene.DAL.CurrentMTD.Trailer;
+                mtd.StreamLink = Desene.DAL.CurrentMTD.StreamLink;
+                mtd.Poster = Desene.DAL.CurrentMTD.Poster;
+                mtd.InsertedDate = Desene.DAL.CurrentMTD.InsertedDate;
+                mtd.LastChangeDate = DateTime.Now;
+
+                //CMA: the CurrentMTD will be reset after save
+                //Desene.DAL.CurrentMTD = mtd;
             }
 
             Cursor.Current = Cursors.Default;

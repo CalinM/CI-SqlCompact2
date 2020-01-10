@@ -609,10 +609,9 @@ namespace Desene
 
             if (prevInstance.Any())
             {
+                //this resets the grid selection and disable the button
                 ((ucSeriesEpisodes)prevInstance[0]).LoadControls(sesi.Id);
-            }
-
-            //todo: remove grid selection?
+            }            
         }
 
         #endregion

@@ -288,6 +288,7 @@
     <Content Include="Images\moviesList.png" />
     <Content Include="Images\reset_slide.png" />
     <Content Include="Images\search.png" />
+    <Content Include="Images\sort.png" />
     <Content Include="Images\undo.png" />
     <Content Include="Properties\AssemblyInfo.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

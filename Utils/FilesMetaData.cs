@@ -90,7 +90,7 @@ namespace Utils
 
                 if (mtd.Duration == "0" || mtd.Duration == string.Empty) //CMA: enable this only for TS?
                 {
-                    var tsDurationFallback = GetVideoDuration(filePath);
+                    var tsDurationFallback = GetVideoDurationAlt(filePath);
 
                     mtd.Duration = ((int)tsDurationFallback.TotalMilliseconds).ToString();
                 }
@@ -150,12 +150,17 @@ namespace Utils
                             ? string.Empty //weird values (20h+, etc)
                             : mi.Get(StreamKind.Audio, i, "Delay/String");
 
+                    var bitRate = mi.Get(StreamKind.Audio, i, "BitRate/String");
+                    if (string.IsNullOrEmpty(bitRate))
+                        bitRate = GetAudioBitrateAlt(filePath);
+
+
                     mtd.AudioStreams.Add(
                         new AudioStreamInfo
                         {
                             Index = i + 1,
                             Format = mi.Get(StreamKind.Audio, i, "Format"),
-                            BitRate = mi.Get(StreamKind.Audio, i, "BitRate/String"),
+                            BitRate = bitRate,
                             Channel = mi.Get(StreamKind.Audio, i, "Channel(s)/String"),
                             ChannelPosition = mi.Get(StreamKind.Audio, i, "ChannelPositions"),
                             SamplingRate = mi.Get(StreamKind.Audio, i, "SamplingRate/String"),
@@ -198,13 +203,23 @@ namespace Utils
             return result;
         }
 
-        private static TimeSpan GetVideoDuration(string filePath)
+        private static TimeSpan GetVideoDurationAlt(string filePath)
         {
             using (var shell = ShellObject.FromParsingName(filePath))
             {
                 IShellProperty prop = shell.Properties.System.Media.Duration;
                 var t = (ulong)prop.ValueAsObject;
                 return TimeSpan.FromTicks((long)t);
+            }
+        }
+
+        private static string GetAudioBitrateAlt(string filePath)
+        {
+            using (var shell = ShellObject.FromParsingName(filePath))
+            {
+                IShellProperty prop = shell.Properties.System.Audio.EncodingBitrate;
+                var dRaw = (uint)prop.ValueAsObject;
+                return (dRaw/1000).ToString() + " kb/s";
             }
         }
 

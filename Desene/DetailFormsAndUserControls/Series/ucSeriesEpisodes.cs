@@ -109,6 +109,9 @@ namespace Desene.DetailFormsAndUserControls
 
         public void LoadControls(int seriesId)
         {
+            _checkState = new Dictionary<int, bool>();
+            SetBulkEditButtonStateInParent();
+
             var episodesInSeries = DAL.GetEpisodesInSeries(seriesId);
 
             if (episodesInSeries.Rows.Count > 0)
@@ -167,6 +170,8 @@ namespace Desene.DetailFormsAndUserControls
         {
             // Handle the notification that the value for a cell in the virtual column
             // is needed. Get the value from the dictionary if the key exists.
+            if (_checkState.Count == 0)
+                return;
 
             if (e.ColumnIndex == 0/* && dgvEpisodes.Rows[e.RowIndex].Cells["Id"].Value != null*/)
             {

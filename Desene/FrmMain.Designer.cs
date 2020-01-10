@@ -109,7 +109,7 @@ namespace Desene
             // miMovies
             // 
             this.miMovies.Name = "miMovies";
-            this.miMovies.Size = new System.Drawing.Size(270, 34);
+            this.miMovies.Size = new System.Drawing.Size(202, 34);
             this.miMovies.Tag = "1";
             this.miMovies.Text = "Movies";
             this.miMovies.Click += new System.EventHandler(this.miMovies_Click);
@@ -118,7 +118,7 @@ namespace Desene
             // 
             this.miMoviesList.Image = global::Desene.Properties.Resources.moviesList;
             this.miMoviesList.Name = "miMoviesList";
-            this.miMoviesList.Size = new System.Drawing.Size(270, 34);
+            this.miMoviesList.Size = new System.Drawing.Size(202, 34);
             this.miMoviesList.Tag = "1";
             this.miMoviesList.Text = "Movies list";
             this.miMoviesList.Click += new System.EventHandler(this.miMoviesList_Click);
@@ -126,12 +126,12 @@ namespace Desene
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(267, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(199, 6);
             // 
             // miCollections
             // 
             this.miCollections.Name = "miCollections";
-            this.miCollections.Size = new System.Drawing.Size(270, 34);
+            this.miCollections.Size = new System.Drawing.Size(202, 34);
             this.miCollections.Tag = "1";
             this.miCollections.Text = "Collections";
             this.miCollections.Click += new System.EventHandler(this.miCollections_Click);
@@ -139,12 +139,12 @@ namespace Desene
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(267, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(199, 6);
             // 
             // miSeries
             // 
             this.miSeries.Name = "miSeries";
-            this.miSeries.Size = new System.Drawing.Size(270, 34);
+            this.miSeries.Size = new System.Drawing.Size(202, 34);
             this.miSeries.Tag = "1";
             this.miSeries.Text = "Series";
             this.miSeries.Click += new System.EventHandler(this.miSeries_Click);
@@ -152,7 +152,7 @@ namespace Desene
             // miRecordings
             // 
             this.miRecordings.Name = "miRecordings";
-            this.miRecordings.Size = new System.Drawing.Size(270, 34);
+            this.miRecordings.Size = new System.Drawing.Size(202, 34);
             this.miRecordings.Tag = "1";
             this.miRecordings.Text = "Recordings";
             this.miRecordings.Click += new System.EventHandler(this.miRecordings_Click);
@@ -160,13 +160,13 @@ namespace Desene
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(267, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(199, 6);
             // 
             // miExit
             // 
             this.miExit.Image = global::Desene.Properties.Resources.exit;
             this.miExit.Name = "miExit";
-            this.miExit.Size = new System.Drawing.Size(270, 34);
+            this.miExit.Size = new System.Drawing.Size(202, 34);
             this.miExit.Text = "Exit";
             this.miExit.Click += new System.EventHandler(this.miExit_Click);
             // 
@@ -218,7 +218,7 @@ namespace Desene
             // 
             this.btnGenerateHtml.Image = global::Desene.Properties.Resources.generateHtml;
             this.btnGenerateHtml.Name = "btnGenerateHtml";
-            this.btnGenerateHtml.Size = new System.Drawing.Size(235, 34);
+            this.btnGenerateHtml.Size = new System.Drawing.Size(270, 34);
             this.btnGenerateHtml.Text = "Generate HTML";
             this.btnGenerateHtml.Click += new System.EventHandler(this.btnGenerateHtml_Click);
             // 
@@ -226,7 +226,7 @@ namespace Desene
             // 
             this.miGeneratePdf.Image = global::Desene.Properties.Resources.generatePdf;
             this.miGeneratePdf.Name = "miGeneratePdf";
-            this.miGeneratePdf.Size = new System.Drawing.Size(235, 34);
+            this.miGeneratePdf.Size = new System.Drawing.Size(270, 34);
             this.miGeneratePdf.Text = "Generate PDF";
             this.miGeneratePdf.Click += new System.EventHandler(this.btnGenerateCatalog_Click);
             // 
