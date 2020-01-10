@@ -38,6 +38,8 @@ using System;
 using System.Diagnostics;
 using System.ComponentModel;
 using PdfSharp.Drawing;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MigraDoc.DocumentObjectModel
 {
@@ -103,6 +105,66 @@ namespace MigraDoc.DocumentObjectModel
             return size;
         }
 
+        //https://gist.github.com/erichillah/d198f4a1c9e8f7df0739b955b245512a
+
+        //possible alternative:
+        //https://github.com/yolpsoftware/PdfSharp/tree/measure-text-height
+        public int GetSplittedLineCount(string content, double maxWidth, XGraphics gfx)
+        {
+            if (gfx == null)
+                gfx = Realize();
+
+            //handy function for creating list of string
+            Func<string, IList<string>> listFor = val => new List<string> { val };
+            // string.IsNullOrEmpty is too long :p
+            Func<string, bool> nOe = str => string.IsNullOrEmpty(str);
+            // return a space for an empty string (sIe = Space if Empty)
+            Func<string, string> sIe = str => nOe(str) ? " " : str;
+            // check if we can fit a text in the maxWidth
+            Func<string, string, bool> canFitText = (t1, t2) => gfx.MeasureString($"{(nOe(t1) ? "" : $"{t1} ")}{sIe(t2)}", _gdiFont).Width <= maxWidth;
+
+            Func<IList<string>, string, IList<string>> appendtoLast =
+                    (list, val) => list.Take(list.Count - 1)
+                                       .Concat(listFor($"{(nOe(list.Last()) ? "" : $"{list.Last()} ")}{sIe(val)}"))
+                                       .ToList();
+
+            var splitted = content.Split(' ');
+
+            var lines = splitted.Aggregate(listFor(""),
+                    (lfeed, next) => canFitText(lfeed.Last(), next) ? appendtoLast(lfeed, next) : lfeed.Concat(listFor(next)).ToList(),
+                    list => list.Count());
+
+            return lines;
+        }
+
+        public string GetStringWithEllipsis(string content, double maxWidth, int maxLines)
+        {
+            var gfx = Realize();
+            var stringlength = content.Length;
+
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    if (GetSplittedLineCount(content.Substring(0, stringlength) + '\u2026', maxWidth, gfx) > maxLines)
+            //        stringlength -= (int)Math.Ceiling(content.Length * Math.Pow(0.5f, i));
+            //    else
+            //        if (i < 2)
+            //        stringlength += (int)Math.Ceiling(content.Length * Math.Pow(0.5f, i));
+            //}
+
+            for (var i = 0; i < stringlength; i++)
+            {
+                if (GetSplittedLineCount(content.Substring(0, stringlength) + '\u2026', maxWidth, gfx) > maxLines)
+                    stringlength -= i;
+                else
+                {
+                    stringlength -= 7; // there are still 3 lines rendered ...
+                    break;
+                }
+            }
+
+            return content.Substring(0, stringlength) + '\u2026';
+        }
+
         /// <summary>
         /// Returns the size of the bounding box of the specified text in point.
         /// </summary>
@@ -155,5 +217,10 @@ namespace MigraDoc.DocumentObjectModel
 
         XFont _gdiFont;
         XGraphics _graphics;
+    }
+
+    public static class MigraExtensionMethods
+    {
+
     }
 }

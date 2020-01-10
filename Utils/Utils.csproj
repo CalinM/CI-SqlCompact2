@@ -254,8 +254,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Resources\Christmas-Tree-icon.png.data" />
-    <None Include="Resources\Pumpkin-icon.png.data" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\confirmation.png" />
@@ -268,6 +266,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\poster_not_found.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ro.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Nl.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ro-Nl.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pumpkin-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Christmas-Tree-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

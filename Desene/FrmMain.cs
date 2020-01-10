@@ -36,6 +36,10 @@ namespace Desene
         public FrmMain()
         {
             InitializeComponent();
+
+            separatorMainButtons.Visible = false;
+            btnAdd.Visible = false;
+            btnDelete.Visible = false;
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
@@ -1072,7 +1076,7 @@ namespace Desene
             }
             else
             {
-                Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Error, "PDF Catalog Generation",
+                Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Information, "PDF Catalog Generation",
                     string.Format("The catalog has been succesfully created and saved in '{0}'", genParams.PdfGenParams.FileName), 10000, this);
             }
         }

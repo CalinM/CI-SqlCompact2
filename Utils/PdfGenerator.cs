@@ -78,18 +78,25 @@ namespace Utils
             var movies = Desene.DAL.GetMoviesForPDF(pdfGenParams);
 
             //var style = document.Styles["Normal"];
+            //style.Font.Name = "Arial Narrow";
+            //style.Font.Size = 10;
 
             var section = document.AddSection();
             section.PageSetup.PageFormat = PageFormat.A4;
+            section.PageSetup.MirrorMargins = true;
+            section.PageSetup.TopMargin = Unit.FromCentimeter(0.5);
+            section.PageSetup.BottomMargin = Unit.FromCentimeter(0.5);
+            section.PageSetup.LeftMargin = Unit.FromCentimeter(2);
+            section.PageSetup.RightMargin = Unit.FromCentimeter(1);
 
             var table = section.AddTable();
 
             var sectionWidth =
                 (int)document.DefaultPageSetup.PageWidth -
-                (int)document.DefaultPageSetup.LeftMargin -
-                (int)document.DefaultPageSetup.RightMargin;
+                (int)section.PageSetup.LeftMargin -
+                (int)section.PageSetup.RightMargin;
 
-            var columnWidth = sectionWidth / 3;
+            var columnWidth = sectionWidth / 4;
 
             var column = table.AddColumn();
             column.Width = columnWidth;
@@ -97,14 +104,13 @@ namespace Utils
             column2.Width = columnWidth;
             var column3 = table.AddColumn();
             column3.Width = columnWidth;
-
+            var column4 = table.AddColumn();
+            column4.Width = columnWidth;
 
             Row row = null;
-            //var christmasTree = MigraDocFilenameFromByteArray(Properties.Resources.Christmas_Tree_icon_png);
-            //var helloweenPunmkin = MigraDocFilenameFromByteArray(Properties.Resources.Pumpkin_icon_png);
 
             var indexPos = 0;
-            for (var i = 0; i < movies.Count; i += 3)
+            for (var i = 0; i < movies.Count; i += 4)
             {
                 if (sender.CancellationPending)
                 {
@@ -114,7 +120,7 @@ namespace Utils
 
                 row = table.AddRow();
 
-                for (var j = 0; j < 3; j++)
+                for (var j = 0; j < 4; j++)
                 {
                     var k = i + j;
                     if (k >= movies.Count) break;
@@ -124,35 +130,28 @@ namespace Utils
                     indexPos++;
                     sender.SetProgress(indexPos, movieObj.FN);
 
-                    if (movieObj.Cover != null)
-                    {
-                        var imgOgj = GraphicsHelpers.CreatePosterThumbnail(150, 232, movieObj.Cover);
+                    var imgOgj = GraphicsHelpers.CreatePosterThumbnailForPDF(150, 232, movieObj.Cover, movieObj.R, movieObj.A,
+                        pdfGenParams.PDFGenType == PDFGenType.All
+                            ? movieObj.T == "Craciun"
+                                ? Properties.Resources.Christmas_Tree_icon
+                                : movieObj.T == "Helloween"
+                                    ? Properties.Resources.Pumpkin_icon
+                                    : null
+                            : null);
 
-                        row.Cells[j].Format.Alignment = ParagraphAlignment.Center;
-                        row.Cells[j].VerticalAlignment = VerticalAlignment.Center;
-                        row.Cells[j].AddParagraph().AddImage(MigraDocFilenameFromByteArray(imgOgj));
-
-                        //if (movieObj.T == "Craciun")
-                        //    row.Cells[j].AddParagraph().AddImage(christmasTree);
-
-                        //if (movieObj.T == "Helloween")
-                        //    row.Cells[j].AddParagraph().AddImage(helloweenPunmkin);
-                    }
+                    row.Cells[j].Format.Alignment = ParagraphAlignment.Center;
+                    row.Cells[j].VerticalAlignment = VerticalAlignment.Center;
+                    row.Cells[j].AddParagraph().AddImage(MigraDocFilenameFromByteArray(imgOgj));
                 }
 
                 row = table.AddRow();
 
-                for (var j = 0; j < 3; j++)
+                for (var j = 0; j < 4; j++)
                 {
                     var k = i + j;
                     if (k >= movies.Count) break;
 
                     var movieObj = movies[k];
-
-                    //var tm = new TextMeasurement(style.Font);
-                    var str = movieObj.A.Replace(" ", "").Replace(",", "/");
-                    //var strWidth = (float)XGraphics.MeasureString(str, rowD.Cells[1].Format.Font).Width;
-                    //var strWidth = tm.MeasureString(str).Width;
 
                     var dataTable = new Table();
                     var columnD1 = dataTable.AddColumn();
@@ -160,13 +159,19 @@ namespace Utils
 
                     var rowD1 = dataTable.AddRow();
                     rowD1.Cells[0].Format.Alignment = ParagraphAlignment.Center;
-                    rowD1.Cells[0].AddParagraph(movieObj.FN);
+                    rowD1.Cells[0].Format.Font.Name = "Arial Narrow";
+                    rowD1.Cells[0].Format.Font.Size = 10;
 
-                    var rowD2 = dataTable.AddRow();
-                    rowD2.Cells[0].Format.Alignment = ParagraphAlignment.Center;
-                    rowD2.Cells[0].AddParagraph(string.Format("{0}, {1}{2}", movieObj.R, str, pdfGenParams.ForMovies ? string.Empty : ", " + movieObj.B + "ep."));
-                    rowD2.Cells[0].AddParagraph("");
+                    var tm = new TextMeasurement(rowD1.Cells[0].Format.Font);
+                    //var strWidth = tm.MeasureString(movieObj.FN).Width;
 
+                    var movieTitle = movieObj.FN;
+                    var lineCount = tm.GetSplittedLineCount(movieTitle, columnWidth, null);
+
+                    if (lineCount > 2)
+                        movieTitle = tm.GetStringWithEllipsis(movieObj.FN, columnWidth, 2);
+
+                    rowD1.Cells[0].AddParagraph(movieTitle);
 
                     row.Cells[j].Elements.Add(dataTable);
                 }

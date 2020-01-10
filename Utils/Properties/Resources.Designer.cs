@@ -61,12 +61,12 @@ namespace Utils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static byte[] Christmas_Tree_icon_png {
+        internal static System.Drawing.Bitmap Christmas_Tree_icon {
             get {
-                object obj = ResourceManager.GetObject("Christmas_Tree_icon_png", resourceCulture);
-                return ((byte[])(obj));
+                object obj = ResourceManager.GetObject("Christmas_Tree_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -101,12 +101,52 @@ namespace Utils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static byte[] Pumpkin_icon_png {
+        internal static System.Drawing.Bitmap Nl {
             get {
-                object obj = ResourceManager.GetObject("Pumpkin_icon_png", resourceCulture);
-                return ((byte[])(obj));
+                object obj = ResourceManager.GetObject("Nl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap poster_not_found {
+            get {
+                object obj = ResourceManager.GetObject("poster_not_found", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Pumpkin_icon {
+            get {
+                object obj = ResourceManager.GetObject("Pumpkin_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ro {
+            get {
+                object obj = ResourceManager.GetObject("Ro", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ro_Nl {
+            get {
+                object obj = ResourceManager.GetObject("Ro_Nl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

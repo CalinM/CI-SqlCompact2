@@ -70,7 +70,6 @@ namespace Desene
             // mainMenu
             // 
             this.mainMenu.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.mainMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnCategory,
             this.separatorMainButtons,
@@ -84,7 +83,7 @@ namespace Desene
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.mainMenu.Size = new System.Drawing.Size(1284, 31);
+            this.mainMenu.Size = new System.Drawing.Size(1284, 25);
             this.mainMenu.TabIndex = 108;
             // 
             // btnCategory
@@ -103,7 +102,7 @@ namespace Desene
             this.btnCategory.Image = ((System.Drawing.Image)(resources.GetObject("btnCategory.Image")));
             this.btnCategory.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnCategory.Name = "btnCategory";
-            this.btnCategory.Size = new System.Drawing.Size(68, 28);
+            this.btnCategory.Size = new System.Drawing.Size(68, 22);
             this.btnCategory.Text = "Category";
             // 
             // miMovies
@@ -173,17 +172,15 @@ namespace Desene
             // separatorMainButtons
             // 
             this.separatorMainButtons.Name = "separatorMainButtons";
-            this.separatorMainButtons.Size = new System.Drawing.Size(6, 31);
-            this.separatorMainButtons.Visible = false;
+            this.separatorMainButtons.Size = new System.Drawing.Size(6, 25);
             // 
             // btnAdd
             // 
             this.btnAdd.Image = global::Desene.Properties.Resources.add;
             this.btnAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(57, 28);
+            this.btnAdd.Size = new System.Drawing.Size(49, 22);
             this.btnAdd.Text = "Add";
-            this.btnAdd.Visible = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnDelete
@@ -191,10 +188,9 @@ namespace Desene
             this.btnDelete.Image = global::Desene.Properties.Resources.delete;
             this.btnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(68, 28);
+            this.btnDelete.Size = new System.Drawing.Size(60, 22);
             this.btnDelete.Text = "Delete";
             this.btnDelete.ToolTipText = "Delete movie/series";
-            this.btnDelete.Visible = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // toolStripSeparator2
@@ -306,9 +302,9 @@ namespace Desene
             this.pMainContainer.Controls.Add(this.button2);
             this.pMainContainer.Controls.Add(this.button1);
             this.pMainContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pMainContainer.Location = new System.Drawing.Point(0, 31);
+            this.pMainContainer.Location = new System.Drawing.Point(0, 25);
             this.pMainContainer.Name = "pMainContainer";
-            this.pMainContainer.Size = new System.Drawing.Size(1284, 508);
+            this.pMainContainer.Size = new System.Drawing.Size(1284, 514);
             this.pMainContainer.TabIndex = 110;
             this.pMainContainer.Paint += new System.Windows.Forms.PaintEventHandler(this.PMainContainer_Paint);
             this.pMainContainer.Resize += new System.EventHandler(this.PMainContainer_Resize);
