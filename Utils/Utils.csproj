@@ -194,6 +194,9 @@
     </Compile>
     <Compile Include="SiteGenerator.cs" />
     <Compile Include="TextMeasurement.cs" />
+    <Compile Include="UnselectableButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

@@ -27,6 +27,7 @@ namespace Desene
         private Timer _genericTimer;
         private string _lookupStartingWith = string.Empty;
         private string _currentSortField = "FileName";
+        private string _advancedFilter = string.Empty;
 
         public ucMovies(FrmMain parent)
         {
@@ -53,7 +54,7 @@ namespace Desene
 
         private void ReloadData(bool resetCachedstills = false)
         {
-            DAL.MoviesData = DAL.GetMoviesGridData(_currentSortField);
+            DAL.MoviesData = DAL.GetMoviesGridData(_currentSortField, _advancedFilter);
 
             if (resetCachedstills)
                 DAL.CachedMoviesStills = new List<CachedMovieStills>();
@@ -61,7 +62,6 @@ namespace Desene
             RefreshGrid();
 
             _previousSelectedMsi = DAL.MoviesData.FirstOrDefault();
-
         }
 
         private void LoadSelectionDetails(int scrollAt = -1)
@@ -610,5 +610,141 @@ namespace Desene
             _currentSortField = currentMenuItem.Tag.ToString();
             ReloadData();
         }
+
+        #region Advanced filters
+
+        private void lbSwitchToAdvFilters_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                DrawingControl.SuspendDrawing(scMovies.Panel1);
+
+                if (cbAdvFilter_Audio.DataSource == null)
+                {
+                    var listOfLanguagesWithAny = new List<LanguageObject>(Languages.Iso639);
+                    listOfLanguagesWithAny.Insert(0, new LanguageObject()
+                    {
+                        Name = "<Any>"
+                    });
+
+                    cbAdvFilter_Audio.DataSource = listOfLanguagesWithAny;
+                    cbAdvFilter_Audio.ValueMember = "Code";
+                    cbAdvFilter_Audio.DisplayMember = "Name";
+                    cbAdvFilter_Audio.SetSeparator(4);
+
+                    var listOfThemesWithAny = new List<string>(DAL.MovieThemes);
+                    listOfThemesWithAny.Insert(0, "<Any>");
+                    cbAdvFilter_Theme.DataSource = listOfThemesWithAny;
+
+                    var toolTip = new ToolTip();
+                    toolTip.SetToolTip(lbAdvFilterReset, "Reset the advanced filter values");
+                    toolTip.SetToolTip(chkIncludeUnknownRec, "Include the movies with missing or unknown recommendation");
+                }
+
+                pBasicFilter.Visible = false;
+                pAdvFilter.Visible = true;
+            }
+            finally
+            {
+                DrawingControl.ResumeDrawing(scMovies.Panel1);
+            }
+        }
+
+        private void lbSwitchToSimpleFilter_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                DrawingControl.SuspendDrawing(scMovies.Panel1);
+
+                pBasicFilter.Visible = true;
+                pAdvFilter.Visible = false;
+
+                ResetAdvancedFilter();
+            }
+            finally
+            {
+                DrawingControl.ResumeDrawing(scMovies.Panel1);
+            }
+        }
+
+        private void lbAdvFilterReset_MouseEnter(object sender, EventArgs e)
+        {
+            var lbl = (Label)sender;
+            lbl.ForeColor = Color.Red;
+        }
+
+        private void lbAdvFilterReset_MouseLeave(object sender, EventArgs e)
+        {
+            var lbl = (Label)sender;
+            lbl.ForeColor = Color.FromArgb(64, 64, 64);
+        }
+
+        private void lbAdvFilterReset_Click(object sender, EventArgs e)
+        {
+            ResetAdvancedFilter();
+        }
+
+        private void ResetAdvancedFilter()
+        {
+            cbAdvFilter_Audio.SelectedIndex = 0;
+            tbAdvFilter_Rec.Text = "";
+            cbAdvFilter_Theme.SelectedIndex = 0;
+            chkIncludeUnknownRec.Checked = false;
+
+            BuildAdvancedFilter();
+        }
+
+        private void cbAdvFilter_Audio_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            BuildAdvancedFilter();
+        }
+
+        private void tbAdvFilter_Rec_TextChanged(object sender, EventArgs e)
+        {
+            BuildAdvancedFilter();
+        }
+
+        private void chkIncludeUnknownRec_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tbAdvFilter_Rec.Text))
+                BuildAdvancedFilter();
+        }
+
+        private void BuildAdvancedFilter()
+        {
+            var filterValues = new List<string>();
+
+            if (cbAdvFilter_Audio.SelectedIndex > 0)
+                filterValues.Add(string.Format("(CHARINDEX('{0}', AudioLanguages) > 0)", cbAdvFilter_Audio.SelectedValue));
+
+            if (!string.IsNullOrEmpty(tbAdvFilter_Rec.Text))
+                filterValues.Add(string.Format(@"
+	                (CASE
+		                WHEN
+                            REPLACE(REPLACE(Recommended, '+', ''), '?', '') IS NULL OR
+                            REPLACE(REPLACE(Recommended, '+', ''), '?', '') = ''
+		                THEN {0}             --this dictates the column type (int)
+		                ELSE REPLACE(REPLACE(Recommended, '+', ''), '?', '')
+	                END <= {1})",
+                    chkIncludeUnknownRec.Checked ? "0" : "99",
+                    tbAdvFilter_Rec.Text));
+
+            if (cbAdvFilter_Theme.SelectedIndex > 0)
+                filterValues.Add(string.Format("(Theme = '{0}')", cbAdvFilter_Theme.Text.Replace("'", "''")));
+
+            _advancedFilter =
+                filterValues.Any()
+                    ? string.Format("AND ({0})", string.Join(" AND ", filterValues))
+                    : string.Empty;
+
+            ReloadData();
+
+            gbAdvFilterWrapper.Text =
+                string.IsNullOrEmpty(_advancedFilter)
+                    ? "Advanced filters"
+                    : string.Format("Advanced filters ({0} results)", DAL.MoviesData.Count);
+        }
+
+        #endregion
     }
 }

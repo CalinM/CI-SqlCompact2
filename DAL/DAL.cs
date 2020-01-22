@@ -51,7 +51,7 @@ namespace Desene
             }
         }
 
-        public static BindingList<MovieShortInfo> GetMoviesGridData(string sortField)
+        public static BindingList<MovieShortInfo> GetMoviesGridData(string sortField, string advFilter)
         {
             var result = new BindingList<MovieShortInfo>();
 
@@ -59,7 +59,7 @@ namespace Desene
             {
                 conn.Open();
 
-                var commandSource = new SqlCeCommand(@"
+                var commandSource = new SqlCeCommand(string.Format(@"
                     SELECT
 	                    Id,
 	                    FileName,
@@ -75,7 +75,10 @@ namespace Desene
 
                     FROM FileDetail
                     WHERE ParentId IS NULL
-                    ORDER BY " + sortField, conn);
+                        {0}
+                    ORDER BY {1}",
+                    advFilter,
+                    sortField), conn);
 
                 using (var reader = commandSource.ExecuteReader())
                 {

@@ -116,7 +116,7 @@ namespace Utils
 
                 Settings.Default.FolderCfgNotShown = Settings.Default.FolderCfgNotShown + 1;
                 Settings.Default.Save();
-            }            
+            }
         }
 
         private static int? GetCurrentFolderBehavior()

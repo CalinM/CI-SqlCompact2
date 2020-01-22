@@ -14,152 +14,161 @@ using System.Windows.Forms;
 namespace Utils
 {
     public class SeparatorComboBox : ComboBox
-	{
-		#region Constructor
-		public SeparatorComboBox()
-		{
-			DrawMode		= DrawMode.OwnerDrawVariable;
-			_separatorStyle = DashStyle.Solid;
-			_separators		= new ArrayList();
+    {
+        #region Constructor
+        public SeparatorComboBox()
+        {
+            DrawMode = DrawMode.OwnerDrawVariable;
+            _separatorStyle = DashStyle.Solid;
+            _separators = new ArrayList();
 
-			_separatorStyle		= DashStyle.Solid;
-			_separatorColor		= Color.Black;
-			_separatorMargin	= 1;
-			_separatorWidth		= 1;
-			_autoAdjustItemHeight = false;
-		}
-		#endregion
+            _separatorStyle = DashStyle.Solid;
+            _separatorColor = Color.Black;
+            _separatorMargin = 1;
+            _separatorWidth = 1;
+            _autoAdjustItemHeight = false;
+        }
+        #endregion
 
-		#region Medthods
+        #region Medthods
 
-		public void AddString(string s)
-		{
-			Items.Add(s);
-		}
+        public void AddString(string s)
+        {
+            Items.Add(s);
+        }
 
-		public void AddStringWithSeparator(string s)
-		{
-			Items.Add(s);
-			_separators.Add(s);
-		}
+        public void AddStringWithSeparator(string s)
+        {
+            Items.Add(s);
+            _separators.Add(s);
+        }
 
-		public void SetSeparator(int pos)
-		{
-			_separators.Add(pos);
-		}
+        public void SetSeparator(int pos)
+        {
+            _separators.Add(pos);
+        }
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		[Description("Gets or sets the Separator Style"), Category("Separator")]
-		public DashStyle SeparatorStyle
-		{
-			get{ return _separatorStyle; }
-			set{ _separatorStyle = value; }
-		}
+        [Description("Gets or sets the Separator Style"), Category("Separator")]
+        public DashStyle SeparatorStyle
+        {
+            get { return _separatorStyle; }
+            set { _separatorStyle = value; }
+        }
 
-		[Description("Gets or sets the Separator Color"), Category("Separator")]
-		public Color SeparatorColor
-		{
-			get{ return _separatorColor; }
-			set{ _separatorColor = value; }
-		}
+        [Description("Gets or sets the Separator Color"), Category("Separator")]
+        public Color SeparatorColor
+        {
+            get { return _separatorColor; }
+            set { _separatorColor = value; }
+        }
 
-		[Description("Gets or sets the Separator Width"), Category("Separator")]
-		public int SeparatorWidth
-		{
-			get{ return _separatorWidth; }
-			set{ _separatorWidth = value; }
-		}
+        [Description("Gets or sets the Separator Width"), Category("Separator")]
+        public int SeparatorWidth
+        {
+            get { return _separatorWidth; }
+            set { _separatorWidth = value; }
+        }
 
-		[Description("Gets or sets the Separator Margin"), Category("Separator")]
-		public int SeparatorMargin
-		{
-			get{ return _separatorMargin; }
-			set{ _separatorMargin = value; }
-		}
+        [Description("Gets or sets the Separator Margin"), Category("Separator")]
+        public int SeparatorMargin
+        {
+            get { return _separatorMargin; }
+            set { _separatorMargin = value; }
+        }
 
-		[Description("Gets or sets Auto Adjust Item Height"), Category("Separator")]
-		public bool AutoAdjustItemHeight
-		{
-			get{ return _autoAdjustItemHeight; }
-			set{ _autoAdjustItemHeight = value; }
-		}
+        [Description("Gets or sets Auto Adjust Item Height"), Category("Separator")]
+        public bool AutoAdjustItemHeight
+        {
+            get { return _autoAdjustItemHeight; }
+            set { _autoAdjustItemHeight = value; }
+        }
 
-		#endregion
+        #endregion
 
-		#region Overrides
+        #region Overrides
 
-		protected override void OnMeasureItem(MeasureItemEventArgs e)
-		{
-			if (_autoAdjustItemHeight)
-				e.ItemHeight += _separatorWidth;
+        protected override void OnMeasureItem(MeasureItemEventArgs e)
+        {
+            if (_autoAdjustItemHeight)
+                e.ItemHeight += _separatorWidth;
 
-			base.OnMeasureItem(e);
-		}
+            base.OnMeasureItem(e);
+        }
 
-		protected override void OnDrawItem(DrawItemEventArgs e)
-		{
-			if (-1 == e.Index) return;
+        protected override void OnDrawItem(DrawItemEventArgs e)
+        {
+            if (-1 == e.Index) return;
 
-			var sep = false;
+            var sep = false;
 
-		    for (var i = 0; !sep && i<_separators.Count; i++)
-			{
-			    var o = _separators[i];
+            for (var i = 0; !sep && i < _separators.Count; i++)
+            {
+                var o = _separators[i];
 
-			    if (o is string)
-				{
-					if ((string)Items[e.Index] == o as string)
-						sep = true;
-				}
-				else
-				{
-					var pos = (int)o;
-					if (pos<0) pos += Items.Count;
+                if (o is string)
+                {
+                    if ((string)Items[e.Index] == o as string)
+                        sep = true;
+                }
+                else
+                {
+                    var pos = (int)o;
+                    if (pos < 0) pos += Items.Count;
 
-					if (e.Index == pos) sep = true;
-				}
-			}
+                    if (e.Index == pos) sep = true;
+                }
+            }
 
-			e.DrawBackground();
+            e.DrawBackground();
 
-			var g = e.Graphics;
-			var y = e.Bounds.Location.Y +_separatorWidth-1;
+            var g = e.Graphics;
+            var y = e.Bounds.Location.Y + _separatorWidth - 1;
 
-			if (sep && (e.Bounds.Bottom > ClientRectangle.Bottom))
-			{
-			    var pen = new Pen(_separatorColor, _separatorWidth) { DashStyle = _separatorStyle };
+            if (sep && (e.Bounds.Bottom > ClientRectangle.Bottom))
+            {
+                var pen = new Pen(_separatorColor, _separatorWidth) { DashStyle = _separatorStyle };
 
-			    if (DroppedDown) {
-                    g.DrawLine (pen,
-                                e.Bounds.Location.X+_separatorMargin, y,
-                                e.Bounds.Location.X+e.Bounds.Width-_separatorMargin, y);
+                if (DroppedDown)
+                {
+                    g.DrawLine(pen,
+                                e.Bounds.Location.X + _separatorMargin, y,
+                                e.Bounds.Location.X + e.Bounds.Width - _separatorMargin, y);
                     y++;
                 }
-			}
+            }
 
-			var br = DrawItemState.Selected == (DrawItemState.Selected & e.State)
-			             ? SystemBrushes.HighlightText
-			             : new SolidBrush(e.ForeColor);
+            //CMA: 01.2020 - to prevent the focus set after closing the combobox (selecting an item)
+
+            var br = DrawItemState.Selected == (DrawItemState.Selected & e.State)
+                         ? SystemBrushes.HighlightText
+                         : new SolidBrush(e.ForeColor);
 
             g.DrawString(GetItemText(Items[e.Index]), e.Font, br, e.Bounds.Left, y + 1);
 
-			base.OnDrawItem(e);
-		}
+            //using (var brush = new SolidBrush(e.ForeColor))
+            //{
+            //    e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            //    e.Graphics.DrawString(GetItemText(Items[e.Index]), e.Font, brush, e.Bounds);
+            //}
 
-		#endregion
+            base.OnDrawItem(e);
+        }
 
-		#region Data members
+        #endregion
 
-		ArrayList	_separators;
-		DashStyle	_separatorStyle;
-		Color		_separatorColor;
-		int			_separatorWidth;
-		int			_separatorMargin;
-		bool		_autoAdjustItemHeight;
+        #region Data members
 
-		#endregion
-	}
+        ArrayList _separators;
+        DashStyle _separatorStyle;
+        Color _separatorColor;
+        int _separatorWidth;
+        int _separatorMargin;
+        bool _autoAdjustItemHeight;
+
+        #endregion
+    }
 }

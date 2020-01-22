@@ -39,7 +39,19 @@
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Calitate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pFilters = new System.Windows.Forms.Panel();
+            this.pAdvFilter = new System.Windows.Forms.Panel();
+            this.gbAdvFilterWrapper = new System.Windows.Forms.GroupBox();
+            this.chkIncludeUnknownRec = new System.Windows.Forms.CheckBox();
+            this.cbAdvFilter_Theme = new Utils.SeparatorComboBox();
+            this.lbAdvFilterReset = new System.Windows.Forms.Label();
+            this.cbAdvFilter_Audio = new Utils.SeparatorComboBox();
+            this.lbSwitchToSimpleFilter = new System.Windows.Forms.LinkLabel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tbAdvFilter_Rec = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.pBasicFilter = new System.Windows.Forms.Panel();
+            this.lbSwitchToAdvFilters = new System.Windows.Forms.LinkLabel();
             this.tbFilter = new Utils.FilterTextBox();
             this.lbFilter = new System.Windows.Forms.Label();
             this.scSeriesDetails = new System.Windows.Forms.SplitContainer();
@@ -59,6 +71,9 @@
             this.miSortByInsertDate = new System.Windows.Forms.ToolStripMenuItem();
             this.miSortByLastChangedDate = new System.Windows.Forms.ToolStripMenuItem();
             this.pMovieDetailsContainer = new System.Windows.Forms.Panel();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.scMovies)).BeginInit();
             this.scMovies.Panel1.SuspendLayout();
             this.scMovies.Panel2.SuspendLayout();
@@ -67,7 +82,9 @@
             this.pDummyMenuForShortCutKeys.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMoviesList)).BeginInit();
-            this.pFilters.SuspendLayout();
+            this.pAdvFilter.SuspendLayout();
+            this.gbAdvFilterWrapper.SuspendLayout();
+            this.pBasicFilter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scSeriesDetails)).BeginInit();
             this.scSeriesDetails.Panel1.SuspendLayout();
             this.scSeriesDetails.Panel2.SuspendLayout();
@@ -88,7 +105,8 @@
             // scMovies.Panel1
             // 
             this.scMovies.Panel1.Controls.Add(this.panel1);
-            this.scMovies.Panel1.Controls.Add(this.pFilters);
+            this.scMovies.Panel1.Controls.Add(this.pAdvFilter);
+            this.scMovies.Panel1.Controls.Add(this.pBasicFilter);
             this.scMovies.Panel1MinSize = 300;
             // 
             // scMovies.Panel2
@@ -107,10 +125,11 @@
             this.panel1.Controls.Add(this.pDummyMenuForShortCutKeys);
             this.panel1.Controls.Add(this.dgvMoviesList);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 40);
+            this.panel1.Location = new System.Drawing.Point(0, 170);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(300, 684);
-            this.panel1.TabIndex = 105;
+            this.panel1.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
+            this.panel1.Size = new System.Drawing.Size(300, 554);
+            this.panel1.TabIndex = 108;
             // 
             // pDummyMenuForShortCutKeys
             // 
@@ -153,7 +172,6 @@
             this.miSave_ForShortCutOnly.Name = "miSave_ForShortCutOnly";
             this.miSave_ForShortCutOnly.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.miSave_ForShortCutOnly.Size = new System.Drawing.Size(180, 28);
-            this.miSave_ForShortCutOnly.Click += new System.EventHandler(this.btnSaveChanges_Click);
             // 
             // miUndo_ForShortCutOnly
             // 
@@ -161,7 +179,6 @@
             this.miUndo_ForShortCutOnly.Name = "miUndo_ForShortCutOnly";
             this.miUndo_ForShortCutOnly.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
             this.miUndo_ForShortCutOnly.Size = new System.Drawing.Size(180, 28);
-            this.miUndo_ForShortCutOnly.Click += new System.EventHandler(this.btnUndo_Click);
             // 
             // dgvMoviesList
             // 
@@ -170,9 +187,6 @@
             this.dgvMoviesList.AllowUserToOrderColumns = true;
             this.dgvMoviesList.AllowUserToResizeColumns = false;
             this.dgvMoviesList.AllowUserToResizeRows = false;
-            this.dgvMoviesList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvMoviesList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvMoviesList.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dgvMoviesList.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -182,6 +196,7 @@
             this.colId,
             this.colTitle,
             this.Calitate});
+            this.dgvMoviesList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvMoviesList.GridColor = System.Drawing.Color.WhiteSmoke;
             this.dgvMoviesList.Location = new System.Drawing.Point(15, 0);
             this.dgvMoviesList.MultiSelect = false;
@@ -190,7 +205,7 @@
             this.dgvMoviesList.RowHeadersVisible = false;
             this.dgvMoviesList.RowHeadersWidth = 62;
             this.dgvMoviesList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMoviesList.Size = new System.Drawing.Size(285, 684);
+            this.dgvMoviesList.Size = new System.Drawing.Size(285, 554);
             this.dgvMoviesList.TabIndex = 105;
             this.dgvMoviesList.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvMoviesList_CellPainting);
             this.dgvMoviesList.SelectionChanged += new System.EventHandler(this.dgvMoviesList_SelectionChanged);
@@ -224,15 +239,184 @@
             this.Calitate.ReadOnly = true;
             this.Calitate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
-            // pFilters
+            // pAdvFilter
             // 
-            this.pFilters.Controls.Add(this.tbFilter);
-            this.pFilters.Controls.Add(this.lbFilter);
-            this.pFilters.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pFilters.Location = new System.Drawing.Point(0, 0);
-            this.pFilters.Name = "pFilters";
-            this.pFilters.Size = new System.Drawing.Size(300, 40);
-            this.pFilters.TabIndex = 104;
+            this.pAdvFilter.Controls.Add(this.gbAdvFilterWrapper);
+            this.pAdvFilter.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pAdvFilter.Location = new System.Drawing.Point(0, 46);
+            this.pAdvFilter.Name = "pAdvFilter";
+            this.pAdvFilter.Size = new System.Drawing.Size(300, 124);
+            this.pAdvFilter.TabIndex = 107;
+            this.pAdvFilter.Visible = false;
+            // 
+            // gbAdvFilterWrapper
+            // 
+            this.gbAdvFilterWrapper.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbAdvFilterWrapper.Controls.Add(this.chkIncludeUnknownRec);
+            this.gbAdvFilterWrapper.Controls.Add(this.cbAdvFilter_Theme);
+            this.gbAdvFilterWrapper.Controls.Add(this.lbAdvFilterReset);
+            this.gbAdvFilterWrapper.Controls.Add(this.cbAdvFilter_Audio);
+            this.gbAdvFilterWrapper.Controls.Add(this.lbSwitchToSimpleFilter);
+            this.gbAdvFilterWrapper.Controls.Add(this.label3);
+            this.gbAdvFilterWrapper.Controls.Add(this.tbAdvFilter_Rec);
+            this.gbAdvFilterWrapper.Controls.Add(this.label2);
+            this.gbAdvFilterWrapper.Controls.Add(this.label1);
+            this.gbAdvFilterWrapper.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbAdvFilterWrapper.Location = new System.Drawing.Point(15, 6);
+            this.gbAdvFilterWrapper.Name = "gbAdvFilterWrapper";
+            this.gbAdvFilterWrapper.Size = new System.Drawing.Size(285, 114);
+            this.gbAdvFilterWrapper.TabIndex = 17;
+            this.gbAdvFilterWrapper.TabStop = false;
+            this.gbAdvFilterWrapper.Text = "Advanced filters";
+            // 
+            // chkIncludeUnknownRec
+            // 
+            this.chkIncludeUnknownRec.AutoSize = true;
+            this.chkIncludeUnknownRec.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkIncludeUnknownRec.Location = new System.Drawing.Point(167, 53);
+            this.chkIncludeUnknownRec.Name = "chkIncludeUnknownRec";
+            this.chkIncludeUnknownRec.Size = new System.Drawing.Size(108, 17);
+            this.chkIncludeUnknownRec.TabIndex = 26;
+            this.chkIncludeUnknownRec.Text = "Include unknown";
+            this.chkIncludeUnknownRec.UseVisualStyleBackColor = true;
+            this.chkIncludeUnknownRec.CheckedChanged += new System.EventHandler(this.chkIncludeUnknownRec_CheckedChanged);
+            // 
+            // cbAdvFilter_Theme
+            // 
+            this.cbAdvFilter_Theme.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbAdvFilter_Theme.AutoAdjustItemHeight = true;
+            this.cbAdvFilter_Theme.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.cbAdvFilter_Theme.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbAdvFilter_Theme.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbAdvFilter_Theme.FormattingEnabled = true;
+            this.cbAdvFilter_Theme.Location = new System.Drawing.Point(112, 77);
+            this.cbAdvFilter_Theme.Name = "cbAdvFilter_Theme";
+            this.cbAdvFilter_Theme.SeparatorColor = System.Drawing.Color.Black;
+            this.cbAdvFilter_Theme.SeparatorMargin = 1;
+            this.cbAdvFilter_Theme.SeparatorStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+            this.cbAdvFilter_Theme.SeparatorWidth = 1;
+            this.cbAdvFilter_Theme.Size = new System.Drawing.Size(137, 21);
+            this.cbAdvFilter_Theme.TabIndex = 25;
+            this.cbAdvFilter_Theme.SelectionChangeCommitted += new System.EventHandler(this.cbAdvFilter_Audio_SelectionChangeCommitted);
+            // 
+            // lbAdvFilterReset
+            // 
+            this.lbAdvFilterReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbAdvFilterReset.AutoSize = true;
+            this.lbAdvFilterReset.BackColor = System.Drawing.Color.Transparent;
+            this.lbAdvFilterReset.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbAdvFilterReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbAdvFilterReset.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lbAdvFilterReset.Location = new System.Drawing.Point(256, 0);
+            this.lbAdvFilterReset.Name = "lbAdvFilterReset";
+            this.lbAdvFilterReset.Size = new System.Drawing.Size(33, 31);
+            this.lbAdvFilterReset.TabIndex = 24;
+            this.lbAdvFilterReset.Text = "↺";
+            this.lbAdvFilterReset.Click += new System.EventHandler(this.lbAdvFilterReset_Click);
+            this.lbAdvFilterReset.MouseEnter += new System.EventHandler(this.lbAdvFilterReset_MouseEnter);
+            this.lbAdvFilterReset.MouseLeave += new System.EventHandler(this.lbAdvFilterReset_MouseLeave);
+            // 
+            // cbAdvFilter_Audio
+            // 
+            this.cbAdvFilter_Audio.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbAdvFilter_Audio.AutoAdjustItemHeight = true;
+            this.cbAdvFilter_Audio.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.cbAdvFilter_Audio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbAdvFilter_Audio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbAdvFilter_Audio.FormattingEnabled = true;
+            this.cbAdvFilter_Audio.Location = new System.Drawing.Point(112, 24);
+            this.cbAdvFilter_Audio.Name = "cbAdvFilter_Audio";
+            this.cbAdvFilter_Audio.SeparatorColor = System.Drawing.Color.Black;
+            this.cbAdvFilter_Audio.SeparatorMargin = 1;
+            this.cbAdvFilter_Audio.SeparatorStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+            this.cbAdvFilter_Audio.SeparatorWidth = 1;
+            this.cbAdvFilter_Audio.Size = new System.Drawing.Size(137, 21);
+            this.cbAdvFilter_Audio.TabIndex = 21;
+            this.cbAdvFilter_Audio.SelectionChangeCommitted += new System.EventHandler(this.cbAdvFilter_Audio_SelectionChangeCommitted);
+            // 
+            // lbSwitchToSimpleFilter
+            // 
+            this.lbSwitchToSimpleFilter.ActiveLinkColor = System.Drawing.Color.Blue;
+            this.lbSwitchToSimpleFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbSwitchToSimpleFilter.AutoSize = true;
+            this.lbSwitchToSimpleFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSwitchToSimpleFilter.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.lbSwitchToSimpleFilter.Location = new System.Drawing.Point(252, 98);
+            this.lbSwitchToSimpleFilter.Name = "lbSwitchToSimpleFilter";
+            this.lbSwitchToSimpleFilter.Size = new System.Drawing.Size(32, 13);
+            this.lbSwitchToSimpleFilter.TabIndex = 20;
+            this.lbSwitchToSimpleFilter.TabStop = true;
+            this.lbSwitchToSimpleFilter.Text = "close";
+            this.lbSwitchToSimpleFilter.VisitedLinkColor = System.Drawing.Color.Blue;
+            this.lbSwitchToSimpleFilter.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbSwitchToSimpleFilter_LinkClicked);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(25, 80);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(40, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Theme";
+            // 
+            // tbAdvFilter_Rec
+            // 
+            this.tbAdvFilter_Rec.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbAdvFilter_Rec.Location = new System.Drawing.Point(112, 51);
+            this.tbAdvFilter_Rec.Name = "tbAdvFilter_Rec";
+            this.tbAdvFilter_Rec.Size = new System.Drawing.Size(48, 20);
+            this.tbAdvFilter_Rec.TabIndex = 4;
+            this.tbAdvFilter_Rec.TextChanged += new System.EventHandler(this.tbAdvFilter_Rec_TextChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(25, 54);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(79, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Rec. age (max)";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(25, 27);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(81, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Audio language";
+            // 
+            // pBasicFilter
+            // 
+            this.pBasicFilter.Controls.Add(this.lbSwitchToAdvFilters);
+            this.pBasicFilter.Controls.Add(this.tbFilter);
+            this.pBasicFilter.Controls.Add(this.lbFilter);
+            this.pBasicFilter.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pBasicFilter.Location = new System.Drawing.Point(0, 0);
+            this.pBasicFilter.Name = "pBasicFilter";
+            this.pBasicFilter.Size = new System.Drawing.Size(300, 46);
+            this.pBasicFilter.TabIndex = 104;
+            // 
+            // lbSwitchToAdvFilters
+            // 
+            this.lbSwitchToAdvFilters.ActiveLinkColor = System.Drawing.Color.Blue;
+            this.lbSwitchToAdvFilters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbSwitchToAdvFilters.AutoSize = true;
+            this.lbSwitchToAdvFilters.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.lbSwitchToAdvFilters.Location = new System.Drawing.Point(218, 30);
+            this.lbSwitchToAdvFilters.Name = "lbSwitchToAdvFilters";
+            this.lbSwitchToAdvFilters.Size = new System.Drawing.Size(82, 13);
+            this.lbSwitchToAdvFilters.TabIndex = 19;
+            this.lbSwitchToAdvFilters.TabStop = true;
+            this.lbSwitchToAdvFilters.Text = "advanced filters";
+            this.lbSwitchToAdvFilters.VisitedLinkColor = System.Drawing.Color.Blue;
+            this.lbSwitchToAdvFilters.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbSwitchToAdvFilters_LinkClicked);
             // 
             // tbFilter
             // 
@@ -398,7 +582,7 @@
             this.toolStrip2.Location = new System.Drawing.Point(0, 8);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.toolStrip2.Size = new System.Drawing.Size(33, 32);
+            this.toolStrip2.Size = new System.Drawing.Size(22, 32);
             this.toolStrip2.TabIndex = 2;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -456,6 +640,36 @@
             this.pMovieDetailsContainer.Size = new System.Drawing.Size(644, 724);
             this.pMovieDetailsContainer.TabIndex = 0;
             // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "Id";
+            this.dataGridViewTextBoxColumn1.HeaderText = "Id";
+            this.dataGridViewTextBoxColumn1.MinimumWidth = 8;
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "FileName";
+            this.dataGridViewTextBoxColumn2.FillWeight = 179.6954F;
+            this.dataGridViewTextBoxColumn2.HeaderText = "FileName";
+            this.dataGridViewTextBoxColumn2.MinimumWidth = 8;
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            this.dataGridViewTextBoxColumn2.Width = 259;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "Quality";
+            this.dataGridViewTextBoxColumn3.FillWeight = 20.30457F;
+            this.dataGridViewTextBoxColumn3.HeaderText = "Quality";
+            this.dataGridViewTextBoxColumn3.MinimumWidth = 8;
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            this.dataGridViewTextBoxColumn3.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn3.Width = 23;
+            // 
             // ucMovies
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -474,8 +688,11 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMoviesList)).EndInit();
-            this.pFilters.ResumeLayout(false);
-            this.pFilters.PerformLayout();
+            this.pAdvFilter.ResumeLayout(false);
+            this.gbAdvFilterWrapper.ResumeLayout(false);
+            this.gbAdvFilterWrapper.PerformLayout();
+            this.pBasicFilter.ResumeLayout(false);
+            this.pBasicFilter.PerformLayout();
             this.scSeriesDetails.Panel1.ResumeLayout(false);
             this.scSeriesDetails.Panel2.ResumeLayout(false);
             this.scSeriesDetails.Panel2.PerformLayout();
@@ -497,13 +714,8 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer scMovies;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.DataGridView dgvMoviesList;
-        private System.Windows.Forms.Panel pFilters;
+        private System.Windows.Forms.Panel pBasicFilter;
         private System.Windows.Forms.Label lbFilter;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colTitle;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Calitate;
         private System.Windows.Forms.SplitContainer scSeriesDetails;
         private System.Windows.Forms.Panel pSeriesSecondToolbar;
         private System.Windows.Forms.Panel panel3;
@@ -516,16 +728,36 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel pMovieDetailsContainer;
         private Utils.FilterTextBox tbFilter;
-        private System.Windows.Forms.Panel pDummyMenuForShortCutKeys;
-        private System.Windows.Forms.Label lbDoNotDelete;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem miSave_ForShortCutOnly;
-        private System.Windows.Forms.ToolStripMenuItem miUndo_ForShortCutOnly;
         private System.Windows.Forms.ToolStripButton btnImportMovies;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripDropDownButton bntSort;
         private System.Windows.Forms.ToolStripMenuItem miSortByName;
         private System.Windows.Forms.ToolStripMenuItem miSortByInsertDate;
         private System.Windows.Forms.ToolStripMenuItem miSortByLastChangedDate;
+        private System.Windows.Forms.Panel pAdvFilter;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel pDummyMenuForShortCutKeys;
+        private System.Windows.Forms.Label lbDoNotDelete;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem miSave_ForShortCutOnly;
+        private System.Windows.Forms.ToolStripMenuItem miUndo_ForShortCutOnly;
+        private System.Windows.Forms.DataGridView dgvMoviesList;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTitle;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Calitate;
+        private System.Windows.Forms.GroupBox gbAdvFilterWrapper;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox tbAdvFilter_Rec;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.LinkLabel lbSwitchToAdvFilters;
+        private System.Windows.Forms.LinkLabel lbSwitchToSimpleFilter;
+        private Utils.SeparatorComboBox cbAdvFilter_Audio;
+        private System.Windows.Forms.Label lbAdvFilterReset;
+        private Utils.SeparatorComboBox cbAdvFilter_Theme;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.CheckBox chkIncludeUnknownRec;
     }
 }

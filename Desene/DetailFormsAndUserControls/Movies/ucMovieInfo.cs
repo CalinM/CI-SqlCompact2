@@ -44,6 +44,9 @@ namespace Desene.DetailFormsAndUserControls
 
             cbTheme.MouseWheel += Utils.Helpers.Combobox_OnMouseWheel;
             cbQuality.MouseWheel += Utils.Helpers.Combobox_OnMouseWheel;
+
+            //button1.TabStop = false;
+            //button1.CanSelect = false;
         }
 
         private void ucMovieInfo_Load(object sender, EventArgs e)
@@ -412,6 +415,24 @@ namespace Desene.DetailFormsAndUserControls
             {
                 MsgBox.Show(ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void bGotoRecommendedSite_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tbRecommendedLink.Text))
+                System.Diagnostics.Process.Start(tbRecommendedLink.Text);
+        }
+
+        private void bGotoTrailer_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tbTrailer.Text))
+                System.Diagnostics.Process.Start(tbTrailer.Text);
+        }
+
+        private void bGotoDescription_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tbDescriptionLink.Text))
+                System.Diagnostics.Process.Start(tbDescriptionLink.Text);
         }
 
         //private void CheckSizeMismatch()
