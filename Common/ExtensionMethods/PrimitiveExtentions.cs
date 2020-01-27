@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Common
 {
@@ -134,6 +135,15 @@ namespace Common
             }
 
             return true;
+        }
+
+        //this will mess up the non-tags strings placed between <>
+        //if neccesarry, replace with a static list of html tags
+        public static string StripHtml(this string input)
+        {
+            // Will this simple expression replace all tags???
+            var tagsExpression = new Regex(@"</?.+?>");
+            return tagsExpression.Replace(input, " ");
         }
     }
 }

@@ -62,6 +62,7 @@ namespace Desene
             this.button4 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.mainMenu.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.pMainContainer.SuspendLayout();
@@ -196,7 +197,7 @@ namespace Desene
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripDropDownButton1
             // 
@@ -207,7 +208,7 @@ namespace Desene
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(67, 28);
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(67, 22);
             this.toolStripDropDownButton1.Text = "Generate";
             // 
             // btnGenerateHtml
@@ -229,14 +230,14 @@ namespace Desene
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 31);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
             // btnFilesDetails
             // 
             this.btnFilesDetails.Image = global::Desene.Properties.Resources.info1;
             this.btnFilesDetails.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnFilesDetails.Name = "btnFilesDetails";
-            this.btnFilesDetails.Size = new System.Drawing.Size(95, 28);
+            this.btnFilesDetails.Size = new System.Drawing.Size(87, 22);
             this.btnFilesDetails.Text = "Files details";
             this.btnFilesDetails.Click += new System.EventHandler(this.btnFilesDetails_Click);
             // 
@@ -245,7 +246,7 @@ namespace Desene
             this.btnBuildFileNames.Image = global::Desene.Properties.Resources.combineNames;
             this.btnBuildFileNames.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnBuildFileNames.Name = "btnBuildFileNames";
-            this.btnBuildFileNames.Size = new System.Drawing.Size(153, 28);
+            this.btnBuildFileNames.Size = new System.Drawing.Size(145, 22);
             this.btnBuildFileNames.Text = "Mix Netflix files names";
             this.btnBuildFileNames.Click += new System.EventHandler(this.BtnBuildFileNames_Click);
             // 
@@ -297,6 +298,7 @@ namespace Desene
             // 
             // pMainContainer
             // 
+            this.pMainContainer.Controls.Add(this.button5);
             this.pMainContainer.Controls.Add(this.button3);
             this.pMainContainer.Controls.Add(this.button4);
             this.pMainContainer.Controls.Add(this.button2);
@@ -350,6 +352,16 @@ namespace Desene
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(855, 175);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(141, 23);
+            this.button5.TabIndex = 112;
+            this.button5.Text = "Init synopsis";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // FrmMain
             // 
             this.AllowDrop = true;
@@ -366,6 +378,8 @@ namespace Desene
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmMain_FormClosed);
             this.Load += new System.EventHandler(this.FrmMain_Load);
+            this.ResizeBegin += new System.EventHandler(this.FrmMain_ResizeBegin);
+            this.ResizeEnd += new System.EventHandler(this.FrmMain_ResizeEnd);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FrmMain_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FrmMain_DragEnter);
             this.mainMenu.ResumeLayout(false);
@@ -410,6 +424,7 @@ namespace Desene
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem miRecordings;
+        private System.Windows.Forms.Button button5;
     }
 }
 

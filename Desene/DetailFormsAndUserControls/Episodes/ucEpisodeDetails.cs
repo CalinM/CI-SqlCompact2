@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
 using Common;
@@ -25,6 +26,9 @@ namespace Desene.DetailFormsAndUserControls
         public ucEpisodeDetails(int episodeId, int seriesId, string seriesName)
         {
             InitializeComponent();
+            typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
+                | BindingFlags.Instance | BindingFlags.NonPublic, null,
+                pEpisodeDetails, new object[] { true });
 
             InitControls();
             LoadControls(episodeId, seriesId, seriesName);

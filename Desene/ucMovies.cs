@@ -32,6 +32,9 @@ namespace Desene
         public ucMovies(FrmMain parent)
         {
             InitializeComponent();
+            typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
+                | BindingFlags.Instance | BindingFlags.NonPublic, null,
+                pMovieDetailsContainer, new object[] { true });
 
             _parent = parent;
             _parent.OnAddButtonPress += AddMovie;

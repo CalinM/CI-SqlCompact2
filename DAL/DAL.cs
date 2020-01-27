@@ -2479,5 +2479,52 @@ namespace Desene
 
             return result;
         }
+
+        public static OperationResult GetMoviesForSynopsisImport(bool preserveExisting)
+        {
+            var result = new OperationResult();
+            var returnData = new List<SynopsisImportMovieData>();
+
+            try
+            {
+                using (var conn = new SqlCeConnection(Constants.ConnectionString))
+                {
+                    conn.Open();
+
+                    var sqlStrig = string.Format(@"
+                        SELECT Id, DescriptionLink
+                        FROM FileDetail
+                        WHERE ParentId IS NULL
+                            AND DescriptionLink IS NOT NULL AND DescriptionLink <> ''
+                        ",
+                        preserveExisting
+                            ? " AND (Synopsis IS NULL OR Synopsis = '')"
+                            : string.Empty);
+
+                    var commandSource = new SqlCeCommand(sqlStrig, conn);
+
+                    using (var reader = commandSource.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            returnData.Add(
+                                new SynopsisImportMovieData
+                                {
+                                    MovieId = (int)reader["Id"],
+                                    DescriptionLink = (string)reader["DescriptionLink"]
+                                });
+                        }
+                    }
+                }
+
+                result.AdditionalDataReturn = returnData;
+            }
+            catch (Exception ex)
+            {
+                result.FailWithMessage(ex);
+            }
+
+            return result;
+        }
     }
 }

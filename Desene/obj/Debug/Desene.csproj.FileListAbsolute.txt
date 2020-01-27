@@ -89,3 +89,8 @@ C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.GenerateResource.
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.CopyComplete
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.exe
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.pdb
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\AngleSharp.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Text.Encoding.CodePages.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\AngleSharp.xml
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml

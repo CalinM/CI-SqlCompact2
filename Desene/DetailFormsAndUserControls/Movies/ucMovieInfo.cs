@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
 using Common;
@@ -33,6 +34,10 @@ namespace Desene.DetailFormsAndUserControls
         public ucMovieInfo(bool isNew)
         {
             InitializeComponent();
+            typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
+                | BindingFlags.Instance | BindingFlags.NonPublic, null,
+                pMovieDetail, new object[] { true });
+
             _isNew = isNew;
 
             PostConstructor();
@@ -433,6 +438,11 @@ namespace Desene.DetailFormsAndUserControls
         {
             if (!string.IsNullOrEmpty(tbDescriptionLink.Text))
                 System.Diagnostics.Process.Start(tbDescriptionLink.Text);
+        }
+
+        private void pMovieDetail_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
         //private void CheckSizeMismatch()

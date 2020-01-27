@@ -62,7 +62,7 @@ namespace Desene
                 }
             }
 
-            pMainContainer.Controls.Clear();
+            //pMainContainer.Controls.Clear();
 
             DAL.LoadBaseDbValues();
 
@@ -1070,14 +1070,42 @@ namespace Desene
             var opRes = PdfGenerator.CreateCatalog(genParams.PdfGenParams);
             if (!opRes.Success)
             {
-                MessageBox.Show(
-                    string.Format("The following error occurred while creating the catalog (1):{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
-                    "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MsgBox.Show(string.Format("The following error occurred while creating the catalog (1):{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
                 Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Information, "PDF Catalog Generation",
                     string.Format("The catalog has been succesfully created and saved in '{0}'", genParams.PdfGenParams.FileName), 10000, this);
+            }
+        }
+
+        private void FrmMain_ResizeBegin(object sender, EventArgs e)
+        {
+            DrawingControl.SuspendDrawing(pMainContainer);
+        }
+
+        private void FrmMain_ResizeEnd(object sender, EventArgs e)
+        {
+            DrawingControl.ResumeDrawing(pMainContainer);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            var opRes = DatabaseOperations.CreateField("FileDetail", "Synopsis", "ntext NULL");
+
+            if (!opRes.Success)
+            {
+                MsgBox.Show(opRes.CustomErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //return;
+            }
+
+            opRes = WebScraping.ImportSynopsis();
+
+            if (!opRes.Success)
+            {
+                MsgBox.Show(opRes.CustomErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //return;
             }
         }
 

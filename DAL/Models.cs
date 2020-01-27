@@ -267,8 +267,8 @@ namespace DAL
         public bool ForceAddMissingEntries { get; set; }
         public bool PreserveManuallySetData { get; set; }
         public bool DisplayInfoOnly { get; set; }
-        public string RecordingAudio { get; set;} 
-        public bool SkipMultiVersion { get; set;}
+        public string RecordingAudio { get; set; }
+        public bool SkipMultiVersion { get; set; }
     }
 
     public class CachedMovieStills
@@ -456,5 +456,14 @@ namespace DAL
             SeriesData = seriesData;
             RecordingsData = recordingsData;
         }
+    }
+
+    public class SynopsisImportMovieData
+    {
+        public int MovieId { get; set; }
+        public string DescriptionLink { get; set; }
+
+        public string Synopsis { get; set; }
+        public string SkipReason { get; set; }
     }
 }
