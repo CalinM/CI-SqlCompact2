@@ -113,7 +113,7 @@ namespace Desene
                     WHERE fd1.ParentId = -1
                     ORDER BY fd1.FileName
                  */
-                var cmd = new SqlCeCommand("SELECT * FROM FileDetail WHERE ParentId = @displayType ORDER BY FileName", conn);
+                var cmd = new SqlCeCommand("SELECT Id, FileName, AudioLanguages FROM FileDetail WHERE ParentId = @displayType ORDER BY FileName", conn);
                 cmd.Parameters.AddWithValue("@displayType", (int)SeriesType);
 
                 using (var reader = cmd.ExecuteReader())
@@ -124,6 +124,7 @@ namespace Desene
                         {
                             Id = (int)reader["Id"],
                             FileName = reader["FileName"].ToString(),
+                            AudioLanguages = reader["AudioLanguages"].ToString(),
                             Season = -1,
                             SeriesId = (int)reader["Id"],
                             IsSeries = true
@@ -230,7 +231,7 @@ namespace Desene
         /// </summary>
         /// <param name="seriesId"></param>
         /// <returns></returns>
-        public static DataTable GetEpisodesInSeries(int seriesId)
+        public static DataTable GetEpisodesInSeries(SeriesEpisodesShortInfo sesInfo)
         {
             var result = new DataTable();
 
@@ -248,8 +249,13 @@ namespace Desene
                                 END AS Season2,
                                 fd.*
                             FROM FileDetail fd
-                            WHERE ParentId = {0}
-                            ORDER BY Season2, FileName", seriesId), conn);
+                            WHERE ParentId = {0} {1}
+                            ORDER BY Season2, FileName",
+                            sesInfo.SeriesId,
+                            sesInfo.IsSeason
+                                ? string.Format("AND Season = {0}", sesInfo.Season)
+                                : string.Empty
+                            ), conn);
 
                 using (var reader = commandSource.ExecuteReader())
                 {
@@ -485,7 +491,8 @@ namespace Desene
                             Notes,
                             Trailer,
                             StreamLink,
-                            Poster
+                            Poster,
+                            Synopsis
                         )
                         VALUES (
                             @FileName,
@@ -512,7 +519,8 @@ namespace Desene
                             @Notes,
                             @Trailer,
                             @StreamLink,
-                            @Poster
+                            @Poster,
+                            @Synopsis
                         )";
 
                     cmd = new SqlCeCommand(insertString, conn);
@@ -544,6 +552,7 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@Trailer", mtd.Trailer ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@StreamLink", mtd.StreamLink ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@Poster", mtd.Poster ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Synopsis", mtd.Synopsis ?? (object)DBNull.Value);
 
                     cmd.ExecuteNonQuery();
                     cmd.CommandText = "Select @@Identity";
@@ -1143,6 +1152,7 @@ namespace Desene
                                ,Recommended = @Recommended
                                ,RecommendedLink = @RecommendedLink
                                ,Theme = @Theme
+                               ,Synopsis = @Synopsis
                          WHERE Id = @Id";
 
                     var cmd = new SqlCeCommand(updateString, conn);
@@ -1193,6 +1203,7 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@Recommended", CurrentMTD.Recommended ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@RecommendedLink", CurrentMTD.RecommendedLink ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@Theme", CurrentMTD.Theme);
+                    cmd.Parameters.AddWithValue("@Synopsis", CurrentMTD.Synopsis ?? (object)DBNull.Value);
 
                     cmd.Parameters.AddWithValue("@Id", CurrentMTD.Id);
                     cmd.ExecuteNonQuery();
@@ -1363,6 +1374,7 @@ namespace Desene
                                                         ? "<not set>"
                                                         : ((DateTime)reader["Duration"]).ToString("HH:mm:ss");
                             mtd.Notes = reader["Notes"].ToString();
+                            mtd.Synopsis = reader["Synopsis"].ToString();
 
                             break;
                         }
@@ -2274,15 +2286,77 @@ namespace Desene
                 {
                     try
                     {
+                        var sqlString = string.Empty;
+
                         foreach (var fvc in fieldValuesControls)
                         {
-                            var cmd = new SqlCeCommand(string.Format(@"
-                                UPDATE FileDetail
-                                   SET {0} = {1}
-                                WHERE Id IN ({2})",
-                                fvc.FieldName, fvc.Value, episodes), conn);
+                            if (fvc.FieldName == "Language")
+                            {
+                                sqlString = string.Format(@"
+                                    UPDATE AudioStream
+                                       SET Language = '{0}'
+                                     WHERE Id IN
+                                        (
+                                            SELECT
+                                                MIN(Id) AS MinId
+                                             FROM AudioStream
+                                            WHERE FileDetailId IN ({1})
+                                            GROUP BY FileDetailId
+                                        )",
+                                    fvc.Value, episodes);
+                            }
+                            else
+                            {
+                                sqlString = string.Format(@"
+                                    UPDATE FileDetail
+                                       SET {0} = {1}
+                                    WHERE Id IN ({2})",
+                                    fvc.FieldName, fvc.Value, episodes);
+                            }
 
+                            var cmd = new SqlCeCommand(sqlString, conn);
                             cmd.ExecuteNonQuery();
+
+                            if (fvc.FieldName == "Language")
+                            {
+                                sqlString = string.Format(@"
+                                    SELECT
+                                        FileDetailId,
+                                        Language
+                                    FROM AudioStream
+                                    WHERE FileDetailId IN ({0})",
+                                    episodes);
+
+                                cmd = new SqlCeCommand(sqlString, conn);
+                                var newLanguageValues = new List<SelectableElement>();
+
+                                using (var reader = cmd.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        newLanguageValues.Add(new SelectableElement((int)reader["FileDetailId"], reader["Language"].ToString()));
+                                    }
+                                }
+
+                                var groupList =
+                                    newLanguageValues
+                                        .GroupBy(e => e.Value)
+                                        .ToList()
+                                        // Because the ToList(), this select projection is not done in the DB
+                                        .Select(eg => new SelectableElement(eg.Key, string.Join(", ", eg.Select(i => i.Description))))
+                                        .ToList();
+
+                                sqlString = @"
+                                    UPDATE FileDetail
+                                       SET AudioLanguages = '{0}'
+                                    WHERE Id = {1}";
+
+                                foreach (var gEl in groupList)
+                                {
+                                    cmd = new SqlCeCommand(string.Format(sqlString, gEl.Description, gEl.Value), conn);
+                                    cmd.ExecuteNonQuery();
+                                }
+                            }
                         }
                     }
                     catch (Exception ex)

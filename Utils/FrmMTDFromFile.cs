@@ -104,6 +104,7 @@ namespace Utils
                 mtd.Year = Desene.DAL.CurrentMTD.Year;
                 mtd.Theme = Desene.DAL.CurrentMTD.Theme;
                 mtd.Notes = Desene.DAL.CurrentMTD.Notes;
+                mtd.Synopsis = Desene.DAL.CurrentMTD.Synopsis;
                 mtd.Trailer = Desene.DAL.CurrentMTD.Trailer;
                 mtd.StreamLink = Desene.DAL.CurrentMTD.StreamLink;
                 mtd.Poster = Desene.DAL.CurrentMTD.Poster;

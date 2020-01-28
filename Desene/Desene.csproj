@@ -286,6 +286,7 @@
     <Content Include="Images\import.png" />
     <Content Include="Images\info.png" />
     <Content Include="Images\moviesList.png" />
+    <None Include="Images\preloader.gif" />
     <Content Include="Images\reset_slide.png" />
     <Content Include="Images\search.png" />
     <Content Include="Images\sort.png" />

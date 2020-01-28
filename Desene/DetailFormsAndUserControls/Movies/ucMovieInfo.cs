@@ -89,6 +89,7 @@ namespace Desene.DetailFormsAndUserControls
             //pbCover.DataBindings.Add("Image", _bsControlsData, "Poster", true);
 
             chbTitle.DataBindings.Add("Checked", _bsControlsData, "HasTitle");
+            tbSynopsis.DataBindings.Add("Text", _bsControlsData, "Synopsis");
         }
 
         public void RefreshAfterSave()
@@ -440,10 +441,58 @@ namespace Desene.DetailFormsAndUserControls
                 System.Diagnostics.Process.Start(tbDescriptionLink.Text);
         }
 
-        private void pMovieDetail_Paint(object sender, PaintEventArgs e)
+        private void tbDescriptionLink_Leave(object sender, EventArgs e)
         {
-
+            TryGetSynopsis();
         }
+
+        private void TryGetSynopsis()
+        {
+            if (!string.IsNullOrEmpty(tbSynopsis.Text))
+                return;
+
+            tbDescriptionLink.DataBindings[0].WriteValue();
+
+            lbSynopsisRetrievalError.Visible = false;
+            lbSynopsisRetrievalError.Text = "error!";
+
+            if (string.IsNullOrEmpty(tbDescriptionLink.Text))
+            {
+                tbSynopsis.Text = string.Empty;
+                tbSynopsis.DataBindings[0].WriteValue();
+            }
+            else
+            {
+                try
+                {
+                    pbLoader.Visible = true;
+
+                    var opRes = WebScraping.GetSynopsis(tbDescriptionLink.Text);
+
+                    if (!opRes.Success)
+                    {
+                        lbSynopsisRetrievalError.Text = opRes.CustomErrorMessage;
+                        lbSynopsisRetrievalError.Visible = true;
+                    }
+                    else
+                    {
+                        tbSynopsis.Text = (string)opRes.AdditionalDataReturn;
+                        tbSynopsis.DataBindings[0].WriteValue();
+                    }
+                }
+                finally
+                {
+                    pbLoader.Visible = false;
+                }
+            }
+        }
+
+        private void tbDescriptionLink_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+                TryGetSynopsis();
+        }
+
 
         //private void CheckSizeMismatch()
         //{

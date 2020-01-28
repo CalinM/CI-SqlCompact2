@@ -115,7 +115,7 @@ namespace Utils
                         bitRate = mi.Get(StreamKind.Video, i, "BitRate_Maximum/String");
                     if (string.IsNullOrEmpty(bitRate))
                         bitRate = "unknown";
-                        
+
                     var delay =
                         Desene.DAL.SeriesType == SeriesType.Recordings
                             ? string.Empty //weird values (20h+, etc)
@@ -208,6 +208,8 @@ namespace Utils
             using (var shell = ShellObject.FromParsingName(filePath))
             {
                 IShellProperty prop = shell.Properties.System.Media.Duration;
+                if (prop.ValueAsObject == null) return TimeSpan.FromTicks(0);
+
                 var t = (ulong)prop.ValueAsObject;
                 return TimeSpan.FromTicks((long)t);
             }
@@ -218,8 +220,10 @@ namespace Utils
             using (var shell = ShellObject.FromParsingName(filePath))
             {
                 IShellProperty prop = shell.Properties.System.Audio.EncodingBitrate;
+                if (prop.ValueAsObject == null) return "unknown";
+
                 var dRaw = (uint)prop.ValueAsObject;
-                return (dRaw/1000).ToString() + " kb/s";
+                return (dRaw / 1000).ToString() + " kb/s";
             }
         }
 
@@ -379,7 +383,7 @@ namespace Utils
         private static void formPI_DoWork_RetrieveFilesInfo(FrmProgressIndicator sender, DoWorkEventArgs e)
         {
             var arguments = (KeyValuePair<FilesImportParams, string[]>)e.Argument;
-            
+
             var mi = new MediaInfo();
             FFMpegConverter ffMpegConverter = null;
 
@@ -402,7 +406,7 @@ namespace Utils
                 }
 
                 if (arguments.Key.SkipMultiVersion &&
-                    (Path.GetFileNameWithoutExtension(filePath).EndsWith(" v2") || 
+                    (Path.GetFileNameWithoutExtension(filePath).EndsWith(" v2") ||
                      Path.GetFileNameWithoutExtension(filePath).EndsWith(" v3") ||
                      Path.GetFileNameWithoutExtension(filePath).EndsWith(" v4")))
                 {

@@ -86,7 +86,7 @@ namespace Utils
             For now, the Ookii dialog is used
             */
 
-            ShowNotificationAutoExpandToSelection();
+            //ShowNotificationAutoExpandToSelection();
 
             using (var dialog = new VistaFolderBrowserDialog())
             {

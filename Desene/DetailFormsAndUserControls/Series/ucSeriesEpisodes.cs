@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DAL;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -13,13 +14,14 @@ namespace Desene.DetailFormsAndUserControls
         private BindingSource _bsEpisodesGridData;
         private ucSeries _parent;
         private Dictionary<int, bool> _checkState;
+        private CheckBox _headerColCheckBox;
 
         public ucSeriesEpisodes()
         {
             InitializeComponent();
         }
 
-        public ucSeriesEpisodes(int seriesId, ucSeries parent)
+        public ucSeriesEpisodes(SeriesEpisodesShortInfo sesInfo, ucSeries parent)
         {
             InitializeComponent();
 
@@ -36,35 +38,35 @@ namespace Desene.DetailFormsAndUserControls
 
             dgvEpisodes.Columns.Insert(0, new DataGridViewCheckBoxColumn() { Width = 40, Resizable = DataGridViewTriState.False });
 
-            var headerColCheckBox = ColumnHeaderCheckBox(dgvEpisodes);
-            headerColCheckBox.CheckedChanged += HeaderColCheckBox_CheckedChanged;
+            _headerColCheckBox = ColumnHeaderCheckBox(dgvEpisodes);
+            _headerColCheckBox.CheckedChanged += HeaderColCheckBox_CheckedChanged;
 
             // Initialize the dictionary that contains the boolean check state.
             _checkState = new Dictionary<int, bool>();
 
-            LoadControls(seriesId);
+            LoadControls(sesInfo);
         }
 
         private CheckBox ColumnHeaderCheckBox(DataGridView dgv)
         {
             var result = new CheckBox
-                {
-                    Size = new Size(15, 15),
-                    BackColor = Color.Transparent,
+            {
+                Size = new Size(15, 15),
+                BackColor = Color.Transparent,
 
-                    // Reset properties
-                    Padding = new Padding(0),
-                    Margin = new Padding(0),
-                    Text = ""
-                };
+                // Reset properties
+                Padding = new Padding(0),
+                Margin = new Padding(0),
+                Text = ""
+            };
 
             // Add checkbox to datagrid cell
             dgv.Controls.Add(result);
             var header = dgv.Columns[0].HeaderCell;
 
             result.Location = new Point(
-                ((header.Size.Width - result.Size.Width) /2) + 2,
-                ((header.Size.Height - result.Size.Height) /2) - 2);
+                ((header.Size.Width - result.Size.Width) / 2) + 2,
+                ((header.Size.Height - result.Size.Height) / 2) - 2);
 
             /*
              * ContentBounds values are 0 due to missing header?
@@ -93,7 +95,7 @@ namespace Desene.DetailFormsAndUserControls
                 {
                     foreach (DataRow episodeRow in ((DataTable)_bsEpisodesGridData.DataSource).Rows)
                     {
-                        var epIdObj = episodeRow.ItemArray[0];
+                        var epIdObj = episodeRow.ItemArray[1]; //0 is the checkbox column?
                         _checkState.Add((int)epIdObj, true);
                     }
                 }
@@ -107,12 +109,14 @@ namespace Desene.DetailFormsAndUserControls
             }
         }
 
-        public void LoadControls(int seriesId)
+        public void LoadControls(SeriesEpisodesShortInfo sesInfo)
         {
             _checkState = new Dictionary<int, bool>();
+            _headerColCheckBox.Checked = false;
+
             SetBulkEditButtonStateInParent();
 
-            var episodesInSeries = DAL.GetEpisodesInSeries(seriesId);
+            var episodesInSeries = DAL.GetEpisodesInSeries(sesInfo);
 
             if (episodesInSeries.Rows.Count > 0)
             {

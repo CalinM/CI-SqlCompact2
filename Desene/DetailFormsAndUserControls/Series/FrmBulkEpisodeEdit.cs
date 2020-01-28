@@ -32,6 +32,7 @@ namespace Desene.DetailFormsAndUserControls.Series
             _allBulkEditFields.Add(new BulkEditField { Caption = "Year", FieldName = "Year" });
             _allBulkEditFields.Add(new BulkEditField { Caption = "Season", FieldName = "Season" });
             _allBulkEditFields.Add(new BulkEditField { Caption = "Theme", FieldName = "Theme" });
+            _allBulkEditFields.Add(new BulkEditField { Caption = "First audio language", FieldName = "Language" });
         }
 
         private void BtnAddChange_Click(object sender, EventArgs e)

@@ -19,7 +19,17 @@ namespace DAL
     {
         public int Id { get; set; }
         public string FileName { get; set; }
+
         public string Theme { get; set; }
+        public string AudioLanguages { get; set; }
+        public string Composed1
+        {
+            get
+            {
+                return IsEpisode ? Theme : AudioLanguages;
+            }
+        }
+
         public string Quality { get; set; }
         public int Season { get; set; }
         public int SeriesId { get; set; }
@@ -122,7 +132,7 @@ namespace DAL
         public string Trailer { get; set; }
         public string AudioLanguages { get; set; }
         public string SubtitleLanguages { get; set; }
-
+        public string Synopsis { get; set; }
 
         public List<VideoStreamInfo> VideoStreams { get; set; }
         public List<AudioStreamInfo> AudioStreams { get; set; }

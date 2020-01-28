@@ -55,7 +55,6 @@ namespace Utils
             return result;
         }
 
-
         public static OperationResult GetSynopsis(string descriptionLink)
         {
             var result = new OperationResult();

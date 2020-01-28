@@ -230,6 +230,7 @@
             this.Id.FillWeight = 50F;
             this.Id.HeaderText = "Id";
             this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
             this.Id.Visible = false;
             this.Id.Width = 50;
             // 
@@ -240,6 +241,7 @@
             this.colSeason.DefaultCellStyle = dataGridViewCellStyle2;
             this.colSeason.HeaderText = "Season";
             this.colSeason.Name = "colSeason";
+            this.colSeason.ReadOnly = true;
             this.colSeason.Width = 50;
             // 
             // colFIleName
@@ -250,6 +252,7 @@
             this.colFIleName.DefaultCellStyle = dataGridViewCellStyle3;
             this.colFIleName.HeaderText = "File name";
             this.colFIleName.Name = "colFIleName";
+            this.colFIleName.ReadOnly = true;
             // 
             // colYear
             // 
@@ -258,6 +261,7 @@
             this.colYear.DefaultCellStyle = dataGridViewCellStyle4;
             this.colYear.HeaderText = "Year";
             this.colYear.Name = "colYear";
+            this.colYear.ReadOnly = true;
             this.colYear.Width = 50;
             // 
             // colFileSize
@@ -267,6 +271,7 @@
             this.colFileSize.DefaultCellStyle = dataGridViewCellStyle5;
             this.colFileSize.HeaderText = "Size";
             this.colFileSize.Name = "colFileSize";
+            this.colFileSize.ReadOnly = true;
             this.colFileSize.Width = 60;
             // 
             // colDuration
@@ -277,6 +282,7 @@
             this.colDuration.DefaultCellStyle = dataGridViewCellStyle6;
             this.colDuration.HeaderText = "Duration";
             this.colDuration.Name = "colDuration";
+            this.colDuration.ReadOnly = true;
             this.colDuration.Width = 60;
             // 
             // colQuality
@@ -284,6 +290,7 @@
             this.colQuality.DataPropertyName = "Quality";
             this.colQuality.HeaderText = "Quality";
             this.colQuality.Name = "colQuality";
+            this.colQuality.ReadOnly = true;
             this.colQuality.Width = 40;
             // 
             // colAutio
@@ -291,6 +298,7 @@
             this.colAutio.DataPropertyName = "AudioLanguages";
             this.colAutio.HeaderText = "Audio";
             this.colAutio.Name = "colAutio";
+            this.colAutio.ReadOnly = true;
             this.colAutio.Width = 200;
             // 
             // ucSeriesEpisodes

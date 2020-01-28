@@ -50,7 +50,7 @@ namespace Desene
             tvSeries.Columns.Add(tcTitle);
             tvSeries.NodeControls.Add(tbTitle);
 
-            var tcTheme = new TreeColumn { Header = "Theme", Width = 75 };
+            var tcTheme = new TreeColumn { Header = "Theme", Width = 75 }; ///A.summary
             var tbTheme = new NodeTextBox { DataPropertyName = "Theme", ParentColumn = tcTheme };
             tvSeries.Columns.Add(tcTheme);
             tvSeries.NodeControls.Add(tbTheme);
@@ -98,57 +98,34 @@ namespace Desene
                     if (prevInstance.Any())
                         pSeriesDetailsContainer.Controls.Remove(prevInstance[0]);
 
-                    if (_prevSelectedSeriesId != seShortInfo.Id)
+                    //attempting to reuse the "ucEditSeriesBaseInfo" user control
+                    prevInstance = pSeriesDetailsContainer.Controls.Find("ucEditSeriesBaseInfo", false);
+
+                    if (prevInstance.Any())
                     {
-                        //attempting to reuse the "ucEditSeriesBaseInfo" user control
-                        prevInstance = pSeriesDetailsContainer.Controls.Find("ucEditSeriesBaseInfo", false);
-
-                        if (prevInstance.Any())
-                        {
-                            if (_prevSelectedSeriesId != seShortInfo.Id)
-                                ((ucEditSeriesBaseInfo)prevInstance[0]).RefreshControls();
-                        }
-                        else
-                        {
-                            pSeriesDetailsContainer.Controls.Add(new ucEditSeriesBaseInfo(false) { Dock = DockStyle.Top });
-                        }
-                    }
-                    else //when returning to the Series/Season node from an episode from the same Series
-                    {
-                        prevInstance = pSeriesDetailsContainer.Controls.Find("ucEditSeriesBaseInfo", false);
-                        if (!prevInstance.Any())
-                        {
-                            pSeriesDetailsContainer.Controls.Add(new ucEditSeriesBaseInfo(false) { Dock = DockStyle.Top });
-                        }
-                    }
-
-
-                    prevInstance = pSeriesDetailsContainer.Controls.Find("ucSeriesEpisodes", false);
-
-                    //refresh the episode list ... but only if needed
-                    if (_prevSelectedSeriesId != seShortInfo.Id || !prevInstance.Any()) //when the selection moved from Episode to Series/Season, the "ucSeriesEpisodes" is not there, but the SeriesId remains the same!
-                    {
-                        //attempting to reuse the "ucSeriesEpisodes" user control
-                        if (prevInstance.Any())
-                        {
-                            ((ucSeriesEpisodes)prevInstance[0]).LoadControls(seShortInfo.Id);
-                        }
-                        else
-                        {
-                            if (!_isFiltered)
-                            {
-                                var ucSeriesEpisodes = new ucSeriesEpisodes(seShortInfo.Id, this) { Dock = DockStyle.Top };
-                                pSeriesDetailsContainer.Controls.Add(ucSeriesEpisodes);
-                                ucSeriesEpisodes.BringToFront();
-                            }
-                        }
+                        ((ucEditSeriesBaseInfo)prevInstance[0]).RefreshControls();
                     }
                     else
                     {
-                        if (_isFiltered && prevInstance.Any())
-                            pSeriesDetailsContainer.Controls.Remove(prevInstance[0]);
+                        pSeriesDetailsContainer.Controls.Add(new ucEditSeriesBaseInfo(false) { Dock = DockStyle.Top });
                     }
 
+                    prevInstance = pSeriesDetailsContainer.Controls.Find("ucSeriesEpisodes", false);
+
+                    //attempting to reuse the "ucSeriesEpisodes" user control
+                    if (prevInstance.Any())
+                    {
+                        ((ucSeriesEpisodes)prevInstance[0]).LoadControls(seShortInfo);
+                    }
+                    else
+                    {
+                        if (!_isFiltered)
+                        {
+                            var ucSeriesEpisodes = new ucSeriesEpisodes(seShortInfo, this) { Dock = DockStyle.Top };
+                            pSeriesDetailsContainer.Controls.Add(ucSeriesEpisodes);
+                            ucSeriesEpisodes.BringToFront();
+                        }
+                    }
 
                     _prevSelectedSeriesId = seShortInfo.Id;
                 }
@@ -610,8 +587,8 @@ namespace Desene
             if (prevInstance.Any())
             {
                 //this resets the grid selection and disable the button
-                ((ucSeriesEpisodes)prevInstance[0]).LoadControls(sesi.Id);
-            }            
+                ((ucSeriesEpisodes)prevInstance[0]).LoadControls(sesi);
+            }
         }
 
         #endregion
