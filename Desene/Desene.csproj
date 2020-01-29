@@ -272,6 +272,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Images\accessories-text-editor-icon.png" />
     <Content Include="Images\add.png" />
     <Content Include="Images\addChange.png" />
     <Content Include="Images\bulkEdit.png" />
@@ -282,6 +283,7 @@
     <Content Include="Images\export.png" />
     <Content Include="Images\generatePdf.png" />
     <Content Include="Images\icon1.ico" />
+    <None Include="Images\icons8-download-16.png" />
     <Content Include="Images\image.png" />
     <Content Include="Images\import.png" />
     <Content Include="Images\info.png" />

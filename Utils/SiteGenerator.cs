@@ -247,11 +247,11 @@ namespace Utils
 
                 var idsToSavePosters = new List<SeriesForWeb>(data.Where(x => !existingPostersForIds.Contains(x.Id)));
 
-                var fromProgressIndicator = new FrmProgressIndicator(string.Format("Site generation - {0} posters", caption), "-", idsToSavePosters.Count);
-                fromProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<SeriesForWeb>>(siteGenParams, idsToSavePosters);
-                fromProgressIndicator.DoWork += formPI_DoWork_GenerateSitePosters_Series;
+                var formProgressIndicator = new FrmProgressIndicator(string.Format("Site generation - {0} posters", caption), "-", idsToSavePosters.Count);
+                formProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<SeriesForWeb>>(siteGenParams, idsToSavePosters);
+                formProgressIndicator.DoWork += formPI_DoWork_GenerateSitePosters_Series;
 
-                switch (fromProgressIndicator.ShowDialog())
+                switch (formProgressIndicator.ShowDialog())
                 {
                     case DialogResult.Cancel:
                         result.Success = false;
@@ -261,12 +261,12 @@ namespace Utils
 
                     case DialogResult.Abort:
                         result.Success = false;
-                        result.CustomErrorMessage = fromProgressIndicator.Result.Error.Message;
+                        result.CustomErrorMessage = formProgressIndicator.Result.Error.Message;
 
                         return result;
 
                     case DialogResult.OK:
-                        result.AdditionalDataReturn = fromProgressIndicator.Result.Result;
+                        result.AdditionalDataReturn = formProgressIndicator.Result.Result;
                         break;
                 }
             }
@@ -300,11 +300,11 @@ namespace Utils
 
                 var idsToSaveThumbnails = new List<EpisodesForWeb>(data.Where(x => !existingThumbnailsForIds.Contains(x.Id)));
 
-                var fromProgressIndicator = new FrmProgressIndicator(string.Format("Site generation - Episodes ({0}) thumbnails", caption), "-", idsToSaveThumbnails.Count);
-                fromProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<EpisodesForWeb>>(siteGenParams, idsToSaveThumbnails);
-                fromProgressIndicator.DoWork += formPI_DoWork_GenerateSiteEpisodes_Thumbnails;
+                var formProgressIndicator = new FrmProgressIndicator(string.Format("Site generation - Episodes ({0}) thumbnails", caption), "-", idsToSaveThumbnails.Count);
+                formProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<EpisodesForWeb>>(siteGenParams, idsToSaveThumbnails);
+                formProgressIndicator.DoWork += formPI_DoWork_GenerateSiteEpisodes_Thumbnails;
 
-                switch (fromProgressIndicator.ShowDialog())
+                switch (formProgressIndicator.ShowDialog())
                 {
                     case DialogResult.Cancel:
                         result.Success = false;
@@ -314,12 +314,12 @@ namespace Utils
 
                     case DialogResult.Abort:
                         result.Success = false;
-                        result.CustomErrorMessage = fromProgressIndicator.Result.Error.Message;
+                        result.CustomErrorMessage = formProgressIndicator.Result.Error.Message;
 
                         return result;
 
                     case DialogResult.OK:
-                        result.AdditionalDataReturn = fromProgressIndicator.Result.Result;
+                        result.AdditionalDataReturn = formProgressIndicator.Result.Result;
                         break;
                 }
 
@@ -331,11 +331,11 @@ namespace Utils
             else
             if (siteGenParams.PreserveMarkesForExistingThumbnails && Directory.Exists(Path.Combine(siteGenParams.Location, "Imgs\\Seriale\\Thumbnails\\")))
             {
-                var fromProgressIndicator = new FrmProgressIndicator("Setting the episodes thumbnails marker from existing files", "-", data.Count);
-                fromProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<EpisodesForWeb>>(siteGenParams, data);
-                fromProgressIndicator.DoWork += formPI_DoWork_GenerateSiteEpisodes_Thumbnails2;
+                var formProgressIndicator = new FrmProgressIndicator("Setting the episodes thumbnails marker from existing files", "-", data.Count);
+                formProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<EpisodesForWeb>>(siteGenParams, data);
+                formProgressIndicator.DoWork += formPI_DoWork_GenerateSiteEpisodes_Thumbnails2;
 
-                switch (fromProgressIndicator.ShowDialog())
+                switch (formProgressIndicator.ShowDialog())
                 {
                     case DialogResult.Cancel:
                         result.Success = false;
@@ -345,12 +345,12 @@ namespace Utils
 
                     case DialogResult.Abort:
                         result.Success = false;
-                        result.CustomErrorMessage = fromProgressIndicator.Result.Error.Message;
+                        result.CustomErrorMessage = formProgressIndicator.Result.Error.Message;
 
                         return result;
 
                     case DialogResult.OK:
-                        result.AdditionalDataReturn = fromProgressIndicator.Result.Result;
+                        result.AdditionalDataReturn = formProgressIndicator.Result.Result;
                         break;
                 }
             }

@@ -4,6 +4,7 @@ using Common;
 using DAL;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -13,6 +14,7 @@ namespace Utils
 {
     public class WebScraping
     {
+        /*
         public static OperationResult ImportSynopsis()
         {
             var result = new OperationResult();
@@ -53,6 +55,95 @@ namespace Utils
             }
 
             return result;
+        }
+        */
+
+        public static OperationResult ImportSynopsis(bool preserveExisting)
+        {
+            var result = new OperationResult();
+
+            try
+            {
+                var opRes = Desene.DAL.GetMoviesForSynopsisImport(preserveExisting);
+                if (!opRes.Success)
+                    return opRes;
+
+                var moviesData = (List<SynopsisImportMovieData>)opRes.AdditionalDataReturn;
+
+                var formProgressIndicator = new FrmProgressIndicator("Movies Catalog generator", "Loading, please wait ...", moviesData.Count);
+                formProgressIndicator.Argument = moviesData;
+                formProgressIndicator.DoWork += formPI_DoWork_ImportSynopsis;
+
+                switch (formProgressIndicator.ShowDialog())
+                {
+                    case DialogResult.Cancel:
+                        result.Success = false;
+                        result.CustomErrorMessage = "Operation has been canceled";
+
+                        return result;
+
+                    case DialogResult.Abort:
+                        result.Success = false;
+                        result.CustomErrorMessage = formProgressIndicator.Result.Error.Message;
+
+                        return result;
+
+                    case DialogResult.OK:
+                        result.AdditionalDataReturn = formProgressIndicator.Result.Result;
+
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.FailWithMessage(ex);
+            }
+
+            return result;
+        }
+
+        private static void formPI_DoWork_ImportSynopsis(FrmProgressIndicator sender, DoWorkEventArgs e)
+        {
+            var moviesData = (List<SynopsisImportMovieData>)e.Argument;
+
+            var technicalDetailsImportErrorBgw = new List<TechnicalDetailsImportError>();
+
+            var i = 0;
+            foreach (var movieData in moviesData)
+            {
+                var opRes = GetSynopsis(movieData.DescriptionLink);
+
+                if (!opRes.Success)
+                {
+                    technicalDetailsImportErrorBgw.Add(
+                        new TechnicalDetailsImportError
+                        {
+                            FilePath = movieData.DescriptionLink,
+                            ErrorMesage = opRes.CustomErrorMessage
+                        });
+                }
+                else
+                {
+                    //immediate save
+                    opRes = Desene.DAL.SaveSynopsis(movieData.MovieId, (string)opRes.AdditionalDataReturn);
+
+                    if (!opRes.Success)
+                    {
+                        technicalDetailsImportErrorBgw.Add(
+                            new TechnicalDetailsImportError
+                            {
+                                FilePath = movieData.DescriptionLink,
+                                ErrorMesage = opRes.CustomErrorMessage
+                            });
+                    }
+                }
+
+                i++;
+
+                sender.SetProgress(i, Path.GetFileName(movieData.FileName));
+            }
+
+            e.Result = technicalDetailsImportErrorBgw;
         }
 
         public static OperationResult GetSynopsis(string descriptionLink)

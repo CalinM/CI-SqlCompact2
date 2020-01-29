@@ -2566,7 +2566,7 @@ namespace Desene
                     conn.Open();
 
                     var sqlStrig = string.Format(@"
-                        SELECT Id, DescriptionLink
+                        SELECT Id, FileName, DescriptionLink
                         FROM FileDetail
                         WHERE ParentId IS NULL
                             AND DescriptionLink IS NOT NULL AND DescriptionLink <> ''
@@ -2585,6 +2585,7 @@ namespace Desene
                                 new SynopsisImportMovieData
                                 {
                                     MovieId = (int)reader["Id"],
+                                    FileName = (string)reader["FileName"],
                                     DescriptionLink = (string)reader["DescriptionLink"]
                                 });
                         }
@@ -2592,6 +2593,36 @@ namespace Desene
                 }
 
                 result.AdditionalDataReturn = returnData;
+            }
+            catch (Exception ex)
+            {
+                result.FailWithMessage(ex);
+            }
+
+            return result;
+        }
+
+        public static OperationResult SaveSynopsis(int movieId, string synopsis)
+        {
+            var result = new OperationResult();
+
+            try
+            {
+                using (var conn = new SqlCeConnection(Constants.ConnectionString))
+                {
+                    conn.Open();
+
+                    var updateString = @"
+                        UPDATE FileDetail
+                           SET Synopsis = @Synopsis
+                         WHERE Id = @Id";
+
+                    var cmd = new SqlCeCommand(updateString, conn);
+                    cmd.Parameters.AddWithValue("@Synopsis", synopsis);
+                    cmd.Parameters.AddWithValue("@Id", movieId);
+
+                    cmd.ExecuteNonQuery();
+                }
             }
             catch (Exception ex)
             {

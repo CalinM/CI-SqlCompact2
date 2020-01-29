@@ -63,6 +63,16 @@ namespace Desene.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap accessories_text_editor_icon {
+            get {
+                object obj = ResourceManager.GetObject("accessories-text-editor-icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap add {
             get {
                 object obj = ResourceManager.GetObject("add", resourceCulture);
@@ -260,6 +270,16 @@ namespace Desene.Properties {
         internal static System.Drawing.Bitmap HD_logo {
             get {
                 object obj = ResourceManager.GetObject("HD_logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_download_16 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-download-16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

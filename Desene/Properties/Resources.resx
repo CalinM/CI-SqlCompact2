@@ -130,6 +130,9 @@
   <data name="arrowRight12" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\arrowright12.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="jquery_slimscroll_min" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\jquery.slimscroll.min.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="thumbnail" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\thumbnail.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -193,6 +196,9 @@
   <data name="external-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\external-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="icons8-download-16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\icons8-download-16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="search1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\search.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -202,8 +208,8 @@
   <data name="owl_carousel_minJS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\owl.carousel.min.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="jquery_slimscroll_min" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\jquery.slimscroll.min.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="preloader" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\preloader.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="jsgrid_minJS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\jsgrid.min.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
@@ -259,7 +265,7 @@
   <data name="combineNames" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\combineNames.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="preloader" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\preloader.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="accessories-text-editor-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\accessories-text-editor-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

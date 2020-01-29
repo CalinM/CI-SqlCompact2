@@ -62,7 +62,6 @@ namespace Desene
             this.button4 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
             this.mainMenu.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.pMainContainer.SuspendLayout();
@@ -298,7 +297,6 @@ namespace Desene
             // 
             // pMainContainer
             // 
-            this.pMainContainer.Controls.Add(this.button5);
             this.pMainContainer.Controls.Add(this.button3);
             this.pMainContainer.Controls.Add(this.button4);
             this.pMainContainer.Controls.Add(this.button2);
@@ -352,16 +350,6 @@ namespace Desene
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(855, 175);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(141, 23);
-            this.button5.TabIndex = 112;
-            this.button5.Text = "Init synopsis";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
             // FrmMain
             // 
             this.AllowDrop = true;
@@ -374,6 +362,7 @@ namespace Desene
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(1300, 600);
             this.Name = "FrmMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CartoonsRepo";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmMain_FormClosed);
@@ -424,7 +413,6 @@ namespace Desene
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem miRecordings;
-        private System.Windows.Forms.Button button5;
     }
 }
 

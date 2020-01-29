@@ -30,11 +30,11 @@ namespace Utils
                 document.Info.Title = "Movies Catalog";
                 document.Info.Author = "Calin Marinescu";
 
-                var fromProgressIndicator = new FrmProgressIndicator("Movies Catalog generator", "Loading, please wait ...", toBeProcessedCount);
-                fromProgressIndicator.Argument = new KeyValuePair<Document, PdfGenParams>(document, pdfGenParams);
-                fromProgressIndicator.DoWork += formPI_DoWork_GenerateMoviesCatalog;
+                var formProgressIndicator = new FrmProgressIndicator("Movies Catalog generator", "Loading, please wait ...", toBeProcessedCount);
+                formProgressIndicator.Argument = new KeyValuePair<Document, PdfGenParams>(document, pdfGenParams);
+                formProgressIndicator.DoWork += formPI_DoWork_GenerateMoviesCatalog;
 
-                switch (fromProgressIndicator.ShowDialog())
+                switch (formProgressIndicator.ShowDialog())
                 {
                     case DialogResult.Cancel:
                         result.Success = false;
@@ -44,12 +44,12 @@ namespace Utils
 
                     case DialogResult.Abort:
                         result.Success = false;
-                        result.CustomErrorMessage = fromProgressIndicator.Result.Error.Message;
+                        result.CustomErrorMessage = formProgressIndicator.Result.Error.Message;
 
                         return result;
 
                     case DialogResult.OK:
-                        //var fillDoc = (Document)fromProgressIndicator.Result.Result;
+                        //var fillDoc = (Document)formProgressIndicator.Result.Result;
                         //MigraDoc.DocumentObjectModel.IO.DdlWriter.WriteToFile(document, "d:\\MigraDoc.pdf");
 
                         var pdfRenderer = new PdfDocumentRenderer(false, PdfFontEmbedding.Always);

@@ -24,20 +24,20 @@ namespace Utils
         {
             var result = new OperationResult();
 
-            var fromProgressIndicator = new FrmProgressIndicator("Retrieving files/movies technical details", "Get files technical details", files.Length);
-            fromProgressIndicator.Argument = new KeyValuePair<FilesImportParams, string[]>(fileImportParams, files);
+            var formProgressIndicator = new FrmProgressIndicator("Retrieving files/movies technical details", "Get files technical details", files.Length);
+            formProgressIndicator.Argument = new KeyValuePair<FilesImportParams, string[]>(fileImportParams, files);
 
             if (fileImportParams.ParentId != null)
             {
-                fromProgressIndicator.DoWork += formPI_DoWork_RetrieveFilesInfo;        //episodes
+                formProgressIndicator.DoWork += formPI_DoWork_RetrieveFilesInfo;        //episodes
             }
             else
             {
-                fromProgressIndicator.DoWork += formPI_DoWork_RetrieveFilesInfo2;       //movies
+                formProgressIndicator.DoWork += formPI_DoWork_RetrieveFilesInfo2;       //movies
             }
 
 
-            switch (fromProgressIndicator.ShowDialog())
+            switch (formProgressIndicator.ShowDialog())
             {
                 case DialogResult.Cancel:
                     result.Success = false;
@@ -46,11 +46,11 @@ namespace Utils
 
                 case DialogResult.Abort:
                     result.Success = false;
-                    result.CustomErrorMessage = fromProgressIndicator.Result.Error.Message;
+                    result.CustomErrorMessage = formProgressIndicator.Result.Error.Message;
                     break;
 
                 case DialogResult.OK:
-                    result.AdditionalDataReturn = fromProgressIndicator.Result.Result;
+                    result.AdditionalDataReturn = formProgressIndicator.Result.Result;
                     break;
             }
 
@@ -448,11 +448,11 @@ namespace Utils
         {
             var result = new OperationResult();
 
-            var fromProgressIndicator = new FrmProgressIndicator("Saving technical details in the database", "-", importParamsAndDetails.Value.Count);
-            fromProgressIndicator.Argument = importParamsAndDetails;
-            fromProgressIndicator.DoWork += formPI_DoWork_SaveTechnicalDetails;
+            var formProgressIndicator = new FrmProgressIndicator("Saving technical details in the database", "-", importParamsAndDetails.Value.Count);
+            formProgressIndicator.Argument = importParamsAndDetails;
+            formProgressIndicator.DoWork += formPI_DoWork_SaveTechnicalDetails;
 
-            switch (fromProgressIndicator.ShowDialog())
+            switch (formProgressIndicator.ShowDialog())
             {
                 case DialogResult.Cancel:
                     result.Success = false;
@@ -461,11 +461,11 @@ namespace Utils
 
                 case DialogResult.Abort:
                     result.Success = false;
-                    result.CustomErrorMessage = fromProgressIndicator.Result.Error.Message;
+                    result.CustomErrorMessage = formProgressIndicator.Result.Error.Message;
                     break;
 
                 case DialogResult.OK:
-                    result.AdditionalDataReturn = fromProgressIndicator.Result.Result;
+                    result.AdditionalDataReturn = formProgressIndicator.Result.Result;
                     break;
             }
 

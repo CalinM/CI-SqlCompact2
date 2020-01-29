@@ -61,8 +61,12 @@ namespace Desene
                     Close();
                 }
             }
+            else
+            {
+                DatabaseOperations.CreateField("FileDetail", "Synopsis", "ntext NULL");
+            }
 
-            //pMainContainer.Controls.Clear();
+            pMainContainer.Controls.Clear();
 
             DAL.LoadBaseDbValues();
 
@@ -110,9 +114,9 @@ namespace Desene
 
         private void LoadMainWindowConfig()
         {
-            if (Settings.Default.WindowLocation.X > -100 && Settings.Default.WindowLocation.Y > -100) //to auto-correct bad configuration
+            if (Helpers.IsOnScreen(Location, Size) && Settings.Default.WindowLocation.X > 0 && Settings.Default.WindowLocation.Y > 0) //to auto-correct bad configuration
             {
-                Location = Settings.Default.WindowLocation; //
+                Location = Settings.Default.WindowLocation;
             }
 
             // Set window size
@@ -1089,27 +1093,6 @@ namespace Desene
         {
             DrawingControl.ResumeDrawing(pMainContainer);
         }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            var opRes = DatabaseOperations.CreateField("FileDetail", "Synopsis", "ntext NULL");
-
-            if (!opRes.Success)
-            {
-                MsgBox.Show(opRes.CustomErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //return;
-            }
-
-            opRes = WebScraping.ImportSynopsis();
-
-            if (!opRes.Success)
-            {
-                MsgBox.Show(opRes.CustomErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //return;
-            }
-        }
-
-
 
         //public Encoding GetEncoding(string filename)
         //{

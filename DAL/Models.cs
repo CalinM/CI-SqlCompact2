@@ -471,9 +471,10 @@ namespace DAL
     public class SynopsisImportMovieData
     {
         public int MovieId { get; set; }
+        public string FileName { get; set; }
         public string DescriptionLink { get; set; }
 
-        public string Synopsis { get; set; }
-        public string SkipReason { get; set; }
+        //public string Synopsis { get; set; }
+        //public string SkipReason { get; set; }
     }
 }
