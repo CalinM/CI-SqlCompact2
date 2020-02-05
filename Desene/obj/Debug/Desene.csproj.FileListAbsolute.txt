@@ -58,13 +58,18 @@ C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\NReco.VideoConverter.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\MediaToolkit.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Ookii.Dialogs.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\MigraDoc.Rendering-gdi.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\AngleSharp.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Microsoft.WindowsAPICodePack.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\PdfSharp.Charting-gdi.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Text.Encoding.CodePages.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Aga.Controls.pdb
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Common.pdb
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\DAL.pdb
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.pdb
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.dll.config
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\AngleSharp.xml
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csprojAssemblyReference.cache
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmAddCollection.resources
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmAddMovie.resources
@@ -89,8 +94,3 @@ C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.GenerateResource.
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.CopyComplete
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.exe
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.pdb
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\AngleSharp.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Text.Encoding.CodePages.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\AngleSharp.xml
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
