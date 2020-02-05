@@ -66,7 +66,7 @@ namespace Desene
                 DatabaseOperations.CreateField("FileDetail", "Synopsis", "ntext NULL");
             }
 
-            pMainContainer.Controls.Clear();
+            //pMainContainer.Controls.Clear();
 
             DAL.LoadBaseDbValues();
 
@@ -1092,6 +1092,38 @@ namespace Desene
         private void FrmMain_ResizeEnd(object sender, EventArgs e)
         {
             DrawingControl.ResumeDrawing(pMainContainer);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var seriesList = DAL.GetMoviesForPDF(new PdfGenParams { ForMovies = false, PDFGenType = PDFGenType.All });
+                //var episodesAudioLanguages = new List<string>();
+                //var audios = "?";
+
+                using (var conn = new SqlCeConnection(Constants.ConnectionString))
+                {
+                    conn.Open();
+
+                    var sqlString = @"
+                            UPDATE FileDetail
+                               SET AudioLanguages = '{0}'
+                             WHERE Id = {1}";
+
+                    SqlCeCommand cmd;
+
+                    foreach (var series in seriesList)
+                    {
+                        cmd = new SqlCeCommand(string.Format(sqlString, series.A, series.Id), conn);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MsgBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         //public Encoding GetEncoding(string filename)

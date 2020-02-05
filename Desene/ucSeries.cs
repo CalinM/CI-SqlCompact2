@@ -8,6 +8,7 @@ using Desene.EditUserControls;
 using Desene.Properties;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -50,8 +51,9 @@ namespace Desene
             tvSeries.Columns.Add(tcTitle);
             tvSeries.NodeControls.Add(tbTitle);
 
-            var tcTheme = new TreeColumn { Header = "Theme", Width = 75 }; ///A.summary
-            var tbTheme = new NodeTextBox { DataPropertyName = "Theme", ParentColumn = tcTheme };
+            var tcTheme = new TreeColumn { Header = "Theme/A.summary", Width = 75 };
+            var tbTheme = new NodeTextBox { DataPropertyName = "Composed1", ParentColumn = tcTheme };
+            //tbTheme.Font = new Font(tbTheme.Font.Name, 40);
             tvSeries.Columns.Add(tcTheme);
             tvSeries.NodeControls.Add(tbTheme);
 
@@ -359,6 +361,10 @@ namespace Desene
                 var frmIE = new FrmImportErrors(saveErrors, true);
                 frmIE.ShowDialog();
             }
+
+            opRes = DAL.SetSeriesValuesFromEpisodes(sesi.Id);
+            if (!opRes.Success)
+                MsgBox.Show(opRes.CustomErrorMessage, "Audio summary determination", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             ReloadTreeView(sesi.Id);
             tvSeries.SelectedNode.ExpandAll();

@@ -2489,20 +2489,21 @@ namespace Desene
                     }
                 }
 
-                if (!pdfGenParams.ForMovies)
-                {
-                    var episodes = GetEpisodesForWeb(true, SeriesType.Final);
+                ////should already be there
+                //if (!pdfGenParams.ForMovies)
+                //{
+                //    var episodes = GetEpisodesForWeb(true, SeriesType.Final);
 
-                    foreach (var s in result)
-                    {
-                        var episodesForSeries = episodes.Where(e => e.SId == s.Id).OrderBy(o => o.SZ).ToList();
+                //    foreach (var s in result)
+                //    {
+                //        var episodesForSeries = episodes.Where(e => e.SId == s.Id).OrderBy(o => o.SZ).ToList();
 
-                        var audios = string.Join(",", episodesForSeries.Select(d => d.A).Distinct()).Replace(", ", ",");
-                        s.A = string.Join(", ", audios.Split(',').Distinct());
+                //        var audios = string.Join(",", episodesForSeries.Select(d => d.A).Distinct()).Replace(", ", ",");
+                //        s.A = string.Join(", ", audios.Split(',').Distinct());
 
-                        s.B = episodesForSeries.Count().ToString();
-                    }
-                }
+                //        s.B = episodesForSeries.Count().ToString();
+                //    }
+                //}
             }
 
             return result;
@@ -2623,6 +2624,68 @@ namespace Desene
 
                     cmd.ExecuteNonQuery();
                 }
+            }
+            catch (Exception ex)
+            {
+                result.FailWithMessage(ex);
+            }
+
+            return result;
+        }
+
+
+        public static OperationResult SetSeriesValuesFromEpisodes(int seriesId)
+        {
+            var result = new OperationResult();
+
+            try
+            {
+                var episodesAudioLanguages = new List<string>();
+                var audios = "?";
+
+                using (var conn = new SqlCeConnection(Constants.ConnectionString))
+                {
+                    conn.Open();
+
+                    var cmd = new SqlCeCommand(@"
+                        SELECT DISTINCT
+                            fd.AudioLanguages
+                        FROM FileDetail fd
+                        WHERE fd.ParentId = @seriesId",
+                        conn);
+
+                    cmd.Parameters.AddWithValue("@seriesId", seriesId);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            episodesAudioLanguages.Add(reader["AudioLanguages"].ToString());
+                        }
+                    }
+
+                    if (episodesAudioLanguages.Count > 0)
+                    {
+                        var tempStr = string.Join(",", episodesAudioLanguages.Select(d => d).Distinct()).Replace(", ", ",");
+                        audios = string.Join(", ", tempStr.Split(',').Distinct());
+
+                        if (string.IsNullOrEmpty(audios))
+                            audios = "?";
+                    }
+
+                    var updateString = @"
+                            UPDATE FileDetail
+                               SET AudioLanguages = @audios
+                             WHERE Id = @seriesId";
+
+                    cmd = new SqlCeCommand(updateString, conn);
+                        cmd.Parameters.AddWithValue("@audios", audios);
+                        cmd.Parameters.AddWithValue("@seriesId", seriesId);
+
+                        cmd.ExecuteNonQuery();
+                }
+
+                result.AdditionalDataReturn = audios;
             }
             catch (Exception ex)
             {

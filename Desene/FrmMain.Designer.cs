@@ -62,6 +62,7 @@ namespace Desene
             this.button4 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.mainMenu.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.pMainContainer.SuspendLayout();
@@ -297,6 +298,7 @@ namespace Desene
             // 
             // pMainContainer
             // 
+            this.pMainContainer.Controls.Add(this.button5);
             this.pMainContainer.Controls.Add(this.button3);
             this.pMainContainer.Controls.Add(this.button4);
             this.pMainContainer.Controls.Add(this.button2);
@@ -349,6 +351,16 @@ namespace Desene
             this.button1.Text = "Import Old HD Movies";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(855, 168);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(141, 23);
+            this.button5.TabIndex = 112;
+            this.button5.Text = "button5";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // FrmMain
             // 
@@ -413,6 +425,7 @@ namespace Desene
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem miRecordings;
+        private System.Windows.Forms.Button button5;
     }
 }
 
