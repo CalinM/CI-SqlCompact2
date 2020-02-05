@@ -35,6 +35,9 @@ $RECYCLE.BIN/
 !Microsoft.Win32.Primitives.dll
 !Aga.Controls.dll
 !System.Data.SqlServerCe.dll
+!AngleSharp.dll
+!System.Runtime.CompilerServices.Unsafe.dll
+!System.Text.Encoding.CodePages.dll
 *.o
 *.so
 
