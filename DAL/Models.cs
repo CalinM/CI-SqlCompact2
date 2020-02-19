@@ -316,6 +316,7 @@ namespace DAL
         public string N { get; set; }   //Notes *            ~   Obs
         public string Nl { get; set; }  //?   *              ~   NLSource
         public string Tr { get; set; }  //Trailer           ~   TrailerVideoId
+        public int Th { get; set; }     //Thumbnail present? (Bit like ~ 0-1)
 
         [ScriptIgnore]
         public byte[] Cover { get; set; }
@@ -328,6 +329,24 @@ namespace DAL
 
         [ScriptIgnore]
         public DateTime LastChangeDate { get; set; }
+    }
+
+    public class MoviesDetails2ForWeb
+    {
+        public int Id { get; set; }
+        public string Syn { get; set; }
+        public List<string> Vtd { get; set; } //VideoTrackDetails
+        public List<string> Ats { get; set; } //AudioTrackSummary
+        public List<string> Sts { get; set; } //SubtitleTracksSummary
+        public List<string> Fd { get; set; } //FileDetails
+
+        public MoviesDetails2ForWeb()
+        {
+            Vtd = new List<string>();
+            Ats = new List<string>();
+            Sts = new List<string>();
+            Fd = new List<string>();
+        }
     }
 
     public class SeriesForWeb
@@ -459,12 +478,15 @@ namespace DAL
 
         public string RecordingsData { get; set; }
 
+        public string MoviesDetails2 { get; set; }
+
         public GeneratedJSData() { }
-        public GeneratedJSData(string moviesData, string seriesData, string recordingsData)
+        public GeneratedJSData(string moviesData, string seriesData, string recordingsData, string moviesDetails2)
         {
             MoviesData = moviesData;
             SeriesData = seriesData;
             RecordingsData = recordingsData;
+            MoviesDetails2 = moviesDetails2;
         }
     }
 

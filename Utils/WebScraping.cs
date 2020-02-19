@@ -205,17 +205,26 @@ namespace Utils
         {
             var expandableSinopsis = document.GetElementsByClassName("expand_sinopsis").Count() > 0;
 
-            var sinopsisWrapper = expandableSinopsis ? "body_sinopsis" : "short_body_sinopsis";
+            var synopsisWrapper = expandableSinopsis ? "body_sinopsis" : "short_body_sinopsis";
 
-            var sinopsisParagraph = document.QuerySelectorAll("p").FirstOrDefault(x => x.ParentElement.Id == sinopsisWrapper);
-            if (sinopsisParagraph == null)
-                throw new Exception("Element not found on page!");
+            var synopsisParagraph = document.QuerySelectorAll("p").FirstOrDefault(x => x.ParentElement.Id == synopsisWrapper);
+            if (synopsisParagraph == null)
+            {
+                synopsisParagraph = document.GetElementById(synopsisWrapper);
 
-            return
-                sinopsisParagraph
-                    .InnerHtml
-                    .Replace("<br>", Environment.NewLine)
-                    .StripHtml();
+                if (synopsisParagraph == null)
+                    throw new Exception("Element not found on page!");
+            }
+
+            var splitString = synopsisParagraph.InnerHtml.Split(new string[] { "<br>" }, StringSplitOptions.None);
+            var processedList = new List<string>();
+
+            foreach (var parag in splitString)
+            {
+                processedList.Add(parag.StripHtml().Trim());
+            }
+
+            return string.Join(Environment.NewLine, processedList);
         }
 
         private static string ParseSiteContent_Cinemarx(IHtmlDocument document)

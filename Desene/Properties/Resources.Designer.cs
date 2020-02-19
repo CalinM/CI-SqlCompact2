@@ -123,6 +123,16 @@ namespace Desene.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap calender_icon {
+            get {
+                object obj = ResourceManager.GetObject("calender-icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap cancel {
             get {
                 object obj = ResourceManager.GetObject("cancel", resourceCulture);
@@ -192,6 +202,7 @@ namespace Desene.Properties {
         /// <summary>
         ///   Looks up a localized string similar to var currentSeriesTypeViewDataM;
         ///var currentSeriesTypeViewDataD;
+        ///var trailerPlaying = false;
         ///
         ///$(document).ready(function () {
         ///    DisplayHome();
@@ -204,9 +215,7 @@ namespace Desene.Properties {
         ///        if ($(&quot;#sections-wrapper&quot;).find(&quot;.aboutPage-warning-title&quot;).length == 0) {
         ///            $(&quot;#sections-wrapper&quot;).addClass(&quot;sideNav-overlay-content-transform&quot;);
         ///        }
-        ///    });
-        ///
-        ///    var displaySear [rest of string was truncated]&quot;;.
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string deseneJS {
             get {
@@ -327,13 +336,12 @@ namespace Desene.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
         ///
+        ///&lt;link rel=&quot;shortcut icon&quot; href=&quot;Images\mickey-mouse.png&quot;&gt;
+        ///
         ///&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css?family=Mouse+Memoirs&quot;&gt;
         ///&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300&quot;&gt;
         ///&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css?family=Open+Sans&quot;&gt;
-        ///
-        ///&lt;link type=&quot;text/css&quot; rel=&quot;stylesheet&quot; href=&quot;Styles/desene.css?version=##&quot; /&gt;
-        ///&lt;link type=&quot;text/css&quot; rel=&quot;stylesheet&quot; href=&quot;Styles/sections.css?version=##&quot; /&gt;
-        ///&lt;link type=&quot;t [rest of string was truncated]&quot;;.
+        ///&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css?family=Mountains+of+Christmas|Yanone+Kaffeesatz:700&quot; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string index {
             get {
@@ -439,6 +447,16 @@ namespace Desene.Properties {
         internal static string jsgrid_theme_min {
             get {
                 return ResourceManager.GetString("jsgrid_theme_min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap mickey_mouse {
+            get {
+                object obj = ResourceManager.GetObject("mickey_mouse", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

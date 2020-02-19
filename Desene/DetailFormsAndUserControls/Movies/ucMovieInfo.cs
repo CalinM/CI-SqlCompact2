@@ -117,6 +117,8 @@ namespace Desene.DetailFormsAndUserControls
                 _bsControlsData.DataSource = mtd;
                 _bsControlsData.ResetBindings(false);
 
+                lbSynopsisRetrievalError.Visible = false;
+
                 ttTitleContent.RemoveAll();
                 if (mtd.HasTitle && !string.IsNullOrEmpty(mtd.Title))
                 {
@@ -170,6 +172,17 @@ namespace Desene.DetailFormsAndUserControls
         private void LoadControls2()
         {
             SetPoster(DAL.CurrentMTD.Poster);
+
+            ttMovieDbDates.SetToolTip(pbDbDates,
+                string.Format("Inserted: {0}{1}Last modified: {2}",
+                    DAL.CurrentMTD.InsertedDate == null
+                        ? "?"
+                        : ((DateTime)DAL.CurrentMTD.InsertedDate).ToString("dd.MM.yyyy"),
+                    Environment.NewLine,
+                    DAL.CurrentMTD.LastChangeDate == null
+                        ? "-"
+                        : ((DateTime)DAL.CurrentMTD.LastChangeDate).ToString("dd.MM.yyyy")
+                    ));
 
             var vsUC = Controls.OfType<UserControl>().FirstOrDefault(uc => uc.Tag != null && uc.Tag.ToString() == "videoStreams");
             if (vsUC == null)

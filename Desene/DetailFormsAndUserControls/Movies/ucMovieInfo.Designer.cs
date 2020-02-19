@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.pMovieDetail = new System.Windows.Forms.Panel();
+            this.pbDbDates = new System.Windows.Forms.PictureBox();
             this.pbLoader = new System.Windows.Forms.PictureBox();
             this.lbSynopsisRetrievalError = new System.Windows.Forms.Label();
             this.tbSynopsis = new Utils.CustomTextBox();
@@ -72,7 +73,9 @@
             this.tbDummyForFocus = new System.Windows.Forms.TextBox();
             this.tbSizeAsInt = new System.Windows.Forms.TextBox();
             this.ttTitleContent = new System.Windows.Forms.ToolTip(this.components);
+            this.ttMovieDbDates = new System.Windows.Forms.ToolTip(this.components);
             this.pMovieDetail.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbDbDates)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoader)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCover)).BeginInit();
             this.tlpMovieStillsWrapper.SuspendLayout();
@@ -84,6 +87,7 @@
             // pMovieDetail
             // 
             this.pMovieDetail.AllowDrop = true;
+            this.pMovieDetail.Controls.Add(this.pbDbDates);
             this.pMovieDetail.Controls.Add(this.pbLoader);
             this.pMovieDetail.Controls.Add(this.lbSynopsisRetrievalError);
             this.pMovieDetail.Controls.Add(this.tbSynopsis);
@@ -130,6 +134,18 @@
             this.pMovieDetail.DragDrop += new System.Windows.Forms.DragEventHandler(this.PMovieDetail_DragDrop);
             this.pMovieDetail.DragEnter += new System.Windows.Forms.DragEventHandler(this.PMovieDetail_DragEnter);
             // 
+            // pbDbDates
+            // 
+            this.pbDbDates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbDbDates.Image = global::Desene.Properties.Resources.calender_icon;
+            this.pbDbDates.InitialImage = global::Desene.Properties.Resources.calender_icon;
+            this.pbDbDates.Location = new System.Drawing.Point(548, 203);
+            this.pbDbDates.Name = "pbDbDates";
+            this.pbDbDates.Size = new System.Drawing.Size(16, 16);
+            this.pbDbDates.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbDbDates.TabIndex = 296;
+            this.pbDbDates.TabStop = false;
+            // 
             // pbLoader
             // 
             this.pbLoader.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -145,7 +161,7 @@
             // 
             // lbSynopsisRetrievalError
             // 
-            this.lbSynopsisRetrievalError.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.lbSynopsisRetrievalError.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbSynopsisRetrievalError.BackColor = System.Drawing.SystemColors.Window;
             this.lbSynopsisRetrievalError.ForeColor = System.Drawing.Color.Red;
@@ -158,7 +174,7 @@
             // 
             // tbSynopsis
             // 
-            this.tbSynopsis.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.tbSynopsis.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbSynopsis.Location = new System.Drawing.Point(129, 76);
             this.tbSynopsis.Multiline = true;
@@ -265,7 +281,7 @@
             // 
             // tbTrailer
             // 
-            this.tbTrailer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.tbTrailer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbTrailer.Location = new System.Drawing.Point(129, 296);
             this.tbTrailer.Name = "tbTrailer";
@@ -274,7 +290,7 @@
             // 
             // tlpMovieStillsWrapper
             // 
-            this.tlpMovieStillsWrapper.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.tlpMovieStillsWrapper.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tlpMovieStillsWrapper.ColumnCount = 3;
             this.tlpMovieStillsWrapper.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33F));
@@ -408,7 +424,7 @@
             // 
             // tbEncodedWith
             // 
-            this.tbEncodedWith.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.tbEncodedWith.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbEncodedWith.Location = new System.Drawing.Point(241, 322);
             this.tbEncodedWith.Name = "tbEncodedWith";
@@ -417,8 +433,6 @@
             // 
             // tbFormat
             // 
-            this.tbFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbFormat.Location = new System.Drawing.Point(129, 322);
             this.tbFormat.Name = "tbFormat";
             this.tbFormat.Size = new System.Drawing.Size(106, 20);
@@ -445,7 +459,7 @@
             // 
             // tbStreamLink
             // 
-            this.tbStreamLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.tbStreamLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbStreamLink.Location = new System.Drawing.Point(217, 345);
             this.tbStreamLink.Name = "tbStreamLink";
@@ -480,7 +494,7 @@
             // 
             // tbNotes
             // 
-            this.tbNotes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.tbNotes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbNotes.Location = new System.Drawing.Point(129, 255);
             this.tbNotes.Multiline = true;
@@ -490,7 +504,7 @@
             // 
             // tbRecommendedLink
             // 
-            this.tbRecommendedLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.tbRecommendedLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbRecommendedLink.Location = new System.Drawing.Point(185, 151);
             this.tbRecommendedLink.Name = "tbRecommendedLink";
@@ -515,7 +529,7 @@
             // 
             // tbDescriptionLink
             // 
-            this.tbDescriptionLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.tbDescriptionLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbDescriptionLink.Location = new System.Drawing.Point(129, 50);
             this.tbDescriptionLink.Name = "tbDescriptionLink";
@@ -535,7 +549,7 @@
             // 
             // tbTitle
             // 
-            this.tbTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.tbTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbTitle.Location = new System.Drawing.Point(129, 24);
             this.tbTitle.Name = "tbTitle";
@@ -578,6 +592,15 @@
             this.tbSizeAsInt.TabIndex = 281;
             this.tbSizeAsInt.TextChanged += new System.EventHandler(this.tbSizeAsInt_TextChanged);
             // 
+            // ttMovieDbDates
+            // 
+            this.ttMovieDbDates.AutoPopDelay = 20000;
+            this.ttMovieDbDates.InitialDelay = 500;
+            this.ttMovieDbDates.IsBalloon = true;
+            this.ttMovieDbDates.ReshowDelay = 100;
+            this.ttMovieDbDates.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.ttMovieDbDates.ToolTipTitle = "Operations dates:";
+            // 
             // ucMovieInfo
             // 
             this.AllowDrop = true;
@@ -590,6 +613,7 @@
             this.Load += new System.EventHandler(this.ucMovieInfo_Load);
             this.pMovieDetail.ResumeLayout(false);
             this.pMovieDetail.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbDbDates)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoader)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCover)).EndInit();
             this.tlpMovieStillsWrapper.ResumeLayout(false);
@@ -645,5 +669,7 @@
         private System.Windows.Forms.Label lbSynopsis;
         private System.Windows.Forms.PictureBox pbLoader;
         private System.Windows.Forms.Label lbSynopsisRetrievalError;
+        private System.Windows.Forms.ToolTip ttMovieDbDates;
+        private System.Windows.Forms.PictureBox pbDbDates;
     }
 }

@@ -197,7 +197,7 @@ namespace Desene
             btnImportEpisodes.Enabled = sesi != null && !sesi.IsEpisode;
             btnLoadPoster.Enabled = btnImportEpisodes.Enabled;
 
-            btnRefreshEpisodeData.Enabled = sesi != null && !sesi.IsSeries;
+            //btnRefreshEpisodeData.Enabled = sesi != null && !sesi.IsSeries;
             btnDeleteSeasonEpisode.Enabled = sesi != null && !sesi.IsSeries;
         }
 
@@ -391,6 +391,7 @@ namespace Desene
                 var prevInstance = pSeriesDetailsContainer.Controls.Find("ucEpisodeDetails", false);
                 if (prevInstance.Any())
                 {
+                    Desene.DAL.CurrentMTD = rParam.mtd;
                     var opRes = SaveChanges();
 
                     if (opRes.Success)

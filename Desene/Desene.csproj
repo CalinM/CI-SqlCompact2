@@ -276,6 +276,7 @@
     <Content Include="Images\add.png" />
     <Content Include="Images\addChange.png" />
     <Content Include="Images\bulkEdit.png" />
+    <None Include="Images\calender-icon.png" />
     <Content Include="Images\cancel.png" />
     <Content Include="Images\combineNames.png" />
     <Content Include="Images\delete.png" />
@@ -287,6 +288,7 @@
     <Content Include="Images\image.png" />
     <Content Include="Images\import.png" />
     <Content Include="Images\info.png" />
+    <None Include="Images\mickey-mouse.png" />
     <Content Include="Images\moviesList.png" />
     <None Include="Images\preloader.gif" />
     <Content Include="Images\reset_slide.png" />

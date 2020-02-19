@@ -95,13 +95,13 @@ namespace Utils
 
             if (!_isNew)
             {
+                mtd.ParentId = Desene.DAL.CurrentMTD.ParentId;
                 mtd.Year = Desene.DAL.CurrentMTD.Year;
                 mtd.Season = Desene.DAL.CurrentMTD.Season;
 
                 mtd.DescriptionLink = Desene.DAL.CurrentMTD.DescriptionLink;
                 mtd.Recommended = Desene.DAL.CurrentMTD.Recommended;
                 mtd.RecommendedLink = Desene.DAL.CurrentMTD.RecommendedLink;
-                mtd.Year = Desene.DAL.CurrentMTD.Year;
                 mtd.Theme = Desene.DAL.CurrentMTD.Theme;
                 mtd.Notes = Desene.DAL.CurrentMTD.Notes;
                 mtd.Synopsis = Desene.DAL.CurrentMTD.Synopsis;

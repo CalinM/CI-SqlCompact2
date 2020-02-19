@@ -1182,7 +1182,8 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@CoverEmbedded", CurrentMTD.Cover);
                     cmd.Parameters.AddWithValue("@Season", CurrentMTD.Season);
                     //cmd.Parameters.AddWithValue("@Quality", CurrentMTD.ParentId > 0 ? GetQualityStrFromSize(CurrentMTD) : string.Empty);
-                    cmd.Parameters.AddWithValue("@Quality", CurrentMTD.ParentId.GetValueOrDefault(0) == 0 ? GetQualityStrFromSize(CurrentMTD) : string.Empty);
+                    //cmd.Parameters.AddWithValue("@Quality", CurrentMTD.ParentId.GetValueOrDefault(0) == 0 ? GetQualityStrFromSize(CurrentMTD) : string.Empty);
+                    cmd.Parameters.AddWithValue("@Quality", GetQualityStrFromSize(CurrentMTD));
 
                     CurrentMTD.AudioLanguages = string.Join(", ", CurrentMTD.AudioStreams.Select(a => a.Language == "" ? "?" : a.Language).Distinct());
                     cmd.Parameters.AddWithValue("@AudioLanguages", CurrentMTD.AudioLanguages);
@@ -1861,6 +1862,172 @@ namespace Desene
                     }
                 }
             }
+
+            return result;
+        }
+
+        public static List<MoviesDetails2ForWeb> GetMoviesDetails2ForWeb()
+        {
+            var result = new List<MoviesDetails2ForWeb>();
+
+            //try
+            //{
+                using (var conn = new SqlCeConnection(Constants.ConnectionString))
+                {
+                    conn.Open();
+
+                    var cmd1 = new SqlCeCommand(@"
+                        SELECT
+                            Id,
+                            Synopsis,
+
+	                        Format,
+	                        FileSize2,
+	                        Duration
+
+                        FROM FileDetail fd
+                        WHERE ParentId IS NULL
+                        ORDER BY Id
+                        ", conn);
+
+                    using (var reader1 = cmd1.ExecuteReader())
+                    {
+                        while (reader1.Read())
+                        {
+                            var mDet2 =
+                                new MoviesDetails2ForWeb
+                                {
+                                    Id = (int)reader1["Id"],
+                                    Syn =
+                                        reader1["Synopsis"] == DBNull.Value
+                                            ? "?"
+                                            : ((string)reader1["Synopsis"]).Replace(Environment.NewLine, "<br>")
+                                };
+
+                            //mDet2.FileDetails.Add((string)reader1["Synopsis"]);
+
+
+                            var cmd2 =
+                                new SqlCeCommand(
+                                    string.Format(@"
+                                        SELECT
+	                                        Width + ' x ' + Height AS Col1,
+	                                        Format + ' / ' + Format_Profile AS Col2,
+	                                        Bitrate AS Col3
+                                        FROM VideoStream
+                                        WHERE FileDetailId = {0}
+                                    ",
+                                    mDet2.Id),
+                                    conn);
+
+                            using (var reader2 = cmd2.ExecuteReader())
+                            {
+                                while (reader2.Read())
+                                {
+                                    for (var i = 1; i <= 3; i++)
+                                        mDet2.Vtd.Add(
+                                            reader2[string.Format("col{0}", i)] == DBNull.Value
+                                                ? "?"
+                                                :(string)reader2[string.Format("col{0}", i)]);
+                                }
+                            }
+
+                            mDet2.Vtd.Add(
+                                reader1["Duration"] == DBNull.Value
+                                    ? "?"
+                                    : ((DateTime)reader1["Duration"]).ToString("HH:mm:ss")
+                            );
+
+
+
+                            var cmd3 =
+                                new SqlCeCommand(
+                                    string.Format(@"
+                                        SELECT
+	                                        Language,
+	                                        TitleEmbedded,
+	                                        Channel,
+	                                        Format,
+	                                        BitRate
+                                        FROM AudioStream
+                                        WHERE FileDetailId = {0}
+                                        ORDER BY Id
+                                    ",
+                                    mDet2.Id),
+                                    conn);
+
+                            using (var reader3 = cmd3.ExecuteReader())
+                            {
+                                while (reader3.Read())
+                                {
+                                    var languageName =
+                                        reader3["Language"] == DBNull.Value || string.IsNullOrEmpty((string)reader3["Language"])
+                                            ? "?"
+                                            : Languages.GetLanguageFromIdentifier((string)reader3["Language"]).Name.Replace("Romanian; Moldavian; Moldovan", "Romanian");
+
+                                    if (reader3["TitleEmbedded"] != DBNull.Value && !string.IsNullOrEmpty((string)reader3["TitleEmbedded"]))
+                                        languageName += string.Format(" [{0}]", (string)reader3["TitleEmbedded"]);
+
+                                    mDet2.Ats.Add(languageName);
+
+                                    mDet2.Ats.Add(
+                                        string.Format("{0} / {1} / {2}",
+                                        ((string)reader3["Channel"]).Replace(" channels", "ch"),
+                                        (string)reader3["Format"],
+                                        (string)reader3["BitRate"]).Replace(" ", "")
+                                    );
+                                }
+                            }
+
+
+
+
+                            var cmd4 =
+                                new SqlCeCommand(
+                                    string.Format(@"
+                                        SELECT
+	                                        Language
+                                        FROM SubtitleStream
+                                        WHERE FileDetailId = {0}
+                                        ORDER BY Id
+                                    ",
+                                    mDet2.Id),
+                                    conn);
+
+                            using (var reader3 = cmd3.ExecuteReader())
+                            {
+                                while (reader3.Read())
+                                {
+                                    var languageName =
+                                        reader3["Language"] == DBNull.Value || string.IsNullOrEmpty((string)reader3["Language"])
+                                            ? "?"
+                                            : Languages.GetLanguageFromIdentifier((string)reader3["Language"]).Name.Replace("Romanian; Moldavian; Moldovan", "Romanian");
+
+                                    if (!mDet2.Sts.Any(s => s == languageName))
+                                        mDet2.Sts.Add(languageName);
+                                }
+                            }
+
+                            mDet2.Fd.Add(
+                                reader1["Format"] == DBNull.Value
+                                    ? "?"
+                                    : (string)reader1["Format"]);
+
+                            mDet2.Fd.Add(
+                                reader1["FileSize2"] == DBNull.Value
+                                    ? "?"
+                                    : (string)reader1["FileSize2"]);
+
+                            result.Add(mDet2);
+                        }
+                    }
+                }
+            //}
+            //catch (Exception ex)
+            //{
+            //    var d = 1;
+            //    throw;
+            //}
 
             return result;
         }

@@ -64,9 +64,12 @@ namespace Desene
             else
             {
                 DatabaseOperations.CreateField("FileDetail", "Synopsis", "ntext NULL");
+                DatabaseOperations.CreateIndex("AudioStream", "audio1", "FileDetailId ASC");
+                DatabaseOperations.CreateIndex("VideoStream", "video1", "FileDetailId ASC");
+                DatabaseOperations.CreateIndex("Thumbnails", "stills1", "FileDetailId ASC");
             }
 
-            //pMainContainer.Controls.Clear();
+            pMainContainer.Controls.Clear();
 
             DAL.LoadBaseDbValues();
 
@@ -825,6 +828,7 @@ namespace Desene
             new Bitmap(Resources.arrowDown12).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\arrowDown12.png"), ImageFormat.Png);
             new Bitmap(Resources.search).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\search.png"), ImageFormat.Png);
             new Bitmap(Resources.thumbnail).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\thumbnail.png"), ImageFormat.Png);
+            new Bitmap(Resources.mickey_mouse).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\mickey_mouse.png"), ImageFormat.Png);
 
             #endregion
 
@@ -840,9 +844,10 @@ namespace Desene
 
             //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiFilme_{genUniqueId}.js"), serializedData.Key);
             //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiSeriale_{genUniqueId}.js"), serializedData.Value);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiFilme.js"), serializedData.MoviesData);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiSeriale.js"), serializedData.SeriesData);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiRecordings.js"), serializedData.RecordingsData);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\moviesDetails.js"), serializedData.MoviesData);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\seriesDetails.js"), serializedData.SeriesData);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\recordingDetails.js"), serializedData.RecordingsData);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\moviesDetails2.js"), serializedData.MoviesDetails2);
 
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery-2.2.4.min.js"), Resources.jquery_2_2_4_min);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\desene.js"), Resources.deseneJS);
@@ -1098,6 +1103,7 @@ namespace Desene
         {
             try
             {
+                /*
                 var seriesList = DAL.GetMoviesForPDF(new PdfGenParams { ForMovies = false, PDFGenType = PDFGenType.All });
                 //var episodesAudioLanguages = new List<string>();
                 //var audios = "?";
@@ -1119,6 +1125,10 @@ namespace Desene
                         cmd.ExecuteNonQuery();
                     }
                 }
+                */
+
+                var xxx = DAL.GetMoviesDetails2ForWeb();
+                var x= 1;
             }
             catch (Exception ex)
             {

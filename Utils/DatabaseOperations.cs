@@ -78,5 +78,45 @@ namespace Utils
 
             return result;
         }
+
+        public static OperationResult CreateIndex(string tableName, string indexName, string fieldName)
+        {
+            var result = new OperationResult();
+
+            try
+            {
+                using (var conn = new SqlCeConnection(Constants.ConnectionString))
+                {
+                    conn.Open();
+                    SqlCeCommand cmd;
+
+                    var sqlString = @"
+                        SELECT 1 FROM INFORMATION_SCHEMA.INDEXES
+                        WHERE TABLE_NAME = @tableName AND INDEX_NAME = @indexName";
+
+                    cmd = new SqlCeCommand(sqlString, conn);
+                    cmd.Parameters.AddWithValue("@tableName", tableName);
+                    cmd.Parameters.AddWithValue("@indexName", indexName);
+
+                    if (cmd.ExecuteScalar() != null)
+                        return result.FailWithMessage(string.Format("Index '{0}' already exists in the '{1}' table!", indexName, tableName));
+
+                    sqlString = string.Format(@"
+                        CREATE INDEX {0} ON {1} ({2} ASC)",
+                        indexName,
+                        tableName,
+                        fieldName);
+
+                    cmd = new SqlCeCommand(sqlString, conn);
+                    cmd.ExecuteScalar();
+                }
+            }
+            catch (Exception e)
+            {
+                return result.FailWithMessage(e);
+            }
+
+            return result;
+        }
     }
 }

@@ -130,9 +130,6 @@
   <data name="arrowRight12" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\arrowright12.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="jquery_slimscroll_min" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\jquery.slimscroll.min.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="thumbnail" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\thumbnail.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -151,8 +148,8 @@
   <data name="refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\refresh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="save" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="preloader" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\preloader.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="info1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\info.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -163,17 +160,20 @@
   <data name="index" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\index.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="deseneJS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\desene.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="generateHtml" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\generateHtml.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="cancel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\cancel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icons8-external-link-24" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icons8-external-link-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="bulkEdit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\bulkEdit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="image" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="HD_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\hd_logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -184,6 +184,12 @@
   <data name="reset_slide" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\reset_slide.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="accessories-text-editor-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\accessories-text-editor-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sections" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\sections.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="info" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\info.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -192,9 +198,6 @@
   </data>
   <data name="deseneCSS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\desene.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="external-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\external-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icons8-download-16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\icons8-download-16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -208,8 +211,8 @@
   <data name="owl_carousel_minJS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\owl.carousel.min.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="preloader" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\preloader.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="jquery_slimscroll_min" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\jquery.slimscroll.min.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="jsgrid_minJS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\jsgrid.min.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
@@ -223,8 +226,8 @@
   <data name="arrowDown12" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\arrowdown12.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="deseneJS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\desene.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="icons8-external-link-24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-external-link-24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="icons8-external-link-16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-external-link-16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -232,8 +235,8 @@
   <data name="jquery_2_2_4_min" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\jquery-2.2.4.min.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="sections" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\sections.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="jquery_lazy_min" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\jquery.lazy.min.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
@@ -241,8 +244,8 @@
   <data name="search" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\search.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="image" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="external-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\external-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="YouTubePopUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\youtubepopup.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
@@ -265,7 +268,10 @@
   <data name="combineNames" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\combineNames.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="accessories-text-editor-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Images\accessories-text-editor-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="calender-icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\calender-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="mickey_mouse" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\mickey-mouse.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
