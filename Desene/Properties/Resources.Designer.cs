@@ -335,13 +335,14 @@ namespace Desene.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+        ///&lt;title&gt;Cartoons Repository&lt;/title&gt;
         ///
-        ///&lt;link rel=&quot;shortcut icon&quot; href=&quot;Images\mickey-mouse.png&quot;&gt;
+        ///&lt;link rel=&quot;shortcut icon&quot; href=&quot;Images\mickey_mouse.png&quot;&gt;
         ///
         ///&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css?family=Mouse+Memoirs&quot;&gt;
         ///&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300&quot;&gt;
         ///&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css?family=Open+Sans&quot;&gt;
-        ///&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css?family=Mountains+of+Christmas|Yanone+Kaffeesatz:700&quot; [rest of string was truncated]&quot;;.
+        ///&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css?family=Mountains [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string index {
             get {
@@ -476,6 +477,16 @@ namespace Desene.Properties {
         internal static System.Drawing.Bitmap msg {
             get {
                 object obj = ResourceManager.GetObject("msg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap nav_icon {
+            get {
+                object obj = ResourceManager.GetObject("nav_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

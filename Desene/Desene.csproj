@@ -291,6 +291,7 @@
     <None Include="Images\mickey-mouse.png" />
     <Content Include="Images\moviesList.png" />
     <None Include="Images\preloader.gif" />
+    <None Include="Images\nav-icon.png" />
     <Content Include="Images\reset_slide.png" />
     <Content Include="Images\search.png" />
     <Content Include="Images\sort.png" />

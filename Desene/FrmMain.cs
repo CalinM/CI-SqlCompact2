@@ -829,6 +829,7 @@ namespace Desene
             new Bitmap(Resources.search).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\search.png"), ImageFormat.Png);
             new Bitmap(Resources.thumbnail).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\thumbnail.png"), ImageFormat.Png);
             new Bitmap(Resources.mickey_mouse).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\mickey_mouse.png"), ImageFormat.Png);
+            new Bitmap(Resources.nav_icon).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\nav_icon.png"), ImageFormat.Png);
 
             #endregion
 

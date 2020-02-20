@@ -71,7 +71,12 @@ namespace Desene
 	                    CASE
 	                        WHEN Quality IS NULL THEN 'sd?'
 	                        ELSE Quality
-	                    END AS Quality
+	                    END AS Quality,
+
+	                    CASE
+	                        WHEN Synopsis IS NULL THEN CONVERT(BIT, 0)
+	                        ELSE CONVERT(BIT, 1)
+	                    END AS HasSynopsis
 
                     FROM FileDetail
                     WHERE ParentId IS NULL
@@ -89,7 +94,8 @@ namespace Desene
                             Id = (int)reader["Id"],
                             FileName = reader["FileName"].ToString(),
                             HasPoster = (bool)reader["HasPoster"],
-                            Quality = reader["Quality"].ToString()
+                            Quality = reader["Quality"].ToString(),
+                            HasSynopsis = (bool)reader["HasSynopsis"]
                         });
                     }
                 }
@@ -1972,9 +1978,10 @@ namespace Desene
 
                                     mDet2.Ats.Add(
                                         string.Format("{0} / {1} / {2}",
-                                        ((string)reader3["Channel"]).Replace(" channels", "ch"),
-                                        (string)reader3["Format"],
-                                        (string)reader3["BitRate"]).Replace(" ", "")
+                                            ((string)reader3["Channel"]).Replace(" channels", "ch"),
+                                            (string)reader3["Format"],
+                                            ((string)reader3["BitRate"]).Replace(" ", "")
+                                        )
                                     );
                                 }
                             }
@@ -2738,6 +2745,7 @@ namespace Desene
                         FROM FileDetail
                         WHERE ParentId IS NULL
                             AND DescriptionLink IS NOT NULL AND DescriptionLink <> ''
+                            {0}
                         ",
                         preserveExisting
                             ? " AND (Synopsis IS NULL OR Synopsis = '')"

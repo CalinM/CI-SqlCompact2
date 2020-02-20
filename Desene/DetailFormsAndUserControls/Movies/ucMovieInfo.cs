@@ -491,6 +491,9 @@ namespace Desene.DetailFormsAndUserControls
                     {
                         tbSynopsis.Text = (string)opRes.AdditionalDataReturn;
                         tbSynopsis.DataBindings[0].WriteValue();
+
+                        if (Helpers.GenericSetButtonsState2 != null)
+                            Helpers.GenericSetButtonsState2(true);
                     }
                 }
                 finally

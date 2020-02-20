@@ -13,6 +13,7 @@ namespace DAL
         public string Quality { get; set; }
         //public byte[] Cover { get; set; }
         public bool HasPoster { get; set; }
+        public bool HasSynopsis { get; set; }
     }
 
     public class SeriesEpisodesShortInfo

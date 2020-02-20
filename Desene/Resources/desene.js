@@ -112,14 +112,14 @@ $(document).ready(function () {
     var buildMoviesSection = function (moviesInSection) {
         var sectionHtml =
             "<div class=\"container\">" +
-                "<div class=\"cards\">";
+            "<div class=\"cards\">";
 
         var mobileClass = "";//= isMobile() ? "cardM" : "";
         moviesInSection.forEach(function (el) {
             sectionHtml +=
-                    "<div class=\"card " + mobileClass + "\">" +
-                        "<div class=\"movie-detail-wrapper\" data-movieId=\"" + el.Id + "\">" +
-                            "<div class=\"movie-detail\">" +
+                "<div class=\"card " + mobileClass + "\">" +
+                "<div class=\"movie-detail-wrapper\" data-movieId=\"" + el.Id + "\">" +
+                "<div class=\"movie-detail\">" +
 
                 //the movieId is also placed on the Poster to be visible in the lazy loading process
 
@@ -132,28 +132,28 @@ $(document).ready(function () {
                         "</a>"
                     */
 
-                                "<img data-src=\"Imgs/Movies/poster-" + el.Id + ".jpg\" data-movieId=\"" + el.Id + "\" class=\"movie-cover lazy\" alt=\"Loading poster ...\" title=\"" + el.FN + "\">"
+                    "<img data-src=\"Imgs/Movies/poster-" + el.Id + ".jpg\" data-movieId=\"" + el.Id + "\" class=\"movie-cover lazy\" alt=\"Loading poster ...\" title=\"" + el.FN + "\">"
 
                 ) +
 
-                            "</div>" +
-                            "<div class=\"movie-detail\">" +
-                                (
-                                    el.R != ""
-                                        ? "<a class='recommended' title='Recomandat: " + el.R + "\nClick for details ... (external link!)' href='" + el.RL + "' target='_blank'>" + el.R.replace("+", "") + "</a>"
-                                        : "<div class='recommended' title='Recomandare necunoscuta'>?</div>"
-                                ) +
+                "</div>" +
+                "<div class=\"movie-detail\">" +
+                (
+                    el.R != ""
+                        ? "<a class='recommended' title='Recomandat: " + el.R + "\nClick for details ... (external link!)' href='" + el.RL + "' target='_blank'>" + el.R.replace("+", "") + "</a>"
+                        : "<div class='recommended' title='Recomandare necunoscuta'>?</div>"
+                ) +
 
-                                "<a class='recommended info' title='Tematica: " + (el.T == "" ? "-" : el.T) + "\nAn: " + el.Y + "\nDurata: " + (el.L == "" || el.L == "00:00:00" ? "?" : el.L) + "\nClick for details ... (external link!)' href='" + el.DL + "' target='_blank'>i</a>" +
-                                "<div class='quality' title='Dimensiune: " + el.S + "\nBitrate: " + el.B + "'>" + (el.Q == "" ? "SD?" : el.Q) + "</div>" +
-                                "<div class='audio' title='Subtitrari: " + el.SU + "\nSursaNl: " + el.Nl + "'>" + el.A + "</div>" +
-                            "</div>" +
-                        "</div>" +
-                    "</div>";
+                "<a class='recommended info' title='Tematica: " + (el.T == "" ? "-" : el.T) + "\nAn: " + el.Y + "\nDurata: " + (el.L == "" || el.L == "00:00:00" ? "?" : el.L) + "\nClick for details ... (external link!)' href='" + el.DL + "' target='_blank'>i</a>" +
+                "<div class='quality' title='Dimensiune: " + el.S + "\nBitrate: " + el.B + "'>" + (el.Q == "" ? "SD?" : el.Q) + "</div>" +
+                "<div class='audio' title='Subtitrari: " + el.SU + "\nSursaNl: " + el.Nl + "'>" + el.A + "</div>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
         }, this);
 
         sectionHtml +=
-                "</div>" +
+            "</div>" +
             "</div>";
 
         $("#sections-wrapper").scrollTop(0);
@@ -209,21 +209,21 @@ $(document).ready(function () {
 
             var detailLine =
                 "<div class='detailLine'>" +
-                    "<table class='detailLine-wrapper'>" +
-                        "<tr>" +
-                            "<td colspan='3' class='title'>" +
-                                baseData.FN +
-                            "</td>" +
-                        "</tr>" +
-                        "<tr style='height: 100%;'>" +
-                            "<td style='min-width: 500px; vertical-align: top;'>" +
-                                "<div class='synopsis'>" +
-                                    detailData.Syn +
-                                "</div>" +
-                            "</td>" +
-                            "<td class='technicalDetailsCell'>" +
-                                "<div class='technicalDetails-wrapper'>" +
-                                    "<div class='tdTitle'>Video tracks</div>";
+                "<table class='detailLine-wrapper'>" +
+                "<tr>" +
+                "<td colspan='3' class='title'>" +
+                baseData.FN +
+                "</td>" +
+                "</tr>" +
+                "<tr style='height: 100%;'>" +
+                "<td style='min-width: 500px; vertical-align: top;'>" +
+                "<div class='synopsis'>" +
+                detailData.Syn +
+                "</div>" +
+                "</td>" +
+                "<td class='technicalDetailsCell'>" +
+                "<div class='technicalDetails-wrapper'>" +
+                "<div class='tdTitle'>Video tracks</div>";
 
             for (var i = 0; i < detailData.Vtd.length; i++) {
                 detailLine += "<div>" + detailData.Vtd[i] + "</div>";
@@ -250,38 +250,38 @@ $(document).ready(function () {
 
 
             detailLine +=
-                                "</div>" +
-                            "</td>" +
-                            "<td style='width: 100%; border-left: solid thin silver;'>" +
-                                "<div class='screenshots-wrapper owl-carousel owl-theme' style=''>" +
-                                    "<div>" +
-                                        "<iframe" +
-                                            " id='trailerFrm'" +
-                                            " frameborder='0'" +
-                                            " scrolling='no'" +
-                                            " marginheight='0'" +
-                                            " marginwidth='0'" +
-                                            " width='400.5'" +
-                                            " height='225'" +
-                                            " type='text/html'" +
-                                            //" allowfullscreen" +
-                                            // src='https://www.youtube.com/embed/DBXH9jJRaDk?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&enablejsapi=1'>" +
-                                            " src='https://www.youtube.com/embed/" + baseData.Tr + "?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&enablejsapi=1' > " +
-                                        "</iframe>" +
-                                    "</div>" +
-                                    "<div class='parentVertAlign'>" +
-                                        "<img class='forceVertAlign' src=\"Imgs\\Movies\\Thumbnails\\thumb-" + movieId + "-0.jpg\" alt=\"?\">" +
-                                    "</div>" +
-                                    "<div class='parentVertAlign'>" +
-                                        "<img class='forceVertAlign' src=\"Imgs\\Movies\\Thumbnails\\thumb-" + movieId + "-1.jpg\" alt=\"?\">" +
-                                    "</div>" +
-                                    "<div class='parentVertAlign'>" +
-                                        "<img class='forceVertAlign' src=\"Imgs\\Movies\\Thumbnails\\thumb-" + movieId + "-2.jpg\" alt=\"?\">" +
-                                    "</div>" +
-                                "</div>" +
-                            "</td>" +
-                        "</tr>" +
-                    "</table>" +
+                "</div>" +
+                "</td>" +
+                "<td style='width: 100%; border-left: solid thin silver;'>" +
+                "<div class='screenshots-wrapper owl-carousel owl-theme' style=''>" +
+                "<div>" +
+                "<iframe" +
+                " id='trailerFrm'" +
+                " frameborder='0'" +
+                " scrolling='no'" +
+                " marginheight='0'" +
+                " marginwidth='0'" +
+                " width='400.5'" +
+                " height='225'" +
+                " type='text/html'" +
+                //" allowfullscreen" +
+                // src='https://www.youtube.com/embed/DBXH9jJRaDk?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&enablejsapi=1'>" +
+                " src='https://www.youtube.com/embed/" + baseData.Tr + "?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&enablejsapi=1' > " +
+                "</iframe>" +
+                "</div>" +
+                "<div class='parentVertAlign'>" +
+                "<img class='forceVertAlign' src=\"Imgs\\Movies\\Thumbnails\\thumb-" + movieId + "-0.jpg\" alt=\"?\">" +
+                "</div>" +
+                "<div class='parentVertAlign'>" +
+                "<img class='forceVertAlign' src=\"Imgs\\Movies\\Thumbnails\\thumb-" + movieId + "-1.jpg\" alt=\"?\">" +
+                "</div>" +
+                "<div class='parentVertAlign'>" +
+                "<img class='forceVertAlign' src=\"Imgs\\Movies\\Thumbnails\\thumb-" + movieId + "-2.jpg\" alt=\"?\">" +
+                "</div>" +
+                "</div>" +
+                "</td>" +
+                "</tr>" +
+                "</table>" +
                 "</div>";
 
             $(lastElementOnLine).after(detailLine);
@@ -1097,7 +1097,7 @@ function DisplayHome() {
                                 });
 
                         var sectionHtml = "<div id=\"newMovies\" class=\"owl-carousel owl-theme\">";
-                        var extraPath = isSeries ? "/Series" : "";
+                        var extraPath = isSeries ? "/Series" : "/Movies";
 
                         newMoviesDet.forEach(function (el) {
                             var tooltip =

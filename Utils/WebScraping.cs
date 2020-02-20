@@ -193,6 +193,15 @@ namespace Utils
                 if (descriptionLink.ToLower().Contains("imdb"))
                     return ParseSiteContent_Imdb(document);
                 else
+                if (descriptionLink.ToLower().Contains("moviemeter"))
+                    return ParseSiteContent_Moviemeter(document);
+                //else
+                //if (descriptionLink.ToLower().Contains("bol.com"))
+                //    return ParseSiteContent_Bol(document);
+                else
+                if (descriptionLink.ToLower().Contains("filmvandaag"))
+                    return ParseSiteContent_Filmvandaag(document);
+                else
                     throw new Exception("Parser not implemented!");
             }
             catch (Exception ex)
@@ -256,6 +265,55 @@ namespace Utils
 
             return
                  summaryDiv.InnerHtml
+                    .Replace("<br>", Environment.NewLine)
+                    .Replace("&lt;", "<")
+                    .Replace("&gt;", ">")
+                    .StripHtml()
+                    .Trim();
+        }
+
+        private static string ParseSiteContent_Moviemeter(IHtmlDocument document)
+        {
+            var detailsDiv = document.GetElementsByClassName("details").FirstOrDefault();
+            if (detailsDiv == null)
+                throw new Exception("Element not found on page!");
+
+            var synopsisParagraph = detailsDiv.Children[5];
+            if (synopsisParagraph == null)
+                throw new Exception("Element not found on page (2)!");
+
+            return
+                 synopsisParagraph.InnerHtml
+                    .Replace("<br>", Environment.NewLine)
+                    .Replace("&lt;", "<")
+                    .Replace("&gt;", ">")
+                    .StripHtml()
+                    .Trim();
+        }
+
+        private static string ParseSiteContent_Bol(IHtmlDocument document)
+        {
+            var descriptionDiv = document.GetElementsByClassName("product-description").FirstOrDefault();
+            if (descriptionDiv == null)
+                throw new Exception("Element not found on page!");
+
+            return
+                 descriptionDiv.InnerHtml
+                    .Replace("<br>", Environment.NewLine)
+                    .Replace("&lt;", "<")
+                    .Replace("&gt;", ">")
+                    .StripHtml()
+                    .Trim();
+        }
+
+        private static string ParseSiteContent_Filmvandaag(IHtmlDocument document)
+        {
+            var descriptionDiv = document.GetElementsByClassName("synopsis").FirstOrDefault();
+            if (descriptionDiv == null)
+                throw new Exception("Element not found on page!");
+
+            return
+                 descriptionDiv.InnerHtml
                     .Replace("<br>", Environment.NewLine)
                     .Replace("&lt;", "<")
                     .Replace("&gt;", ">")

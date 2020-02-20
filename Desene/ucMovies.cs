@@ -46,6 +46,9 @@ namespace Desene
 
             dgvMoviesList.GetType().GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(dgvMoviesList, true, null);
             dgvMoviesList.AutoGenerateColumns = false;
+
+            miHighlightNoPoster.Checked = Settings.Default.HighlightNoPoster;
+            miHighlightNoSynopsis.Checked = Settings.Default.HighlightNoSynopsis;
         }
 
         private void ucMovies_Load(object sender, EventArgs e)
@@ -119,13 +122,21 @@ namespace Desene
             var rowObj = ((DataGridView)sender).Rows[e.RowIndex].DataBoundItem;
             if (rowObj == null) return;
 
-            dgvMoviesList.Rows[e.RowIndex].DefaultCellStyle.BackColor = ((MovieShortInfo)rowObj).HasPoster ? Color.White : Color.LightPink;
+            if (miHighlightNoPoster.Checked)
+            {
+                dgvMoviesList.Rows[e.RowIndex].DefaultCellStyle.BackColor = ((MovieShortInfo)rowObj).HasPoster ? Color.White : Color.LightPink;
+            }
+
+            if (miHighlightNoSynopsis.Checked)
+            {
+                dgvMoviesList.Rows[e.RowIndex].DefaultCellStyle.BackColor = ((MovieShortInfo)rowObj).HasSynopsis ? Color.White : Color.LightSkyBlue;
+            }
+
 
             if (e.ColumnIndex == 2 && ((MovieShortInfo)rowObj).Quality == "sd?")
             {
                 e.CellStyle.BackColor = Color.Lavender;
             }
-
         }
 
         private void dgvMoviesList_SelectionChanged(object sender, EventArgs e)
@@ -301,7 +312,8 @@ namespace Desene
                 Id = DAL.CurrentMTD.Id,
                 FileName = DAL.CurrentMTD.FileName,
                 //Cover = DAL.CurrentMTD.Poster,
-                HasPoster = DAL.CurrentMTD.Poster != null
+                HasPoster = DAL.CurrentMTD.Poster != null,
+                HasSynopsis = !string.IsNullOrEmpty(DAL.CurrentMTD.Synopsis)
             };
 
             DAL.MoviesData.Add(msi);
@@ -486,7 +498,8 @@ namespace Desene
                         Id = DAL.CurrentMTD.Id,
                         FileName = DAL.CurrentMTD.FileName,
                         //Cover = DAL.CurrentMTD.Poster,
-                        HasPoster = DAL.CurrentMTD.Poster != null
+                        HasPoster = DAL.CurrentMTD.Poster != null,
+                        HasSynopsis = !string.IsNullOrEmpty(DAL.CurrentMTD.Synopsis)
                     };
 
                     DAL.MoviesData.Add(msi);
@@ -529,12 +542,23 @@ namespace Desene
             else
             {
                 var selectedMovieData = (MovieShortInfo)dgvMoviesList.SelectedRows[0].DataBoundItem;
+                var mustRefresh = false;
 
                 if (!selectedMovieData.HasPoster && DAL.CurrentMTD.Poster != null)
                 {
                     selectedMovieData.HasPoster = true;
-                    dgvMoviesList.Invalidate();
+                    mustRefresh = true;
                 }
+
+                if ((!selectedMovieData.HasSynopsis && !string.IsNullOrEmpty(DAL.CurrentMTD.Synopsis)) ||
+                    (selectedMovieData.HasSynopsis && string.IsNullOrEmpty(DAL.CurrentMTD.Synopsis)))
+                {
+                    selectedMovieData.HasSynopsis = !string.IsNullOrEmpty(DAL.CurrentMTD.Synopsis);
+                    mustRefresh = true;
+                }
+
+                if (mustRefresh)
+                    dgvMoviesList.Invalidate();
             }
 
             return opRes.Success;
@@ -769,6 +793,55 @@ namespace Desene
             }
 
             ReloadData(true);
+        }
+
+        private void dgvMoviesList_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                cmMoviesNavGrid.Show(Cursor.Position.X, Cursor.Position.Y);
+            }
+
+            /*
+                private void dgrdResults_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+                {
+                    //handle the row selection on right click
+                    if (e.Button == MouseButtons.Right)
+                    {
+                        try
+                        {
+                            dgrdResults.CurrentCell = dgrdResults.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                            // Can leave these here - doesn't hurt
+                            dgrdResults.Rows[e.RowIndex].Selected = true;
+                            dgrdResults.Focus();
+
+                            selectedBiodataId = Convert.ToInt32(dgrdResults.Rows[e.RowIndex].Cells[1].Value);
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                    }
+                }
+             */
+        }
+
+        private void miHighlightNoPoster_Click(object sender, EventArgs e)
+        {
+            miHighlightNoPoster.Checked = !miHighlightNoPoster.Checked;
+            Settings.Default.HighlightNoPoster = miHighlightNoPoster.Checked;
+            Settings.Default.Save();
+
+            dgvMoviesList.Invalidate();
+        }
+
+        private void miHighlightNoSynopsis_Click(object sender, EventArgs e)
+        {
+            miHighlightNoSynopsis.Checked = !miHighlightNoSynopsis.Checked;
+            Settings.Default.HighlightNoSynopsis = miHighlightNoSynopsis.Checked;
+            Settings.Default.Save();
+
+            dgvMoviesList.Invalidate();
         }
     }
 }

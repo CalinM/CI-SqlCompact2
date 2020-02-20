@@ -137,12 +137,13 @@
             // pbDbDates
             // 
             this.pbDbDates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbDbDates.Cursor = System.Windows.Forms.Cursors.Help;
             this.pbDbDates.Image = global::Desene.Properties.Resources.calender_icon;
             this.pbDbDates.InitialImage = global::Desene.Properties.Resources.calender_icon;
-            this.pbDbDates.Location = new System.Drawing.Point(548, 203);
+            this.pbDbDates.Location = new System.Drawing.Point(551, 208);
             this.pbDbDates.Name = "pbDbDates";
-            this.pbDbDates.Size = new System.Drawing.Size(16, 16);
-            this.pbDbDates.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbDbDates.Size = new System.Drawing.Size(15, 16);
+            this.pbDbDates.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbDbDates.TabIndex = 296;
             this.pbDbDates.TabStop = false;
             // 
