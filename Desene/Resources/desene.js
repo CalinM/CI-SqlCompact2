@@ -186,153 +186,157 @@ $(document).ready(function () {
         $(".about-message-img").css("display", "none");
 
         $(".card").off("click").on("click", function () {
-            $(".card").removeClass("selectedCard");
-            $('.detailLine').remove();
-
-            $(this).addClass("selectedCard");
-
-            var clickedTop = $(this).offset().top;
-            var visibleElements = $(this).parent().find(".card:visible");
-            var elementsOnLine =
-                $.grep(visibleElements, function (el) { return $(el).offset().top == clickedTop; });
-
-            var lastElementOnLine = elementsOnLine[elementsOnLine.length - 1];
-
-
             var movieId = $(this).children().data("movieid");
 
-            var movieData = $.grep(moviesData, function (el) { return el.Id == movieId });
-            var baseData = movieData[0];
+            $(".card").removeClass("selectedCard");
 
-            var movieData2 = $.grep(moviesData2, function (el) { return el.Id == movieId });
-            var detailData = movieData2[0];
-
-            var detailLine =
-                "<div class='detailLine'>" +
-                "<table class='detailLine-wrapper'>" +
-                "<tr>" +
-                "<td colspan='3' class='title'>" +
-                baseData.FN +
-                "</td>" +
-                "</tr>" +
-                "<tr style='height: 100%;'>" +
-                "<td style='min-width: 500px; vertical-align: top;'>" +
-                "<div class='synopsis'>" +
-                detailData.Syn +
-                "</div>" +
-                "</td>" +
-                "<td class='technicalDetailsCell'>" +
-                "<div class='technicalDetails-wrapper'>" +
-                "<div class='tdTitle'>Video tracks</div>";
-
-            for (var i = 0; i < detailData.Vtd.length; i++) {
-                detailLine += "<div>" + detailData.Vtd[i] + "</div>";
+            if ($(".detailLine[data-movieid='" + movieId + "']")) {
+                $('.detailLine').remove();
             }
+            else {
+                $(this).addClass("selectedCard");
 
-            detailLine += "<div class='tdTitle'>Audio tracks</div>";
+                var clickedTop = $(this).offset().top;
+                var visibleElements = $(this).parent().find(".card:visible");
+                var elementsOnLine =
+                    $.grep(visibleElements, function (el) { return $(el).offset().top == clickedTop; });
 
-            for (var i = 0; i < detailData.Ats.length; i++) {
-                detailLine += "<div>" + detailData.Ats[i] + "</div>";
-            }
-
-            detailLine += "<div class='tdTitle'>Subtitle tracks</div>";
-
-            for (var i = 0; i < detailData.Sts.length; i++) {
-                detailLine += "<div>" + detailData.Sts[i] + "</div>";
-            }
-
-            detailLine += "<div class='tdTitle'>File details</div>";
-
-            for (var i = 0; i < detailData.Fd.length; i++) {
-                detailLine += "<div>" + detailData.Fd[i] + "</div>";
-            }
+                var lastElementOnLine = elementsOnLine[elementsOnLine.length - 1];
 
 
 
-            detailLine +=
-                "</div>" +
-                "</td>" +
-                "<td style='width: 100%; border-left: solid thin silver;'>" +
-                "<div class='screenshots-wrapper owl-carousel owl-theme' style=''>" +
-                "<div>" +
-                "<iframe" +
-                " id='trailerFrm'" +
-                " frameborder='0'" +
-                " scrolling='no'" +
-                " marginheight='0'" +
-                " marginwidth='0'" +
-                " width='400.5'" +
-                " height='225'" +
-                " type='text/html'" +
-                //" allowfullscreen" +
-                // src='https://www.youtube.com/embed/DBXH9jJRaDk?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&enablejsapi=1'>" +
-                " src='https://www.youtube.com/embed/" + baseData.Tr + "?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&enablejsapi=1' > " +
-                "</iframe>" +
-                "</div>" +
-                "<div class='parentVertAlign'>" +
-                "<img class='forceVertAlign' src=\"Imgs\\Movies\\Thumbnails\\thumb-" + movieId + "-0.jpg\" alt=\"?\">" +
-                "</div>" +
-                "<div class='parentVertAlign'>" +
-                "<img class='forceVertAlign' src=\"Imgs\\Movies\\Thumbnails\\thumb-" + movieId + "-1.jpg\" alt=\"?\">" +
-                "</div>" +
-                "<div class='parentVertAlign'>" +
-                "<img class='forceVertAlign' src=\"Imgs\\Movies\\Thumbnails\\thumb-" + movieId + "-2.jpg\" alt=\"?\">" +
-                "</div>" +
-                "</div>" +
-                "</td>" +
-                "</tr>" +
-                "</table>" +
-                "</div>";
+                var movieData = $.grep(moviesData, function (el) { return el.Id == movieId });
+                var baseData = movieData[0];
 
-            $(lastElementOnLine).after(detailLine);
+                var movieData2 = $.grep(moviesData2, function (el) { return el.Id == movieId });
+                var detailData = movieData2[0];
 
+                var detailLine =
+                    "<div class='detailLine' data-movieId='" + movieId + "'>" +
+                    "<table class='detailLine-wrapper'>" +
+                    "<tr>" +
+                    "<td colspan='3' class='title'>" +
+                    baseData.FN +
+                    "</td>" +
+                    "</tr>" +
+                    "<tr style='height: 100%;'>" +
+                    "<td style='min-width: 315px; vertical-align: top;'>" +
+                    "<div class='synopsis'>" +
+                    detailData.Syn +
+                    "</div>" +
+                    "</td>" +
+                    "<td class='technicalDetailsCell'>" +
+                    "<div class='technicalDetails-wrapper'>" +
+                    "<div class='tdTitle'>Video tracks</div>";
 
-            $(".synopsis, .technicalDetails-wrapper").slimScroll({
-                height: $(".synopsis").height()
-            });
-
-            //hideBarY
-            $(".detailLine .slimScrollBar").fadeOut('slow');
-            $(".detailLine .slimScrollRail").fadeOut('slow');
-
-
-            var player = new YT.Player('trailerFrm', {
-                events: { 'onStateChange': onPlayerStateChange }
-            });
-
-            $('.screenshots-wrapper').owlCarousel({
-                margin: 10,
-                nav: true,
-                navText: ["<div class='nav-btn prev-slide'></div>", "<div class='nav-btn next-slide'></div>"],
-                responsive: {
-                    0: {
-                        items: 1
-                    },
-                    600: {
-                        items: 1
-                    },
-                    1000: {
-                        items: 1
-                    }
+                for (var i = 0; i < detailData.Vtd.length; i++) {
+                    detailLine += "<div>" + detailData.Vtd[i] + "</div>";
                 }
-            });
 
-            $(".screenshots-wrapper").on("changed.owl.carousel",
-                function (event) {
-                    //console.log(event);
-                    if (event.type == "changed" && trailerPlaying) {
-                        //full refresh of the iframe
-                        //var leg=$('#trailerFrm').attr("src");
-                        //$('#trailerFrm').attr("src", leg);
+                detailLine += "<div class='tdTitle'>Audio tracks</div>";
 
-                        trailerPlaying = false;
-                        player.pauseVideo();
-                        //player.stopVideo();
+                for (var i = 0; i < detailData.Ats.length; i++) {
+                    detailLine += "<div>" + detailData.Ats[i] + "</div>";
+                }
+
+                detailLine += "<div class='tdTitle'>Subtitle tracks</div>";
+
+                for (var i = 0; i < detailData.Sts.length; i++) {
+                    detailLine += "<div>" + detailData.Sts[i] + "</div>";
+                }
+
+                detailLine += "<div class='tdTitle'>File details</div>";
+
+                for (var i = 0; i < detailData.Fd.length; i++) {
+                    detailLine += "<div>" + detailData.Fd[i] + "</div>";
+                }
+
+
+
+                detailLine +=
+                    "</div>" +
+                    "</td>" +
+                    "<td style='width: 100%; border-left: solid thin silver;'>" +
+                    "<div class='screenshots-wrapper owl-carousel owl-theme' style=''>" +
+                    "<div>" +
+                    "<iframe" +
+                    " id='trailerFrm'" +
+                    " frameborder='0'" +
+                    " scrolling='no'" +
+                    " marginheight='0'" +
+                    " marginwidth='0'" +
+                    " width='400.5'" +
+                    " height='225'" +
+                    " type='text/html'" +
+                    //" allowfullscreen" +
+                    " src='https://www.youtube.com/embed/" + baseData.Tr + "?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&enablejsapi=1' > " +
+                    "</iframe>" +
+                    "</div>" +
+                    "<div class='parentVertAlign'>" +
+                    "<img class='forceVertAlign' src=\"Imgs\\Movies\\Thumbnails\\thumb-" + movieId + "-0.jpg\" alt=\"?\">" +
+                    "</div>" +
+                    "<div class='parentVertAlign'>" +
+                    "<img class='forceVertAlign' src=\"Imgs\\Movies\\Thumbnails\\thumb-" + movieId + "-1.jpg\" alt=\"?\">" +
+                    "</div>" +
+                    "<div class='parentVertAlign'>" +
+                    "<img class='forceVertAlign' src=\"Imgs\\Movies\\Thumbnails\\thumb-" + movieId + "-2.jpg\" alt=\"?\">" +
+                    "</div>" +
+                    "</div>" +
+                    "</td>" +
+                    "</tr>" +
+                    "</table>" +
+                    "</div>";
+
+                $(lastElementOnLine).after(detailLine);
+
+
+                $(".synopsis, .technicalDetails-wrapper").slimScroll({
+                    height: $(".synopsis").height()
+                });
+
+                //hideBarY
+                $(".detailLine .slimScrollBar").fadeOut('slow');
+                $(".detailLine .slimScrollRail").fadeOut('slow');
+
+
+                var player = new YT.Player('trailerFrm', {
+                    events: { 'onStateChange': onPlayerStateChange }
+                });
+
+                $('.screenshots-wrapper').owlCarousel({
+                    margin: 10,
+                    nav: true,
+                    navText: ["<div class='nav-btn prev-slide'></div>", "<div class='nav-btn next-slide'></div>"],
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        600: {
+                            items: 1
+                        },
+                        1000: {
+                            items: 1
+                        }
                     }
                 });
 
-            //$("#sections-wrapper").animate({scrollTop: $("#sections-wrapper").scrollTop() + $(".detailLine").prop("scrollHeight")+50}, 500);
-            ScrollDetailInView();
+                $(".screenshots-wrapper").on("changed.owl.carousel",
+                    function (event) {
+                        //console.log(event);
+                        if (event.type == "changed" && trailerPlaying) {
+                            //full refresh of the iframe
+                            //var leg=$('#trailerFrm').attr("src");
+                            //$('#trailerFrm').attr("src", leg);
+
+                            trailerPlaying = false;
+                            player.pauseVideo();
+                            //player.stopVideo();
+                        }
+                    });
+
+                //$("#sections-wrapper").animate({scrollTop: $("#sections-wrapper").scrollTop() + $(".detailLine").prop("scrollHeight")+50}, 500);
+                ScrollDetailInView();
+            }
         });
     }
 
