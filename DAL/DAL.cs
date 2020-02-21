@@ -1187,9 +1187,9 @@ namespace Desene
 
                     cmd.Parameters.AddWithValue("@CoverEmbedded", CurrentMTD.Cover);
                     cmd.Parameters.AddWithValue("@Season", CurrentMTD.Season);
-                    //cmd.Parameters.AddWithValue("@Quality", CurrentMTD.ParentId > 0 ? GetQualityStrFromSize(CurrentMTD) : string.Empty);
-                    //cmd.Parameters.AddWithValue("@Quality", CurrentMTD.ParentId.GetValueOrDefault(0) == 0 ? GetQualityStrFromSize(CurrentMTD) : string.Empty);
-                    cmd.Parameters.AddWithValue("@Quality", GetQualityStrFromSize(CurrentMTD));
+
+                    //the series do not have a a quality value
+                    cmd.Parameters.AddWithValue("@Quality", CurrentMTD.ParentId.GetValueOrDefault(-1) > 0 ? GetQualityStrFromSize(CurrentMTD) : string.Empty);
 
                     CurrentMTD.AudioLanguages = string.Join(", ", CurrentMTD.AudioStreams.Select(a => a.Language == "" ? "?" : a.Language).Distinct());
                     cmd.Parameters.AddWithValue("@AudioLanguages", CurrentMTD.AudioLanguages);
