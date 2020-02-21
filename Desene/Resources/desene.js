@@ -175,11 +175,13 @@ $(document).ready(function () {
                 },
             });
 
-            $("#sections-wrapper").slimScroll({
-                height: $("#sections-wrapper").height()
-            });
+            if (!isMobile()) {
+                $("#sections-wrapper").slimScroll({
+                    height: $("#sections-wrapper").height()
+                });
+            }
 
-            $(".movieTrailerLink").YouTubePopUp();
+            //$(".movieTrailerLink").YouTubePopUp();
         }, 100);
 
         CloseSideNav();
@@ -190,7 +192,7 @@ $(document).ready(function () {
 
             $(".card").removeClass("selectedCard");
 
-            if ($(".detailLine[data-movieid='" + movieId + "']")) {
+            if ($(".detailLine[data-movieid='" + movieId + "']").length > 0) {
                 $('.detailLine').remove();
             }
             else {
@@ -220,7 +222,7 @@ $(document).ready(function () {
                     "</td>" +
                     "</tr>" +
                     "<tr style='height: 100%;'>" +
-                    "<td style='min-width: 315px; vertical-align: top;'>" +
+                    "<td style='vertical-align: top;'>" +
                     "<div class='synopsis'>" +
                     detailData.Syn +
                     "</div>" +
@@ -256,7 +258,7 @@ $(document).ready(function () {
                 detailLine +=
                     "</div>" +
                     "</td>" +
-                    "<td style='width: 100%; border-left: solid thin silver;'>" +
+                    "<td style='min-width: 500px; border-left: solid thin silver;'>" +
                     "<div class='screenshots-wrapper owl-carousel owl-theme' style=''>" +
                     "<div>" +
                     "<iframe" +
@@ -793,17 +795,19 @@ function RenderSeriesTypeView() {
     setTimeout(function () {
         RebindSeriesEvents();
 
-        var h = window.innerHeight - $(".master-toolbar").outerHeight() - $("footer").height() - $("#seriesHeaderTable").height();
-        $(".detailsTableWrapper").height(h);
+        if (!isMobile()) {
+            var h = window.innerHeight - $(".master-toolbar").outerHeight() - $("footer").height() - $("#seriesHeaderTable").height();
+            $(".detailsTableWrapper").height(h);
 
-        $(".detailsTableWrapper").slimScroll({
-            height: h
-        });
-        $("#sections-wrapper").slimScroll({
-            height: $("#sections-wrapper").height()
-        });
+            $(".detailsTableWrapper").slimScroll({
+                height: h
+            });
+            $("#sections-wrapper").slimScroll({
+                height: $("#sections-wrapper").height()
+            });
+        }
 
-        $(".movieTrailerLink").YouTubePopUp();
+        //$(".movieTrailerLink").YouTubePopUp();
     }, 100);
 
     CloseSideNav();
@@ -1205,9 +1209,12 @@ function ResizeMoviesSection() {
     var h = window.innerHeight - $(".master-toolbar").outerHeight() - $("footer").height();
     $("#sections-wrapper").height(h);
 
-    $("#sections-wrapper").slimScroll({
-        height: h
-    });
+    //$("#newWrapper").css("bottom", $("footer").height() + "px");
+    if (!isMobile()) {
+        $("#sections-wrapper").slimScroll({
+            height: h
+        });
+    }
 
     if ($("#jsGrid").length > 0) {
         var gridWrapperHeight = h - $(".jsgrid-pager-container").height() - 1;
@@ -1221,6 +1228,7 @@ function ResizeMoviesSection() {
 
     $(".card").removeClass("selectedCard");
     $('.detailLine').remove();
+
 }
 
 function isMobile() {
@@ -1229,7 +1237,10 @@ function isMobile() {
 }
 
 function ScrollDetailInView() {
-    var scrollTop = $(".selectedCard").offset().top - $("#sections-wrapper").offset().top;
+    var scrollTop =
+        isMobile() && $(document).height() < $(document).width() //mobile on landscape
+            ? $(".detailLine").offset().top - $("#sections-wrapper").offset().top
+            : $(".selectedCard").offset().top - $("#sections-wrapper").offset().top;
 
     // Position of selected element relative to container top
     var targetTop = $("#sections-wrapper > *").offset().top - $("#sections-wrapper").offset().top;
