@@ -95,8 +95,11 @@ namespace Desene.DetailFormsAndUserControls
                 {
                     foreach (DataRow episodeRow in ((DataTable)_bsEpisodesGridData.DataSource).Rows)
                     {
-                        var epIdObj = episodeRow.ItemArray[1]; //0 is the checkbox column?
-                        _checkState.Add((int)epIdObj, true);
+                        var epId = (int)episodeRow.ItemArray[0]; //0 is the checkbox column?
+                        if (_checkState.ContainsKey(epId))
+                            continue;
+
+                        _checkState.Add(epId, true);
                     }
                 }
             }

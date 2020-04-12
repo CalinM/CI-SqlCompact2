@@ -131,7 +131,7 @@ namespace Desene
                             Id = (int)reader["Id"],
                             FileName = reader["FileName"].ToString(),
                             AudioLanguages = reader["AudioLanguages"].ToString(),
-                            Season = -1,
+                            Season = string.Empty,
                             SeriesId = (int)reader["Id"],
                             IsSeries = true
                         });
@@ -174,17 +174,20 @@ namespace Desene
 
                 using (var reader = commandSource.ExecuteReader())
                 {
+                    int i;
+
                     while (reader.Read())
                     {
-                        var seasonVal = int.Parse(reader["Season"].ToString());
-
+                        //var seasonVal = int.Parse(reader["Season"].ToString());
+                        
                         result.Add(new SeriesEpisodesShortInfo
                         {
                             Id = seriesId,
-                            FileName = seasonVal > 0 ? string.Format("Season {0}", seasonVal) : "Specials",
+                            //FileName = seasonVal > 0 ? string.Format("Season {0}", seasonVal) : "Specials",
+                            FileName = int.TryParse(reader["Season"].ToString(), out i) ? string.Format("Season {0}", i) : reader["Season"].ToString(),
                             Theme = string.Empty,
                             Quality = string.Empty,
-                            Season = seasonVal,
+                            Season = reader["Season"].ToString(),
                             SeriesId = seriesId,
                             IsSeason = true
                         });
@@ -192,7 +195,7 @@ namespace Desene
                 }
             }
 
-            return result;
+            return result.OrderBy(o => o.FileName, new NaturalSortComparer<string>()).ToList();
         }
 
         /// <summary>
@@ -201,7 +204,7 @@ namespace Desene
         /// <param name="seriesId"></param>
         /// <param name="seasonVal"></param>
         /// <returns></returns>
-        public static List<SeriesEpisodesShortInfo> GetEpisodesInSeason(int seriesId, int seasonVal)
+        public static List<SeriesEpisodesShortInfo> GetEpisodesInSeason(int seriesId, string seasonVal)
         {
             var result = new List<SeriesEpisodesShortInfo>();
 
@@ -209,7 +212,7 @@ namespace Desene
             {
                 conn.Open();
 
-                var commandSource = new SqlCeCommand(string.Format("SELECT * FROM FileDetail WHERE ParentId = {0} AND Season = {1} ORDER BY FileName", seriesId, seasonVal), conn);
+                var commandSource = new SqlCeCommand(string.Format("SELECT * FROM FileDetail WHERE ParentId = {0} AND Season = '{1}' ORDER BY FileName", seriesId, seasonVal), conn);
 
                 using (var reader = commandSource.ExecuteReader())
                 {
@@ -249,17 +252,13 @@ namespace Desene
                     new SqlCeCommand(
                         string.Format(@"
                             SELECT
-                                CASE
-                                    WHEN fd.Season = -2 THEN 'Specials'
-                                    ELSE fd.Season
-                                END AS Season2,
                                 fd.*
                             FROM FileDetail fd
                             WHERE ParentId = {0} {1}
-                            ORDER BY Season2, FileName",
+                            ORDER BY Season, FileName",
                             sesInfo.SeriesId,
                             sesInfo.IsSeason
-                                ? string.Format("AND Season = {0}", sesInfo.Season)
+                                ? string.Format("AND Season = '{0}'", sesInfo.Season)
                                 : string.Empty
                             ), conn);
 
@@ -306,7 +305,7 @@ namespace Desene
                                 {
                                     Id = parentId,
                                     FileName = reader["SeriesName"].ToString(),
-                                    Season = -1,
+                                    Season = string.Empty,
                                     SeriesId = parentId,
                                     IsSeries = true
                                 });
@@ -318,7 +317,7 @@ namespace Desene
                                 FileName = reader["FileName"].ToString(),
                                 Theme = reader["Theme"].ToString(),
                                 Quality = reader["Quality"].ToString(),
-                                Season = int.Parse(reader["Season"].ToString()),
+                                Season = reader["Season"].ToString(),
                                 SeriesId = parentId,
                                 IsEpisode = true
                             });
@@ -333,7 +332,7 @@ namespace Desene
                                 {
                                     Id = seriesId,
                                     FileName = reader["FileName"].ToString(),
-                                    Season = -1,
+                                    Season = string.Empty,
                                     SeriesId = seriesId,
                                     IsSeries = true
                                 });
@@ -1528,7 +1527,7 @@ namespace Desene
                     : "SD";
         }
 
-        public static OperationResult RemoveSeason(int seriesId, int seasonNo)
+        public static OperationResult RemoveSeason(int seriesId, string seasonNo)
         {
             var result = new OperationResult();
 
@@ -2001,14 +2000,14 @@ namespace Desene
                                     mDet2.Id),
                                     conn);
 
-                            using (var reader3 = cmd3.ExecuteReader())
+                            using (var reader4 = cmd4.ExecuteReader())
                             {
-                                while (reader3.Read())
+                                while (reader4.Read())
                                 {
                                     var languageName =
-                                        reader3["Language"] == DBNull.Value || string.IsNullOrEmpty((string)reader3["Language"])
+                                        reader4["Language"] == DBNull.Value || string.IsNullOrEmpty((string)reader4["Language"])
                                             ? "?"
-                                            : Languages.GetLanguageFromIdentifier((string)reader3["Language"]).Name.Replace("Romanian; Moldavian; Moldovan", "Romanian");
+                                            : Languages.GetLanguageFromIdentifier((string)reader4["Language"]).Name.Replace("Romanian; Moldavian; Moldovan", "Romanian");
 
                                     if (!mDet2.Sts.Any(s => s == languageName))
                                         mDet2.Sts.Add(languageName);
@@ -2177,16 +2176,16 @@ namespace Desene
                             reader["Duration"] != DBNull.Value
                                 ? (DateTime?)reader["Duration"]
                                 : null;
-
+                        /*
                         var seasonNo = 0;
                         if (reader["Season"].ToString() != string.Empty)
                             int.TryParse(reader["Season"].ToString(), out seasonNo);
-
+                        */
                         var efw = new EpisodesForWeb();
                         efw.Id = (int)reader["Id"];
                         efw.SId = (int)reader["ParentId"];
                         efw.FN = reader["FileName"].ToString();
-                        efw.SZ = seasonNo;
+                        efw.SZ = reader["Season"].ToString(); //seasonNo;
                         efw.Y = reader["Year"].ToString();
                         efw.Q = reader["Quality"].ToString();
                         efw.L = duration == null ? "?" : ((DateTime)duration).ToString("HH:mm:ss");
@@ -2341,7 +2340,7 @@ namespace Desene
                         {
                             Id = (int)reader["Id"],
                             FileName = reader["FileName"].ToString(),
-                            Season = -1,
+                            Season = string.Empty,
                             SeriesId = (int)reader["Id"],
                             IsSeries = true
                         });
@@ -2435,7 +2434,7 @@ namespace Desene
                             FileName = reader["FileName"].ToString(),
                             Theme = reader["Theme"].ToString(),
                             Quality = reader["Quality"].ToString(),
-                            Season = 0,
+                            Season = "0", //???
                             SeriesId = (int)reader["ParentId"],
                             IsEpisode = true
                         });
@@ -2477,6 +2476,15 @@ namespace Desene
                                             WHERE FileDetailId IN ({1})
                                             GROUP BY FileDetailId
                                         )",
+                                    fvc.Value, episodes);
+                            }
+                            else
+                            if (fvc.FieldName == "Season")
+                            {
+                                sqlString = string.Format(@"
+                                    UPDATE FileDetail
+                                       SET Season = '{0}'
+                                    WHERE Id IN ({1})",
                                     fvc.Value, episodes);
                             }
                             else

@@ -8,7 +8,6 @@ using System.Windows.Forms;
 using System.Web.Script.Serialization;
 using System.IO;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
 namespace Utils

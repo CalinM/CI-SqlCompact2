@@ -29,10 +29,10 @@ namespace Desene.DetailFormsAndUserControls.Series
 
             Text = string.Format("Select new field values for {0} episodes", selectedEpisodes);
 
-            _allBulkEditFields.Add(new BulkEditField { Caption = "Year", FieldName = "Year" });
-            _allBulkEditFields.Add(new BulkEditField { Caption = "Season", FieldName = "Season" });
-            _allBulkEditFields.Add(new BulkEditField { Caption = "Theme", FieldName = "Theme" });
-            _allBulkEditFields.Add(new BulkEditField { Caption = "First audio language", FieldName = "Language" });
+            _allBulkEditFields.Add(new BulkEditField { Caption = "Year", FieldName = "Year", RequireRefresh = false });
+            _allBulkEditFields.Add(new BulkEditField { Caption = "Season", FieldName = "Season", RequireRefresh = true });
+            _allBulkEditFields.Add(new BulkEditField { Caption = "Theme", FieldName = "Theme", RequireRefresh = true });
+            _allBulkEditFields.Add(new BulkEditField { Caption = "First audio language", FieldName = "Language", RequireRefresh = true });
         }
 
         private void BtnAddChange_Click(object sender, EventArgs e)

@@ -37,6 +37,8 @@ namespace Desene
         {
             InitializeComponent();
 
+            mainMenu.ImageScalingSize = new Size(16, 16);
+
             separatorMainButtons.Visible = false;
             btnAdd.Visible = false;
             btnDelete.Visible = false;

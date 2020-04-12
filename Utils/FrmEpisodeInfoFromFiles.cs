@@ -26,20 +26,21 @@ namespace Utils
         {
             InitializeComponent();
 
-            InitSeasonsCombobox();
+            //InitSeasonsCombobox();
         }
 
-        public FrmEpisodeInfoFromFiles(int parentId, int? seasonId)
+        public FrmEpisodeInfoFromFiles(int parentId, string seasonId)
         {
             InitializeComponent();
 
             _parentId = parentId;
 
-            InitSeasonsCombobox();
+            //InitSeasonsCombobox();
 
-            if (seasonId != null)
+            if (!string.IsNullOrEmpty(seasonId))
             {
-                cbSeason.SelectedItem = _seasons.FirstOrDefault(e => (int)e.Value == seasonId);
+                //cbSeason.SelectedItem = _seasons.FirstOrDefault(e => (int)e.Value == seasonId);
+                //cbSe
                 Text = string.Format("Refresh episodes data in Season {0}", seasonId);
             }
 
@@ -61,21 +62,21 @@ namespace Utils
             }
         }
 
-        private void InitSeasonsCombobox()
-        {
-            _seasons.Add(new SelectableElement(-2, "Specials"));
-            for (var i = 1; i < 30; i++)
-            {
-                _seasons.Add(new SelectableElement(i, i.ToString()));
-            }
+        //private void InitSeasonsCombobox()
+        //{
+        //    _seasons.Add(new SelectableElement(-2, "Specials"));
+        //    for (var i = 1; i < 30; i++)
+        //    {
+        //        _seasons.Add(new SelectableElement(i, i.ToString()));
+        //    }
 
-            cbSeason.DropDownHeight = 100;
-            cbSeason.DataSource = _seasons;
-            cbSeason.DisplayMember = "Description";
-            cbSeason.ValueMember = "Value";
+        //    cbSeason.DropDownHeight = 100;
+        //    cbSeason.DataSource = _seasons;
+        //    cbSeason.DisplayMember = "Description";
+        //    cbSeason.ValueMember = "Value";
 
-            cbSeason.SelectedIndex = -1;
-        }
+        //    cbSeason.SelectedIndex = -1;
+        //}
 
         private void btnFolderSelector_Click(object sender, EventArgs e)
         {
@@ -111,13 +112,13 @@ namespace Utils
         private void btnOk_Click(object sender, EventArgs e)
         {
             if (tbFilesLocation.Text == string.Empty || /*tbYear.Text == string.Empty ||*/
-                cbFileExtensions.SelectedIndex == -1 || cbSeason.SelectedItem == null)
+                cbFileExtensions.SelectedIndex == -1 || string.IsNullOrEmpty(tbSeason.Text))
             {
                 if (tbFilesLocation.Text == string.Empty)
                     lbLocation.ForeColor = Color.Red;
                 if (cbFileExtensions.SelectedIndex == -1)
                     lbFilesExtensions.ForeColor = Color.Red;
-                if (cbSeason.SelectedItem == null)
+                if (string.IsNullOrEmpty(tbSeason.Text))
                     lbSeason.ForeColor = Color.Red;
 
                 MsgBox.Show("Please specify all required import parameters!", @"Error", MessageBoxButtons.OK,
@@ -145,7 +146,7 @@ namespace Utils
                 ParentId = _parentId,
                 Location = tbFilesLocation.Text,
                 FilesExtension = cbFileExtensions.Text,
-                Season = ((SelectableElement)cbSeason.SelectedItem).Value.ToString(),
+                Season = tbSeason.Text,
                 Year = tbYear.Text,
                 GenerateThumbnail = cbGenerateThumbnails.Checked,
                 RecordingAudio = (string)cbLanguages.SelectedValue,

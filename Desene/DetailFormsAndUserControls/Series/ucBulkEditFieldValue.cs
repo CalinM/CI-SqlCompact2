@@ -10,12 +10,17 @@ namespace Desene.DetailFormsAndUserControls.Series
         {
             get
             {
-                return cbFields.SelectedItem == null || string.IsNullOrEmpty(tbNewValue.Text)
-                    ? null
-                    : new BulkEditField
+                if (cbFields.SelectedItem == null || string.IsNullOrEmpty(tbNewValue.Text))
+                    return null;
+
+                var selectedFieldObj = (BulkEditField)cbFields.SelectedItem;
+
+                return 
+                    new BulkEditField
                     {
-                        FieldName = ((BulkEditField)cbFields.SelectedItem).FieldName,
-                        Value = tbNewValue.Text
+                        FieldName = selectedFieldObj.FieldName,
+                        Value = tbNewValue.Text,
+                        RequireRefresh = selectedFieldObj.RequireRefresh
                     };
             }
         }

@@ -102,7 +102,7 @@ namespace Utils
                         return result.FailWithMessage(string.Format("Index '{0}' already exists in the '{1}' table!", indexName, tableName));
 
                     sqlString = string.Format(@"
-                        CREATE INDEX {0} ON {1} ({2} ASC)",
+                        CREATE INDEX {0} ON {1} ({2})",
                         indexName,
                         tableName,
                         fieldName);

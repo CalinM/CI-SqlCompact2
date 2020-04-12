@@ -312,6 +312,11 @@ namespace Desene
             }
             else
             {
+                //SaveMTD overrides the AudioSummary, and it's too generic to alter it for this particular case
+                opRes = DAL.SetSeriesValuesFromEpisodes(selectedNodeData.Id);
+                if (!opRes.Success)
+                    MsgBox.Show(opRes.CustomErrorMessage, "Audio summary determination", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 //Helpers.UnsavedChanges = false;
 
                 selectedNodeData.FileName = DAL.CurrentMTD.FileName;
@@ -326,7 +331,7 @@ namespace Desene
         {
             var sesi = (SeriesEpisodesShortInfo)tvSeries.SelectedNode.Tag;
 
-            var iParams = new FrmEpisodeInfoFromFiles(sesi.Id, sesi.IsSeason ? sesi.Season : (int?)null) { Owner = _parent };
+            var iParams = new FrmEpisodeInfoFromFiles(sesi.Id, sesi.IsSeason ? sesi.Season : null) { Owner = _parent };
 
             if (iParams.ShowDialog() != DialogResult.OK)
                 return;
@@ -586,8 +591,22 @@ namespace Desene
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
+            
             var sesi = (SeriesEpisodesShortInfo)tvSeries.SelectedNode.Tag;
+
+            var languageChange = frmBulkEpisodeEdit.SelectedBulkValues.Any(x => x.FieldName == "Language");
+            if (languageChange)
+            {
+                opRes = DAL.SetSeriesValuesFromEpisodes(sesi.Id);
+                if (!opRes.Success)
+                    MsgBox.Show(opRes.CustomErrorMessage, "Audio summary determination", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            if (frmBulkEpisodeEdit.SelectedBulkValues.Any(x => x.RequireRefresh))
+            {
+                ReloadTreeView(sesi.Id);
+                tvSeries.SelectedNode.ExpandAll();
+            }
 
             var prevInstance = pSeriesDetailsContainer.Controls.Find("ucSeriesEpisodes", false);
 

@@ -1,7 +1,6 @@
 ﻿using Aga.Controls.Tree;
 
 using DAL;
-using System.Collections.Generic;
 
 namespace Desene
 {
@@ -37,7 +36,7 @@ namespace Desene
                 var n = (SeriesEpisodesShortInfo)treePath.LastNode;
 
                 return
-                    n.Season == -1
+                    string.IsNullOrEmpty(n.Season)
                         ? DAL.GetSeasonsForSeries(n.Id) //changed to another root (Series)
                         : DAL.GetEpisodesInSeason(n.SeriesId, n.Season);
             }

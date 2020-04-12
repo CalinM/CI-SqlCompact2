@@ -40,12 +40,12 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.cbGenerateThumbnails = new System.Windows.Forms.CheckBox();
             this.lbWarning = new System.Windows.Forms.Label();
-            this.cbSeason = new System.Windows.Forms.ComboBox();
             this.pRercordingSpecifics = new System.Windows.Forms.Panel();
             this.lbSkipMultiVersion = new System.Windows.Forms.Label();
             this.cbSkipMultiVersion = new System.Windows.Forms.CheckBox();
             this.cbLanguages = new Utils.SeparatorComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.tbSeason = new System.Windows.Forms.TextBox();
             this.pRercordingSpecifics.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -178,17 +178,6 @@
             this.lbWarning.Text = "Warning! The import operation will take significantly longer!";
             this.lbWarning.Visible = false;
             // 
-            // cbSeason
-            // 
-            this.cbSeason.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbSeason.FormattingEnabled = true;
-            this.cbSeason.Location = new System.Drawing.Point(190, 122);
-            this.cbSeason.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.cbSeason.Name = "cbSeason";
-            this.cbSeason.Size = new System.Drawing.Size(132, 28);
-            this.cbSeason.TabIndex = 14;
-            this.cbSeason.SelectedIndexChanged += new System.EventHandler(this.cbSeason_SelectedIndexChanged);
-            // 
             // pRercordingSpecifics
             // 
             this.pRercordingSpecifics.Controls.Add(this.lbSkipMultiVersion);
@@ -245,13 +234,21 @@
             this.label1.TabIndex = 18;
             this.label1.Text = "Default audio language";
             // 
+            // tbSeason
+            // 
+            this.tbSeason.Location = new System.Drawing.Point(190, 119);
+            this.tbSeason.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tbSeason.Name = "tbSeason";
+            this.tbSeason.Size = new System.Drawing.Size(132, 26);
+            this.tbSeason.TabIndex = 6;
+            // 
             // FrmEpisodeInfoFromFiles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1041, 317);
+            this.Controls.Add(this.tbSeason);
             this.Controls.Add(this.pRercordingSpecifics);
-            this.Controls.Add(this.cbSeason);
             this.Controls.Add(this.lbWarning);
             this.Controls.Add(this.cbGenerateThumbnails);
             this.Controls.Add(this.btnCancel);
@@ -294,11 +291,11 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.CheckBox cbGenerateThumbnails;
         private System.Windows.Forms.Label lbWarning;
-        private System.Windows.Forms.ComboBox cbSeason;
         private System.Windows.Forms.Panel pRercordingSpecifics;
         private SeparatorComboBox cbLanguages;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lbSkipMultiVersion;
         private System.Windows.Forms.CheckBox cbSkipMultiVersion;
+        private System.Windows.Forms.TextBox tbSeason;
     }
 }

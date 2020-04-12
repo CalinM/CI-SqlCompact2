@@ -32,7 +32,7 @@ namespace DAL
         }
 
         public string Quality { get; set; }
-        public int Season { get; set; }
+        public string Season { get; set; }
         public int SeriesId { get; set; }
 
         public bool IsSeries { get; set; }
@@ -378,7 +378,7 @@ namespace DAL
         public int Id { get; set; }
         public int SId { get; set; }    //ParentId          ~   SerialId
         public string FN { get; set; }   //FileName          ~   Titlu
-        public int SZ { get; set; }      //Season            ~   Sezon
+        public string SZ { get; set; }      //Season            ~   Sezon
         public string Y { get; set; }   //Year              ~   An
         public string Q { get; set; }   //Quality           ~   Calitate
         public string L { get; set; }   //DurationFormatted ~   Durata
@@ -437,6 +437,8 @@ namespace DAL
         public string FieldName { get; set; }
 
         public string Value { get; set; }
+
+        public bool RequireRefresh { get; set; }
     }
 
     public class StatisticEl

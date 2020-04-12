@@ -94,3 +94,47 @@ C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.GenerateResource.
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.CopyComplete
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.exe
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.pdb
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\AngleSharp.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\System.Text.Encoding.CodePages.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\AngleSharp.xml
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\DevExpress.Printing.v19.2.Core.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\DevExpress.Sparkline.v19.2.Core.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\DevExpress.Pdf.v19.2.Core.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\DevExpress.Data.v19.2.xml
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\DevExpress.Utils.v19.2.xml
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\DevExpress.XtraEditors.v19.2.xml
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\DevExpress.XtraWizard.v19.2.xml
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\DevExpress.Printing.v19.2.Core.xml
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\DevExpress.Sparkline.v19.2.Core.xml
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\DevExpress.Pdf.v19.2.Core.xml
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\de\DevExpress.Data.v19.2.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\es\DevExpress.Data.v19.2.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\ja\DevExpress.Data.v19.2.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\ru\DevExpress.Data.v19.2.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\de\DevExpress.Utils.v19.2.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\es\DevExpress.Utils.v19.2.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\ja\DevExpress.Utils.v19.2.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\ru\DevExpress.Utils.v19.2.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\de\DevExpress.XtraEditors.v19.2.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\es\DevExpress.XtraEditors.v19.2.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\ja\DevExpress.XtraEditors.v19.2.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\ru\DevExpress.XtraEditors.v19.2.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\de\DevExpress.XtraWizard.v19.2.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\es\DevExpress.XtraWizard.v19.2.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\ja\DevExpress.XtraWizard.v19.2.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\ru\DevExpress.XtraWizard.v19.2.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\de\DevExpress.Printing.v19.2.Core.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\es\DevExpress.Printing.v19.2.Core.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\ja\DevExpress.Printing.v19.2.Core.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\ru\DevExpress.Printing.v19.2.Core.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\de\DevExpress.Sparkline.v19.2.Core.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\es\DevExpress.Sparkline.v19.2.Core.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\ja\DevExpress.Sparkline.v19.2.Core.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\ru\DevExpress.Sparkline.v19.2.Core.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\de\DevExpress.Pdf.v19.2.Core.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\es\DevExpress.Pdf.v19.2.Core.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\ja\DevExpress.Pdf.v19.2.Core.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\ru\DevExpress.Pdf.v19.2.Core.resources.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.exe.licenses

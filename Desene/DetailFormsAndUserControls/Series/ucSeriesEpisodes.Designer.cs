@@ -236,7 +236,7 @@
             // 
             // colSeason
             // 
-            this.colSeason.DataPropertyName = "Season2";
+            this.colSeason.DataPropertyName = "Season";
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.colSeason.DefaultCellStyle = dataGridViewCellStyle2;
             this.colSeason.HeaderText = "Season";

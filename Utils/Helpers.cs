@@ -4,7 +4,6 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Common;
 using Microsoft.Win32;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using Ookii.Dialogs;
 using Utils.Properties;
 
