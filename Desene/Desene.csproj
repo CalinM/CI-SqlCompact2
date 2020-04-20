@@ -65,6 +65,12 @@
     <Compile Include="DetailFormsAndUserControls\Collections\FrmAddCollection.Designer.cs">
       <DependentUpon>FrmAddCollection.cs</DependentUpon>
     </Compile>
+    <Compile Include="DetailFormsAndUserControls\Collections\ucCollectionInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Collections\ucCollectionInfo.Designer.cs">
+      <DependentUpon>ucCollectionInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="DetailFormsAndUserControls\Movies\FrmAddMovie.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,6 +184,9 @@
     <EmbeddedResource Include="DetailFormsAndUserControls\Collections\FrmAddCollection.resx">
       <DependentUpon>FrmAddCollection.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DetailFormsAndUserControls\Collections\ucCollectionInfo.resx">
+      <DependentUpon>ucCollectionInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DetailFormsAndUserControls\Movies\FrmAddMovie.resx">
       <DependentUpon>FrmAddMovie.cs</DependentUpon>
     </EmbeddedResource>
@@ -220,7 +229,6 @@
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

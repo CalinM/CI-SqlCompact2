@@ -82,6 +82,12 @@ namespace Common
         Recordings = -100
     }
 
+    public enum CollectionsSiteSecionType
+    {
+        MovieType = 1,
+        SeriesType = 2
+    }
+
 
     public class EnumHelpers
     {

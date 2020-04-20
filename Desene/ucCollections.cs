@@ -210,7 +210,7 @@ namespace Desene
 
             if (frmAddCollection.ShowDialog() != DialogResult.OK) return;
 
-            ReloadTreeView(frmAddCollection.NewId);
+            //ReloadTreeView(frmAddCollection.NewId);
         }
 
         private void DeleteCollection(object sender, EventArgs e)

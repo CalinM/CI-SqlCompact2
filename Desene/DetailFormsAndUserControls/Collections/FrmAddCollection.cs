@@ -8,55 +8,51 @@ namespace Desene
 {
     public partial class FrmAddCollection : Form
     {
-        public int NewId;
+        //public int NewId;
+        public CollectionInfo CollectionObj;
 
         public FrmAddCollection()
         {
             InitializeComponent();
         }
 
-        private bool ValidateInput()
+        public FrmAddCollection(CollectionInfo collectionObj)
         {
-            if (string.IsNullOrEmpty(tbTitle.Text))
-            {
-                lbTitle.ForeColor = Color.Red;
-                return false;
-            }
+            InitializeComponent();
 
-            return true;
+            CollectionObj = collectionObj;
         }
 
-        private void TbTitle_TextChanged(object sender, System.EventArgs e)
+        private void BtnSave_Click(object sender, EventArgs e)
         {
-            lbTitle.ForeColor = SystemColors.WindowText;
-        }
-
-        private void BtnSave_Click(object sender, System.EventArgs e)
-        {
-            if (!ValidateInput())
+            if (!ucCollectionInfo1.ValidateInput())
             {
                 MsgBox.Show("Please specify all required details!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            var opRes =
-                DAL.InsertCollection(
-                    new MovieTechnicalDetails
-                    {
-                        FileName = tbTitle.Text, //FileName!, the 'Title' property is used for something else
-                        Notes = tbNotes.Text,
-                        ParentId = -10
-                    }) ;
+            CollectionObj.Title = ucCollectionInfo1.Title;
+            CollectionObj.Notes = ucCollectionInfo1.Notes;
+            CollectionObj.SiteSectionType = ucCollectionInfo1.SectionType;
 
-            if (!opRes.Success)
-            {
-                MsgBox.Show(
-                    string.Format("The following error occurred while inserting the new Collection into the database:{0}{0}{1}{0}{0}", Environment.NewLine, opRes.CustomErrorMessage),
-                    "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            //var opRes =
+            //    DAL.InsertCollection(
+            //        new MovieTechnicalDetails
+            //        {
+            //            FileName = tbTitle.Text, //FileName!, the 'Title' property is used for something else
+            //            Notes = tbNotes.Text,
+            //            ParentId = -10
+            //        });
 
-            NewId = (int)opRes.AdditionalDataReturn;
+            //if (!opRes.Success)
+            //{
+            //    MsgBox.Show(
+            //        string.Format("The following error occurred while inserting the new Collection into the database:{0}{0}{1}{0}{0}", Environment.NewLine, opRes.CustomErrorMessage),
+            //        "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
+
+            //NewId = (int)opRes.AdditionalDataReturn;
             DialogResult = DialogResult.OK;
             Close();
         }

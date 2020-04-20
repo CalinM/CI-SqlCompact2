@@ -502,4 +502,12 @@ namespace DAL
         //public string Synopsis { get; set; }
         //public string SkipReason { get; set; }
     }
+
+    public class CollectionInfo
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Notes { get; set; }
+        public int SiteSectionType { get; set; }
+    }
 }

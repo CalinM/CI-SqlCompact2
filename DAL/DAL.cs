@@ -20,7 +20,7 @@ namespace Desene
         public static List<string> MovieThemes = new List<string>();
         public static string SectionDetails = string.Empty;
         public static SeriesType SeriesType = SeriesType.Final;
-
+        public static CollectionInfo CurrentCollection;
 
         public static OperationResult LoadBaseDbValues()
         {
@@ -179,7 +179,7 @@ namespace Desene
                     while (reader.Read())
                     {
                         //var seasonVal = int.Parse(reader["Season"].ToString());
-                        
+
                         result.Add(new SeriesEpisodesShortInfo
                         {
                             Id = seriesId,

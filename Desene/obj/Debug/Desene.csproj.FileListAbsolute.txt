@@ -138,3 +138,4 @@ C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\es\DevExpress.Pdf.v19.2.Core.reso
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\ja\DevExpress.Pdf.v19.2.Core.resources.dll
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\ru\DevExpress.Pdf.v19.2.Core.resources.dll
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.exe.licenses
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Collections.ucCollectionInfo.resources
