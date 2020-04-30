@@ -8,40 +8,25 @@ namespace Desene.DetailFormsAndUserControls.Collections
 {
     public partial class ucCollectionInfo : UserControl
     {
-        private BindingSource _bsControlsData;
-
         public string Title { get { return tbTitle.Text; } }
 
         public string Notes { get { return tbNotes.Text; } }
 
         public int SectionType { get { return cbSectionType.SelectedIndex; } }
 
-        public ucCollectionInfo(bool isNew = true)
+        public ucCollectionInfo()
         {
             InitializeComponent();
-
-            if (!isNew)
-            {
-                InitControls();
-                RefreshControls();
-            }
         }
 
-        private void InitControls()
+        public void RefreshControls(SeriesEpisodesShortInfo sesi)
         {
-            _bsControlsData = new BindingSource();
+            tbTitle.Text = sesi.FileName;
+            tbNotes.Text = sesi.Notes;
+            cbSectionType.SelectedIndex = sesi.SectionType;
 
-            tbTitle.DataBindings.Add("Text", _bsControlsData, "Title");
-            tbNotes.DataBindings.Add("Text", _bsControlsData, "Notes");
+            Helpers.UnsavedChanges = false;
 
-            cbSectionType.DataSource = Enum.GetValues(typeof(CollectionsSiteSecionType));
-            cbSectionType.DataBindings.Add("Value", _bsControlsData, "SiteSectionType");
-        }
-
-        public void RefreshControls(CollectionInfo cci = null)
-        {
-            _bsControlsData.DataSource = cci ?? DAL.CurrentCollection;
-            _bsControlsData.ResetBindings(false);
         }
 
         public bool ValidateInput()

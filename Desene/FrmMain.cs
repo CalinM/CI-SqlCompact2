@@ -69,6 +69,7 @@ namespace Desene
                 DatabaseOperations.CreateIndex("AudioStream", "audio1", "FileDetailId ASC");
                 DatabaseOperations.CreateIndex("VideoStream", "video1", "FileDetailId ASC");
                 DatabaseOperations.CreateIndex("Thumbnails", "stills1", "FileDetailId ASC");
+                DatabaseOperations.CreateField("FileDetail", "SectionType", "int NULL");                
             }
 
             pMainContainer.Controls.Clear();
@@ -362,6 +363,8 @@ namespace Desene
 
         void MarkCurrentCategory(ToolStripMenuItem currentSelected)
         {
+            DAL.CachedMTDs = new Dictionary<int, MovieTechnicalDetails>();
+
             //var x1 = btnCategory.DropDownItems.Where<ToolStripDropDownItem>(x => x.GetType() is ToolStripSeparator);
             foreach (var menuItem in btnCategory.DropDownItems)
             {

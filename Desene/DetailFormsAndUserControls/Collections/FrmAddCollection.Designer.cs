@@ -31,7 +31,7 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnSave = new System.Windows.Forms.ToolStripButton();
             this.btnCancel = new System.Windows.Forms.ToolStripButton();
-            this.ucCollectionInfo1 = new Desene.DetailFormsAndUserControls.Collections.ucCollectionInfo(true);
+            this.ucCollectionInfo1 = new Desene.DetailFormsAndUserControls.Collections.ucCollectionInfo();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             //

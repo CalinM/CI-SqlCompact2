@@ -84,8 +84,8 @@ namespace Common
 
     public enum CollectionsSiteSecionType
     {
-        MovieType = 1,
-        SeriesType = 2
+        MovieType = 0,
+        SeriesType = 1
     }
 
 

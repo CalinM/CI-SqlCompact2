@@ -313,9 +313,12 @@ namespace Desene
             else
             {
                 //SaveMTD overrides the AudioSummary, and it's too generic to alter it for this particular case
-                opRes = DAL.SetSeriesValuesFromEpisodes(selectedNodeData.Id);
-                if (!opRes.Success)
-                    MsgBox.Show(opRes.CustomErrorMessage, "Audio summary determination", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (selectedNodeData.IsEpisode == false)
+                {
+                    opRes = DAL.SetSeriesValuesFromEpisodes(selectedNodeData.Id);
+                    if (!opRes.Success)
+                        MsgBox.Show(opRes.CustomErrorMessage, "Audio summary determination", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
 
                 //Helpers.UnsavedChanges = false;
 

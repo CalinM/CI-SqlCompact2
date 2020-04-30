@@ -3,10 +3,11 @@ using Aga.Controls.Tree.NodeControls;
 using Common;
 using DAL;
 using Desene.DetailFormsAndUserControls;
-using Desene.EditUserControls;
+using Desene.DetailFormsAndUserControls.Collections;
 using Desene.Properties;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -28,6 +29,8 @@ namespace Desene
         public ucCollections(FrmMain parent)
         {
             InitializeComponent();
+
+            moduleToolbar.ImageScalingSize = new Size(16, 16);
 
             _parent = parent;
             _parent.OnAddButtonPress += AddCollection;
@@ -82,15 +85,40 @@ namespace Desene
                 btnImportElements.Enabled = !isElementSeleted;
                 btnLoadPoster.Enabled = isElementSeleted;
                 btnRefreshElementData.Enabled = isElementSeleted;
-                btnDeleteElement.Enabled = isElementSeleted;
+                //btnDeleteElement.Enabled = isElementSeleted;
+                btnDeleteElement.Enabled = true;
+
+                var seShortInfo = (SeriesEpisodesShortInfo)tvCollections.SelectedNode.Tag;
+                btnAddMovieToCollection.Enabled = (CollectionsSiteSecionType)seShortInfo.SectionType == CollectionsSiteSecionType.MovieType;
+
+                var prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucCollectionInfo", false);
 
                 if (!isElementSeleted)
                 {
-                    pCollectionElementDetailsContainer.Controls.Clear();
+                    if (prevInstance.Any())
+                    {
+                        ((ucCollectionInfo)prevInstance[0]).RefreshControls(seShortInfo);
+                    }
+                    else
+                    {
+                        prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucMovieInfo", false);
+                        if (prevInstance.Any())
+                            pCollectionElementDetailsContainer.Controls.Remove(prevInstance[0]);
+
+                        prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucEpisodeDetails", false);
+                        if (prevInstance.Any())
+                            pCollectionElementDetailsContainer.Controls.Remove(prevInstance[0]);
+
+                        var ucCol = new ucCollectionInfo() { Dock = DockStyle.Top };
+                        ucCol.RefreshControls(seShortInfo);
+
+                        pCollectionElementDetailsContainer.Controls.Add(ucCol);
+                    }
                 }
                 else
                 {
-                    var seShortInfo = (SeriesEpisodesShortInfo)tvCollections.SelectedNode.Tag;
+                    if (prevInstance.Any()) //the CollectionInfo UserControl
+                        pCollectionElementDetailsContainer.Controls.Remove(prevInstance[0]);
 
                     var opRes = DAL.LoadMTD(seShortInfo.Id, true);
 
@@ -101,17 +129,55 @@ namespace Desene
                         return;
                     }
 
-                    var prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucMovieInfo", false);
 
-                    if (prevInstance.Any())
-                        ((ucMovieInfo)prevInstance[0]).RefreshControls(DAL.CurrentMTD);
-                    else
+                    prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucCollectionInfo", false);
+
+                    switch ((CollectionsSiteSecionType)seShortInfo.SectionType)
                     {
-                        var ucMovieInfo = new ucMovieInfo(false) { Dock = DockStyle.Top };
-                        ucMovieInfo.RefreshControls(DAL.CurrentMTD);
+                        case CollectionsSiteSecionType.MovieType:
 
-                        pCollectionElementDetailsContainer.Controls.Add(ucMovieInfo);
-                        ucMovieInfo.BringToFront();
+                            prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucEpisodeDetails", false);
+                            if (prevInstance.Any())
+                                pCollectionElementDetailsContainer.Controls.Remove(prevInstance[0]);
+
+                            prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucMovieInfo", false);
+
+                            if (prevInstance.Any())
+                                ((ucMovieInfo)prevInstance[0]).RefreshControls(DAL.CurrentMTD);
+                            else
+                            {
+                                var ucMovieInfo = new ucMovieInfo(false) { Dock = DockStyle.Top };
+                                ucMovieInfo.RefreshControls(DAL.CurrentMTD);
+
+                                pCollectionElementDetailsContainer.Controls.Add(ucMovieInfo);
+                                ucMovieInfo.BringToFront();
+                            }
+
+                            break;
+
+                        case CollectionsSiteSecionType.SeriesType:
+                            prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucMovieInfo", false);
+                            if (prevInstance.Any())
+                                pCollectionElementDetailsContainer.Controls.Remove(prevInstance[0]);
+
+                            prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucEpisodeDetails", false);
+
+                            if (prevInstance.Any())
+                                ((ucEpisodeDetails)prevInstance[0]).LoadControls(seShortInfo.Id, null, "aaaa");
+                            else
+                            {
+                                var seriesNode = tvCollections.AllNodes.FirstOrDefault(x => ((SeriesEpisodesShortInfo)x.Tag).Id == seShortInfo.SeriesId && ((SeriesEpisodesShortInfo)x.Tag).IsSeries);
+                                var seriesName = seriesNode == null
+                                    ? "unknown !!!"
+                                    : ((SeriesEpisodesShortInfo)seriesNode.Tag).FileName;
+
+                                var ucEpisodeDetails = new ucEpisodeDetails(seShortInfo.Id, seShortInfo.SeriesId, seriesName) { Dock = DockStyle.Top };
+
+                                pCollectionElementDetailsContainer.Controls.Add(ucEpisodeDetails);
+                                ucEpisodeDetails.BringToFront();
+                            }
+
+                            break;
                     }
                 }
             }
@@ -437,6 +503,8 @@ namespace Desene
             if (MsgBox.Show(msg, "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 return;
 
+            /*
+             * tvCollections.SelectedNode.Level
             var opRes =
                 sesi.IsSeason
                     ? DAL.RemoveSeason(sesi.Id, sesi.Season)
@@ -461,6 +529,7 @@ namespace Desene
 
                 LoadSelectionDetails();
             }
+            */
         }
 
         private void btnUndo_Click(object sender, EventArgs e)
@@ -548,6 +617,35 @@ namespace Desene
             {
                 CancelFilter();
             }
+        }
+
+        private void btnAddMovieToCollection_Click(object sender, EventArgs e)
+        {
+            if (!Utils.Helpers.ConfirmDiscardChanges())
+                return;
+
+            var frmAddMovie = new FrmAddMovie { Owner = _parent };
+
+            if (frmAddMovie.ShowDialog() != DialogResult.OK)
+            {
+                Helpers.UnsavedChanges = false;
+                return;
+            }
+
+            //var msi = new MovieShortInfo
+            //{
+            //    Id = DAL.CurrentMTD.Id,
+            //    FileName = DAL.CurrentMTD.FileName,
+            //    //Cover = DAL.CurrentMTD.Poster,
+            //    HasPoster = DAL.CurrentMTD.Poster != null,
+            //    HasSynopsis = !string.IsNullOrEmpty(DAL.CurrentMTD.Synopsis)
+            //};
+
+            //DAL.MoviesData.Add(msi);
+            //DAL.MoviesData = new BindingList<MovieShortInfo>(DAL.MoviesData.OrderBy(o => o.FileName).ToList());
+            //RefreshGrid();
+
+            //FocusCurrentMovieInGrid(msi);
         }
 
         #endregion

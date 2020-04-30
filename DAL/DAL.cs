@@ -20,7 +20,8 @@ namespace Desene
         public static List<string> MovieThemes = new List<string>();
         public static string SectionDetails = string.Empty;
         public static SeriesType SeriesType = SeriesType.Final;
-        public static CollectionInfo CurrentCollection;
+        //public static CollectionInfo CurrentCollection;
+        public static Dictionary<int, MovieTechnicalDetails> CachedMTDs = new Dictionary<int, MovieTechnicalDetails>();
 
         public static OperationResult LoadBaseDbValues()
         {
@@ -1326,6 +1327,12 @@ namespace Desene
                     MovieThemes.Add(CurrentMTD.Theme);
                     MovieThemes = MovieThemes.OrderBy(o => o).ToList(); //in case of changing a Theme, the old one and new one will both be in the list
                 }
+
+                if (CachedMTDs.ContainsKey(CurrentMTD.Id))
+                {
+                    CachedMTDs.Remove(CurrentMTD.Id);
+                    CachedMTDs.Add(CurrentMTD.Id, CurrentMTD);
+                }                    
             }
             catch (Exception ex)
             {
@@ -1339,6 +1346,15 @@ namespace Desene
         public static OperationResult LoadMTD(int fileDetailId, bool fullLoad)
         {
             var result = new OperationResult();
+
+            if (CachedMTDs.ContainsKey(fileDetailId))
+            {
+                CurrentMTD = CachedMTDs[fileDetailId];
+                result.AdditionalDataReturn = CurrentMTD;
+
+                return result;
+            }
+
             var mtd = new MovieTechnicalDetails();
 
             try
@@ -1471,6 +1487,7 @@ namespace Desene
 
                 CurrentMTD = mtd;
                 result.AdditionalDataReturn = mtd;
+                CachedMTDs.Add(fileDetailId, mtd);
             }
             catch (Exception ex)
             {
@@ -2342,7 +2359,9 @@ namespace Desene
                             FileName = reader["FileName"].ToString(),
                             Season = string.Empty,
                             SeriesId = (int)reader["Id"],
-                            IsSeries = true
+                            IsSeries = true,
+                            SectionType = (int)reader["SectionType"],
+                            Notes = reader["Notes"].ToString()
                         });
                     }
                 }
@@ -2351,9 +2370,10 @@ namespace Desene
             return result;
         }
 
-        public static OperationResult InsertCollection(MovieTechnicalDetails mtd)
+        public static OperationResult InsertCollection(string title, string notes, int sectionType)
         {
             var result = new OperationResult();
+            const int parentId = -10;
 
             try
             {
@@ -2367,9 +2387,9 @@ namespace Desene
                     var checks = "SELECT COUNT(*) FROM FileDetail WHERE ParentId = @ParentId AND FileName = @FileName";
 
                     cmd = new SqlCeCommand(checks, conn);
-                    cmd.Parameters.AddWithValue("@ParentId", mtd.ParentId);
-                    cmd.Parameters.AddWithValue("@FileName", mtd.FileName);
-                    cmd.Parameters.AddWithValue("@FileSize", mtd.FileSize);
+                    cmd.Parameters.AddWithValue("@ParentId", parentId);
+                    cmd.Parameters.AddWithValue("@FileName", title);
+                    //sectionType
 
                     var count = (int)cmd.ExecuteScalar();
 
@@ -2385,18 +2405,21 @@ namespace Desene
                         INSERT INTO FileDetail (
                             FileName,
                             ParentId,
-                            Notes
+                            Notes,
+                            SectionType
                         )
                         VALUES (
                             @FileName,
                             @ParentId,
-                            @Notes
+                            @Notes,
+                            @SectionType
                         )";
 
                     cmd = new SqlCeCommand(insertString, conn);
-                    cmd.Parameters.AddWithValue("@FileName", mtd.FileName);
-                    cmd.Parameters.AddWithValue("@ParentId", mtd.ParentId);
-                    cmd.Parameters.AddWithValue("@Notes", mtd.Notes ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@FileName", title);
+                    cmd.Parameters.AddWithValue("@ParentId", parentId);
+                    cmd.Parameters.AddWithValue("@Notes", string.IsNullOrEmpty(notes) ? (object)DBNull.Value : notes);
+                    cmd.Parameters.AddWithValue("@SectionType", sectionType);
 
                     cmd.ExecuteNonQuery();
                     cmd.CommandText = "Select @@Identity";
@@ -2414,7 +2437,8 @@ namespace Desene
 
             return result;
         }
-        public static List<SeriesEpisodesShortInfo> GetElementsInCollection(int collectionId)
+
+        public static List<SeriesEpisodesShortInfo> GetElementsInCollection(int collectionId, int parentSectionType)
         {
             var result = new List<SeriesEpisodesShortInfo>();
 
@@ -2436,7 +2460,8 @@ namespace Desene
                             Quality = reader["Quality"].ToString(),
                             Season = "0", //???
                             SeriesId = (int)reader["ParentId"],
-                            IsEpisode = true
+                            IsEpisode = true,
+                            SectionType = parentSectionType
                         });
                     }
                 }

@@ -30,6 +30,10 @@ namespace Utils
                         }
                     }
                 }
+
+                CreateIndex("AudioStream", "audio1", "FileDetailId ASC");
+                CreateIndex("VideoStream", "video1", "FileDetailId ASC");
+                CreateIndex("Thumbnails", "stills1", "FileDetailId ASC");
             }
             catch (Exception e)
             {

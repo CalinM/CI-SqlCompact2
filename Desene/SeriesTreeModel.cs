@@ -24,7 +24,7 @@ namespace Desene
 
                 var n = (SeriesEpisodesShortInfo)treePath.LastNode;
 
-                return DAL.GetElementsInCollection(n.Id); //changed to another root (Collection)
+                return DAL.GetElementsInCollection(n.Id, n.SectionType); //changed to another root (Collection)
             }
             else
             {

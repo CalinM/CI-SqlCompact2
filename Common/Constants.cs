@@ -34,7 +34,8 @@
                     AudioLanguages nvarchar(255),
                     SubtitleLanguages nvarchar(255),
                     NlAudioSource nvarchar(255),
-                    Synopsis ntext NULL)",
+                    Synopsis ntext NULL,
+                    SectionType int NULL)",
 
                 "ALTER TABLE FileDetail ADD CONSTRAINT PK_FileDetail PRIMARY KEY (Id)",
 

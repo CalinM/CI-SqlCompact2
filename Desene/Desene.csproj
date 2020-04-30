@@ -287,6 +287,7 @@
   <ItemGroup>
     <None Include="Images\accessories-text-editor-icon.png" />
     <Content Include="Images\add.png" />
+    <Content Include="Images\add2.png" />
     <Content Include="Images\addChange.png" />
     <Content Include="Images\bulkEdit.png" />
     <None Include="Images\calender-icon.png" />

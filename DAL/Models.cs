@@ -38,6 +38,9 @@ namespace DAL
         public bool IsSeries { get; set; }
         public bool IsSeason { get; set; }
         public bool IsEpisode { get; set; }
+
+        public int SectionType { get; set; } //collections only
+        public string Notes { get; set; } //collections only
     }
 
     public class MovieTechnicalDetails
@@ -503,11 +506,11 @@ namespace DAL
         //public string SkipReason { get; set; }
     }
 
-    public class CollectionInfo
-    {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Notes { get; set; }
-        public int SiteSectionType { get; set; }
-    }
+    //public class CollectionInfo
+    //{
+    //    public int Id { get; set; }
+    //    public string Title { get; set; }
+    //    public string Notes { get; set; }
+    //    public int SiteSectionType { get; set; }
+    //}
 }
