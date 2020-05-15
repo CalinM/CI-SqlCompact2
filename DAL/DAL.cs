@@ -1563,7 +1563,7 @@ namespace Desene
                 {
                     conn.Open();
 
-                    var cmd = new SqlCeCommand(string.Format("SELECT Id FROM FileDetail WHERE ParentId = {0} AND Season = {1}", seriesId, seasonNo), conn);
+                    var cmd = new SqlCeCommand(string.Format("SELECT Id FROM FileDetail WHERE ParentId = {0} AND Season = '{1}'", seriesId, seasonNo), conn);
 
                     var episodeIds = new List<int>();
 
