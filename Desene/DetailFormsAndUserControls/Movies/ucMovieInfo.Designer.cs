@@ -500,6 +500,7 @@
             this.tbNotes.Location = new System.Drawing.Point(129, 255);
             this.tbNotes.Multiline = true;
             this.tbNotes.Name = "tbNotes";
+            this.tbNotes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tbNotes.Size = new System.Drawing.Size(438, 35);
             this.tbNotes.TabIndex = 8;
             // 

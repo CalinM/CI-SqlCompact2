@@ -50,6 +50,17 @@ namespace Utils
             SetupWatermark();
         }
 
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true; //to cut the "ding" sound
+                e.SuppressKeyPress = true;
+            }
+        }
+
         public FilterTextBox()
         {
             _cancelSearchLabel = new Label

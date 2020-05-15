@@ -564,7 +564,7 @@ namespace Desene
             if (!string.IsNullOrEmpty(tbFilter.Text))
             {
                 _isFiltered = true;
-                var treeModel = new FilteredTreeModel(tbFilter.Text);
+                var treeModel = new FilteredTreeModel(tbFilter.Text, false);
                 tvSeries.Model = treeModel;
                 tvSeries.ExpandAll();
 

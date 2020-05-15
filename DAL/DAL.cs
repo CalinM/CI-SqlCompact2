@@ -18,10 +18,9 @@ namespace Desene
         public static MovieTechnicalDetails CurrentMTD;
         public static MovieTechnicalDetails NewMTD;
         public static List<string> MovieThemes = new List<string>();
-        public static string SectionDetails = string.Empty;
         public static SeriesType SeriesType = SeriesType.Final;
-        //public static CollectionInfo CurrentCollection;
         public static Dictionary<int, MovieTechnicalDetails> CachedMTDs = new Dictionary<int, MovieTechnicalDetails>();
+        public static EpisodeParentType EpisodeParentType;
 
         public static OperationResult LoadBaseDbValues()
         {
@@ -272,7 +271,7 @@ namespace Desene
             return result;
         }
 
-        public static List<SeriesEpisodesShortInfo> GetFilteredSeriesEpisodes(string filterBy)
+        public static List<SeriesEpisodesShortInfo> GetFilteredFileNames(string filterBy, bool showingCollections)
         {
             var result = new List<SeriesEpisodesShortInfo>();
 
@@ -287,8 +286,12 @@ namespace Desene
                             fd.*
                         FROM FileDetail fd
                             LEFT OUTER JOIN FileDetail fd2 ON fd.ParentId = fd2.id
-                        WHERE fd.ParentId IS NOT NULL AND fd.FileName LIKE '%{0}%'
-                        ORDER BY ParentId DESC", filterBy);
+                        WHERE fd2.ParentId = {0} AND fd.FileName LIKE '%{1}%'
+                        ORDER BY ParentId DESC",
+                        showingCollections
+                            ? "-10"
+                            : "-1",
+                        filterBy);
 
                 var commandSource = new SqlCeCommand(sqlString, conn);
 
@@ -543,7 +546,13 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@InsertedDate", mtd.InsertedDate ?? DateTime.Now);
                     cmd.Parameters.AddWithValue("@LastChangeDate", mtd.LastChangeDate == null ? (object)DBNull.Value : mtd.LastChangeDate);
                     cmd.Parameters.AddWithValue("@Quality", GetQualityStrFromSize(mtd));
-                    cmd.Parameters.AddWithValue("@ParentId", eip == null ? (object)DBNull.Value : eip.ParentId);
+                    cmd.Parameters.AddWithValue("@ParentId",
+                        //eip == null ? (object)DBNull.Value : eip.ParentId
+                        mtd.Season == null //not an Episode
+                            ? mtd.ParentId == null //not a collection element
+                                ? eip == null ? (object)DBNull.Value : eip.ParentId
+                                : mtd.ParentId
+                            : eip == null ? (object)DBNull.Value : eip.ParentId);
 
                     var audioLanguages = string.Join(", ", mtd.AudioStreams.Select(a => a.Language == "" ? "?" : a.Language).Distinct());
                     cmd.Parameters.AddWithValue("@AudioLanguages", audioLanguages);
@@ -1332,7 +1341,7 @@ namespace Desene
                 {
                     CachedMTDs.Remove(CurrentMTD.Id);
                     CachedMTDs.Add(CurrentMTD.Id, CurrentMTD);
-                }                    
+                }
             }
             catch (Exception ex)
             {
@@ -1663,7 +1672,7 @@ namespace Desene
             return result;
         }
 
-        public static OperationResult GetStatistics(bool forSeries)
+        public static OperationResult GetStatistics(Sections section)
         {
             var result = new OperationResult();
 
@@ -1675,138 +1684,126 @@ namespace Desene
 
                     var sqlString = string.Empty;
                     var resultStr = "There are no movies in the list ...";
+                    SqlCeCommand cmd = null;
 
-                    if (forSeries)
+                    switch (section)
                     {
-                        sqlString = @"
-                            SELECT
-	                            0 AS Pos,
-	                            '0' AS Size,
+                        case Sections.Movies:
 
-	                            COUNT(*) AS CountOf
-                            FROM FileDetail
-                            WHERE ParentId = -1
-                            HAVING COUNT(*) > 0
+                            /*
+                                SELECT
+                                    1 AS Pos,
+	                                CASE
+		                                WHEN (SUM(CONVERT(bigint, FileSize)) / 1024 / 1024) > 1024
+		                                THEN CONVERT(NVARCHAR(10), CONVERT(numeric(18,2), SUM(CONVERT(numeric(18,2), FileSize)) / CONVERT(numeric(18,2), 1024 * 1024 * 1024))) + ' Gb'
+		                                ELSE CONVERT(NVARCHAR(10), SUM(CONVERT(bigint, FileSize)) / 1024 / 1024) + ' Mb'
+	                                END AS Size,
 
-                            UNION
+	                                COUNT(*) AS MoviesCount,
 
-                            SELECT
-	                            1 AS Pos,
-	                            CASE
-		                            WHEN (SUM(CONVERT(bigint, FileSize)) / 1024 / 1024) > 1024
-		                            THEN CONVERT(NVARCHAR(10), CONVERT(numeric(18,2), SUM(CONVERT(numeric(18,2), FileSize)) / CONVERT(numeric(18,2), 1024 * 1024 * 1024))) + ' Gb'
-		                            ELSE CONVERT(NVARCHAR(10), SUM(CONVERT(bigint, FileSize)) / 1024 / 1024) + ' Mb'
-	                            END AS Size,
+	                                Quality
+                                FROM FileDetail
+                                WHERE ParentId IS NULL
+                                GROUP BY Quality            -- grouped per quality
+							    HAVING COUNT(*) > 0
 
-	                            COUNT(*) AS CountOf
-                            FROM FileDetail
-                            WHERE ParentId > 0
-                            HAVING COUNT(*) > 0
+                                UNION
+                             */
 
-                            ORDER BY Pos";
+                            sqlString = @"
+                                SELECT
+                                    0 AS Pos,
+	                                CASE
+		                                WHEN (SUM(CONVERT(bigint, FileSize)) / 1024 / 1024) > 1024
+		                                THEN CONVERT(NVARCHAR(10), CONVERT(numeric(18,2), SUM(CONVERT(numeric(18,2), FileSize)) / CONVERT(numeric(18,2), 1024 * 1024 * 1024))) + ' Gb'
+		                                ELSE CONVERT(NVARCHAR(10), SUM(CONVERT(bigint, FileSize)) / 1024 / 1024) + ' Mb'
+	                                END AS Size,
 
-                        var cmd = new SqlCeCommand(sqlString, conn);
-                        SectionDetails = string.Empty;
+	                                COUNT(*) AS MoviesCount,
 
-                        var seriesCount = 0;
-                        var episodesCount = 0;
-                        var episodesSize = "0";
+	                                'ALL' AS Quality        -- ALL
+                                FROM FileDetail
+                                WHERE ParentId IS NULL
+							    HAVING COUNT(*) > 0
 
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
+                                ORDER BY Pos, Quality";
+
+                            cmd = new SqlCeCommand(sqlString, conn);
+
+                            using (var reader = cmd.ExecuteReader())
                             {
-                                if ((int)reader["Pos"] == 0)
+                                while (reader.Read())
                                 {
-                                    seriesCount = (int)reader["CountOf"];
-                                }
-                                else
-                                {
-                                    episodesCount = (int)reader["CountOf"];
-                                    episodesSize = (string)reader["Size"];
+                                    if ((int)reader["Pos"] == 0)
+                                    {
+                                        resultStr =
+                                            string.Format("There are currently {0} movies in list, having a total size of aprox. {1}",
+                                                reader["MoviesCount"],
+                                                reader["Size"]);
+                                    }
                                 }
                             }
-                        }
 
-                        if (seriesCount > 0)
-                        {
-                            resultStr =
-                                string.Format("There are currently {0} Series in list, summing {1} episodes, having a total size of {2}.",
-                                    seriesCount,
-                                    episodesCount,
-                                    episodesSize);
-                        }
+                            break;
 
-                        result.AdditionalDataReturn = resultStr;
-                    }
-                    else
-                    {
-                        sqlString = @"
-                            SELECT
-                                1 AS Pos,
-	                            CASE
-		                            WHEN (SUM(CONVERT(bigint, FileSize)) / 1024 / 1024) > 1024
-		                            THEN CONVERT(NVARCHAR(10), CONVERT(numeric(18,2), SUM(CONVERT(numeric(18,2), FileSize)) / CONVERT(numeric(18,2), 1024 * 1024 * 1024))) + ' Gb'
-		                            ELSE CONVERT(NVARCHAR(10), SUM(CONVERT(bigint, FileSize)) / 1024 / 1024) + ' Mb'
-	                            END AS Size,
+                        default:
+                            sqlString = string.Format(@"
+                                SELECT
+	                                0 AS Pos,
+	                                '0' AS Size,
 
-	                            COUNT(*) AS MoviesCount,
+	                                COUNT(*) AS CountOf
+                                FROM FileDetail
+                                WHERE ParentId = -1
+                                HAVING COUNT(*) > 0
 
-	                            Quality
-                            FROM FileDetail
-                            WHERE ParentId IS NULL
-                            GROUP BY Quality
-							HAVING COUNT(*) > 0
+                                UNION
 
-                            UNION
+                                SELECT
+	                                1 AS Pos,
+	                                CASE
+		                                WHEN (SUM(CONVERT(bigint, fd.FileSize)) / 1024 / 1024) > 1024
+		                                THEN CONVERT(NVARCHAR(10), CONVERT(numeric(18,2), SUM(CONVERT(numeric(18,2), fd.FileSize)) / CONVERT(numeric(18,2), 1024 * 1024 * 1024))) + ' Gb'
+		                                ELSE CONVERT(NVARCHAR(10), SUM(CONVERT(bigint, fd.FileSize)) / 1024 / 1024) + ' Mb'
+	                                END AS Size,
 
-                            SELECT
-                                0 AS Pos,
-	                            CASE
-		                            WHEN (SUM(CONVERT(bigint, FileSize)) / 1024 / 1024) > 1024
-		                            THEN CONVERT(NVARCHAR(10), CONVERT(numeric(18,2), SUM(CONVERT(numeric(18,2), FileSize)) / CONVERT(numeric(18,2), 1024 * 1024 * 1024))) + ' Gb'
-		                            ELSE CONVERT(NVARCHAR(10), SUM(CONVERT(bigint, FileSize)) / 1024 / 1024) + ' Mb'
-	                            END AS Size,
+	                                COUNT(*) AS CountOf
+                                FROM FileDetail fd
+                            	    LEFT OUTER JOIN Filedetail p on p.Id = fd.ParentId
+                                WHERE p.ParentId = {0}
+                                HAVING COUNT(*) > 0
 
-	                            COUNT(*) AS MoviesCount,
+                                ORDER BY Pos",
+                                section == Sections.Series
+                                    ? -1
+                                    : section == Sections.Recordings
+                                        ? - 100
+                                        : -10
+                                );
 
-	                            'ALL' AS Quality
-                            FROM FileDetail
-                            WHERE ParentId IS NULL
-							HAVING COUNT(*) > 0
+                            cmd = new SqlCeCommand(sqlString, conn);
 
-                            ORDER BY Pos, Quality";
-
-                        var cmd = new SqlCeCommand(sqlString, conn);
-                        SectionDetails = string.Empty;
-
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
+                            using (var reader = cmd.ExecuteReader())
                             {
-                                if ((int)reader["Pos"] == 0)
+                                while (reader.Read())
                                 {
-                                    resultStr =
-                                        string.Format("There are currently {0} movies in list, having a total size of {1}.",
-                                            reader["MoviesCount"],
-                                            reader["Size"]);
-                                }
-                                else
-                                {
-                                    SectionDetails +=
-                                        string.Format("{0}{1} @ {2} ~ {3}",
-                                            Environment.NewLine,
-                                            reader["MoviesCount"],
-                                            reader["Quality"],
-                                            reader["Size"]);
-
-
+                                    if ((int)reader["Pos"] == 0)
+                                    {
+                                        resultStr = string.Format("The current list contains {0} series", (int)reader["CountOf"]);
+                                    }
+                                    if ((int)reader["Pos"] == 1)
+                                    {
+                                        resultStr += string.Format(", combined having {0} episodes, (summing aprox. {1})",
+                                            (int)reader["CountOf"],
+                                            reader["Size"].ToString());
+                                    }
                                 }
                             }
-                        }
 
-                        result.AdditionalDataReturn = resultStr;
+                            break;
                     }
+
+                    result.AdditionalDataReturn = resultStr;
                 }
                 catch (Exception ex)
                 {
@@ -1888,169 +1885,178 @@ namespace Desene
             return result;
         }
 
-        public static List<MoviesDetails2ForWeb> GetMoviesDetails2ForWeb()
+        public static List<MoviesDetails2ForWeb> GetMoviesDetails2ForWeb(bool getMovieTypeCollectionElements)
         {
             var result = new List<MoviesDetails2ForWeb>();
 
-            //try
-            //{
-                using (var conn = new SqlCeConnection(Constants.ConnectionString))
+            using (var conn = new SqlCeConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                var cmd1 = new SqlCeCommand(
+                    !getMovieTypeCollectionElements
+                        ? @"
+                            SELECT
+                                Id,
+                                Synopsis,
+
+	                            Format,
+	                            FileSize2,
+	                            Duration
+
+                            FROM FileDetail fd
+                            WHERE ParentId IS NULL
+                            ORDER BY Id
+                            "
+                        : @"
+                            SELECT
+                                fd.Id,
+                                fd.Synopsis,
+
+	                            fd.Format,
+	                            fd.FileSize2,
+	                            fd.Duration
+
+                            FROM FileDetail fd
+                                LEFT OUTER JOIN FileDetail p ON p.Id = fd.ParentId
+                            WHERE p.ParentId = -10 AND p.SectionType = 0
+                            ORDER BY p.Id, fd.Id
+                            ",
+                    conn);
+
+                using (var reader1 = cmd1.ExecuteReader())
                 {
-                    conn.Open();
-
-                    var cmd1 = new SqlCeCommand(@"
-                        SELECT
-                            Id,
-                            Synopsis,
-
-	                        Format,
-	                        FileSize2,
-	                        Duration
-
-                        FROM FileDetail fd
-                        WHERE ParentId IS NULL
-                        ORDER BY Id
-                        ", conn);
-
-                    using (var reader1 = cmd1.ExecuteReader())
+                    while (reader1.Read())
                     {
-                        while (reader1.Read())
+                        var mDet2 =
+                            new MoviesDetails2ForWeb
+                            {
+                                Id = (int)reader1["Id"],
+                                Syn =
+                                    reader1["Synopsis"] == DBNull.Value
+                                        ? "?"
+                                        : ((string)reader1["Synopsis"]).Replace(Environment.NewLine, "<br>")
+                            };
+
+                        //mDet2.FileDetails.Add((string)reader1["Synopsis"]);
+
+
+                        var cmd2 =
+                            new SqlCeCommand(
+                                string.Format(@"
+                                    SELECT
+	                                    Width + ' x ' + Height AS Col1,
+	                                    Format + ' / ' + Format_Profile AS Col2,
+	                                    Bitrate AS Col3
+                                    FROM VideoStream
+                                    WHERE FileDetailId = {0}
+                                ",
+                                mDet2.Id),
+                                conn);
+
+                        using (var reader2 = cmd2.ExecuteReader())
                         {
-                            var mDet2 =
-                                new MoviesDetails2ForWeb
-                                {
-                                    Id = (int)reader1["Id"],
-                                    Syn =
-                                        reader1["Synopsis"] == DBNull.Value
-                                            ? "?"
-                                            : ((string)reader1["Synopsis"]).Replace(Environment.NewLine, "<br>")
-                                };
-
-                            //mDet2.FileDetails.Add((string)reader1["Synopsis"]);
-
-
-                            var cmd2 =
-                                new SqlCeCommand(
-                                    string.Format(@"
-                                        SELECT
-	                                        Width + ' x ' + Height AS Col1,
-	                                        Format + ' / ' + Format_Profile AS Col2,
-	                                        Bitrate AS Col3
-                                        FROM VideoStream
-                                        WHERE FileDetailId = {0}
-                                    ",
-                                    mDet2.Id),
-                                    conn);
-
-                            using (var reader2 = cmd2.ExecuteReader())
+                            while (reader2.Read())
                             {
-                                while (reader2.Read())
-                                {
-                                    for (var i = 1; i <= 3; i++)
-                                        mDet2.Vtd.Add(
-                                            reader2[string.Format("col{0}", i)] == DBNull.Value
-                                                ? "?"
-                                                :(string)reader2[string.Format("col{0}", i)]);
-                                }
-                            }
-
-                            mDet2.Vtd.Add(
-                                reader1["Duration"] == DBNull.Value
-                                    ? "?"
-                                    : ((DateTime)reader1["Duration"]).ToString("HH:mm:ss")
-                            );
-
-
-
-                            var cmd3 =
-                                new SqlCeCommand(
-                                    string.Format(@"
-                                        SELECT
-	                                        Language,
-	                                        TitleEmbedded,
-	                                        Channel,
-	                                        Format,
-	                                        BitRate
-                                        FROM AudioStream
-                                        WHERE FileDetailId = {0}
-                                        ORDER BY Id
-                                    ",
-                                    mDet2.Id),
-                                    conn);
-
-                            using (var reader3 = cmd3.ExecuteReader())
-                            {
-                                while (reader3.Read())
-                                {
-                                    var languageName =
-                                        reader3["Language"] == DBNull.Value || string.IsNullOrEmpty((string)reader3["Language"])
+                                for (var i = 1; i <= 3; i++)
+                                    mDet2.Vtd.Add(
+                                        reader2[string.Format("col{0}", i)] == DBNull.Value
                                             ? "?"
-                                            : Languages.GetLanguageFromIdentifier((string)reader3["Language"]).Name.Replace("Romanian; Moldavian; Moldovan", "Romanian");
-
-                                    if (reader3["TitleEmbedded"] != DBNull.Value && !string.IsNullOrEmpty((string)reader3["TitleEmbedded"]))
-                                        languageName += string.Format(" [{0}]", (string)reader3["TitleEmbedded"]);
-
-                                    mDet2.Ats.Add(languageName);
-
-                                    mDet2.Ats.Add(
-                                        string.Format("{0} / {1} / {2}",
-                                            ((string)reader3["Channel"]).Replace(" channels", "ch"),
-                                            (string)reader3["Format"],
-                                            ((string)reader3["BitRate"]).Replace(" ", "")
-                                        )
-                                    );
-                                }
+                                            :(string)reader2[string.Format("col{0}", i)]);
                             }
-
-
-
-
-                            var cmd4 =
-                                new SqlCeCommand(
-                                    string.Format(@"
-                                        SELECT
-	                                        Language
-                                        FROM SubtitleStream
-                                        WHERE FileDetailId = {0}
-                                        ORDER BY Id
-                                    ",
-                                    mDet2.Id),
-                                    conn);
-
-                            using (var reader4 = cmd4.ExecuteReader())
-                            {
-                                while (reader4.Read())
-                                {
-                                    var languageName =
-                                        reader4["Language"] == DBNull.Value || string.IsNullOrEmpty((string)reader4["Language"])
-                                            ? "?"
-                                            : Languages.GetLanguageFromIdentifier((string)reader4["Language"]).Name.Replace("Romanian; Moldavian; Moldovan", "Romanian");
-
-                                    if (!mDet2.Sts.Any(s => s == languageName))
-                                        mDet2.Sts.Add(languageName);
-                                }
-                            }
-
-                            mDet2.Fd.Add(
-                                reader1["Format"] == DBNull.Value
-                                    ? "?"
-                                    : (string)reader1["Format"]);
-
-                            mDet2.Fd.Add(
-                                reader1["FileSize2"] == DBNull.Value
-                                    ? "?"
-                                    : (string)reader1["FileSize2"]);
-
-                            result.Add(mDet2);
                         }
+
+                        mDet2.Vtd.Add(
+                            reader1["Duration"] == DBNull.Value
+                                ? "?"
+                                : ((DateTime)reader1["Duration"]).ToString("HH:mm:ss")
+                        );
+
+
+
+                        var cmd3 =
+                            new SqlCeCommand(
+                                string.Format(@"
+                                    SELECT
+	                                    Language,
+	                                    TitleEmbedded,
+	                                    Channel,
+	                                    Format,
+	                                    BitRate
+                                    FROM AudioStream
+                                    WHERE FileDetailId = {0}
+                                    ORDER BY Id
+                                ",
+                                mDet2.Id),
+                                conn);
+
+                        using (var reader3 = cmd3.ExecuteReader())
+                        {
+                            while (reader3.Read())
+                            {
+                                var languageName =
+                                    reader3["Language"] == DBNull.Value || string.IsNullOrEmpty((string)reader3["Language"])
+                                        ? "?"
+                                        : Languages.GetLanguageFromIdentifier((string)reader3["Language"]).Name.Replace("Romanian; Moldavian; Moldovan", "Romanian");
+
+                                if (reader3["TitleEmbedded"] != DBNull.Value && !string.IsNullOrEmpty((string)reader3["TitleEmbedded"]))
+                                    languageName += string.Format(" [{0}]", (string)reader3["TitleEmbedded"]);
+
+                                mDet2.Ats.Add(languageName);
+
+                                mDet2.Ats.Add(
+                                    string.Format("{0} / {1} / {2}",
+                                        ((string)reader3["Channel"]).Replace(" channels", "ch"),
+                                        (string)reader3["Format"],
+                                        ((string)reader3["BitRate"]).Replace(" ", "")
+                                    )
+                                );
+                            }
+                        }
+
+
+
+
+                        var cmd4 =
+                            new SqlCeCommand(
+                                string.Format(@"
+                                    SELECT
+	                                    Language
+                                    FROM SubtitleStream
+                                    WHERE FileDetailId = {0}
+                                    ORDER BY Id
+                                ",
+                                mDet2.Id),
+                                conn);
+
+                        using (var reader4 = cmd4.ExecuteReader())
+                        {
+                            while (reader4.Read())
+                            {
+                                var languageName =
+                                    reader4["Language"] == DBNull.Value || string.IsNullOrEmpty((string)reader4["Language"])
+                                        ? "?"
+                                        : Languages.GetLanguageFromIdentifier((string)reader4["Language"]).Name.Replace("Romanian; Moldavian; Moldovan", "Romanian");
+
+                                if (!mDet2.Sts.Any(s => s == languageName))
+                                    mDet2.Sts.Add(languageName);
+                            }
+                        }
+
+                        mDet2.Fd.Add(
+                            reader1["Format"] == DBNull.Value
+                                ? "?"
+                                : (string)reader1["Format"]);
+
+                        mDet2.Fd.Add(
+                            reader1["FileSize2"] == DBNull.Value
+                                ? "?"
+                                : (string)reader1["FileSize2"]);
+
+                        result.Add(mDet2);
                     }
                 }
-            //}
-            //catch (Exception ex)
-            //{
-            //    var d = 1;
-            //    throw;
-            //}
+            }
 
             return result;
         }
@@ -2113,7 +2119,8 @@ namespace Desene
 	                    CASE
                             WHEN fd.Poster IS NULL THEN CONVERT(BIT, 0)
                             ELSE CONVERT(BIT, 1)
-	                    END AS HasPoster
+	                    END AS HasPoster,
+                        fd.SectionType
                     FROM FileDetail fd
                     WHERE fd.ParentId = @seriesType
                     ORDER BY fd.FileName", conn);
@@ -2133,6 +2140,7 @@ namespace Desene
                         sfw.N = reader["Notes"].ToString();
                         //sfw.Cover = reader["Poster"] == DBNull.Value ? null : (byte[])reader["Poster"];
                         sfw.HasPoster = (bool)reader["HasPoster"];
+                        sfw.T = reader["SectionType"] == DBNull.Value ? 0 : (int)reader["SectionType"];
 
                         result.Add(sfw);
                     }
@@ -2332,6 +2340,155 @@ namespace Desene
             }
         }
 
+        public static void FillCollectionDataFromEpisodes(ref List<SeriesForWeb> collections,
+            List<CollectionElementForWeb> elements)
+        {
+            foreach (var c in collections)
+            {
+                var colElements = elements.Where(e => e.CId == c.Id).ToList();
+
+                var minYear = colElements.Min(e => e.Y);
+                var maxYear = colElements.Max(e => e.Y);
+
+                c.Y = minYear != maxYear
+                    ? string.Format("{0} - {1}", minYear, maxYear)
+                    : string.IsNullOrEmpty(minYear) && string.IsNullOrEmpty(maxYear)
+                        ? "?"
+                        : string.IsNullOrEmpty(minYear)
+                            ? maxYear
+                            : minYear;
+
+                c.S = Math.Round((decimal)colElements.Sum(e => e.Si) / 1024 / 1024 / 1024, 2).ToString();
+
+                c.Q = string.Join(", ", colElements.DistinctBy(e => e.Q).Select(e => e.Q).ToList());
+
+                //set the distinct audios in one single line
+                //ro, en        |
+                //en, nl        | => ro, en, en, nl, ro, en, nl
+                //ro, en, nl    |
+                var audios = string.Join(",", colElements.Select(d => d.A).Distinct()).Replace(", ", ",");
+                c.A = string.Join(", ", audios.Split(',').Distinct());
+
+                c.Ec = colElements.Count.ToString();
+            }
+        }
+
+
+        public static List<CollectionElementForWeb> GetCollectionElementsForWeb()
+        {
+            var result = new List<CollectionElementForWeb>();
+
+            using (var conn = new SqlCeConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                var cmd = new SqlCeCommand(@"
+                        SELECT
+                            fd.Id,
+                            fd.ParentId,
+                            fd.FileName,
+                            fd.Recommended,
+                            fd.RecommendedLink,
+                            fd.Year,
+                            fd.Quality,
+
+                            fd.Duration,
+                            fd.FileSize2,
+                            fd.FileSize,
+                            fd.AudioLanguages,
+                            fd.SubtitleLanguages,
+                            fd.Theme,
+                            fd.Notes,
+                            fd.InsertedDate,
+                            fd.LastChangeDate,
+                            vs.BitRate,
+                            fd.DescriptionLink,
+                            fd.Trailer,
+
+	                        CASE
+                                WHEN fd.Poster IS NULL THEN CONVERT(BIT, 0)
+                                ELSE CONVERT(BIT, 1)
+	                        END AS HasPoster
+
+                        FROM FileDetail fd
+                            LEFT OUTER JOIN FileDetail p ON p.Id = fd.ParentId
+                            LEFT OUTER JOIN VideoStream vs ON fd.Id = vs.FileDetailId
+                        WHERE p.ParentId = -10
+                        ORDER BY fd.ParentId, fd.FileName", conn);
+
+               // cmd.Parameters.AddWithValue("@seriesType", (int)st);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var efw = new CollectionElementForWeb();
+                        efw.Id = (int)reader["Id"];
+                        efw.CId = (int)reader["ParentId"];
+                        efw.FN = reader["FileName"].ToString();
+                        efw.R = reader["Recommended"].ToString();
+                        efw.RL = reader["RecommendedLink"].ToString();
+                        efw.Y = reader["Year"].ToString();
+                        efw.Q = reader["Quality"].ToString();
+
+                        //file size
+                        efw.S = reader["FileSize2"].ToString();
+
+                        if (reader["FileSize"] == DBNull.Value)
+                            efw.Si = 0;
+                        else
+                        {
+                            long siLong = 0;
+
+                            if (long.TryParse(reader["FileSize"].ToString(), out siLong))
+                                efw.Si = siLong;
+                            else
+                                efw.Si = 0;
+                        }
+
+                        //...
+                        efw.B = reader["BitRate"].ToString();
+
+                        //duration
+                        var duration =
+                            reader["Duration"] != DBNull.Value
+                                ? (DateTime?)reader["Duration"]
+                                : null;
+
+                        efw.L = duration == null ? "?" : ((DateTime)duration).ToString("HH:mm:ss");
+
+                        efw.A = reader["AudioLanguages"].ToString();
+                        efw.SU = reader["SubtitleLanguages"].ToString();
+                        efw.DL = reader["DescriptionLink"].ToString();
+                        efw.T = reader["Theme"].ToString();
+                        efw.N = reader["Notes"].ToString();
+                        efw.Tr = GetTrailerId(reader["Trailer"].ToString());
+
+
+                        var insertedDate =
+                            reader["InsertedDate"] == DBNull.Value //SD or bad imports
+                                ? new DateTime(1970, 1, 1)
+                                : (DateTime)reader["InsertedDate"];
+
+
+                        efw.InsertedDate = insertedDate;
+
+                        efw.LastChangeDate =
+                            reader["LastChangeDate"] == DBNull.Value
+                                ? insertedDate
+                                : (DateTime)reader["LastChangeDate"];
+
+                        efw.HasPoster = (bool)reader["HasPoster"];
+
+                        result.Add(efw);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+
         public static List<SeriesEpisodesShortInfo> GetCollectionsInfo()
         {
             var result = new List<SeriesEpisodesShortInfo>();
@@ -2370,7 +2527,8 @@ namespace Desene
             return result;
         }
 
-        public static OperationResult InsertCollection(string title, string notes, int sectionType)
+        public static OperationResult InsertCollection(string title, string notes, int sectionType,
+            byte[] poster)
         {
             var result = new OperationResult();
             const int parentId = -10;
@@ -2406,13 +2564,15 @@ namespace Desene
                             FileName,
                             ParentId,
                             Notes,
-                            SectionType
+                            SectionType,
+                            Poster
                         )
                         VALUES (
                             @FileName,
                             @ParentId,
                             @Notes,
-                            @SectionType
+                            @SectionType,
+                            @Poster
                         )";
 
                     cmd = new SqlCeCommand(insertString, conn);
@@ -2420,6 +2580,7 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@ParentId", parentId);
                     cmd.Parameters.AddWithValue("@Notes", string.IsNullOrEmpty(notes) ? (object)DBNull.Value : notes);
                     cmd.Parameters.AddWithValue("@SectionType", sectionType);
+                    cmd.Parameters.AddWithValue("@Poster", poster == null ? (object)DBNull.Value : poster);
 
                     cmd.ExecuteNonQuery();
                     cmd.CommandText = "Select @@Identity";
@@ -2437,6 +2598,48 @@ namespace Desene
 
             return result;
         }
+
+        public static OperationResult UpdateCollection(int id, string title, string notes, int sectionType,
+            byte[] poster)
+        {
+            var result = new OperationResult();
+            const int parentId = -10;
+
+            try
+            {
+                using (var conn = new SqlCeConnection(Constants.ConnectionString))
+                {
+                    conn.Open();
+                    SqlCeCommand cmd;
+
+                    var insertString = @"
+                        UPDATE FileDetail
+                           SET FileName = @FileName,
+                               Notes = @Notes,
+                               SectionType = @SectionType,
+                               Poster = @Poster
+                         WHERE Id = @Id";
+
+                    cmd = new SqlCeCommand(insertString, conn);
+                    cmd.Parameters.AddWithValue("@FileName", title);
+                    cmd.Parameters.AddWithValue("@Notes", string.IsNullOrEmpty(notes) ? (object)DBNull.Value : notes);
+                    cmd.Parameters.AddWithValue("@SectionType", sectionType);
+                    cmd.Parameters.AddWithValue("@Poster", poster == null ? (object)DBNull.Value : poster);
+                    cmd.Parameters.AddWithValue("@Id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.FailWithMessage(ex);
+            }
+
+            Helpers.UnsavedChanges = false; //this setter takes care of the buttons states!
+            return result;
+        }
+
+
 
         public static List<SeriesEpisodesShortInfo> GetElementsInCollection(int collectionId, int parentSectionType)
         {

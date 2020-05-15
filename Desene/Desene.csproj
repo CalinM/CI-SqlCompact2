@@ -71,6 +71,12 @@
     <Compile Include="DetailFormsAndUserControls\Collections\ucCollectionInfo.Designer.cs">
       <DependentUpon>ucCollectionInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="DetailFormsAndUserControls\Collections\ucCollectionElements.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Collections\ucCollectionElements.Designer.cs">
+      <DependentUpon>ucCollectionElements.cs</DependentUpon>
+    </Compile>
     <Compile Include="DetailFormsAndUserControls\Movies\FrmAddMovie.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,6 +193,9 @@
     <EmbeddedResource Include="DetailFormsAndUserControls\Collections\ucCollectionInfo.resx">
       <DependentUpon>ucCollectionInfo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DetailFormsAndUserControls\Collections\ucCollectionElements.resx">
+      <DependentUpon>ucCollectionElements.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DetailFormsAndUserControls\Movies\FrmAddMovie.resx">
       <DependentUpon>FrmAddMovie.cs</DependentUpon>
     </EmbeddedResource>
@@ -285,6 +294,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\cr_shared.js" />
+    <None Include="Resources\cr_series.js" />
+    <None Include="Resources\cr_movies.js" />
+    <None Include="Resources\cr_main.js" />
+    <None Include="Resources\cr_collections.js" />
     <None Include="Images\accessories-text-editor-icon.png" />
     <Content Include="Images\add.png" />
     <Content Include="Images\add2.png" />
@@ -324,7 +338,6 @@
     <None Include="Resources\arrowDown12.png" />
     <None Include="Resources\arrowRight12.png" />
     <None Include="Resources\desene.css" />
-    <None Include="Resources\desene.js" />
     <None Include="Resources\FullHD_logo.png" />
     <None Include="Resources\HD_logo.png" />
     <None Include="Resources\index.html" />

@@ -161,6 +161,137 @@ namespace Desene.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 
+        ///
+        ///function RenderCollections(){
+        ///    CloseSideNav();
+        ///
+        ///    var sectionHtml =
+        ///        &quot;&lt;table id=\&quot;seriesHeaderTable\&quot; class=\&quot;tableWrapper\&quot;&gt;&quot; +
+        ///        &quot;&lt;tr class=\&quot;headerRow\&quot;&gt;&quot; +
+        ///        &quot;&lt;td style=\&quot;width: 30px;\&quot;&gt;&quot; +
+        ///        &quot;&lt;/td&gt;&quot; +
+        ///        &quot;&lt;td&gt;&quot; +
+        ///        &quot;Collection name&lt;/br&gt;/ Element title&quot; +
+        ///        &quot;&lt;/td&gt;&quot; +
+        ///        &quot;&lt;td class=\&quot;markerCol\&quot;&gt;&quot; +
+        ///        &quot;&lt;/td&gt;&quot; +
+        ///        &quot;&lt;td class=\&quot;detailCell w100\&quot;&gt;&quot; +
+        ///        &quot;Recommended&quot; +
+        ///        &quot;&lt;/td&gt;&quot; +
+        ///        &quot;&lt;td class=\&quot;detailCell w [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string cr_collectionsJS {
+            get {
+                return ResourceManager.GetString("cr_collectionsJS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to $(document).ready(function () {
+        ///    DisplayHome();
+        ///    ResizeMoviesSection();
+        ///
+        ///    BindSearchEvents();
+        ///    BindNavigationMenuEvents();
+        ///});
+        ///
+        ///$(window).resize(function () {
+        ///    //triggering the recalculation only when the resize has stop
+        ///    // waitForFinalEvent(function () {
+        ///    //     ResizeMoviesSection();
+        ///    // }, 100, &quot;contentWrapper&quot;);
+        ///    setTimeout(function () { ResizeMoviesSection(); }, 100);
+        ///});
+        ///
+        ///
+        ///function BindSearchEvents() {
+        ///	    $(&quot;#searchCtrl&quot;).on(&quot;focus&quot;, function () {
+        ///      [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string cr_mainJS {
+            get {
+                return ResourceManager.GetString("cr_mainJS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///
+        ///function BuildMoviesGridSection() {
+        ///	var sectionHtml =
+        ///		&quot;&lt;div id=\&quot;jsGrid\&quot;&gt;&lt;/div&gt;&quot; +
+        ///		&quot;&lt;div id=\&quot;jsGridPager\&quot;&gt;&quot; +
+        ///		&quot;&lt;div style=\&quot;display:table-row;\&quot;&gt;&quot; +
+        ///		&quot;&lt;div id=\&quot;pager-wrapper\&quot;&gt;&quot; +
+        ///		&quot;&lt;/div&gt;&quot; +
+        ///		&quot;&lt;div id=\&quot;pager-customOptions\&quot;&gt;&quot; +
+        ///		&quot;&lt;div style=\&quot;display: inline-block;\&quot;&gt;&quot; +
+        ///		&quot;Page size:&quot; +
+        ///		&quot;&lt;/div&gt;&quot; +
+        ///		&quot;&lt;div style=\&quot;display: inline-block; padding-left: 5px;\&quot;&gt;&quot; +
+        ///		&quot;&lt;select id=\&quot;gridPageCount\&quot; onchange=\&quot;setPageCount()\&quot;&gt;&quot; +
+        ///		&quot;&lt;option value=\&quot;10\&quot;&gt;10&lt;/option&gt;&quot; +
+        ///		&quot;&lt;opti [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string cr_moviesJS {
+            get {
+                return ResourceManager.GetString("cr_moviesJS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to var currentSeriesTypeViewDataM;
+        ///var currentSeriesTypeViewDataD;
+        ///var showingSeries;
+        ///
+        ///function RenderSeriesTypeView() {
+        ///    $(this).addClass(&quot;selected-subSection&quot;);
+        ///
+        ///    var sectionHtml =
+        ///        &quot;&lt;table id=\&quot;seriesHeaderTable\&quot; class=\&quot;tableWrapper\&quot;&gt;&quot; +
+        ///        &quot;&lt;tr class=\&quot;headerRow\&quot;&gt;&quot; +
+        ///        &quot;&lt;td style=\&quot;width: 30px;\&quot;&gt;&quot; +
+        ///        &quot;&lt;/td&gt;&quot; +
+        ///        &quot;&lt;td&gt;&quot; +
+        ///        &quot;Series name&lt;/br&gt;/ Episode title&quot; +
+        ///        &quot;&lt;/td&gt;&quot; +
+        ///        &quot;&lt;td class=\&quot;markerCol\&quot;&gt;&quot; +
+        ///        &quot;&lt;/td&gt;&quot; +
+        ///        &quot;&lt;td [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string cr_seriesJS {
+            get {
+                return ResourceManager.GetString("cr_seriesJS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to var trailerPlaying = false;
+        ///var searchResultTimer = null;
+        ///
+        ///function DisplayHome() {
+        ///    SoftCloseSearch();
+        ///
+        ///    $(&quot;#sections-wrapper&quot;).html($(&quot;#homePageContent&quot;).html());
+        ///    $(&quot;#moviesSections span&quot;).removeClass(&quot;selected-subSection&quot;);
+        ///    $(&quot;.about-message-img&quot;).css(&quot;display&quot;, &quot;&quot;);
+        ///
+        ///    $(&quot;#genVersion&quot;).html(&quot;v&quot; + genDetails);
+        ///
+        ///    $(&quot;#mobileWarning&quot;).css(&quot;display&quot;, isMobile() ? &quot;block&quot; : &quot;none&quot;);
+        ///    $(&quot;#snapshotStat&quot;).html(&quot;&quot;);
+        ///
+        ///    setTimeout(function () {
+        ///        $(&quot;.tabbed li&quot;).off(&quot;c [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string cr_sharedJS {
+            get {
+                return ResourceManager.GetString("cr_sharedJS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap delete {
@@ -206,30 +337,6 @@ namespace Desene.Properties {
         internal static string deseneCSS {
             get {
                 return ResourceManager.GetString("deseneCSS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to var currentSeriesTypeViewDataM;
-        ///var currentSeriesTypeViewDataD;
-        ///var trailerPlaying = false;
-        ///
-        ///$(document).ready(function () {
-        ///    DisplayHome();
-        ///    ResizeMoviesSection();
-        ///
-        ///    $(&quot;.menu-button&quot;).on(&quot;click&quot;, function () {
-        ///        $(&quot;#sideNav&quot;).css(&quot;width&quot;, &quot;250px&quot;);
-        ///        $(&quot;.sideNav-overlay&quot;).css(&quot;display&quot;, &quot;block&quot;);
-        ///
-        ///        if ($(&quot;#sections-wrapper&quot;).find(&quot;.aboutPage-warning-title&quot;).length == 0) {
-        ///            $(&quot;#sections-wrapper&quot;).addClass(&quot;sideNav-overlay-content-transform&quot;);
-        ///        }
-        ///  [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string deseneJS {
-            get {
-                return ResourceManager.GetString("deseneJS", resourceCulture);
             }
         }
         
@@ -382,7 +489,7 @@ namespace Desene.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to /*! jQuery v2.2.4 | (c) jQuery Foundation | jquery.org/license */
-        ///!function(a,b){&quot;object&quot;==typeof module&amp;&amp;&quot;object&quot;==typeof module.exports?module.exports=a.document?b(a,!0):function(a){if(!a.document)throw new Error(&quot;jQuery requires a window with a document&quot;);return b(a)}:b(a)}(&quot;undefined&quot;!=typeof window?window:this,function(a,b){var c=[],d=a.document,e=c.slice,f=c.concat,g=c.push,h=c.indexOf,i={},j=i.toString,k=i.hasOwnProperty,l={},m=&quot;2.2.4&quot;,n=function(a,b){return new n.fn.init(a,b)},o=/^[\s\uFEFF\xA0]+|[\ [rest of string was truncated]&quot;;.
+        ///!function(a,b){&quot;object&quot;==typeof module&amp;&amp;&quot;object&quot;==typeof module.exports?module.exports=a.document?b(a,!0):function(a){if(!a.document)throw new Error(&quot;jQuery requires a window with a document&quot;);return b(a)}:b(a)}(&quot;undefined&quot;!=typeof window?window:this,function(a,b){var c=[],d=a.document,e=c.slice,f=c.concat,g=c.push,h=c.indexOf,i={},j=i.toString,k=i.hasOwnProperty,l={},m=&quot;2.2.4&quot;,n=function(a,b){return new n.fn.init(a,b)},o=/^[\s\uFEFF\xA0]+|[ [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string jquery_2_2_4_min {
             get {
@@ -392,7 +499,7 @@ namespace Desene.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to /*! jQuery &amp; Zepto Lazy v1.7.5 - http://jquery.eisbehr.de/lazy - MIT&amp;GPL-2.0 license - Copyright 2012-2017 Daniel &apos;Eisbehr&apos; Kern */
-        ///!function(t,e){&quot;use strict&quot;;function r(r,a,i,l,u){function f(){L=t.devicePixelRatio&gt;1,c(i),a.delay&gt;=0&amp;&amp;setTimeout(function(){s(!0)},a.delay),(a.delay&lt;0||a.combined)&amp;&amp;(l.e=v(a.throttle,function(t){&quot;resize&quot;===t.type&amp;&amp;(w=B=-1),s(t.all)}),l.a=function(t){c(t),i.push.apply(i,t)},l.g=function(){return i=n(i).filter(function(){return!n(this).data(a.loadedName)})},l.f=function(t){for(v [rest of string was truncated]&quot;;.
+        ///!function(t,e){&quot;use strict&quot;;function r(r,a,i,l,u){function f(){L=t.devicePixelRatio&gt;1,c(i),a.delay&gt;=0&amp;&amp;setTimeout(function(){s(!0)},a.delay),(a.delay&lt;0||a.combined)&amp;&amp;(l.e=v(a.throttle,function(t){&quot;resize&quot;===t.type&amp;&amp;(w=B=-1),s(t.all)}),l.a=function(t){c(t),i.push.apply(i,t)},l.g=function(){return i=n(i).filter(function(){return!n(this).data(a.loadedName)})},l.f=function(t){for( [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string jquery_lazy_min {
             get {
@@ -408,7 +515,7 @@ namespace Desene.Properties {
         /// * Version: 1.3.8
         /// *
         /// */
-        ///(function(e){e.fn.extend({slimScroll:function(f){var a=e.extend({width:&quot;auto&quot;,height:&quot;250px&quot;,size:&quot;7px&quot;,color:&quot;#000&quot;,position:&quot;right&quot;,distance:&quot;1px&quot;,start:&quot;top&quot;,opacity:.4,alwaysVisible:!1,disableFadeOut:!1,railVisible:!1,railColor:&quot;#333&quot;,railOpacity:.2,railDraggable:!0, [rest of string was truncated]&quot;;.
+        ///(function(e){e.fn.extend({slimScroll:function(f){var a=e.extend({width:&quot;auto&quot;,height:&quot;250px&quot;,size:&quot;7px&quot;,color:&quot;#000&quot;,position:&quot;right&quot;,distance:&quot;1px&quot;,start:&quot;top&quot;,opacity:.4,alwaysVisible:!1,disableFadeOut:!1,railVisible:!1,railColor:&quot;#333&quot;,railOpacity:.2,railDragga [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string jquery_slimscroll_min {
             get {
@@ -423,7 +530,7 @@ namespace Desene.Properties {
         /// * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
         /// */
         ///
-        ///.jsgrid{position:relative;overflow:hidden;font-size:1em}.jsgrid,.jsgrid *,.jsgrid :after,.jsgrid :before{box-sizing:border-box}.jsgrid input,.jsgrid select,.jsgrid textarea{font-size:1em}.jsgrid-grid-header{overflow-x:hidden;overflow-y:scroll;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;-o-user-select:none;user- [rest of string was truncated]&quot;;.
+        ///.jsgrid{position:relative;overflow:hidden;font-size:1em}.jsgrid,.jsgrid *,.jsgrid :after,.jsgrid :before{box-sizing:border-box}.jsgrid input,.jsgrid select,.jsgrid textarea{font-size:1em}.jsgrid-grid-header{overflow-x:hidden;overflow-y:scroll;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;-o-user-select:none [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string jsgrid_minCSS {
             get {
@@ -438,7 +545,7 @@ namespace Desene.Properties {
         /// * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
         /// */
         ///
-        ///!function(a,b,c){function d(a,c){var d=b(a);d.data(f,this),this._container=d,this.data=[],this.fields=[],this._editingRow=null,this._sortField=null,this._sortOrder=i,this._firstDisplayingPage=1,this._init(c),this.render()}var e=&quot;JSGrid&quot;,f=e,g=&quot;JSGridItem&quot;,h=&quot;JSGridEditRow&quot;,i=&quot;asc&quot;,j=&quot;desc&quot;,k=&quot;{first}&quot;,l=&quot;{pages}&quot;,m=&quot;{prev}&quot;,n=&quot;{next}&quot;,o=&quot;{last}&quot;,p=&quot;{pageInde [rest of string was truncated]&quot;;.
+        ///!function(a,b,c){function d(a,c){var d=b(a);d.data(f,this),this._container=d,this.data=[],this.fields=[],this._editingRow=null,this._sortField=null,this._sortOrder=i,this._firstDisplayingPage=1,this._init(c),this.render()}var e=&quot;JSGrid&quot;,f=e,g=&quot;JSGridItem&quot;,h=&quot;JSGridEditRow&quot;,i=&quot;asc&quot;,j=&quot;desc&quot;,k=&quot;{first}&quot;,l=&quot;{pages}&quot;,m=&quot;{prev}&quot;,n=&quot;{next}&quot;,o=&quot;{last}&quot;,p=&quot;{pa [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string jsgrid_minJS {
             get {
@@ -453,7 +560,7 @@ namespace Desene.Properties {
         /// * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
         /// */
         ///
-        ///.jsgrid-edit-row&gt;.jsgrid-cell,.jsgrid-filter-row&gt;.jsgrid-cell,.jsgrid-grid-body,.jsgrid-grid-header,.jsgrid-header-row&gt;.jsgrid-header-cell,.jsgrid-insert-row&gt;.jsgrid-cell{border:1px solid #e9e9e9}.jsgrid-header-row&gt;.jsgrid-header-cell{border-top:0}.jsgrid-filter-row&gt;.jsgrid-cell,.jsgrid-header-row&gt;.jsgrid-header-cell,.jsgrid-insert-row&gt;.jsgrid-cell{border-bo [rest of string was truncated]&quot;;.
+        ///.jsgrid-edit-row&gt;.jsgrid-cell,.jsgrid-filter-row&gt;.jsgrid-cell,.jsgrid-grid-body,.jsgrid-grid-header,.jsgrid-header-row&gt;.jsgrid-header-cell,.jsgrid-insert-row&gt;.jsgrid-cell{border:1px solid #e9e9e9}.jsgrid-header-row&gt;.jsgrid-header-cell{border-top:0}.jsgrid-filter-row&gt;.jsgrid-cell,.jsgrid-header-row&gt;.jsgrid-header-cell,.jsgrid-insert-row&gt;.jsgrid-cell{bor [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string jsgrid_theme_min {
             get {
@@ -507,7 +614,7 @@ namespace Desene.Properties {
         /// * Copyright 2013-2018 David Deutsch
         /// * Licensed under: SEE LICENSE IN https://github.com/OwlCarousel2/OwlCarousel2/blob/master/LICENSE
         /// */
-        ///.owl-carousel,.owl-carousel .owl-item{-webkit-tap-highlight-color:transparent;position:relative}.owl-carousel{display:none;width:100%;z-index:1}.owl-carousel .owl-stage{position:relative;-ms-touch-action:pan-Y;touch-action:manipulation;-moz-backface-visibility:hidden}.owl-carousel .owl-stage:after{content:&quot;.&quot;;display:block;clear:both;visi [rest of string was truncated]&quot;;.
+        ///.owl-carousel,.owl-carousel .owl-item{-webkit-tap-highlight-color:transparent;position:relative}.owl-carousel{display:none;width:100%;z-index:1}.owl-carousel .owl-stage{position:relative;-ms-touch-action:pan-Y;touch-action:manipulation;-moz-backface-visibility:hidden}.owl-carousel .owl-stage:after{content:&quot;.&quot;;display:block;clear:both;visibilit [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string owl_carousel_minCSS {
             get {
@@ -521,7 +628,7 @@ namespace Desene.Properties {
         /// * Copyright 2013-2018 David Deutsch
         /// * Licensed under: SEE LICENSE IN https://github.com/OwlCarousel2/OwlCarousel2/blob/master/LICENSE
         /// */
-        ///!function(a,b,c,d){function e(b,c){this.settings=null,this.options=a.extend({},e.Defaults,c),this.$element=a(b),this._handlers={},this._plugins={},this._supress={},this._current=null,this._speed=null,this._coordinates=[],this._breakpoint=null,this._width=null,this._items=[],this._clones=[],this._mergers=[],this._widths=[],this._invalidate [rest of string was truncated]&quot;;.
+        ///!function(a,b,c,d){function e(b,c){this.settings=null,this.options=a.extend({},e.Defaults,c),this.$element=a(b),this._handlers={},this._plugins={},this._supress={},this._current=null,this._speed=null,this._coordinates=[],this._breakpoint=null,this._width=null,this._items=[],this._clones=[],this._mergers=[],this._widths=[],this._invalidated={}, [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string owl_carousel_minJS {
             get {

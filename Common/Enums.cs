@@ -76,16 +76,31 @@ namespace Common
         Confirmation = 3
     }
 
+    public enum Sections
+    {
+        Movies = 0,
+        Series = 1,
+        Recordings = 2,
+        Collections = 3
+    }
+
     public enum SeriesType
     {
         Final = -1,
-        Recordings = -100
+        Recordings = -100,
+        Collection = -10 //only used to get data for web
     }
 
-    public enum CollectionsSiteSecionType
+    public enum CollectionsSiteSectionType
     {
         MovieType = 0,
         SeriesType = 1
+    }
+
+    public enum EpisodeParentType
+    {
+        Series = 0,
+        Collection = 1
     }
 
 

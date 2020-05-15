@@ -122,5 +122,14 @@ namespace Utils
 
             return result;
         }
+
+        /*
+ALTER TABLE FileDetail ALTER COLUMN Season NVARCHAR(250)
+
+SELECT character_maximum_length
+FROM information_schema.columns
+WHERE table_name = 'FileDetail'
+AND column_name = 'Season'
+         */
     }
 }

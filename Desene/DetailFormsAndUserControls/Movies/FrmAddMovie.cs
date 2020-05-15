@@ -11,15 +11,15 @@ namespace Desene
 {
     public partial class FrmAddMovie : Form
     {
-        //private MovieTechnicalDetails _newMtd;
-        //private byte[] _poster;
+        private int? _collectionId;
 
         public int NewId;
-        //public event EventHandler OnImportMovie;
 
-        public FrmAddMovie()
+        public FrmAddMovie(int? collectionId = null)
         {
             InitializeComponent();
+
+            _collectionId = collectionId;
             DAL.NewMTD = null;
         }
 
@@ -102,7 +102,7 @@ namespace Desene
                 return;
             }
 
-            //DAL.NewMTD.Poster = _poster;
+            DAL.NewMTD.ParentId = _collectionId;
             var opRes = DAL.InsertMTD(DAL.NewMTD, null);
 
             if (!opRes.Success)

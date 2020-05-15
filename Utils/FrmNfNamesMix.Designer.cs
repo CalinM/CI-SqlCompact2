@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmNfNamesMix));
             this.btnConfirm = new System.Windows.Forms.Button();
             this.tcNfNamesMix = new System.Windows.Forms.TabControl();
             this.tpLanguage1 = new System.Windows.Forms.TabPage();
@@ -47,7 +48,6 @@
             // btnConfirm
             // 
             this.btnConfirm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnConfirm.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnConfirm.Enabled = false;
             this.btnConfirm.Location = new System.Drawing.Point(571, 326);
             this.btnConfirm.Name = "btnConfirm";
@@ -76,7 +76,7 @@
             this.tpLanguage1.Location = new System.Drawing.Point(4, 22);
             this.tpLanguage1.Name = "tpLanguage1";
             this.tpLanguage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLanguage1.Size = new System.Drawing.Size(542, 208);
+            this.tpLanguage1.Size = new System.Drawing.Size(711, 282);
             this.tpLanguage1.TabIndex = 0;
             this.tpLanguage1.Text = "Language 1 (translated)";
             this.tpLanguage1.UseVisualStyleBackColor = true;
@@ -89,9 +89,9 @@
             this.rtbLanguage1.Location = new System.Drawing.Point(3, 3);
             this.rtbLanguage1.Name = "rtbLanguage1";
             this.rtbLanguage1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.rtbLanguage1.Size = new System.Drawing.Size(536, 202);
+            this.rtbLanguage1.Size = new System.Drawing.Size(705, 276);
             this.rtbLanguage1.TabIndex = 2;
-            this.rtbLanguage1.Text = "";
+            this.rtbLanguage1.Text = resources.GetString("rtbLanguage1.Text");
             this.rtbLanguage1.TextChanged += new System.EventHandler(this.RtbLanguage1_TextChanged);
             // 
             // tpLanguage2
@@ -116,7 +116,7 @@
             this.rtbLanguage2.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.rtbLanguage2.Size = new System.Drawing.Size(705, 276);
             this.rtbLanguage2.TabIndex = 3;
-            this.rtbLanguage2.Text = "";
+            this.rtbLanguage2.Text = resources.GetString("rtbLanguage2.Text");
             this.rtbLanguage2.TextChanged += new System.EventHandler(this.RtbLanguage1_TextChanged);
             // 
             // btnPreview

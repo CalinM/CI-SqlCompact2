@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -158,6 +159,24 @@ namespace Utils
 
             return PixelsVisible >= (Rec.Width * Rec.Height) * MinPercentOnScreen;
         }
+
+        public static List<MixFileNameReplaceDef> GetDefaultMixFileNameReplaceValues()
+        {
+            return
+                new List<MixFileNameReplaceDef>()
+                {
+                    new MixFileNameReplaceDef(":", " - "),
+                    new MixFileNameReplaceDef("?", string.Empty),
+                    new MixFileNameReplaceDef("\"", "'"),
+                    new MixFileNameReplaceDef("*", string.Empty),
+                    new MixFileNameReplaceDef("\\", string.Empty),
+                    //new MixFileNameReplaceDef("/", " & "), //added based on user response
+                    new MixFileNameReplaceDef("|", string.Empty),
+                    new MixFileNameReplaceDef("<", "["),
+                    new MixFileNameReplaceDef(">", "]"),
+                    new MixFileNameReplaceDef("’", "'")
+                };
+         }
     }
 
     public class DrawingControl
@@ -176,6 +195,18 @@ namespace Utils
         {
             SendMessage(parent.Handle, WM_SETREDRAW, true, 0);
             parent.Refresh();
+        }
+    }
+
+    public class MixFileNameReplaceDef
+    {
+        public string OldValue { get; set; }
+        public string NewValue { get; set; }
+
+        public MixFileNameReplaceDef(string oldValue, string newValue)
+        {
+            OldValue = oldValue;
+            NewValue = newValue;
         }
     }
 }

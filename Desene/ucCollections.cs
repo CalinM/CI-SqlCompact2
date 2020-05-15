@@ -81,16 +81,133 @@ namespace Desene
                 Cursor = Cursors.WaitCursor;
                 DrawingControl.SuspendDrawing(pCollectionElementDetailsContainer);
 
-                var isElementSeleted = tvCollections.SelectedNode.Level == 2;
-                btnImportElements.Enabled = !isElementSeleted;
-                btnLoadPoster.Enabled = isElementSeleted;
-                btnRefreshElementData.Enabled = isElementSeleted;
-                //btnDeleteElement.Enabled = isElementSeleted;
-                btnDeleteElement.Enabled = true;
-
                 var seShortInfo = (SeriesEpisodesShortInfo)tvCollections.SelectedNode.Tag;
-                btnAddMovieToCollection.Enabled = (CollectionsSiteSecionType)seShortInfo.SectionType == CollectionsSiteSecionType.MovieType;
+                var isElementSeleted = tvCollections.SelectedNode.Level == 2;
 
+                btnImportElements.Enabled = !isElementSeleted;
+                btnLoadPoster.Enabled =
+                    (!isElementSeleted && (CollectionsSiteSectionType)seShortInfo.SectionType == CollectionsSiteSectionType.SeriesType) ||
+                    (isElementSeleted && (CollectionsSiteSectionType)seShortInfo.SectionType == CollectionsSiteSectionType.MovieType);
+                btnRefreshElementData.Enabled = isElementSeleted;
+                btnDeleteElement.Enabled = isElementSeleted; //the collection is deleted by action in the main form toolbar
+
+
+                btnAddMovieToCollection.Enabled = (CollectionsSiteSectionType)seShortInfo.SectionType == CollectionsSiteSectionType.MovieType;
+
+                if (!isElementSeleted) //collection level
+                {
+                    ////when moving focus from ElementDetail to CollectionDetail, the "ucCollectionElements" must be removed
+                    //var prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucCollectionElements", false);
+                    //if (prevInstance.Any())
+                    //    pCollectionElementDetailsContainer.Controls.Remove(prevInstance[0]);
+
+                    //attempting to reuse the "ucCollectionInfo" user control
+                    var prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucCollectionInfo", false);
+
+                    if (seShortInfo.Poster == null && (CollectionsSiteSectionType)seShortInfo.SectionType == CollectionsSiteSectionType.SeriesType)
+                        seShortInfo.Poster = DAL.GetPoster(seShortInfo.Id);
+
+                    if (prevInstance.Any())
+                    {
+                        ((ucCollectionInfo)prevInstance[0]).RefreshControls(seShortInfo);
+                    }
+                    else
+                    {
+                        if (pCollectionElementDetailsContainer.Controls.Count > 0)
+                            pCollectionElementDetailsContainer.Controls.Clear();
+
+                        var baseInfoControl = new ucCollectionInfo() { Dock = DockStyle.Top };
+                        baseInfoControl.ParentEl = pCollectionElementDetailsContainer;
+                        baseInfoControl.RefreshControls(seShortInfo);
+
+                        pCollectionElementDetailsContainer.Controls.Add(baseInfoControl);
+                    }
+
+                    prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucCollectionElements", false);
+
+                    //attempting to reuse the "ucSeriesEpisodes" user control
+                    if (prevInstance.Any())
+                    {
+                        ((ucCollectionElements)prevInstance[0]).LoadControls(seShortInfo);
+                        pCollectionElementDetailsContainer.Invalidate();
+                    }
+                    else
+                    {
+                        if (!_isFiltered)
+                        {
+                            var ucCollectionElements = new ucCollectionElements(seShortInfo, this) { Dock = DockStyle.Top };
+                            pCollectionElementDetailsContainer.Controls.Add(ucCollectionElements);
+                            ucCollectionElements.BringToFront();
+                        }
+                    }
+
+                    _prevSelectedSeriesId = seShortInfo.Id;
+                }
+                else
+                {
+                    var opRes = DAL.LoadMTD(seShortInfo.Id, true);
+
+                    if (!opRes.Success)
+                    {
+                        MsgBox.Show(string.Format("The following error occurred while loading the file details:{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    var prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucCollectionElements", false);
+                    if (prevInstance.Any())
+                        pCollectionElementDetailsContainer.Controls.Clear();
+
+                    switch ((CollectionsSiteSectionType)seShortInfo.SectionType)
+                    {
+                        case CollectionsSiteSectionType.MovieType:
+
+                            prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucEpisodeDetails", false);
+                            if (prevInstance.Any())
+                                pCollectionElementDetailsContainer.Controls.Remove(prevInstance[0]);
+
+                            prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucMovieInfo", false);
+
+                            if (prevInstance.Any())
+                                ((ucMovieInfo)prevInstance[0]).RefreshControls(DAL.CurrentMTD);
+                            else
+                            {
+                                var ucMovieInfo = new ucMovieInfo(false) { Dock = DockStyle.Top };
+                                ucMovieInfo.RefreshControls(DAL.CurrentMTD);
+
+                                pCollectionElementDetailsContainer.Controls.Add(ucMovieInfo);
+                                ucMovieInfo.BringToFront();
+                            }
+
+                            break;
+
+                        case CollectionsSiteSectionType.SeriesType:
+                            prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucMovieInfo", false);
+                            if (prevInstance.Any())
+                                pCollectionElementDetailsContainer.Controls.Remove(prevInstance[0]);
+
+                            prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucEpisodeDetails", false);
+
+                            if (prevInstance.Any())
+                                ((ucEpisodeDetails)prevInstance[0]).LoadControls(seShortInfo.Id, null, "aaaa");
+                            else
+                            {
+                                var seriesNode = tvCollections.AllNodes.FirstOrDefault(x => ((SeriesEpisodesShortInfo)x.Tag).Id == seShortInfo.SeriesId && ((SeriesEpisodesShortInfo)x.Tag).IsSeries);
+                                var seriesName = seriesNode == null
+                                    ? "unknown !!!"
+                                    : ((SeriesEpisodesShortInfo)seriesNode.Tag).FileName;
+
+                                var ucEpisodeDetails = new ucEpisodeDetails(seShortInfo.Id, seShortInfo.SeriesId, seriesName) { Dock = DockStyle.Top };
+
+                                pCollectionElementDetailsContainer.Controls.Add(ucEpisodeDetails);
+                                ucEpisodeDetails.BringToFront();
+                            }
+
+                            break;
+                    }
+
+                }
+                /*
                 var prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucCollectionInfo", false);
 
                 if (!isElementSeleted)
@@ -132,9 +249,9 @@ namespace Desene
 
                     prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucCollectionInfo", false);
 
-                    switch ((CollectionsSiteSecionType)seShortInfo.SectionType)
+                    switch ((CollectionsSiteSectionType)seShortInfo.SectionType)
                     {
-                        case CollectionsSiteSecionType.MovieType:
+                        case CollectionsSiteSectionType.MovieType:
 
                             prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucEpisodeDetails", false);
                             if (prevInstance.Any())
@@ -155,7 +272,7 @@ namespace Desene
 
                             break;
 
-                        case CollectionsSiteSecionType.SeriesType:
+                        case CollectionsSiteSectionType.SeriesType:
                             prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucMovieInfo", false);
                             if (prevInstance.Any())
                                 pCollectionElementDetailsContainer.Controls.Remove(prevInstance[0]);
@@ -180,6 +297,7 @@ namespace Desene
                             break;
                     }
                 }
+                */
             }
             finally
             {
@@ -189,6 +307,8 @@ namespace Desene
                 SetSaveButtonState(false);
 
                 DrawingControl.ResumeDrawing(pCollectionElementDetailsContainer);
+                pCollectionElementDetailsContainer.PerformLayout(); //to refresh the vertical scrollbar
+
                 Cursor = Cursors.Default;
             }
         }
@@ -323,21 +443,49 @@ namespace Desene
             var selectedNodeData = (SeriesEpisodesShortInfo)tvCollections.SelectedNode.Tag;
             tvCollections.Focus(); //required to push all changes from editors into the DAL.CurrentMTD object
 
-            var opRes = DAL.SaveMTD(selectedNodeData.IsEpisode);
+            var isElementSeleted = tvCollections.SelectedNode.Level == 2;
+            var opRes = new OperationResult();
+
+            if (!isElementSeleted) //collection level
+            {
+                var prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucCollectionInfo", false);
+                if (!prevInstance.Any() || !(prevInstance[0] is ucCollectionInfo))
+                {
+                    opRes.Success = false;
+                    opRes.CustomErrorMessage = "UI element not found or of wrong type!";
+                }
+                else
+                {
+                    var prevAsType = (ucCollectionInfo)prevInstance[0];
+
+                    opRes = DAL.UpdateCollection(selectedNodeData.Id, prevAsType.Title, prevAsType.Notes, prevAsType.SectionType, prevAsType.Poster);
+
+                    if (opRes.Success)
+                    {
+                        selectedNodeData.FileName = prevAsType.Title;
+                        selectedNodeData.Notes = prevAsType.Notes;
+                        selectedNodeData.SectionType = prevAsType.SectionType;
+                    }
+                }
+            }
+            else
+            {
+                opRes = DAL.SaveMTD(selectedNodeData.IsEpisode);
+
+                if (opRes.Success)
+                {
+                    selectedNodeData.FileName = DAL.CurrentMTD.FileName;
+                    selectedNodeData.Quality = DAL.CurrentMTD.Quality;
+                    selectedNodeData.Theme = DAL.CurrentMTD.Theme;
+                }
+            }
+
 
             if (!opRes.Success)
             {
                 MsgBox.Show(
                     string.Format("The following error occurred while saving the changes:{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
                     "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                //Helpers.UnsavedChanges = false;
-
-                selectedNodeData.FileName = DAL.CurrentMTD.FileName;
-                selectedNodeData.Quality = DAL.CurrentMTD.Quality;
-                selectedNodeData.Theme = DAL.CurrentMTD.Theme;
             }
 
             return opRes;
@@ -491,24 +639,14 @@ namespace Desene
             }
         }
 
-        private void btnDeleteSeasonEpisode_Click(object sender, EventArgs e)
+        private void btnDeleteElement_Click(object sender, EventArgs e)
         {
-            var sesi = (SeriesEpisodesShortInfo)tvCollections.SelectedNode.Tag;
-
-            var msg =
-                sesi.IsSeason
-                    ? "Are you sure you want to remove all Elements from the selected Collection?"
-                    : "Are you sure you want to remove the selected Element?";
-
-            if (MsgBox.Show(msg, "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            if (MsgBox.Show("Are you sure you want to remove the selected Element?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 return;
 
-            /*
-             * tvCollections.SelectedNode.Level
-            var opRes =
-                sesi.IsSeason
-                    ? DAL.RemoveSeason(sesi.Id, sesi.Season)
-                    : DAL.RemoveMovieOrEpisode(sesi.Id);
+            var sesi = (SeriesEpisodesShortInfo)tvCollections.SelectedNode.Tag;
+
+            var opRes = DAL.RemoveMovieOrEpisode(sesi.Id);
 
             if (!opRes.Success)
             {
@@ -522,14 +660,10 @@ namespace Desene
 
                 ReloadTreeView(sesi.SeriesId);
 
-                if (!sesi.IsSeason)
-                    tvCollections.SelectedNode.ExpandAll();
-                else
-                    _prevSelectedSeriesId = -2;
+                tvCollections.SelectedNode.ExpandAll();
 
                 LoadSelectionDetails();
             }
-            */
         }
 
         private void btnUndo_Click(object sender, EventArgs e)
@@ -606,7 +740,7 @@ namespace Desene
             if (!string.IsNullOrEmpty(tbFilter.Text))
             {
                 _isFiltered = true;
-                var treeModel = new FilteredTreeModel(tbFilter.Text);
+                var treeModel = new FilteredTreeModel(tbFilter.Text, true);
                 tvCollections.Model = treeModel;
                 tvCollections.ExpandAll();
 
@@ -624,7 +758,8 @@ namespace Desene
             if (!Utils.Helpers.ConfirmDiscardChanges())
                 return;
 
-            var frmAddMovie = new FrmAddMovie { Owner = _parent };
+            var selectedNodeData = (SeriesEpisodesShortInfo)tvCollections.SelectedNode.Tag;
+            var frmAddMovie = new FrmAddMovie(selectedNodeData.IsEpisode ? selectedNodeData.SeriesId : selectedNodeData.Id) { Owner = _parent };
 
             if (frmAddMovie.ShowDialog() != DialogResult.OK)
             {

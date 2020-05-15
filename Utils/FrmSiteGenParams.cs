@@ -7,15 +7,13 @@ namespace Utils
 {
     public partial class FrmSiteGenParams : Form
     {
-        private string _lastPath = string.Empty;
-
         public SiteGenParams SiteGenParams;
 
         public FrmSiteGenParams(string lastPath)
         {
-            _lastPath = lastPath;
-
             InitializeComponent();
+
+            tbFilesLocation.Text = lastPath;
         }
 
         private void BtnOk_Click(object sender, EventArgs e)
@@ -49,7 +47,7 @@ namespace Utils
 
         private void BtnFolderSelector_Click(object sender, EventArgs e)
         {
-            var selectedPath = Helpers.SelectFolder("Select a folder to save the generated files:", _lastPath);
+            var selectedPath = Helpers.SelectFolder("Select a folder to save the generated files:", tbFilesLocation.Text);
             if (string.IsNullOrEmpty(selectedPath))
                 return;
 

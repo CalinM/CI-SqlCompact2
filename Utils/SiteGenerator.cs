@@ -20,59 +20,56 @@ namespace Utils
             var jsS = new JavaScriptSerializer();
             var genDetails = DateTime.Now.ToString("yyyyMMdd");
 
+            List<MovieShortInfo> msi = null;
+            OperationResult opRes = null;
 
-            #region Movies
+            var genImages = siteGenParams.SavePosters || siteGenParams.SaveEpisodesThumbnals || siteGenParams.PreserveMarkesForExistingThumbnails;
+
+            #region ****** Movies ******
 
             var moviesData = Desene.DAL.GetMoviesForWeb();
 
-            if (siteGenParams.SavePosters)
+            if (genImages)
             {
-                var imgsPath = Path.Combine(siteGenParams.Location, "Imgs\\Movies");
-                if (!Directory.Exists(imgsPath))
-                    Directory.CreateDirectory(imgsPath);
+                msi = moviesData
+                        .Select(x => new MovieShortInfo
+                            {
+                                Id = x.Id,
+                                FileName = x.FN,
+                                HasPoster = x.HasPoster
+                            })
+                        .ToList();
 
-                var frmProgressIndicator = new FrmProgressIndicator("Site generation - Movies Posters", "-", moviesData.Count);
-                frmProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<MovieForWeb>>(siteGenParams, moviesData);
-                frmProgressIndicator.DoWork += formPI_DoWork_GenerateSitePosters_Movies;
 
-                switch (frmProgressIndicator.ShowDialog())
+                #region Movies posters
+
+                if (siteGenParams.SavePosters)
                 {
-                    case DialogResult.Cancel:
-                        result.Success = false;
-                        result.CustomErrorMessage = "Operation has been canceled";
+                    result = SavePosters(siteGenParams.Location, msi, "Movies");
 
+                    if (!result.Success)
                         return result;
-
-                    case DialogResult.Abort:
-                        result.Success = false;
-                        result.CustomErrorMessage = frmProgressIndicator.Result.Error.Message;
-
-                        return result;
-
-                    case DialogResult.OK:
-                        result.AdditionalDataReturn = frmProgressIndicator.Result.Result;
-                        break;
                 }
+
+                #endregion
+
+
+                #region Movies thumbnails
+
+                result = SaveThumbnails(siteGenParams, msi, "Movies");
+                if (!result.Success)
+                    return result;
+
+                #endregion
             }
-
-            #region Movies thumbnails
-
-            result = SaveMoviesThumbnails(siteGenParams, moviesData, "Movies");
-            if (!result.Success)
-                return result;
-
-            #endregion
 
             #region Extract Details
 
-            var movieListDetails =
-                string.Format("The current list contains: {0} FullHD, {1} HD, {2} SD and {3} movies of unknown quality (summing aprox. {4} GB)",
-                    moviesData.Count(f => f.Q == "FullHD"),
-                    moviesData.Count(f => f.Q == "HD"),
-                    moviesData.Count(f => f.Q == "SD"),
-                    moviesData.Count(f => f.Q == "NotSet"),
-                    //movies.Sum(s => s.DimensiuneInt) / 1024
-                    "?");
+            opRes = Desene.DAL.GetStatistics(Sections.Movies);
+            if (!opRes.Success)
+                return opRes;
+
+            var movieListDetails = opRes.AdditionalDataReturn.ToString();
 
             var newMovies =
                 moviesData
@@ -99,7 +96,7 @@ namespace Utils
 
             var moviesDetails2 =
                 string.Format("var moviesData2 = {0};",
-                    jsS.Serialize(Desene.DAL.GetMoviesDetails2ForWeb()
+                    jsS.Serialize(Desene.DAL.GetMoviesDetails2ForWeb(false)
                 ));
 
             #endregion
@@ -107,11 +104,66 @@ namespace Utils
             #endregion
 
 
-            #region Series
+            #region ****** Series ******
 
             var seriesData = Desene.DAL.GetSeriesForWeb(SeriesType.Final);
             var episodesData = Desene.DAL.GetEpisodesForWeb(siteGenParams.PreserveMarkesForExistingThumbnails, SeriesType.Final);
 
+            if (genImages)
+            {
+                msi =
+                    seriesData
+                        .Select(x => new MovieShortInfo
+                            {
+                                Id = x.Id,
+                                FileName = x.FN,
+                                HasPoster = x.HasPoster
+                            })
+                        .ToList();
+
+
+                #region Series posters
+
+                if (siteGenParams.SavePosters)
+                {
+                    result = SavePosters(siteGenParams.Location, msi, "Series");
+
+                    if (!result.Success)
+                        return result;
+                }
+
+                #endregion
+
+
+                #region Series Episodes thumbnails
+
+                msi =
+                    episodesData
+                        .Select(x => new MovieShortInfo
+                            {
+                                Id = x.Id,
+                                FileName = x.FN
+                            })
+                        .ToList();
+
+                result = SaveThumbnails(siteGenParams, msi, "Series");
+
+                if (!result.Success)
+                    return result;
+
+                foreach (var updatedObj in msi)
+                {
+                    var obj = episodesData.FirstOrDefault(x => x.Id == updatedObj.Id);
+                    if (obj != null)
+                        obj.Th = updatedObj.ThumbnailGenerated ? 1 : 0;
+                }
+
+                #endregion
+            }
+
+            #region Extract Series Details - leave it after Thumbnail generation
+
+            Desene.DAL.FillSeriesDataFromEpisodes(ref seriesData, episodesData);
 
             var seriesWithInsertedEp = new List<int>();
 
@@ -126,32 +178,11 @@ namespace Utils
                 }
             }
 
-            #region Series posters
+            opRes = Desene.DAL.GetStatistics(Sections.Series);
+            if (!opRes.Success)
+                return opRes;
 
-            result = SavePosters(siteGenParams, seriesData, "Series");
-            if (!result.Success)
-                return result;
-
-            #endregion
-
-            #region Series Episodes thumbnails
-
-            result = SaveEpisodesThumbnails(siteGenParams, episodesData, "Series");
-            if (!result.Success)
-                return result;
-
-            #endregion
-
-            #region Extract Series Details - leave it after Thumbnail generation
-
-            Desene.DAL.FillSeriesDataFromEpisodes(ref seriesData, episodesData);
-
-            var seriesListDetails =
-                string.Format("The current list contains: {0} Series, combined having {1} episodes, (summing aprox. {2} GB)",
-                    seriesData.Count,
-                    episodesData.Count,
-                    //episodes.Sum(s => s.DimensiuneInt) / 1024
-                    "?");
+            var seriesListDetails = opRes.AdditionalDataReturn.ToString();
 
             var detSerialeInfo =
                 string.Format("var seriesData = {0}; var episodesDataS = {1}; var seriesStat = '{2}'; var newSeriesEpisodes = {3}",
@@ -165,14 +196,194 @@ namespace Utils
             #endregion
 
 
-            #region Recordings
+            #region ****** Collections ******
+
+            var collectionsData = Desene.DAL.GetSeriesForWeb(SeriesType.Collection);
+            var elementsData = Desene.DAL.GetCollectionElementsForWeb();
+
+            if (genImages)
+            {
+                #region Collections posters
+
+                if (siteGenParams.SavePosters)
+                {
+                    var elementsForPosterSave =
+                        collectionsData
+                            .Where(x => x.T == 1) //series-type
+                            .Select(x => new MovieShortInfo
+                                {
+                                    Id = x.Id,
+                                    FileName = x.FN,
+                                    HasPoster = x.HasPoster
+                                })
+                            .ToList();
+
+                    result = SavePosters(siteGenParams.Location, elementsForPosterSave, "Collections");
+
+                    if (!result.Success)
+                        return result;
+
+                    var movieTypesCollectionsIds = collectionsData.Where(x => x.T == 0).Select(x => x.Id).ToList();
+
+                    if (movieTypesCollectionsIds.Any())
+                    {
+                        var movieTypeElements = elementsData.Where(x => movieTypesCollectionsIds.Contains(x.CId));
+
+                        if (movieTypeElements.Any())
+                        {
+                            elementsForPosterSave =
+                                movieTypeElements
+                                    .Select(x => new MovieShortInfo
+                                        {
+                                            Id = x.Id,
+                                            FileName = x.FN,
+                                            HasPoster = x.HasPoster
+                                        })
+                                    .ToList();
+
+                            result = SavePosters(siteGenParams.Location, elementsForPosterSave, "Collections");
+
+                            if (!result.Success)
+                                return result;
+                        }
+                    }
+                }
+
+                #endregion
+
+
+                #region Collections elements thumbnails
+
+                msi =
+                    elementsData
+                        .Select(x => new MovieShortInfo
+                            {
+                                Id = x.Id,
+                                FileName = x.FN,
+                                HasPoster = x.HasPoster
+                            })
+                        .ToList();
+
+                result = SaveThumbnails(siteGenParams, msi, "Collections");
+
+                if (!result.Success)
+                    return result;
+
+                foreach (var updatedObj in msi)
+                {
+                    var obj = elementsData.FirstOrDefault(x => x.Id == updatedObj.Id);
+                    if (obj != null)
+                        obj.Th = updatedObj.ThumbnailGenerated ? 1 : 0;
+                }
+
+                #endregion
+            }
+
+            #region Extract Series Details - leave it after Thumbnail generation
+
+            var collectionsWithInsertedElements = new List<int>();
+
+            foreach (var elData in elementsData.OrderByDescending(o => o.InsertedDate))
+            {
+                if (collectionsWithInsertedElements.IndexOf(elData.CId) == -1)
+                {
+                    collectionsWithInsertedElements.Add(elData.CId);
+
+                    if (collectionsWithInsertedElements.Count() >= 25)
+                        break;
+                }
+            }
+
+            Desene.DAL.FillCollectionDataFromEpisodes(ref collectionsData, elementsData);
+
+            opRes = Desene.DAL.GetStatistics(Sections.Collections);
+            if (!opRes.Success)
+                return opRes;
+
+            var collectionsListDetails = opRes.AdditionalDataReturn.ToString();
+
+            var detCollectionsInfo =
+                string.Format("var collectionsData = {0}; var collectionsElements = {1}; var colStat = '{2}'; var newElementsInCol = {3}",
+                    jsS.Serialize(collectionsData),
+                    jsS.Serialize(elementsData),
+                    collectionsListDetails,
+                    jsS.Serialize(collectionsWithInsertedElements));
+
+            var collectionsDetails2 =
+                string.Format("var collectionsData2 = {0};",
+                    jsS.Serialize(Desene.DAL.GetMoviesDetails2ForWeb(true)
+                ));
+
+            #endregion
+
+            #endregion
+
+
+            #region ****** Recordings ******
 
             var recordingsData = Desene.DAL.GetSeriesForWeb(SeriesType.Recordings);
             var recordingsEpisodesData = Desene.DAL.GetEpisodesForWeb(siteGenParams.PreserveMarkesForExistingThumbnails, SeriesType.Recordings);
-            var detRecordingsInfo = "var recordingsData = []; var episodesDataR = []; var recordingsStat = '-'; var newRecordingsEpisodes = []"; //fallback
+
+            var detRecordingsInfo = "var recordingsData = []; var episodesDataR = []; var recordingsStat = '-'; var newRecordingsEpisodes = []"; //fallback in case there are no recordings
 
             if (recordingsData.Any())
             {
+
+                if (genImages)
+                {
+                    msi =
+                        recordingsData
+                            .Select(x => new MovieShortInfo
+                                {
+                                    Id = x.Id,
+                                    FileName = x.FN,
+                                    HasPoster = x.HasPoster
+                                })
+                            .ToList();
+
+
+                    #region Recordings posters
+
+                    if (siteGenParams.SavePosters)
+                    {
+                        result = SavePosters(siteGenParams.Location, msi, "Recordings");
+
+                        if (!result.Success)
+                            return result;
+                        }
+
+                    #endregion
+
+
+                    #region Recordings Episodes thumbnails
+
+                    msi =
+                        recordingsEpisodesData
+                            .Select(x => new MovieShortInfo
+                                {
+                                    Id = x.Id,
+                                    FileName = x.FN
+                                })
+                            .ToList();
+
+                    result = SaveThumbnails(siteGenParams, msi, "Recordings");
+
+                    if (!result.Success)
+                        return result;
+
+                    foreach (var updatedObj in msi)
+                    {
+                        var obj = recordingsEpisodesData.FirstOrDefault(x => x.Id == updatedObj.Id);
+                        if (obj != null)
+                            obj.Th = updatedObj.ThumbnailGenerated ? 1 : 0;
+                    }
+
+                    #endregion
+                }
+
+
+                #region Extract Recordings Details - leave it after Thumbnail generation
+
                 var recordingsWithInsertedEp = new List<int>();
 
                 foreach (var epData in recordingsEpisodesData.OrderByDescending(o => o.InsertedDate))
@@ -187,34 +398,14 @@ namespace Utils
                 }
 
 
-                #region Recordings posters
-
-                result = SavePosters(siteGenParams, recordingsData, "Recordings");
-                if (!result.Success)
-                    return result;
-
-                #endregion
-
-
-                #region Recordings Episodes thumbnails
-
-                result = SaveEpisodesThumbnails(siteGenParams, recordingsEpisodesData, "Recordings");
-                if (!result.Success)
-                    return result;
-
-                #endregion
-
-
-                #region Extract Recordings Details - leave it after Thumbnail generation
-
                 Desene.DAL.FillSeriesDataFromEpisodes(ref recordingsData, recordingsEpisodesData);
 
-                var recordingsListDetails =
-                    string.Format("The current list contains: {0} Series, combined having {1} episodes, (summing aprox. {2} GB)",
-                        recordingsData.Count,
-                        recordingsEpisodesData.Count,
-                        //episodes.Sum(s => s.DimensiuneInt) / 1024
-                        "?");
+
+                opRes = Desene.DAL.GetStatistics(Sections.Collections);
+                if (!opRes.Success)
+                    return opRes;
+
+                var recordingsListDetails = opRes.AdditionalDataReturn.ToString();
 
                 detRecordingsInfo =
                     string.Format("var recordingsData = {0}; var episodesDataR = {1}; var recordingsStat = '{2}'; var newRecordingsEpisodes = {3}",
@@ -229,75 +420,82 @@ namespace Utils
             #endregion
 
 
-            result.AdditionalDataReturn = new GeneratedJSData(detMovieInfo, detSerialeInfo, detRecordingsInfo, moviesDetails2);
+            result.AdditionalDataReturn = new GeneratedJSData(detMovieInfo, detSerialeInfo, detRecordingsInfo, moviesDetails2, detCollectionsInfo, collectionsDetails2);
             return result;
         }
 
-        private static OperationResult SavePosters(SiteGenParams siteGenParams, List<SeriesForWeb> data, string caption)
+
+        #region POSTERS saving methods
+
+        private static OperationResult SavePosters(string siteGenLocation, List<MovieShortInfo> data, string subFolder)
         {
             var result = new OperationResult();
 
-            if (siteGenParams.SavePosters)
+            var imgsPath = Path.Combine(siteGenLocation, "Imgs", subFolder);
+            var existingPostersForIds = new List<int>();
+
+            if (!Directory.Exists(imgsPath))
+                Directory.CreateDirectory(imgsPath);
+            else
             {
-                var imgsPath = Path.Combine(siteGenParams.Location, "Imgs\\Series");
-                var existingPostersForIds = new List<int>();
+                var d = new DirectoryInfo(imgsPath);
+                var Files = d.GetFiles("*.jpg");
 
-                if (!Directory.Exists(imgsPath))
-                    Directory.CreateDirectory(imgsPath);
-                else
+                foreach (FileInfo file in Files)
                 {
-                    var d = new DirectoryInfo(imgsPath);
-                    var Files = d.GetFiles("*.jpg");
-
-                    foreach (FileInfo file in Files)
-                    {
-                        var id = int.Parse(file.Name.Split('-', '.')[1]);
-                        if (!existingPostersForIds.Contains(id))
-                            existingPostersForIds.Add(id);
-                    }
+                    var id = int.Parse(file.Name.Split('-', '.')[1]);
+                    if (!existingPostersForIds.Contains(id))
+                        existingPostersForIds.Add(id);
                 }
+            }
 
-                var idsToSavePosters = new List<SeriesForWeb>(data.Where(x => !existingPostersForIds.Contains(x.Id)));
+            var postersToSave = new List<MovieShortInfo>(data.Where(x => !existingPostersForIds.Contains(x.Id)));
 
-                var formProgressIndicator = new FrmProgressIndicator(string.Format("Site generation - {0} posters", caption), "-", idsToSavePosters.Count);
-                formProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<SeriesForWeb>>(siteGenParams, idsToSavePosters);
-                formProgressIndicator.DoWork += formPI_DoWork_GenerateSitePosters_Series;
-
-                switch (formProgressIndicator.ShowDialog())
+            var formProgressIndicator = new FrmProgressIndicator(string.Format("Site generation - {0} posters", subFolder), "-", postersToSave.Count);
+            formProgressIndicator.Argument =
+                new BgwArgument_Work
                 {
-                    case DialogResult.Cancel:
-                        result.Success = false;
-                        result.CustomErrorMessage = "Operation has been canceled";
+                    SiteGenLocation = siteGenLocation,
+                    SubFolder = subFolder,
+                    MSI = postersToSave
+                };
 
-                        return result;
+            formProgressIndicator.DoWork += formPI_DoWork_GenerateSitePosters;
 
-                    case DialogResult.Abort:
-                        result.Success = false;
-                        result.CustomErrorMessage = formProgressIndicator.Result.Error.Message;
+            switch (formProgressIndicator.ShowDialog())
+            {
+                case DialogResult.Cancel:
+                    result.Success = false;
+                    result.CustomErrorMessage = "Operation has been canceled";
 
-                        return result;
+                    return result;
 
-                    case DialogResult.OK:
-                        result.AdditionalDataReturn = formProgressIndicator.Result.Result;
-                        break;
-                }
+                case DialogResult.Abort:
+                    result.Success = false;
+                    result.CustomErrorMessage = formProgressIndicator.Result.Error.Message;
+
+                    return result;
+
+                case DialogResult.OK:
+                    result.AdditionalDataReturn = formProgressIndicator.Result.Result;
+                    break;
             }
 
             return result;
         }
 
         /// <summary>
-        /// Reads the saved MOVIE poster (from the database) and, convert them to smaller size and save them on disk
+        /// Reads the saved posters from the database, convert them to smaller size and save them on disk
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private static void formPI_DoWork_GenerateSitePosters_Movies(FrmProgressIndicator sender, DoWorkEventArgs e)
+        private static void formPI_DoWork_GenerateSitePosters(FrmProgressIndicator sender, DoWorkEventArgs e)
         {
-            var siteGenDetails = (KeyValuePair<SiteGenParams, List<MovieForWeb>>)e.Argument;
+            var args = (BgwArgument_Work)e.Argument;
             var errorsWhileSaving = new List<TechnicalDetailsImportError>();
 
             var i = 0;
-            foreach (var movieForWebDet in siteGenDetails.Value)
+            foreach (var movieShortInfo in args.MSI)
             {
                 if (sender.CancellationPending)
                 {
@@ -306,16 +504,16 @@ namespace Utils
                 }
 
                 i++;
-                sender.SetProgress(i, Path.GetFileName(movieForWebDet.FN));
+                sender.SetProgress(i, Path.GetFileName(movieShortInfo.FileName));
 
-                if (!movieForWebDet.HasPoster) continue;
+                if (!movieShortInfo.HasPoster) continue;
 
-                var fileName = Path.Combine(siteGenDetails.Key.Location, string.Format("Imgs\\Movies\\poster-{0}.jpg", movieForWebDet.Id));
-                if (File.Exists(fileName)) continue;
+                var fileName = Path.Combine(args.SiteGenLocation, string.Format("Imgs\\{0}\\poster-{1}.jpg", args.SubFolder, movieShortInfo.Id));
+                if (File.Exists(fileName)) continue; //?? wasn't it excluded before this ?
 
                 try
                 {
-                    var cover = Desene.DAL.GetPoster(movieForWebDet.Id);
+                    var cover = Desene.DAL.GetPoster(movieShortInfo.Id);
 
                     using (var ms = new MemoryStream(cover))
                     {
@@ -329,7 +527,7 @@ namespace Utils
                     errorsWhileSaving.Add(
                         new TechnicalDetailsImportError
                         {
-                            FilePath = movieForWebDet.FN,
+                            FilePath = movieShortInfo.FileName,
                             ErrorMesage = OperationResult.GetErrorMessage(ex)
                         });
                 }
@@ -338,57 +536,7 @@ namespace Utils
             e.Result = errorsWhileSaving;
         }
 
-        /// <summary>
-        /// Reads the saved SERIES poster (from the database) and, convert them to smaller size and save them on disk
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private static void formPI_DoWork_GenerateSitePosters_Series(FrmProgressIndicator sender, DoWorkEventArgs e)
-        {
-            var siteGenDetails = (KeyValuePair<SiteGenParams, List<SeriesForWeb>>)e.Argument;
-            var errorsWhileSaving = new List<TechnicalDetailsImportError>();
-
-            var i = 0;
-            foreach (var seriesForWebDet in siteGenDetails.Value)
-            {
-                if (sender.CancellationPending)
-                {
-                    e.Cancel = true;
-                    return;
-                }
-
-                i++;
-                sender.SetProgress(i, Path.GetFileName(seriesForWebDet.FN));
-
-                if (!seriesForWebDet.HasPoster) continue;
-
-                var fileName = Path.Combine(siteGenDetails.Key.Location, string.Format("Imgs\\Series\\poster-{0}.jpg", seriesForWebDet.Id));
-                if (File.Exists(fileName)) continue;
-
-                try
-                {
-                    var cover = Desene.DAL.GetPoster(seriesForWebDet.Id);
-
-                    using (var ms = new MemoryStream(cover))
-                    {
-                        var imgOgj = GraphicsHelpers.CreatePosterThumbnail(250, 388, Image.FromStream(ms));
-
-                        imgOgj.Save(fileName, ImageFormat.Jpeg);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    errorsWhileSaving.Add(
-                        new TechnicalDetailsImportError
-                        {
-                            FilePath = seriesForWebDet.FN,
-                            ErrorMesage = OperationResult.GetErrorMessage(ex)
-                        });
-                }
-            }
-
-            e.Result = errorsWhileSaving;
-        }
+        #endregion
 
 
         #region Thumbnails
@@ -404,15 +552,13 @@ namespace Utils
             return source.GetThumbnailImage(newWidth, newHeight, null, IntPtr.Zero);
         }
 
-        #region MOVIES
-
-        private static OperationResult SaveMoviesThumbnails(SiteGenParams siteGenParams, List<MovieForWeb> data, string caption)
+        private static OperationResult SaveThumbnails(SiteGenParams siteGenParams, List<MovieShortInfo> data, string subFolder)
         {
             var result = new OperationResult();
+            var imgsPath = Path.Combine(siteGenParams.Location, "Imgs", subFolder, "Thumbnails");
 
             if (siteGenParams.SaveEpisodesThumbnals)
             {
-                var imgsPath = Path.Combine(siteGenParams.Location, "Imgs\\Movies\\Thumbnails");
                 var existingThumbnailsForIds = new List<int>();
 
                 if (!Directory.Exists(imgsPath))
@@ -430,10 +576,17 @@ namespace Utils
                     }
                 }
 
-                var idsToSaveThumbnails = new List<MovieForWeb>(data.Where(x => !existingThumbnailsForIds.Contains(x.Id)));
+                var thumbnailsToSave = new List<MovieShortInfo>(data.Where(x => !existingThumbnailsForIds.Contains(x.Id)));
 
-                var formProgressIndicator = new FrmProgressIndicator(string.Format("Site generation - Movies ({0}) thumbnails", caption), "-", idsToSaveThumbnails.Count);
-                formProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<MovieForWeb>>(siteGenParams, idsToSaveThumbnails);
+                var formProgressIndicator = new FrmProgressIndicator(string.Format("Site generation - {0} thumbnails", subFolder), "-", thumbnailsToSave.Count);
+                formProgressIndicator.Argument =
+                    new BgwArgument_Work
+                    {
+                        SiteGenLocation = siteGenParams.Location,
+                        SubFolder = subFolder,
+                        MSI = thumbnailsToSave
+                    };
+
                 formProgressIndicator.DoWork += formPI_DoWork_GenerateSiteMovies_Thumbnails;
 
                 switch (formProgressIndicator.ShowDialog())
@@ -455,16 +608,24 @@ namespace Utils
                         break;
                 }
 
-                foreach (var episodeForWeb in data.Where(x => existingThumbnailsForIds.Contains(x.Id)))
+                //setting the marker for all previous existing thumbnails
+                foreach (var msi in data.Where(x => existingThumbnailsForIds.Contains(x.Id)))
                 {
-                    episodeForWeb.Th = 1;
+                    msi.ThumbnailGenerated = true;
                 }
             }
             else
-            if (siteGenParams.PreserveMarkesForExistingThumbnails && Directory.Exists(Path.Combine(siteGenParams.Location, "Imgs\\Movies\\Thumbnails\\")))
+            if (siteGenParams.PreserveMarkesForExistingThumbnails && Directory.Exists(imgsPath))
             {
                 var formProgressIndicator = new FrmProgressIndicator("Setting the movies thumbnails marker from existing files", "-", data.Count);
-                formProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<MovieForWeb>>(siteGenParams, data);
+                formProgressIndicator.Argument =
+                    new BgwArgument_Work
+                    {
+                        SiteGenLocation = siteGenParams.Location,
+                        SubFolder = subFolder,
+                        MSI = data
+                    };
+
                 formProgressIndicator.DoWork += formPI_DoWork_GenerateSiteMovies_Thumbnails2;
 
                 switch (formProgressIndicator.ShowDialog())
@@ -485,6 +646,7 @@ namespace Utils
                         result.AdditionalDataReturn = formProgressIndicator.Result.Result;
                         break;
                 }
+
             }
 
             return result;
@@ -497,11 +659,11 @@ namespace Utils
         /// <param name="e"></param>
         private static void formPI_DoWork_GenerateSiteMovies_Thumbnails(FrmProgressIndicator sender, DoWorkEventArgs e)
         {
-            var moviesDetails = (KeyValuePair<SiteGenParams, List<MovieForWeb>>)e.Argument;
+            var args = (BgwArgument_Work)e.Argument;
             var errorsWhileSaving = new List<TechnicalDetailsImportError>();
 
             var i = 0;
-            foreach (var movieDet in moviesDetails.Value)
+            foreach (var movieShortInfo in args.MSI)
             {
                 if (sender.CancellationPending)
                 {
@@ -510,23 +672,24 @@ namespace Utils
                 }
 
                 i++;
-                sender.SetProgress(i, Path.GetFileName(movieDet.FN));
+                sender.SetProgress(i, Path.GetFileName(movieShortInfo.FileName));
 
                 try
                 {
-                    var epStills = Desene.DAL.LoadMovieStills(movieDet.Id).MovieStills;
+                    var stills = Desene.DAL.LoadMovieStills(movieShortInfo.Id).MovieStills;
 
-                    if (epStills == null || epStills.Count == 0) continue;
-                    movieDet.Th = 1;
+                    if (stills == null || stills.Count == 0) continue;
 
-                    for (var j = 0; j < epStills.Count; j++)
+                    movieShortInfo.ThumbnailGenerated = true;
+
+                    for (var j = 0; j < stills.Count; j++)
                     {
-                        var fileName = Path.Combine(moviesDetails.Key.Location,
-                            string.Format("Imgs\\Movies\\Thumbnails\\thumb-{0}-{1}.jpg", movieDet.Id, j));
+                        var fileName = Path.Combine(args.SiteGenLocation,
+                            string.Format("Imgs\\{0}\\Thumbnails\\thumb-{1}-{2}.jpg", args.SubFolder, movieShortInfo.Id, j));
 
                         if (File.Exists(fileName)) continue;
 
-                        using (var ms = new MemoryStream(epStills[j]))
+                        using (var ms = new MemoryStream(stills[j]))
                         {
                             var imgOgj = CreateStillThumbnail(250, Image.FromStream(ms));
 
@@ -539,7 +702,7 @@ namespace Utils
                     errorsWhileSaving.Add(
                         new TechnicalDetailsImportError
                         {
-                            FilePath = movieDet.FN,
+                            FilePath = movieShortInfo.FileName,
                             ErrorMesage = OperationResult.GetErrorMessage(ex)
                         });
                 }
@@ -556,13 +719,13 @@ namespace Utils
         /// <param name="e"></param>
         private static void formPI_DoWork_GenerateSiteMovies_Thumbnails2(FrmProgressIndicator sender, DoWorkEventArgs e)
         {
-            var moviesDetails = (KeyValuePair<SiteGenParams, List<MovieForWeb>>)e.Argument;
+            var args = (BgwArgument_Work)e.Argument;
             var errorsWhileSaving = new List<TechnicalDetailsImportError>();
 
-            var path = Path.Combine(moviesDetails.Key.Location, "Imgs\\Movies\\Thumbnails\\");
-            var i = 0;
+            var path = Path.Combine(args.SiteGenLocation, string.Format("Imgs\\{0}\\Thumbnails\\", args.SubFolder));
 
-            foreach (var movieDet in moviesDetails.Value)
+            var i = 0;
+            foreach (var movieShortInfo in args.MSI)
             {
                 if (sender.CancellationPending)
                 {
@@ -571,21 +734,21 @@ namespace Utils
                 }
 
                 i++;
-                sender.SetProgress(i, Path.GetFileName(movieDet.FN));
+                sender.SetProgress(i, Path.GetFileName(movieShortInfo.FileName));
 
                 try
                 {
-                    var fnPattern = string.Format("thumb-{0}-*.jpg", movieDet.Id);
+                    var fnPattern = string.Format("thumb-{0}-*.jpg", movieShortInfo.Id);
 
                     if (Directory.EnumerateFiles(path, fnPattern).Any())
-                        movieDet.Th = 1;
+                        movieShortInfo.ThumbnailGenerated = true;
                 }
                 catch (Exception ex)
                 {
                     errorsWhileSaving.Add(
                         new TechnicalDetailsImportError
                         {
-                            FilePath = movieDet.FN,
+                            FilePath = movieShortInfo.FileName,
                             ErrorMesage = OperationResult.GetErrorMessage(ex)
                         });
                 }
@@ -593,203 +756,6 @@ namespace Utils
 
             e.Result = errorsWhileSaving;
         }
-
-        #endregion
-
-
-        #region SERIES/episodes
-
-        private static OperationResult SaveEpisodesThumbnails(SiteGenParams siteGenParams, List<EpisodesForWeb> data, string caption)
-        {
-            var result = new OperationResult();
-
-            if (siteGenParams.SaveEpisodesThumbnals)
-            {
-                var imgsPath = Path.Combine(siteGenParams.Location, "Imgs\\Series\\Thumbnails");
-                var existingThumbnailsForIds = new List<int>();
-
-                if (!Directory.Exists(imgsPath))
-                    Directory.CreateDirectory(imgsPath);
-                else
-                {
-                    var d = new DirectoryInfo(imgsPath);
-                    var Files = d.GetFiles("*.jpg");
-
-                    foreach (FileInfo file in Files)
-                    {
-                        var id = int.Parse(file.Name.Split('-')[1]);
-                        if (!existingThumbnailsForIds.Contains(id))
-                            existingThumbnailsForIds.Add(id);
-                    }
-                }
-
-                var idsToSaveThumbnails = new List<EpisodesForWeb>(data.Where(x => !existingThumbnailsForIds.Contains(x.Id)));
-
-                var formProgressIndicator = new FrmProgressIndicator(string.Format("Site generation - Episodes ({0}) thumbnails", caption), "-", idsToSaveThumbnails.Count);
-                formProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<EpisodesForWeb>>(siteGenParams, idsToSaveThumbnails);
-                formProgressIndicator.DoWork += formPI_DoWork_GenerateSiteEpisodes_Thumbnails;
-
-                switch (formProgressIndicator.ShowDialog())
-                {
-                    case DialogResult.Cancel:
-                        result.Success = false;
-                        result.CustomErrorMessage = "Operation has been canceled";
-
-                        return result;
-
-                    case DialogResult.Abort:
-                        result.Success = false;
-                        result.CustomErrorMessage = formProgressIndicator.Result.Error.Message;
-
-                        return result;
-
-                    case DialogResult.OK:
-                        result.AdditionalDataReturn = formProgressIndicator.Result.Result;
-                        break;
-                }
-
-                foreach (var episodeForWeb in data.Where(x => existingThumbnailsForIds.Contains(x.Id)))
-                {
-                    episodeForWeb.Th = 1;
-                }
-            }
-            else
-            if (siteGenParams.PreserveMarkesForExistingThumbnails && Directory.Exists(Path.Combine(siteGenParams.Location, "Imgs\\Series\\Thumbnails\\")))
-            {
-                var formProgressIndicator = new FrmProgressIndicator("Setting the episodes thumbnails marker from existing files", "-", data.Count);
-                formProgressIndicator.Argument = new KeyValuePair<SiteGenParams, List<EpisodesForWeb>>(siteGenParams, data);
-                formProgressIndicator.DoWork += formPI_DoWork_GenerateSiteEpisodes_Thumbnails2;
-
-                switch (formProgressIndicator.ShowDialog())
-                {
-                    case DialogResult.Cancel:
-                        result.Success = false;
-                        result.CustomErrorMessage = "Operation has been canceled";
-
-                        return result;
-
-                    case DialogResult.Abort:
-                        result.Success = false;
-                        result.CustomErrorMessage = formProgressIndicator.Result.Error.Message;
-
-                        return result;
-
-                    case DialogResult.OK:
-                        result.AdditionalDataReturn = formProgressIndicator.Result.Result;
-                        break;
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Reads the saved thumbnails (from the database) and, convert them to smaller size and save them on disk
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private static void formPI_DoWork_GenerateSiteEpisodes_Thumbnails(FrmProgressIndicator sender, DoWorkEventArgs e)
-        {
-            var episodeDetails = (KeyValuePair<SiteGenParams, List<EpisodesForWeb>>)e.Argument;
-            var errorsWhileSaving = new List<TechnicalDetailsImportError>();
-
-            var i = 0;
-            foreach (var episodeDet in episodeDetails.Value)
-            {
-                if (sender.CancellationPending)
-                {
-                    e.Cancel = true;
-                    return;
-                }
-
-                i++;
-                sender.SetProgress(i, Path.GetFileName(episodeDet.FN));
-
-                try
-                {
-                    var epStills = Desene.DAL.LoadMovieStills(episodeDet.Id).MovieStills;
-
-                    if (epStills == null || epStills.Count == 0) continue;
-                    episodeDet.Th = 1;
-
-                    for (var j = 0; j < epStills.Count; j++)
-                    {
-                        var fileName = Path.Combine(episodeDetails.Key.Location,
-                            string.Format("Imgs\\Series\\Thumbnails\\thumb-{0}-{1}.jpg", episodeDet.Id, j));
-
-                        if (File.Exists(fileName)) continue;
-
-                        using (var ms = new MemoryStream(epStills[j]))
-                        {
-                            var imgOgj = CreateStillThumbnail(250, Image.FromStream(ms));
-
-                            imgOgj.Save(fileName, ImageFormat.Jpeg);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    errorsWhileSaving.Add(
-                        new TechnicalDetailsImportError
-                        {
-                            FilePath = episodeDet.FN,
-                            ErrorMesage = OperationResult.GetErrorMessage(ex)
-                        });
-                }
-            }
-
-            e.Result = errorsWhileSaving;
-        }
-
-        /// <summary>
-        /// Checks the thumbnail existence on disk and if found, it set the thumbnail presence marker (into the current loaded lists)
-        /// Fires when no thumbnail generation is made, but the user opt in for existing thumbnail preservation
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private static void formPI_DoWork_GenerateSiteEpisodes_Thumbnails2(FrmProgressIndicator sender, DoWorkEventArgs e)
-        {
-            var episodeDetails = (KeyValuePair<SiteGenParams, List<EpisodesForWeb>>)e.Argument;
-            var errorsWhileSaving = new List<TechnicalDetailsImportError>();
-
-            var path = Path.Combine(episodeDetails.Key.Location, "Imgs\\Series\\Thumbnails\\");
-            var i = 0;
-
-            foreach (var episodeDet in episodeDetails.Value)
-            {
-                if (sender.CancellationPending)
-                {
-                    e.Cancel = true;
-                    return;
-                }
-
-                i++;
-                sender.SetProgress(i, Path.GetFileName(episodeDet.FN));
-
-                try
-                {
-                    var fnPattern = string.Format("thumb-{0}-*.jpg", episodeDet.Id);
-
-                    if (Directory.EnumerateFiles(path, fnPattern).Any())
-                        episodeDet.Th = 1;
-                }
-                catch (Exception ex)
-                {
-                    errorsWhileSaving.Add(
-                        new TechnicalDetailsImportError
-                        {
-                            FilePath = episodeDet.FN,
-                            ErrorMesage = OperationResult.GetErrorMessage(ex)
-                        });
-                }
-            }
-
-            e.Result = errorsWhileSaving;
-        }
-
-        #endregion
-
-
 
         #endregion
     }

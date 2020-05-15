@@ -14,6 +14,7 @@ namespace DAL
         //public byte[] Cover { get; set; }
         public bool HasPoster { get; set; }
         public bool HasSynopsis { get; set; }
+        public bool ThumbnailGenerated { get; set;}
     }
 
     public class SeriesEpisodesShortInfo
@@ -41,6 +42,7 @@ namespace DAL
 
         public int SectionType { get; set; } //collections only
         public string Notes { get; set; } //collections only
+        public byte[] Poster { get; set; } //collections only
     }
 
     public class MovieTechnicalDetails
@@ -368,6 +370,7 @@ namespace DAL
         public string Q { get; set; }   //Quality
         public string A { get; set; }   //Audio
         public string Ec { get; set; }  //EpisodeCount
+        public int T { get; set; }      //CollectionsSiteSectionType
 
         [ScriptIgnore]
         public byte[] Cover { get; set; }
@@ -407,6 +410,43 @@ namespace DAL
         public EpisodesForWeb()
         {
         }
+    }
+
+    //combination of MoviesForWeb and EpisodesForWeb
+    public class CollectionElementForWeb
+    {
+        public int Id { get; set; }
+        public int CId { get; set; }    //CollectionId
+        public string FN { get; set; }  //FileName
+        public string R { get; set; }   //Recommended
+        public string RL { get; set; }  //RecommendedLink
+        public string Y { get; set; }   //Year
+        public string Q { get; set; }   //Quality
+        public string S { get; set; }   //FileSize2
+
+        [ScriptIgnore]
+        public long Si { get; set; }    //FileSize          ~   DimensiuneIn
+
+        public string B { get; set; }   //BitRate
+        public string L { get; set; }   //DurationFormatted
+        public string A { get; set; }   //AudioLanguages
+        public string SU { get; set; }  //SubtitleLanguages
+        public string DL { get; set; }  //DescriptionLink
+        public string T { get; set; }   //Theme
+        public string N { get; set; }   //Notes
+        public string Nl { get; set; }  //NLSource
+        public string Tr { get; set; }  //Trailer
+        public int Th { get; set; }     //Thumbnail present? (Bit like ~ 0-1)
+
+        [ScriptIgnore]
+        public DateTime InsertedDate { get; set; }
+
+        [ScriptIgnore]
+        public DateTime LastChangeDate { get; set; }
+
+        [ScriptIgnore]
+        public bool HasPoster { get; set; }
+
     }
 
     #endregion
@@ -486,13 +526,20 @@ namespace DAL
 
         public string MoviesDetails2 { get; set; }
 
+        public string CollectionsData { get; set; }
+        public string CollectionsDetails2 { get; set; }
+
         public GeneratedJSData() { }
-        public GeneratedJSData(string moviesData, string seriesData, string recordingsData, string moviesDetails2)
+
+        public GeneratedJSData(string moviesData, string seriesData, string recordingsData, string moviesDetails2,
+            string collectionsData, string collectionsDetails2)
         {
             MoviesData = moviesData;
             SeriesData = seriesData;
             RecordingsData = recordingsData;
             MoviesDetails2 = moviesDetails2;
+            CollectionsData = collectionsData;
+            CollectionsDetails2 = collectionsDetails2;
         }
     }
 
@@ -506,11 +553,10 @@ namespace DAL
         //public string SkipReason { get; set; }
     }
 
-    //public class CollectionInfo
-    //{
-    //    public int Id { get; set; }
-    //    public string Title { get; set; }
-    //    public string Notes { get; set; }
-    //    public int SiteSectionType { get; set; }
-    //}
+    public class BgwArgument_Work
+    {
+        public string SiteGenLocation { get; set; }
+        public string SubFolder { get; set; }
+        public List<MovieShortInfo> MSI { get; set; }
+    }
 }

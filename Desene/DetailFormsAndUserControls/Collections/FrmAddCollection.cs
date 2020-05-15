@@ -1,6 +1,9 @@
 ﻿using DAL;
+using Desene.DetailFormsAndUserControls.Collections;
+using Desene.Properties;
 using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using Utils;
 
@@ -8,30 +11,29 @@ namespace Desene
 {
     public partial class FrmAddCollection : Form
     {
-        //public int NewId;
-        //public CollectionInfo CollectionObj;
+        private ucCollectionInfo _ucCollectionInfo;
 
         public FrmAddCollection()
         {
             InitializeComponent();
+
+            _ucCollectionInfo = new ucCollectionInfo() { ParentEl = this };
+            _ucCollectionInfo.Dock = DockStyle.Fill;
+
+            Controls.Add(_ucCollectionInfo);
+            _ucCollectionInfo.BringToFront();
         }
-
-        //public FrmAddCollection(CollectionInfo collectionObj)
-        //{
-        //    InitializeComponent();
-
-        //    CollectionObj = collectionObj;
-        //}
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!ucCollectionInfo1.ValidateInput())
+            if (!_ucCollectionInfo.ValidateInput())
             {
                 MsgBox.Show("Please specify all required details!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            var opRes = DAL.InsertCollection(ucCollectionInfo1.Title, ucCollectionInfo1.Notes, ucCollectionInfo1.SectionType);
+            var opRes = DAL.InsertCollection(_ucCollectionInfo.Title, _ucCollectionInfo.Notes, _ucCollectionInfo.SectionType,
+                _ucCollectionInfo.Poster);
 
             if (!opRes.Success)
             {
@@ -54,6 +56,37 @@ namespace Desene
         private void FrmAddCollection_FormClosed(object sender, FormClosedEventArgs e)
         {
             Common.Helpers.UnsavedChanges = false;
+        }
+
+        private void btnLoadPoster_Click(object sender, EventArgs e)
+        {
+            using (var openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Title =
+                    string.IsNullOrEmpty(_ucCollectionInfo.Title)
+                        ? "Choose a poster for untitled collection"
+                        : string.Format("Choose a poster for collection '{0}'",  _ucCollectionInfo.Title);
+
+                openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*";
+                openFileDialog.InitialDirectory = Settings.Default.LastCoverPath;
+
+                if (openFileDialog.ShowDialog() != DialogResult.OK) return;
+
+                Settings.Default.LastCoverPath = Path.GetFullPath(openFileDialog.FileName);
+                Settings.Default.Save();
+
+
+                using (var file = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
+                {
+                    var bytes = new byte[file.Length];
+                    file.Read(bytes, 0, (int)file.Length);
+
+                    //_ucCollectionInfo.SetPoster(bytes);
+                    _ucCollectionInfo.Poster = bytes;
+                }
+
+                Common.Helpers.UnsavedChanges = true;
+            }
         }
     }
 }

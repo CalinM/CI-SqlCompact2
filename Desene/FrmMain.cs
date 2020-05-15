@@ -69,7 +69,7 @@ namespace Desene
                 DatabaseOperations.CreateIndex("AudioStream", "audio1", "FileDetailId ASC");
                 DatabaseOperations.CreateIndex("VideoStream", "video1", "FileDetailId ASC");
                 DatabaseOperations.CreateIndex("Thumbnails", "stills1", "FileDetailId ASC");
-                DatabaseOperations.CreateField("FileDetail", "SectionType", "int NULL");                
+                DatabaseOperations.CreateField("FileDetail", "SectionType", "int NULL");
             }
 
             pMainContainer.Controls.Clear();
@@ -148,7 +148,7 @@ namespace Desene
                 if (!senderItem.Checked)
                 {
                     MarkCurrentCategory(senderItem);
-                    GetStatistics(true, false);
+                    GetStatistics(true, Sections.Movies);
 
                     pMainContainer.Controls.Clear();
                     pMainContainer.Controls.Add(new ucMovies(this) { Dock = DockStyle.Fill });
@@ -162,7 +162,7 @@ namespace Desene
 
                     pMainContainer.Controls.Clear();
 
-                    GetStatistics(false, false);
+                    GetStatistics(false, Sections.Movies);
                 }
 
                 SetMainCrudButtonsState(senderItem.Checked, "Add movie");
@@ -190,7 +190,7 @@ namespace Desene
                 if (!senderItem.Checked)
                 {
                     MarkCurrentCategory(senderItem);
-                    GetStatistics(true, false);
+                    GetStatistics(true, Sections.Movies);
 
                     pMainContainer.Controls.Clear();
                     pMainContainer.Controls.Add(new ucMoviesList(this) { Dock = DockStyle.Fill });
@@ -204,7 +204,7 @@ namespace Desene
 
                     pMainContainer.Controls.Clear();
 
-                    GetStatistics(false, false);
+                    GetStatistics(false, Sections.Movies);
                 }
 
                 SetMainCrudButtonsState(senderItem.Checked, "Add movie");
@@ -232,13 +232,15 @@ namespace Desene
                 if (!senderItem.Checked)
                 {
                     MarkCurrentCategory(senderItem);
-                    GetStatistics(false, false); //not implemented! ... todo
+                    GetStatistics(true, Sections.Collections);
 
                     pMainContainer.Controls.Clear();
                     pMainContainer.Controls.Add(new ucCollections(this) { Dock = DockStyle.Fill });
                 }
                 else
                 {
+                    GetStatistics(false, Sections.Collections);
+
                     senderItem.Checked = false;
                     pMainContainer.Controls.Clear();
                 }
@@ -251,6 +253,7 @@ namespace Desene
             }
             finally
             {
+                DAL.EpisodeParentType = EpisodeParentType.Collection;
                 DrawingControl.ResumeDrawing(pMainContainer);
                 Cursor = Cursors.Default;
             }
@@ -278,7 +281,8 @@ namespace Desene
                 if (!senderItem.Checked)
                 {
                     MarkCurrentCategory(senderItem);
-                    GetStatistics(true, true);
+
+                    GetStatistics(true, st == SeriesType.Final ? Sections.Series : Sections.Recordings);
 
                     pMainContainer.Controls.Clear();
                     pMainContainer.Controls.Add(new ucSeries(this, st) { Dock = DockStyle.Fill });
@@ -288,7 +292,7 @@ namespace Desene
                     senderItem.Checked = false;
                     pMainContainer.Controls.Clear();
 
-                    GetStatistics(false, true);
+                    GetStatistics(false, st == SeriesType.Final ? Sections.Series : Sections.Recordings);
                 }
 
                 SetMainCrudButtonsState(senderItem.Checked, "Add " + (st == SeriesType.Final ? "series" : "recordings group"));
@@ -299,27 +303,29 @@ namespace Desene
             }
             finally
             {
+                DAL.EpisodeParentType = EpisodeParentType.Series;
                 DrawingControl.ResumeDrawing(pMainContainer);
                 Cursor = Cursors.Default;
             }
         }
 
-        private void GetStatistics(bool show, bool forSeries)
+        private void GetStatistics(bool show, Sections section)
         {
             if (show)
             {
-                var opRes = DAL.GetStatistics(forSeries);
+                var opRes = DAL.GetStatistics(section);
 
                 sslbStatistics.Text =
                     opRes.Success
                         ? (string)opRes.AdditionalDataReturn
                         : opRes.CustomErrorMessage;
 
+                /*
                 var moviesInList = (string)opRes.AdditionalDataReturn != "There are no movies in the list ...";
 
                 sslbClick.Visible = !forSeries && moviesInList;
                 sslbAdditionalInfo1.Visible = !forSeries && moviesInList;
-                sslbAdditionalInfo2.Visible = !forSeries && moviesInList;
+                sslbAdditionalInfo2.Visible = !forSeries && moviesInList;*/
             }
 
             sslbStatistics.Visible = show;
@@ -386,6 +392,7 @@ namespace Desene
 
         private void sslbClick_Click(object sender, EventArgs e)
         {
+            /*
             MsgBox.Show(
                 string.Format(
                     "{0}{1}{1}{2}",
@@ -394,6 +401,7 @@ namespace Desene
                     "Warning! The list only refreshes when a section is shown!"),
                 "Info", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             //, new Font("Courier New", 8, FontStyle.Regular)
+            */
         }
 
 
@@ -854,13 +862,20 @@ namespace Desene
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\seriesDetails.js"), serializedData.SeriesData);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\recordingDetails.js"), serializedData.RecordingsData);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\moviesDetails2.js"), serializedData.MoviesDetails2);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\collectionDetails.js"), serializedData.CollectionsData);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\collectionDetails2.js"), serializedData.CollectionsDetails2);
 
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery-2.2.4.min.js"), Resources.jquery_2_2_4_min);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\desene.js"), Resources.deseneJS);
+            //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\desene.js"), Resources.deseneJS);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_main.js"), Resources.cr_mainJS);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_shared.js"), Resources.cr_sharedJS);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_collections.js"), Resources.cr_collectionsJS);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_movies.js"), Resources.cr_moviesJS);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_series.js"), Resources.cr_seriesJS);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery.lazy.min.js"), Resources.jquery_lazy_min);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery.slimscroll.min.js"), Resources.jquery_slimscroll_min);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jsgrid.min.js"), Resources.jsgrid_minJS);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\YouTubePopUp.jquery.js"), Resources.YouTubePopUp_jquery);
+            //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\YouTubePopUp.jquery.js"), Resources.YouTubePopUp_jquery);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\owl.carousel.min.js"), Resources.owl_carousel_minJS);
 
             #endregion
@@ -875,7 +890,7 @@ namespace Desene
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\jsgrid-theme.min.css"), Resources.jsgrid_theme_min);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\jsgrid.min.css"), Resources.jsgrid_minCSS);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\sections.css"), Resources.sections);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\YouTubePopUp.css"), Resources.YouTubePopUp);
+            //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\YouTubePopUp.css"), Resources.YouTubePopUp);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\owl.carousel.min.css"), Resources.owl_carousel_minCSS);
 
             #endregion
@@ -1133,8 +1148,8 @@ namespace Desene
                 }
                 */
 
-                var xxx = DAL.GetMoviesDetails2ForWeb();
-                var x= 1;
+                //var xxx = DAL.GetMoviesDetails2ForWeb();
+                //var x= 1;
             }
             catch (Exception ex)
             {

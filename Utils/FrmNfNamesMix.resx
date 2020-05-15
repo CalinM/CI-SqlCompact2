@@ -117,4 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="rtbLanguage1.Text" xml:space="preserve">
+    <value>1. Tak’s Torenhoge Tuimeltaart / Bamboeboe
+2. Gipsbaksels / Okra-bal
+3. Kijk op en Speel/ Naar De Maan
+4. Lente-Surprise-Ei
+5. De Jacht op het Blaadje/ Ridders van de Duikeltafel
+6. Esdoorn’s mobiele Blubsietaartenkraam/ Papieren-Vliegtuig-Briefjes
+7. Met de stroom mee/ Doorgeef-Fantasie
+8. Op jacht naar de Kist/ Houvast
+9. Niets in de Schatkist/ Zoekspelletje
+10. Kukeldroedeldag/ Slaapfeestje aan dek
+11. Tak’s stille knalfeest / Tappa-Tappa-Tapschoenen
+12. De Wieldinges / Teletouw
+13. Natuurvrienden/ De Schip-shop</value>
+  </data>
+  <data name="rtbLanguage2.Text" xml:space="preserve">
+    <value>1. Stick's Towering, Toppling Cake/Bambooboo
+2. Rutabagels/Okra-Ball
+3. Look Up And Play/To The Moon
+4. Spring-a-ling Surprise
+5. Chase The Leaf/Knights of the Tumble Tale 
+6. Maple's Mobile Mudpie Stand/Paper Plane Messages 
+7. Go With The Flow/Passing Fancy 
+8. Quest for The Chest/Get A Grip 
+9. Nothing In The Finding Place/Finding Play 
+10. Cock-A-Doodle Day/Glow In The Dark Sleepover 
+11. Stick's Quiet Riot/Tappa Tappa Tap Shoes 
+12. The Wheel Thing/Twine Line 
+13. The Nature Of Friendship/The Ship Shop </value>
+  </data>
 </root>

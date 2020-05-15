@@ -173,6 +173,20 @@ namespace Desene.DetailFormsAndUserControls
 
         private void InitControls()
         {
+            switch (DAL.EpisodeParentType)
+            {
+                case EpisodeParentType.Series:
+                    lbSeriesTitle.Text = "Series title:";
+                    tbSeason.Enabled = true;
+                    break;
+
+                case EpisodeParentType.Collection:
+                    lbSeriesTitle.Text = "Collection title:";
+                    tbSeason.Enabled = false;
+                    break;
+            }
+
+
             _bsControlsData = new BindingSource();
 
             cbQuality.DataSource = Enum.GetValues(typeof(Quality));
