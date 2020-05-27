@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using Utils;
 
 namespace Desene.DetailFormsAndUserControls
 {
@@ -15,6 +16,8 @@ namespace Desene.DetailFormsAndUserControls
         private ucCollections _parent;
         private Dictionary<int, bool> _checkState;
         private CheckBox _headerColCheckBox;
+        private int _lastSelectedRowIndex = -1;
+        private bool _preventEvent = false;
 
         public ucCollectionElements()
         {
@@ -84,6 +87,7 @@ namespace Desene.DetailFormsAndUserControls
 
         private void HeaderColCheckBox_CheckedChanged(object sender, EventArgs e)
         {
+            if (_preventEvent) return;
             try
             {
                 dgvElements.SuspendLayout();
@@ -118,6 +122,7 @@ namespace Desene.DetailFormsAndUserControls
             _headerColCheckBox.Checked = false;
 
             SetBulkEditButtonStateInParent();
+            _lastSelectedRowIndex = -1;
 
             var episodesInSeries = DAL.GetEpisodesInSeries(sesInfo);
 
@@ -177,6 +182,28 @@ namespace Desene.DetailFormsAndUserControls
                 // Get the episodeId
                 var episodeId = (int)dgvElements.Rows[e.RowIndex].Cells["Id"].Value;
                 _checkState[episodeId] = (bool)dgvElements.Rows[e.RowIndex].Cells[0].Value;
+
+                SetHeaderCheckBoxState();
+            }
+        }
+
+        private void SetHeaderCheckBoxState()
+        {
+            try
+            {
+                _preventEvent = true;
+
+                if (_checkState.Count(e => e.Value) == dgvElements.Rows.Count)
+                    _headerColCheckBox.CheckState = CheckState.Checked;
+                else
+                if (_checkState.Any(e => e.Value))
+                    _headerColCheckBox.CheckState = CheckState.Indeterminate;
+                else
+                    _headerColCheckBox.CheckState = CheckState.Unchecked;
+            }
+            finally
+            {
+                _preventEvent = false;
             }
         }
 
@@ -233,6 +260,81 @@ namespace Desene.DetailFormsAndUserControls
             if (dgvElements.IsCurrentCellDirty)
             {
                 dgvElements.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+
+        private void dgvElements_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (ModifierKeys == Keys.Shift)
+            {
+                var selectedIndexes = new List<int>();
+
+                for (var i = 0; i < dgvElements.Rows.Count; i++)
+                {
+                    if (_checkState.ContainsKey((int)dgvElements.Rows[i].Cells["Id"].Value))
+                        selectedIndexes.Add(i);
+                }
+
+                int fromindex = -1;
+                int toIndex = -1;
+
+                if (selectedIndexes.Any())
+                {
+                    var currentSelMin = selectedIndexes.Min();
+                    var currentSelMax = selectedIndexes.Max();
+
+                    if (e.RowIndex < currentSelMin)
+                    {
+                        fromindex = e.RowIndex;
+                        toIndex = currentSelMin - 1;
+                    }
+                    else
+                    if (e.RowIndex > currentSelMax)
+                    {
+                        fromindex = currentSelMax + 1;
+                        toIndex = e.RowIndex;
+                    }
+                    else
+                    {
+                        fromindex = Math.Min(e.RowIndex, _lastSelectedRowIndex+1);
+                        toIndex = Math.Max(e.RowIndex, _lastSelectedRowIndex-1);
+                    }
+                }
+                else
+                {
+                    fromindex = 0;
+                    toIndex = e.RowIndex;
+                }
+
+                _lastSelectedRowIndex = e.RowIndex;
+
+                if (fromindex < 0 || toIndex < 0)
+                {
+                    MsgBox.Show("Selection range could not be determined!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                try
+                {
+                    dgvElements.SuspendLayout();
+
+                    for (var i = fromindex; i <= toIndex; i++)
+                    {
+                        _checkState.Add((int)dgvElements.Rows[i].Cells["Id"].Value, true);
+                    }
+                }
+                finally
+                {
+                    dgvElements.Invalidate();
+                    dgvElements.ResumeLayout();
+
+                    SetHeaderCheckBoxState();
+                    SetBulkEditButtonStateInParent();
+                }
+            }
+            else
+            {
+                _lastSelectedRowIndex = e.RowIndex;
             }
         }
     }

@@ -139,6 +139,7 @@
             this.dgvEpisodes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvEpisodes.Size = new System.Drawing.Size(795, 107);
             this.dgvEpisodes.TabIndex = 1;
+            this.dgvEpisodes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEpisodes_CellClick);
             this.dgvEpisodes.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEpisodes_CellDoubleClick);
             this.dgvEpisodes.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvEpisodes_CellValueChanged);
             this.dgvEpisodes.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.DgvEpisodes_CellValueNeeded);

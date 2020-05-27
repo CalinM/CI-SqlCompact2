@@ -136,6 +136,7 @@
             this.dgvElements.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvElements.Size = new System.Drawing.Size(795, 107);
             this.dgvElements.TabIndex = 1;
+            this.dgvElements.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvElements_CellClick);
             this.dgvElements.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvElements_CellDoubleClick);
             this.dgvElements.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvElements_CellValueChanged);
             this.dgvElements.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.dgvElements_CellValueNeeded);

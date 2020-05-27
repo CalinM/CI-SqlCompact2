@@ -40,6 +40,8 @@
             this.cbFilesExt = new System.Windows.Forms.ComboBox();
             this.lbNamingType = new System.Windows.Forms.Label();
             this.cbNamingType = new System.Windows.Forms.ComboBox();
+            this.lbProcessStrings = new System.Windows.Forms.Label();
+            this.cbProcessNamesOpt = new System.Windows.Forms.ComboBox();
             this.tcNfNamesMix.SuspendLayout();
             this.tpLanguage1.SuspendLayout();
             this.tpLanguage2.SuspendLayout();
@@ -49,7 +51,7 @@
             // 
             this.btnConfirm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnConfirm.Enabled = false;
-            this.btnConfirm.Location = new System.Drawing.Point(571, 326);
+            this.btnConfirm.Location = new System.Drawing.Point(612, 382);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(75, 23);
             this.btnConfirm.TabIndex = 4;
@@ -67,7 +69,7 @@
             this.tcNfNamesMix.Location = new System.Drawing.Point(12, 12);
             this.tcNfNamesMix.Name = "tcNfNamesMix";
             this.tcNfNamesMix.SelectedIndex = 0;
-            this.tcNfNamesMix.Size = new System.Drawing.Size(719, 308);
+            this.tcNfNamesMix.Size = new System.Drawing.Size(760, 364);
             this.tcNfNamesMix.TabIndex = 5;
             // 
             // tpLanguage1
@@ -76,7 +78,7 @@
             this.tpLanguage1.Location = new System.Drawing.Point(4, 22);
             this.tpLanguage1.Name = "tpLanguage1";
             this.tpLanguage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLanguage1.Size = new System.Drawing.Size(711, 282);
+            this.tpLanguage1.Size = new System.Drawing.Size(752, 338);
             this.tpLanguage1.TabIndex = 0;
             this.tpLanguage1.Text = "Language 1 (translated)";
             this.tpLanguage1.UseVisualStyleBackColor = true;
@@ -89,7 +91,7 @@
             this.rtbLanguage1.Location = new System.Drawing.Point(3, 3);
             this.rtbLanguage1.Name = "rtbLanguage1";
             this.rtbLanguage1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.rtbLanguage1.Size = new System.Drawing.Size(705, 276);
+            this.rtbLanguage1.Size = new System.Drawing.Size(746, 332);
             this.rtbLanguage1.TabIndex = 2;
             this.rtbLanguage1.Text = resources.GetString("rtbLanguage1.Text");
             this.rtbLanguage1.TextChanged += new System.EventHandler(this.RtbLanguage1_TextChanged);
@@ -123,7 +125,7 @@
             // 
             this.btnPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPreview.Enabled = false;
-            this.btnPreview.Location = new System.Drawing.Point(652, 326);
+            this.btnPreview.Location = new System.Drawing.Point(693, 382);
             this.btnPreview.Name = "btnPreview";
             this.btnPreview.Size = new System.Drawing.Size(75, 23);
             this.btnPreview.TabIndex = 6;
@@ -135,7 +137,7 @@
             // 
             this.lbFilesExt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbFilesExt.AutoSize = true;
-            this.lbFilesExt.Location = new System.Drawing.Point(16, 331);
+            this.lbFilesExt.Location = new System.Drawing.Point(16, 387);
             this.lbFilesExt.Name = "lbFilesExt";
             this.lbFilesExt.Size = new System.Drawing.Size(76, 13);
             this.lbFilesExt.TabIndex = 7;
@@ -148,7 +150,7 @@
             this.cbFilesExt.Items.AddRange(new object[] {
             ".mkv",
             ".mp4"});
-            this.cbFilesExt.Location = new System.Drawing.Point(98, 328);
+            this.cbFilesExt.Location = new System.Drawing.Point(98, 384);
             this.cbFilesExt.Name = "cbFilesExt";
             this.cbFilesExt.Size = new System.Drawing.Size(77, 21);
             this.cbFilesExt.TabIndex = 8;
@@ -158,7 +160,7 @@
             // 
             this.lbNamingType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbNamingType.AutoSize = true;
-            this.lbNamingType.Location = new System.Drawing.Point(194, 331);
+            this.lbNamingType.Location = new System.Drawing.Point(194, 387);
             this.lbNamingType.Name = "lbNamingType";
             this.lbNamingType.Size = new System.Drawing.Size(66, 13);
             this.lbNamingType.TabIndex = 9;
@@ -172,17 +174,44 @@
             this.cbNamingType.Items.AddRange(new object[] {
             ". ",
             " - "});
-            this.cbNamingType.Location = new System.Drawing.Point(266, 328);
+            this.cbNamingType.Location = new System.Drawing.Point(266, 384);
             this.cbNamingType.Name = "cbNamingType";
             this.cbNamingType.Size = new System.Drawing.Size(77, 21);
             this.cbNamingType.TabIndex = 10;
             this.cbNamingType.SelectedIndexChanged += new System.EventHandler(this.CbFilesExt_SelectedIndexChanged);
             // 
+            // lbProcessStrings
+            // 
+            this.lbProcessStrings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbProcessStrings.AutoSize = true;
+            this.lbProcessStrings.Location = new System.Drawing.Point(369, 387);
+            this.lbProcessStrings.Name = "lbProcessStrings";
+            this.lbProcessStrings.Size = new System.Drawing.Size(74, 13);
+            this.lbProcessStrings.TabIndex = 11;
+            this.lbProcessStrings.Text = "Proces names";
+            // 
+            // cbProcessNamesOpt
+            // 
+            this.cbProcessNamesOpt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cbProcessNamesOpt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbProcessNamesOpt.DropDownWidth = 150;
+            this.cbProcessNamesOpt.FormattingEnabled = true;
+            this.cbProcessNamesOpt.Items.AddRange(new object[] {
+            "ToSentenceCase",
+            "ToTitleCase"});
+            this.cbProcessNamesOpt.Location = new System.Drawing.Point(449, 384);
+            this.cbProcessNamesOpt.Name = "cbProcessNamesOpt";
+            this.cbProcessNamesOpt.Size = new System.Drawing.Size(84, 21);
+            this.cbProcessNamesOpt.TabIndex = 12;
+            this.cbProcessNamesOpt.SelectedIndexChanged += new System.EventHandler(this.cbProcessNamesOpt_SelectedIndexChanged);
+            // 
             // FrmNfNamesMix
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(743, 355);
+            this.ClientSize = new System.Drawing.Size(784, 411);
+            this.Controls.Add(this.cbProcessNamesOpt);
+            this.Controls.Add(this.lbProcessStrings);
             this.Controls.Add(this.cbNamingType);
             this.Controls.Add(this.lbNamingType);
             this.Controls.Add(this.cbFilesExt);
@@ -193,7 +222,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(590, 320);
+            this.MinimumSize = new System.Drawing.Size(800, 450);
             this.Name = "FrmNfNamesMix";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
@@ -222,5 +251,7 @@
         private System.Windows.Forms.ComboBox cbFilesExt;
         private System.Windows.Forms.Label lbNamingType;
         private System.Windows.Forms.ComboBox cbNamingType;
+        private System.Windows.Forms.Label lbProcessStrings;
+        private System.Windows.Forms.ComboBox cbProcessNamesOpt;
     }
 }

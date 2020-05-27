@@ -245,15 +245,16 @@ namespace Utils
                 if (epProcessedList1 != epProcessedList2)
                     return result.FailWithMessage("The episodes lists do not contain the same amount of episodes!");
 
-                if (mixLines.Any(s => s.Contains("/")) && _replaceSlashWithAnd == null)
+                if (mixLines.Any(s => s.Contains("/") || s.Contains("+")) && _replaceSlashWithAnd == null)
                 {
                     _replaceSlashWithAnd =
-                        MsgBox.Show("Replace '/' with '&' ?", "Confirmation",
+                        MsgBox.Show("Replace '/' and '+' with '&' ?", "Confirmation",
                             MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes;
                 }
 
                 var mixReplaceDef = Helpers.GetDefaultMixFileNameReplaceValues();
                 mixReplaceDef.Add(new MixFileNameReplaceDef("/", (bool)_replaceSlashWithAnd ? " & " : string.Empty));
+                mixReplaceDef.Add(new MixFileNameReplaceDef("+", (bool)_replaceSlashWithAnd ? " & " : string.Empty));
 
                 foreach (var replaceDef in mixReplaceDef)
                 {
@@ -328,6 +329,83 @@ namespace Utils
                 _mustRebuild = true;
                 BuildPreview();
             }
+        }
+
+        private bool _preventEvent = false;
+
+        private void cbProcessNamesOpt_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_preventEvent) return;
+
+            RichTextBox currentRichEdit = null;
+
+            switch (tcNfNamesMix.SelectedTab.TabIndex)
+            {
+                case 0:
+                    currentRichEdit = rtbLanguage1;
+                    break;
+                case 1:
+                    currentRichEdit = rtbLanguage2;
+                    break;
+            }
+
+            if (currentRichEdit == null)
+            {
+                ResetProcessNamesOptCb();
+                return;
+            };
+
+            var originalText = currentRichEdit.Lines;
+
+            if (originalText.Length == 0)
+            {
+                ResetProcessNamesOptCb();
+                return;
+            };
+
+            currentRichEdit.Text = string.Empty;
+
+            for (var i = 0; i < originalText.Length; i++)
+            {
+                var textLine = originalText[i];
+
+                currentRichEdit.AppendText(
+                    (cbProcessNamesOpt.SelectedIndex == 0
+                        ? textLine.ToTitleCase(true)
+                        : textLine.ToSentenceCase(true))
+                    +
+                    (i < originalText.Length-1
+                        ? Environment.NewLine
+                        : string.Empty
+                    )
+                );
+            }
+
+            if (MsgBox.Show("Do you want to persist the changes?", "Confirmation",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
+            {
+                currentRichEdit.Text = string.Empty;
+
+                for (var i = 0; i < originalText.Length; i++)
+                {
+                    var textLine = originalText[i];
+
+                    currentRichEdit.AppendText(textLine +
+                        (i < originalText.Length-1
+                        ? Environment.NewLine
+                        : string.Empty
+                    ));
+                }
+            }
+
+            ResetProcessNamesOptCb();
+        }
+
+        private void ResetProcessNamesOptCb()
+        {
+            _preventEvent = true;
+            cbProcessNamesOpt.SelectedIndex = -1;
+            _preventEvent = false;
         }
     }
 }

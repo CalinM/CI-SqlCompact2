@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -145,5 +146,22 @@ namespace Common
             var tagsExpression = new Regex(@"</?.+?>");
             return tagsExpression.Replace(input, " ");
         }
+
+        public static string ToSentenceCase(this string input, bool firstLower)
+        {
+            // matches the first sentence of a string, as well as subsequent sentences
+            var r = new Regex(@"(^[a-z])|\.\s+(.)", RegexOptions.ExplicitCapture);
+
+            // MatchEvaluator delegate defines replacement of setence starts to uppercase
+            return r.Replace(firstLower ? input.ToLower() : input, s => s.Value.ToUpper());
+        }
+
+	    public static string ToTitleCase(this string input, bool firstLower)
+	    {
+		    var textInfo = new CultureInfo("en-US", false).TextInfo;
+
+		    // MatchEvaluator delegate defines replacement of setence starts to uppercase
+		    return textInfo.ToTitleCase(firstLower ? input.ToLower() : input);
+	    }
     }
 }
