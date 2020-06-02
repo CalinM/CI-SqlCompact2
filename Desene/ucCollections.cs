@@ -767,6 +767,17 @@ namespace Desene
                 return;
             }
 
+            var sesi = (SeriesEpisodesShortInfo)tvCollections.SelectedNode.Tag;
+            var collectionId =
+                tvCollections.SelectedNode.Level == 1
+                    ? sesi.Id
+                    : sesi.SeriesId;
+
+            ReloadTreeView(collectionId, DAL.CurrentMTD.Id);
+            tvCollections.SelectedNode.ExpandAll();
+
+            LoadSelectionDetails();
+
             //var msi = new MovieShortInfo
             //{
             //    Id = DAL.CurrentMTD.Id,
