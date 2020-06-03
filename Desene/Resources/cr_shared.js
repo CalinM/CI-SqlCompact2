@@ -1,6 +1,19 @@
 var trailerPlaying = false;
 var searchResultTimer = null;
 
+var waitForFinalEvent = (function () {
+    var timers = {};
+    return function (callback, ms, uniqueId) {
+        if (!uniqueId) {
+            uniqueId = "Don't call this twice without a uniqueId";
+        }
+        if (timers[uniqueId]) {
+            clearTimeout(timers[uniqueId]);
+        }
+        timers[uniqueId] = setTimeout(callback, ms);
+    };
+})();
+
 function DisplayHome() {
 	SoftCloseSearch();
 
@@ -241,12 +254,14 @@ function BuildMoviesSection(moviesInSection, outputToElement) {
 		"</div>" +
 		"</div>";
 
-	$("#sections-wrapper").scrollTop(0);
+	if (outputToElement == null) //only for Movies
+		$("#sections-wrapper").scrollTop(0);
+
 	$(outputToElement == null ? "#sections-wrapper" : outputToElement).html(sectionHtml);
 
 	setTimeout(function () {
 		$("#sections-wrapper .lazy").lazy({
-			appendScroll: $("#sections-wrapper"),
+			appendScroll: outputToElement == null ? $("#sections-wrapper") : $(".detailsTableWrapper"),
 			onError: function (element) {
 				var movieId = $(element).data("movieid");
 				var movieCard = $(".movie-detail-wrapper[data-movieid=\"" + movieId + "\"] .movie-detail:first");
@@ -431,17 +446,27 @@ function BuildMoviesSection(moviesInSection, outputToElement) {
 			var scrollTop =
 				isMobile() && $(document).height() < $(document).width() //mobile on landscape
 					? $(".detailLine").offset().top - $("#sections-wrapper").offset().top
-					: $(".selectedCard").offset().top - $("#sections-wrapper").offset().top;
+					//: $(".selectedCard").offset().top - $("#sections-wrapper").offset().top;
+					: outputToElement == null
+						? $(".selectedCard").offset().top - $("#sections-wrapper").offset().top
+						: $(".selectedCard").offset().top - $(".detailsTableWrapper").offset().top;
 
 			// Position of selected element relative to container top
-			var targetTop = $("#sections-wrapper > *").offset().top - $("#sections-wrapper").offset().top;
+			var targetTop =
+				outputToElement == null
+					? $("#sections-wrapper > *").offset().top - $("#sections-wrapper").offset().top
+					: $(".detailsTableWrapper > *").offset().top - $(".detailsTableWrapper").offset().top;
 
 			// The offset of a scrollable container
 			var scrollOffset = scrollTop - targetTop;
 
 			// Scroll untill target element is at the top of its container
 			//$("#sections-wrapper").scrollTop(scrollOffset);
-			$("#sections-wrapper").animate({ scrollTop: scrollOffset }, 500);
+			
+			if (outputToElement == null)
+				$("#sections-wrapper").animate({ scrollTop: scrollOffset }, 500);
+			else
+				$(".detailsTableWrapper").animate({ scrollTop: scrollOffset }, 500);	
 		}
 	});
 }
