@@ -2,16 +2,16 @@ var trailerPlaying = false;
 var searchResultTimer = null;
 
 var waitForFinalEvent = (function () {
-    var timers = {};
-    return function (callback, ms, uniqueId) {
-        if (!uniqueId) {
-            uniqueId = "Don't call this twice without a uniqueId";
-        }
-        if (timers[uniqueId]) {
-            clearTimeout(timers[uniqueId]);
-        }
-        timers[uniqueId] = setTimeout(callback, ms);
-    };
+	var timers = {};
+	return function (callback, ms, uniqueId) {
+		if (!uniqueId) {
+			uniqueId = "Don't call this twice without a uniqueId";
+		}
+		if (timers[uniqueId]) {
+			clearTimeout(timers[uniqueId]);
+		}
+		timers[uniqueId] = setTimeout(callback, ms);
+	};
 })();
 
 function DisplayHome() {
@@ -77,61 +77,99 @@ function DisplayHome() {
 							{
 								sectionHtml +=
 									"<div class=\"collectionT0-new-cover\" title=\"" + tooltip + "\">" +
-										el.FN +
+									el.FN +
 									"</div>";
 							}
 							else {
 								sectionHtml +=
 									"<div>" +
-										"<img src=\"Imgs/" + extraPath + "/poster-" + el.Id + ".jpg\" class=\"movie-cover-new\" alt=\"Loading poster ...\" title=\"" + tooltip + "\">" +
+									"<img src=\"Imgs/" + extraPath + "/poster-" + el.Id + ".jpg\" class=\"movie-cover-new\" alt=\"Loading poster ...\" title=\"" + tooltip + "\">" +
 									"</div>";
 							}
 						});
 
 						sectionHtml += "</div>";
 
-						$("#newInnerWrapper").html(sectionHtml);
-
-						//issue with items cloning when items count < displayed; possible fix:
-						//loop: ( $('.owl-carousel .items').length > 5 )
-						//https://stackoverflow.com/questions/33119078/cloned-items-in-owl-carousel
-						//https://github.com/OwlCarousel2/OwlCarousel2/issues/2091
-						setTimeout(function () {
-							$("#newMovies").owlCarousel({
-								autoplay: true,
-								autoplayTimeout: 3000,
-								autoplayHoverPause: true,
-								loop: true,
-								margin: 10,
-								nav: false,
-								dots: true,
-
-								responsive: {
-									0: {
-										items: 2,
-										//loop:( $('.item').length > 2 )
-									},
-									600: {
-										items: 3,
-										//loop:( $('.item').length > 3 )
-									},
-									1000: {
-										items: 6,
-										//margin: 20,
-										//loop:( $('.item').length > 6 )
-									},
-									2000: {
-										items: 8,
-										//loop:( $('.item').length > 8 )
-									}
-								}
-							});
-						}, 0);
+						finishRenderSection(sectionHtml);
 					}
 					else {
 						$("#newMovies").html("No data available!");
 					}
+				}
 
+				var collectionSectionRenderer = function () {
+					var sectionHtml = "<div id=\"newMovies\" class=\"owl-carousel owl-theme\">";
+
+					Object.keys(newElementsInCol).sort((a, b) => b - a).forEach(function (elId) {
+						var colId = newElementsInCol[elId];
+						var elData;
+
+						if (elId == colId) {
+							//console.log("series-type");
+							elData = $.grep(collectionsData, function (x) { return x.Id == colId; });
+						}
+						else {
+							//console.log("movie-type");
+							elData = $.grep(collectionsElements, function (x) { return x.Id == elId; });
+						}
+
+						var tooltip =
+							"Title: " + elData[0].FN + "\n" +
+							"Quality: " + elData[0].Q + "\n" +
+							"Audio: " + elData[0].A + "\n" +
+							"Subtitle: " + elData[0].SU + "\n" +
+							"Recommended: " + elData[0].R;
+
+						sectionHtml +=
+							"<div>" +
+							"<img src=\"Imgs/Collections/poster-" + elData[0].Id + ".jpg\" class=\"movie-cover-new\" title=\"" + tooltip + "\" alt=\"" + elData[0].FN + "\">" +
+							"</div>";
+					});
+
+					sectionHtml += "</div>";
+
+					finishRenderSection(sectionHtml);
+
+				}
+
+				var finishRenderSection = function (sectionContent) {
+					$("#newInnerWrapper").html(sectionContent);
+
+					//issue with items cloning when items count < displayed; possible fix:
+					//loop: ( $('.owl-carousel .items').length > 5 )
+					//https://stackoverflow.com/questions/33119078/cloned-items-in-owl-carousel
+					//https://github.com/OwlCarousel2/OwlCarousel2/issues/2091
+					setTimeout(function () {
+						$("#newMovies").owlCarousel({
+							autoplay: true,
+							autoplayTimeout: 3000,
+							autoplayHoverPause: true,
+							loop: true,
+							margin: 10,
+							nav: false,
+							dots: true,
+
+							responsive: {
+								0: {
+									items: 2,
+									//loop:( $('.item').length > 2 )
+								},
+								600: {
+									items: 3,
+									//loop:( $('.item').length > 3 )
+								},
+								1000: {
+									items: 6,
+									//margin: 20,
+									//loop:( $('.item').length > 6 )
+								},
+								2000: {
+									items: 8,
+									//loop:( $('.item').length > 8 )
+								}
+							}
+						});
+					}, 0);
 				}
 
 				switch ($(this).data("type")) {
@@ -152,7 +190,8 @@ function DisplayHome() {
 						break;
 
 					case 4:
-						sectionRenderer(newElementsInCol, 3, collectionsData);
+						if (Object.keys(newElementsInCol).length > 0)
+							collectionSectionRenderer();
 						break;
 				}
 
@@ -462,11 +501,11 @@ function BuildMoviesSection(moviesInSection, outputToElement) {
 
 			// Scroll untill target element is at the top of its container
 			//$("#sections-wrapper").scrollTop(scrollOffset);
-			
+
 			if (outputToElement == null)
 				$("#sections-wrapper").animate({ scrollTop: scrollOffset }, 500);
 			else
-				$(".detailsTableWrapper").animate({ scrollTop: scrollOffset }, 500);	
+				$(".detailsTableWrapper").animate({ scrollTop: scrollOffset }, 500);
 		}
 	});
 }

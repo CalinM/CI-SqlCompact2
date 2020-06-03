@@ -271,6 +271,34 @@ namespace Desene
             return result;
         }
 
+        public static DataTable GetCollectionElements(SeriesEpisodesShortInfo sesInfo)
+        {
+            var result = new DataTable();
+
+            using (var conn = new SqlCeConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                var commandSource =
+                    new SqlCeCommand(
+                        string.Format(@"
+                            SELECT
+                                fd.*
+                            FROM FileDetail fd
+                            WHERE ParentId = {0}
+                            ORDER BY FileName",
+                            sesInfo.SeriesId
+                            ), conn);
+
+                using (var reader = commandSource.ExecuteReader())
+                {
+                    result.Load(reader);
+                }
+            }
+
+            return result;
+        }
+
         public static List<SeriesEpisodesShortInfo> GetFilteredFileNames(string filterBy, bool showingCollections)
         {
             var result = new List<SeriesEpisodesShortInfo>();

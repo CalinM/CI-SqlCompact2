@@ -456,6 +456,9 @@ namespace Desene.DetailFormsAndUserControls
 
         private void tbDescriptionLink_Leave(object sender, EventArgs e)
         {
+            if (tbDescriptionLink.Text.ToLower().Contains("imdb") && tbDescriptionLink.Text.ToLower().Contains("?ref"))
+                tbDescriptionLink.Text = tbDescriptionLink.Text.Substring(0, tbDescriptionLink.Text.ToLower().IndexOf("?ref"));
+
             TryGetSynopsis();
         }
 

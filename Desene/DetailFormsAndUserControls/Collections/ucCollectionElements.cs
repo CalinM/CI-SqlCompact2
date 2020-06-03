@@ -124,7 +124,7 @@ namespace Desene.DetailFormsAndUserControls
             SetBulkEditButtonStateInParent();
             _lastSelectedRowIndex = -1;
 
-            var episodesInSeries = DAL.GetEpisodesInSeries(sesInfo);
+            var episodesInSeries = DAL.GetCollectionElements(sesInfo);
 
             if (episodesInSeries.Rows.Count > 0)
             {
