@@ -281,6 +281,7 @@ namespace Utils
 
             #region Extract Series Details - leave it after Thumbnail generation
 
+            /*
             var collectionsWithInsertedElements = new List<int>();
 
             foreach (var elData in elementsData.OrderByDescending(o => o.InsertedDate))
@@ -293,6 +294,31 @@ namespace Utils
                         break;
                 }
             }
+            */
+
+            var collectionsAndInsertedElements = new Dictionary<string, string>(); //elementId, collectionId, if equal => this is a new Series-type collection
+
+            foreach (var elData in elementsData.OrderByDescending(o => o.InsertedDate))
+            {
+                var collectionObj = collectionsData.FirstOrDefault(x => x.Id == elData.CId);
+
+                if (collectionObj.T == (int)CollectionsSiteSectionType.SeriesType)
+                {
+                    if (!collectionsAndInsertedElements.ContainsKey(elData.CId.ToString()))
+                    {
+                        collectionsAndInsertedElements.Add(elData.CId.ToString(), elData.CId.ToString());
+                        continue;
+                    }
+                }
+                else
+                {
+                    collectionsAndInsertedElements.Add(elData.Id.ToString(), elData.CId.ToString());
+                }
+            }
+
+
+
+
 
             Desene.DAL.FillCollectionDataFromEpisodes(ref collectionsData, elementsData);
 
@@ -307,7 +333,7 @@ namespace Utils
                     jsS.Serialize(collectionsData),
                     jsS.Serialize(elementsData),
                     collectionsListDetails,
-                    jsS.Serialize(collectionsWithInsertedElements));
+                    jsS.Serialize(collectionsAndInsertedElements));
 
             var collectionsDetails2 =
                 string.Format("var collectionsData2 = {0};",

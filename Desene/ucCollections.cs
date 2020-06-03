@@ -777,21 +777,6 @@ namespace Desene
             tvCollections.SelectedNode.ExpandAll();
 
             LoadSelectionDetails();
-
-            //var msi = new MovieShortInfo
-            //{
-            //    Id = DAL.CurrentMTD.Id,
-            //    FileName = DAL.CurrentMTD.FileName,
-            //    //Cover = DAL.CurrentMTD.Poster,
-            //    HasPoster = DAL.CurrentMTD.Poster != null,
-            //    HasSynopsis = !string.IsNullOrEmpty(DAL.CurrentMTD.Synopsis)
-            //};
-
-            //DAL.MoviesData.Add(msi);
-            //DAL.MoviesData = new BindingList<MovieShortInfo>(DAL.MoviesData.OrderBy(o => o.FileName).ToList());
-            //RefreshGrid();
-
-            //FocusCurrentMovieInGrid(msi);
         }
 
         #endregion
