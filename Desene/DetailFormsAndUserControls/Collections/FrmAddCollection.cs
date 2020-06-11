@@ -13,6 +13,8 @@ namespace Desene
     {
         private ucCollectionInfo _ucCollectionInfo;
 
+        public int NewId;
+
         public FrmAddCollection()
         {
             InitializeComponent();
@@ -43,7 +45,7 @@ namespace Desene
                 return;
             }
 
-            //NewId = (int)opRes.AdditionalDataReturn;
+            NewId = (int)opRes.AdditionalDataReturn;
             DialogResult = DialogResult.OK;
             Close();
         }

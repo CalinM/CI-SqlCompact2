@@ -264,7 +264,10 @@ namespace Desene
 
                 using (var reader = commandSource.ExecuteReader())
                 {
-                    result.Load(reader);
+                    var tmpDt = new DataTable();
+                    tmpDt.Load(reader);
+
+                    result = tmpDt.AsEnumerable().OrderBy(x => x.Field<string>("Season"), new NaturalSortComparer<string>()).ThenBy(x => x.Field<string>("FileName")).CopyToDataTable();
                 }
             }
 

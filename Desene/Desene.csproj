@@ -39,10 +39,6 @@
     <ApplicationIcon>Images\icon1.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Data.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Utils.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraEditors.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraWizard.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
@@ -294,6 +290,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\jquery.contextMenu.min.css" />
+    <Content Include="Resources\jquery.contextMenu.min.js" />
+    <Content Include="Resources\jquery.ui.position.min.js" />
+    <Content Include="Resources\settings16_h.png" />
+    <Content Include="Resources\settings16_n.png" />
     <None Include="Resources\cr_shared.js" />
     <None Include="Resources\cr_series.js" />
     <None Include="Resources\cr_movies.js" />

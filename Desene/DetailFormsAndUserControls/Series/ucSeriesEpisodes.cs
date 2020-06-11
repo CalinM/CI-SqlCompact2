@@ -126,6 +126,8 @@ namespace Desene.DetailFormsAndUserControls
 
             if (episodesInSeries.Rows.Count > 0)
             {
+                lbSeriesEpisodesCaption.Text = string.Format("Episodes ({0})", episodesInSeries.Rows.Count);
+
                 _bsEpisodesGridData.DataSource = episodesInSeries;
                 _bsEpisodesGridData.ResetBindings(false);
 
@@ -136,6 +138,8 @@ namespace Desene.DetailFormsAndUserControls
             }
             else
             {
+                lbSeriesEpisodesCaption.Text = "Episodes";
+
                 dgvEpisodes.Visible = false;
                 lbNoEpisodeWarning.Visible = true;
             }

@@ -128,6 +128,7 @@ namespace Desene.DetailFormsAndUserControls
 
             if (episodesInSeries.Rows.Count > 0)
             {
+                lbCollectionElementsCaption.Text = string.Format("Elements ({0})", episodesInSeries.Rows.Count);
 
                 dgvElements.Visible = true;
                 lbNoEpisodeWarning.Visible = false;
@@ -139,6 +140,7 @@ namespace Desene.DetailFormsAndUserControls
             }
             else
             {
+                lbCollectionElementsCaption.Text = "Elements";
                 dgvElements.Visible = false;
                 lbNoEpisodeWarning.Visible = true;
             }

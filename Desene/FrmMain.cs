@@ -843,6 +843,8 @@ namespace Desene
             new Bitmap(Resources.thumbnail).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\thumbnail.png"), ImageFormat.Png);
             new Bitmap(Resources.mickey_mouse).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\mickey_mouse.png"), ImageFormat.Png);
             new Bitmap(Resources.nav_icon).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\nav_icon.png"), ImageFormat.Png);
+            new Bitmap(Resources.settings16_h).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\settings16_h.png"), ImageFormat.Png);
+            new Bitmap(Resources.settings16_n).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\settings16_n.png"), ImageFormat.Png);
 
             #endregion
 
@@ -866,6 +868,8 @@ namespace Desene
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\collectionDetails2.js"), serializedData.CollectionsDetails2);
 
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery-2.2.4.min.js"), Resources.jquery_2_2_4_min);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery.contextMenu.min.js"), Resources.jquery_contextMenu_minJS);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery.ui.position.min.js"), Resources.jquery_ui_position_minJS);
             //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\desene.js"), Resources.deseneJS);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_main.js"), Resources.cr_mainJS);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_shared.js"), Resources.cr_sharedJS);
@@ -892,6 +896,7 @@ namespace Desene
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\sections.css"), Resources.sections);
             //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\YouTubePopUp.css"), Resources.YouTubePopUp);
             File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\owl.carousel.min.css"), Resources.owl_carousel_minCSS);
+            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\jquery.contextMenu.min.css"), Resources.jquery_contextMenu_minCSS);
 
             #endregion
 

@@ -314,6 +314,9 @@ namespace Utils
                 {
                     collectionsAndInsertedElements.Add(elData.Id.ToString(), elData.CId.ToString());
                 }
+
+                if (collectionsAndInsertedElements.Count() >= 25)
+                    break;
             }
 
 

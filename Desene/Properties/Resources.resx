@@ -194,7 +194,7 @@
     <value>..\resources\msg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="deseneCSS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\desene.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\resources\desene.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="icons8-download-16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\icons8-download-16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -291,5 +291,20 @@
   </data>
   <data name="cr_sharedJS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cr_shared.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="jquery_contextMenu_minCSS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\jquery.contextMenu.min.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="jquery_contextMenu_minJS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\jquery.contextMenu.min.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="jquery_ui_position_minJS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\jquery.ui.position.min.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="settings16_h" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\settings16_h.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="settings16_n" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\settings16_n.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

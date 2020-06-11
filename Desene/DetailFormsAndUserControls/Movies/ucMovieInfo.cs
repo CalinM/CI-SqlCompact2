@@ -39,6 +39,7 @@ namespace Desene.DetailFormsAndUserControls
                 pMovieDetail, new object[] { true });
 
             _isNew = isNew;
+            pbDbDates.Visible = !isNew;
 
             PostConstructor();
         }
@@ -52,6 +53,8 @@ namespace Desene.DetailFormsAndUserControls
 
             //button1.TabStop = false;
             //button1.CanSelect = false;
+
+            ttTitleContent.SetToolTip(chbTitle, "The file doesn't have a 'Title' tag");
         }
 
         private void ucMovieInfo_Load(object sender, EventArgs e)
@@ -127,7 +130,7 @@ namespace Desene.DetailFormsAndUserControls
                 }
                 else
                 {
-                    ttTitleContent.RemoveAll();
+                    ttTitleContent.SetToolTip(chbTitle, "The file doesn't have a 'Title' tag");
                     chbTitle.Cursor = Cursors.Default;
                 }
 

@@ -54,7 +54,7 @@
             this.btnRefreshElementData = new System.Windows.Forms.ToolStripButton();
             this.btnDeleteElement = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.pCollectionElementDetailsContainer = new System.Windows.Forms.Panel();
+            this.pCollectionElementDetailsContainer = new Utils.CustomPanel();
             this.pSeriesTreeWrapper.SuspendLayout();
             this.panel2.SuspendLayout();
             this.pDummyMenuForShortCutKeys.SuspendLayout();

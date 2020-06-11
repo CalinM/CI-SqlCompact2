@@ -170,6 +170,7 @@ namespace Desene.Properties {
         ///        &quot;&lt;table id=\&quot;seriesHeaderTable\&quot; class=\&quot;tableWrapper\&quot;&gt;&quot; +
         ///        &quot;&lt;tr class=\&quot;headerRow\&quot;&gt;&quot; +
         ///        &quot;&lt;td style=\&quot;width: 30px;\&quot;&gt;&quot; +
+        ///        &quot;&lt;div class=&apos;c-settings&apos; title=&apos;Options&apos;&gt;&lt;/div&gt;&quot; +
         ///        &quot;&lt;/td&gt;&quot; +
         ///        &quot;&lt;td&gt;&quot; +
         ///        &quot;Collection name&lt;/br&gt;/ Element title&quot; +
@@ -177,9 +178,7 @@ namespace Desene.Properties {
         ///        &quot;&lt;td class=\&quot;markerCol\&quot;&gt;&quot; +
         ///        &quot;&lt;/td&gt;&quot; +
         ///        &quot;&lt;td class=\&quot;detailCell w100\&quot;&gt;&quot; +
-        ///        &quot;Recommended&quot; +
-        ///        &quot;&lt;/td&gt;&quot; +
-        ///        &quot;&lt;td class=\&quot;detailCell w [rest of string was truncated]&quot;;.
+        ///        &quot;Recommen [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string cr_collectionsJS {
             get {
@@ -198,16 +197,17 @@ namespace Desene.Properties {
         ///
         ///$(window).resize(function () {
         ///    //triggering the recalculation only when the resize has stop
-        ///    // waitForFinalEvent(function () {
-        ///    //     ResizeMoviesSection();
-        ///    // }, 100, &quot;contentWrapper&quot;);
-        ///    setTimeout(function () { ResizeMoviesSection(); }, 100);
+        ///    waitForFinalEvent(function () {
+        ///        ResizeMoviesSection();
+        ///    }, 100, &quot;contentWrapper&quot;);
+        ///
+        ///    //setTimeout(function () { ResizeMoviesSection(); }, 100);
         ///});
         ///
         ///
         ///function BindSearchEvents() {
         ///	    $(&quot;#searchCtrl&quot;).on(&quot;focus&quot;, function () {
-        ///      [rest of string was truncated]&quot;;.
+        ///        $( [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string cr_mainJS {
             get {
@@ -270,20 +270,23 @@ namespace Desene.Properties {
         ///   Looks up a localized string similar to var trailerPlaying = false;
         ///var searchResultTimer = null;
         ///
+        ///var waitForFinalEvent = (function () {
+        ///    var timers = {};
+        ///    return function (callback, ms, uniqueId) {
+        ///        if (!uniqueId) {
+        ///            uniqueId = &quot;Don&apos;t call this twice without a uniqueId&quot;;
+        ///        }
+        ///        if (timers[uniqueId]) {
+        ///            clearTimeout(timers[uniqueId]);
+        ///        }
+        ///        timers[uniqueId] = setTimeout(callback, ms);
+        ///    };
+        ///})();
+        ///
         ///function DisplayHome() {
-        ///    SoftCloseSearch();
+        ///	SoftCloseSearch();
         ///
-        ///    $(&quot;#sections-wrapper&quot;).html($(&quot;#homePageContent&quot;).html());
-        ///    $(&quot;#moviesSections span&quot;).removeClass(&quot;selected-subSection&quot;);
-        ///    $(&quot;.about-message-img&quot;).css(&quot;display&quot;, &quot;&quot;);
-        ///
-        ///    $(&quot;#genVersion&quot;).html(&quot;v&quot; + genDetails);
-        ///
-        ///    $(&quot;#mobileWarning&quot;).css(&quot;display&quot;, isMobile() ? &quot;block&quot; : &quot;none&quot;);
-        ///    $(&quot;#snapshotStat&quot;).html(&quot;&quot;);
-        ///
-        ///    setTimeout(function () {
-        ///        $(&quot;.tabbed li&quot;).off(&quot;c [rest of string was truncated]&quot;;.
+        ///	$(&quot;#sections-wrapper&quot;).ht [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string cr_sharedJS {
             get {
@@ -498,6 +501,38 @@ namespace Desene.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @charset &quot;UTF-8&quot;;/*!
+        /// * jQuery contextMenu - Plugin for simple contextMenu handling
+        /// *
+        /// * Version: v2.9.2
+        /// *
+        /// * Authors: Björn Brala (SWIS.nl), Rodney Rehm, Addy Osmani (patches for FF)
+        /// * Web: http://swisnl.github.io/jQuery-contextMenu/
+        /// *
+        /// * Copyright (c) 2011-2020 SWIS BV and contributors
+        /// *
+        /// * Licensed under
+        /// *   MIT License http://www.opensource.org/licenses/mit-license
+        /// *
+        /// * Date: 2020-05-13T13:55:37.023Z
+        /// */@-webkit-keyframes cm-spin{0%{-webkit-transform:translateY(-50%) rotate(0);trans [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string jquery_contextMenu_minCSS {
+            get {
+                return ResourceManager.GetString("jquery_contextMenu_minCSS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to !function(e){&quot;function&quot;==typeof define&amp;&amp;define.amd?define([&quot;jquery&quot;],e):&quot;object&quot;==typeof exports?e(require(&quot;jquery&quot;)):e(jQuery)}(function(m){&quot;use strict&quot;;var a;m.support.htmlMenuitem=&quot;HTMLMenuItemElement&quot;in window,m.support.htmlCommand=&quot;HTMLCommandElement&quot;in window,m.support.eventSelectstart=&quot;onselectstart&quot;in document.documentElement,m.ui&amp;&amp;m.widget||(m.cleanData=(a=m.cleanData,function(e){var t,n,o;for(o=0;null!=e[o];o++){n=e[o];try{(t=m._data(n,&quot;events&quot;))&amp;&amp;t.remove&amp;&amp;m(n).triggerHandler(&quot;remove&quot;)}catch(e){} [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string jquery_contextMenu_minJS {
+            get {
+                return ResourceManager.GetString("jquery_contextMenu_minJS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to /*! jQuery &amp; Zepto Lazy v1.7.5 - http://jquery.eisbehr.de/lazy - MIT&amp;GPL-2.0 license - Copyright 2012-2017 Daniel &apos;Eisbehr&apos; Kern */
         ///!function(t,e){&quot;use strict&quot;;function r(r,a,i,l,u){function f(){L=t.devicePixelRatio&gt;1,c(i),a.delay&gt;=0&amp;&amp;setTimeout(function(){s(!0)},a.delay),(a.delay&lt;0||a.combined)&amp;&amp;(l.e=v(a.throttle,function(t){&quot;resize&quot;===t.type&amp;&amp;(w=B=-1),s(t.all)}),l.a=function(t){c(t),i.push.apply(i,t)},l.g=function(){return i=n(i).filter(function(){return!n(this).data(a.loadedName)})},l.f=function(t){for( [rest of string was truncated]&quot;;.
         /// </summary>
@@ -515,11 +550,36 @@ namespace Desene.Properties {
         /// * Version: 1.3.8
         /// *
         /// */
-        ///(function(e){e.fn.extend({slimScroll:function(f){var a=e.extend({width:&quot;auto&quot;,height:&quot;250px&quot;,size:&quot;7px&quot;,color:&quot;#000&quot;,position:&quot;right&quot;,distance:&quot;1px&quot;,start:&quot;top&quot;,opacity:.4,alwaysVisible:!1,disableFadeOut:!1,railVisible:!1,railColor:&quot;#333&quot;,railOpacity:.2,railDragga [rest of string was truncated]&quot;;.
+        ///(function($) {
+        ///
+        ///    $.fn.extend({
+        ///      slimScroll: function(options) {
+        ///  
+        ///        var defaults = {
+        ///  
+        ///          // width in pixels of the visible scroll area
+        ///          width : &apos;auto&apos;,
+        ///  
+        ///          // height in pixels of the visible scroll area
+        ///         [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string jquery_slimscroll_min {
             get {
                 return ResourceManager.GetString("jquery_slimscroll_min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /*! jQuery UI - v1.12.1 - 2016-09-16
+        /// * http://jqueryui.com
+        /// * Includes: position.js
+        /// * Copyright jQuery Foundation and other contributors; Licensed MIT */
+        ///
+        ///(function(t){&quot;function&quot;==typeof define&amp;&amp;define.amd?define([&quot;jquery&quot;],t):t(jQuery)})(function(t){t.ui=t.ui||{},t.ui.version=&quot;1.12.1&quot;,function(){function e(t,e,i){return[parseFloat(t[0])*(u.test(t[0])?e/100:1),parseFloat(t[1])*(u.test(t[1])?i/100:1)]}function i(e,i){return parseInt(t.css(e,i),10)||0}function s(e){var i=e[0];return 9===i.nodeType?{wid [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string jquery_ui_position_minJS {
+            get {
+                return ResourceManager.GetString("jquery_ui_position_minJS", resourceCulture);
             }
         }
         
@@ -734,6 +794,26 @@ namespace Desene.Properties {
         internal static string sections {
             get {
                 return ResourceManager.GetString("sections", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap settings16_h {
+            get {
+                object obj = ResourceManager.GetObject("settings16_h", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap settings16_n {
+            get {
+                object obj = ResourceManager.GetObject("settings16_n", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
