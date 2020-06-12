@@ -107,9 +107,6 @@ function RenderCollections(){
         $(".detailsTableWrapper").slimScroll({
             height: h
         });
-        $("#sections-wrapper").slimScroll({
-            height: $("#sections-wrapper").height()
-        });
 
         var getCurrentCfg = function(itemName) {
             return localStorage.getItem(itemName) == null ? "" : "customicon";
@@ -129,8 +126,14 @@ function RenderCollections(){
                         else
                             localStorage.removeItem(key);
 
-                        if ($(".expanded").length > 0)
+                        if ($(".expanded").length > 0) {
                             RenderCollections();
+                            
+                            setTimeout(function() {
+                                $(".detailsTableWrapper").mouseover();
+                            }, 100);
+                            
+                        }                            
 
                         $('[id^="detailSerie-inner"]').empty();
                     },

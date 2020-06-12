@@ -209,7 +209,7 @@ namespace Utils
                 {
                     var elementsForPosterSave =
                         collectionsData
-                            .Where(x => x.T == 1) //series-type
+                            //.Where(x => x.T == 1) //series-type
                             .Select(x => new MovieShortInfo
                                 {
                                     Id = x.Id,
@@ -279,22 +279,7 @@ namespace Utils
                 #endregion
             }
 
-            #region Extract Series Details - leave it after Thumbnail generation
-
-            /*
-            var collectionsWithInsertedElements = new List<int>();
-
-            foreach (var elData in elementsData.OrderByDescending(o => o.InsertedDate))
-            {
-                if (collectionsWithInsertedElements.IndexOf(elData.CId) == -1)
-                {
-                    collectionsWithInsertedElements.Add(elData.CId);
-
-                    if (collectionsWithInsertedElements.Count() >= 25)
-                        break;
-                }
-            }
-            */
+            #region Extract Collections Details - leave it after Thumbnail generation
 
             var collectionsAndInsertedElements = new Dictionary<string, string>(); //elementId, collectionId, if equal => this is a new Series-type collection
 
@@ -318,8 +303,6 @@ namespace Utils
                 if (collectionsAndInsertedElements.Count() >= 25)
                     break;
             }
-
-
 
 
 

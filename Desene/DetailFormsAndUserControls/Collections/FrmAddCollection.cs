@@ -1,8 +1,6 @@
-﻿using DAL;
-using Desene.DetailFormsAndUserControls.Collections;
+﻿using Desene.DetailFormsAndUserControls.Collections;
 using Desene.Properties;
 using System;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Utils;
@@ -11,7 +9,7 @@ namespace Desene
 {
     public partial class FrmAddCollection : Form
     {
-        private ucCollectionInfo _ucCollectionInfo;
+        //private ucCollectionInfo _ucCollectionInfo;
 
         public int NewId;
 
@@ -19,23 +17,22 @@ namespace Desene
         {
             InitializeComponent();
 
-            _ucCollectionInfo = new ucCollectionInfo() { ParentEl = this };
-            _ucCollectionInfo.Dock = DockStyle.Fill;
+            //_ucCollectionInfo = new ucCollectionInfo() { ParentEl = this };
+            //_ucCollectionInfo.Dock = DockStyle.Fill;
 
-            Controls.Add(_ucCollectionInfo);
-            _ucCollectionInfo.BringToFront();
+            //Controls.Add(_ucCollectionInfo);
+            //_ucCollectionInfo.BringToFront();
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (!_ucCollectionInfo.ValidateInput())
+            if (!ucCollectionInfo.ValidateInput())
             {
                 MsgBox.Show("Please specify all required details!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            var opRes = DAL.InsertCollection(_ucCollectionInfo.Title, _ucCollectionInfo.Notes, _ucCollectionInfo.SectionType,
-                _ucCollectionInfo.Poster);
+            var opRes = DAL.InsertCollection(ucCollectionInfo.Title, ucCollectionInfo.Notes, ucCollectionInfo.SectionType, ucCollectionInfo.Poster);
 
             if (!opRes.Success)
             {
@@ -65,9 +62,9 @@ namespace Desene
             using (var openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.Title =
-                    string.IsNullOrEmpty(_ucCollectionInfo.Title)
+                    string.IsNullOrEmpty(ucCollectionInfo.Title)
                         ? "Choose a poster for untitled collection"
-                        : string.Format("Choose a poster for collection '{0}'",  _ucCollectionInfo.Title);
+                        : string.Format("Choose a poster for collection '{0}'",  ucCollectionInfo.Title);
 
                 openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*";
                 openFileDialog.InitialDirectory = Settings.Default.LastCoverPath;
@@ -84,7 +81,7 @@ namespace Desene
                     file.Read(bytes, 0, (int)file.Length);
 
                     //_ucCollectionInfo.SetPoster(bytes);
-                    _ucCollectionInfo.Poster = bytes;
+                    ucCollectionInfo.Poster = bytes;
                 }
 
                 Common.Helpers.UnsavedChanges = true;

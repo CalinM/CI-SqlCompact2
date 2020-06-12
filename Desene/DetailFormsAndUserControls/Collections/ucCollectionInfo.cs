@@ -1,5 +1,4 @@
-﻿using Common;
-using DAL;
+﻿using DAL;
 using System;
 using System.Drawing;
 using System.IO;
@@ -41,7 +40,6 @@ namespace Desene.DetailFormsAndUserControls.Collections
             InitializeComponent();
 
             cbSectionType.SelectedIndex = 0;
-            Size = new Size(200, 275);
         }
 
 
@@ -82,29 +80,7 @@ namespace Desene.DetailFormsAndUserControls.Collections
         private void cbSectionType_SelectedIndexChanged(object sender, EventArgs e)
         {
             Common.Helpers.UnsavedChanges = true;
-            lbSiteSectionType.ForeColor = SystemColors.WindowText;
-
-            pPosterWrapper.Visible = cbSectionType.SelectedIndex == 1;
-
-            if (ParentEl == null) return; //dev stage, when the parameter is not loaded on the view part of th eUC usage
-
-            if (ParentEl is FrmAddCollection)
-            {
-                ((FrmAddCollection)ParentEl).btnLoadPoster.Visible = pPosterWrapper.Visible;
-
-                ((FrmAddCollection)ParentEl).Size =
-                    pPosterWrapper.Visible
-                        ? new Size(700, 450)
-                        : new Size(550, 300);
-            }
-
-            if (ParentEl is Panel)
-            {
-                Size =
-                    pPosterWrapper.Visible
-                        ? new Size(200, 360)
-                        : new Size(200, 275);
-            }
+            //lbSiteSectionType.ForeColor = SystemColors.WindowText;
         }
 
         private void ucCollectionInfo_DragOver(object sender, DragEventArgs e)

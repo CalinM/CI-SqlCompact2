@@ -33,6 +33,7 @@
             this.btnCancel = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnLoadPoster = new System.Windows.Forms.ToolStripButton();
+            this.ucCollectionInfo = new Desene.DetailFormsAndUserControls.Collections.ucCollectionInfo();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,7 +46,7 @@
             this.btnLoadPoster});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(534, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(684, 25);
             this.toolStrip1.TabIndex = 186;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -79,17 +80,30 @@
             this.btnLoadPoster.Name = "btnLoadPoster";
             this.btnLoadPoster.Size = new System.Drawing.Size(89, 22);
             this.btnLoadPoster.Text = "Load poster";
-            this.btnLoadPoster.Visible = false;
             this.btnLoadPoster.Click += new System.EventHandler(this.btnLoadPoster_Click);
+            // 
+            // ucCollectionInfo
+            // 
+            this.ucCollectionInfo.AllowDrop = true;
+            this.ucCollectionInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucCollectionInfo.Location = new System.Drawing.Point(0, 25);
+            this.ucCollectionInfo.Name = "ucCollectionInfo";
+            this.ucCollectionInfo.ParentEl = null;
+            this.ucCollectionInfo.Poster = null;
+            this.ucCollectionInfo.Size = new System.Drawing.Size(684, 386);
+            this.ucCollectionInfo.TabIndex = 187;
             // 
             // FrmAddCollection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(534, 261);
+            this.ClientSize = new System.Drawing.Size(684, 411);
+            this.Controls.Add(this.ucCollectionInfo);
             this.Controls.Add(this.toolStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(700, 400);
             this.Name = "FrmAddCollection";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
@@ -109,6 +123,7 @@
         private System.Windows.Forms.ToolStripButton btnSave;
         private System.Windows.Forms.ToolStripButton btnCancel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        public System.Windows.Forms.ToolStripButton btnLoadPoster;
+        private System.Windows.Forms.ToolStripButton btnLoadPoster;
+        private DetailFormsAndUserControls.Collections.ucCollectionInfo ucCollectionInfo;
     }
 }

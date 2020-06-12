@@ -53,7 +53,7 @@
             this.pMainControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pMainControls.Location = new System.Drawing.Point(0, 0);
             this.pMainControls.Name = "pMainControls";
-            this.pMainControls.Size = new System.Drawing.Size(467, 357);
+            this.pMainControls.Size = new System.Drawing.Size(458, 387);
             this.pMainControls.TabIndex = 196;
             // 
             // tbNotes
@@ -64,7 +64,7 @@
             this.tbNotes.Location = new System.Drawing.Point(70, 49);
             this.tbNotes.Multiline = true;
             this.tbNotes.Name = "tbNotes";
-            this.tbNotes.Size = new System.Drawing.Size(380, 265);
+            this.tbNotes.Size = new System.Drawing.Size(371, 292);
             this.tbNotes.TabIndex = 1;
             // 
             // tbTitle
@@ -73,7 +73,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbTitle.Location = new System.Drawing.Point(70, 23);
             this.tbTitle.Name = "tbTitle";
-            this.tbTitle.Size = new System.Drawing.Size(380, 20);
+            this.tbTitle.Size = new System.Drawing.Size(371, 20);
             this.tbTitle.TabIndex = 0;
             // 
             // lbNotes
@@ -102,7 +102,7 @@
             this.cbSectionType.Items.AddRange(new object[] {
             "Movies-style",
             "Series-style"});
-            this.cbSectionType.Location = new System.Drawing.Point(70, 320);
+            this.cbSectionType.Location = new System.Drawing.Point(70, 347);
             this.cbSectionType.Name = "cbSectionType";
             this.cbSectionType.Size = new System.Drawing.Size(133, 21);
             this.cbSectionType.TabIndex = 2;
@@ -112,7 +112,7 @@
             // 
             this.lbSiteSectionType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbSiteSectionType.AutoSize = true;
-            this.lbSiteSectionType.Location = new System.Drawing.Point(15, 320);
+            this.lbSiteSectionType.Location = new System.Drawing.Point(15, 343);
             this.lbSiteSectionType.Name = "lbSiteSectionType";
             this.lbSiteSectionType.Size = new System.Drawing.Size(43, 26);
             this.lbSiteSectionType.TabIndex = 197;
@@ -123,11 +123,10 @@
             // 
             this.pPosterWrapper.Controls.Add(this.pbCover);
             this.pPosterWrapper.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pPosterWrapper.Location = new System.Drawing.Point(467, 0);
+            this.pPosterWrapper.Location = new System.Drawing.Point(458, 0);
             this.pPosterWrapper.Name = "pPosterWrapper";
-            this.pPosterWrapper.Size = new System.Drawing.Size(231, 357);
+            this.pPosterWrapper.Size = new System.Drawing.Size(231, 387);
             this.pPosterWrapper.TabIndex = 197;
-            this.pPosterWrapper.Visible = false;
             // 
             // pbCover
             // 
@@ -148,7 +147,7 @@
             this.Controls.Add(this.pMainControls);
             this.Controls.Add(this.pPosterWrapper);
             this.Name = "ucCollectionInfo";
-            this.Size = new System.Drawing.Size(698, 357);
+            this.Size = new System.Drawing.Size(689, 387);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.ucCollectionInfo_DragDrop);
             this.DragOver += new System.Windows.Forms.DragEventHandler(this.ucCollectionInfo_DragOver);
             this.pMainControls.ResumeLayout(false);
