@@ -104,7 +104,7 @@ namespace Desene
                     //attempting to reuse the "ucCollectionInfo" user control
                     var prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucCollectionInfo", false);
 
-                    if (seShortInfo.Poster == null && (CollectionsSiteSectionType)seShortInfo.SectionType == CollectionsSiteSectionType.SeriesType)
+                    if (seShortInfo.Poster == null /*&& (CollectionsSiteSectionType)seShortInfo.SectionType == CollectionsSiteSectionType.SeriesType*/)
                         seShortInfo.Poster = DAL.GetPoster(seShortInfo.Id);
 
                     if (prevInstance.Any())

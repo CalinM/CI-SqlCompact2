@@ -225,11 +225,31 @@ function ToggleExpandCollections(s) {
                     "<tr>" +
                         "<td style=\"width:250px; vertical-align: top;\">";
 
+            /*
+            this happends before "<table id='x1' class=\"tableWrapper\">" +
+            checkImage(
+                "Imgs/Collections/poster-" + colId + ".jpg",
+                function(id) {
+                    debugger;
+                    collectionDetailsS += "<img src=\"Imgs/Collections/poster-" + id + ".jpg\" data-movieId=\"" + id + "\">";
+                },
+                function(id) {
+                    var collectionData = $.grep(collectionsData, function (el) { return el.Id == id });
+                    debugger;
+                    collectionDetailsS += "<div class='movieTypeAsSeriesTypePoster'>" +
+                                "<div class='collectionName'>" +
+                                    collectionData[0].FN +
+                                "</div>" +
+                            "</div>";
+                },
+                colId);
+            */
+
+            /*
             if ($(s).data("viewtype") == 1)
             {
                 collectionDetailsS +=
                             "<img src=\"Imgs/Collections/poster-" + colId + ".jpg\" data-movieId=\"" + colId + "\">";
-
             }
             else
             {
@@ -242,6 +262,10 @@ function ToggleExpandCollections(s) {
                                 "</div>" +
                             "</div>";
             }
+            */
+
+           collectionDetailsS +=
+                            "<img src=\"Imgs/Collections/poster-" + colId + ".jpg\" data-movieId=\"" + colId + "\">";            
 
             collectionDetailsS +=
                         "</td>" +

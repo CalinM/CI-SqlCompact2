@@ -25,6 +25,8 @@ namespace Desene.DetailFormsAndUserControls.Collections
             {
                 _poster = value;
 
+                pbCover.Image = null;
+
                 if (value != null)
                 {
                     using (var ms = new MemoryStream(_poster))
