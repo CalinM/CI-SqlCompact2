@@ -267,7 +267,8 @@ namespace Desene
                     var tmpDt = new DataTable();
                     tmpDt.Load(reader);
 
-                    result = tmpDt.AsEnumerable().OrderBy(x => x.Field<string>("Season"), new NaturalSortComparer<string>()).ThenBy(x => x.Field<string>("FileName")).CopyToDataTable();
+                    if (tmpDt.Rows.Count > 0)
+                        result = tmpDt.AsEnumerable().OrderBy(x => x.Field<string>("Season"), new NaturalSortComparer<string>()).ThenBy(x => x.Field<string>("FileName")).CopyToDataTable();
                 }
             }
 

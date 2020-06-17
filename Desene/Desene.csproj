@@ -295,6 +295,7 @@
     <Content Include="Resources\jquery.ui.position.min.js" />
     <Content Include="Resources\settings16_h.png" />
     <Content Include="Resources\settings16_n.png" />
+    <Content Include="Resources\settings24_n.png" />
     <None Include="Resources\cr_shared.js" />
     <None Include="Resources\cr_series.js" />
     <None Include="Resources\cr_movies.js" />

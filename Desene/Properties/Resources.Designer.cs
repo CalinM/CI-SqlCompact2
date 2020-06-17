@@ -286,7 +286,7 @@ namespace Desene.Properties {
         ///function DisplayHome() {
         ///	SoftCloseSearch();
         ///
-        ///	$(&quot;#sections-wrapper&quot;).ht [rest of string was truncated]&quot;;.
+        ///	$(&quot;#moviesSections&quot;).css( [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string cr_sharedJS {
             get {
@@ -813,6 +813,16 @@ namespace Desene.Properties {
         internal static System.Drawing.Bitmap settings16_n {
             get {
                 object obj = ResourceManager.GetObject("settings16_n", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap settings24_n {
+            get {
+                object obj = ResourceManager.GetObject("settings24_n", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

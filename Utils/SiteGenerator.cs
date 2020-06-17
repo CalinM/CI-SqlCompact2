@@ -9,11 +9,45 @@ using System.Web.Script.Serialization;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using NUglify;
 
 namespace Utils
 {
     public class SiteGenerator
     {
+        #region Minifycation methods
+
+        private static string MinifyFile(string str)
+        {
+            try
+            {
+                return Uglify.Js(str).Code;
+            }
+            catch (Exception ex)
+            {
+                //var error = OperationResult.GetErrorMessage(ex);
+                return str;
+            }
+        }
+
+        private static string MinifyData(SiteGenParams siteGenParams, string str)
+        {
+            return
+                siteGenParams.MinifyDataFiles
+                    ? MinifyFile(str)
+                    : str;
+        }
+
+        public static string MinifyScript(SiteGenParams siteGenParams, string str)
+        {
+            return
+                siteGenParams.MinifyScriptFiles
+                    ? MinifyFile(str)
+                    : str;
+        }
+
+        #endregion
+
         public static OperationResult GenerateSiteFiles(SiteGenParams siteGenParams, IntPtr handle)
         {
             var result = new OperationResult();
@@ -88,11 +122,12 @@ namespace Utils
 
             var detMovieInfo =
                 string.Format("var moviesData = {0}; var genDetails = '{1}'; var moviesStat = '{2}'; var newMovies = {3}; var updatedMovies = {4};",
-                    jsS.Serialize(moviesData),
-                    genDetails,
-                    movieListDetails,
-                    jsS.Serialize(newMovies),
-                    jsS.Serialize(updatedMovies));
+                    MinifyData(siteGenParams, jsS.Serialize(moviesData)),
+                    genDetails,                     //no minify ~ text to be displayed!
+                    movieListDetails,               //no minify ~ text to be displayed!
+                    jsS.Serialize(newMovies),       //no minify ~ only ints
+                    jsS.Serialize(updatedMovies)    //no minify ~ only ints
+                );
 
             var moviesDetails2 =
                 string.Format("var moviesData2 = {0};",
@@ -186,10 +221,11 @@ namespace Utils
 
             var detSerialeInfo =
                 string.Format("var seriesData = {0}; var episodesDataS = {1}; var seriesStat = '{2}'; var newSeriesEpisodes = {3}",
-                    jsS.Serialize(seriesData),
-                    jsS.Serialize(episodesData),
-                    seriesListDetails,
-                    jsS.Serialize(seriesWithInsertedEp));
+                    MinifyData(siteGenParams, jsS.Serialize(seriesData)),
+                    MinifyData(siteGenParams, jsS.Serialize(episodesData)),
+                    seriesListDetails,                      //no minify ~ text to be displayed!
+                    jsS.Serialize(seriesWithInsertedEp)     //no minify ~ only ints
+                );
 
             #endregion
 
@@ -316,10 +352,13 @@ namespace Utils
 
             var detCollectionsInfo =
                 string.Format("var collectionsData = {0}; var collectionsElements = {1}; var colStat = '{2}'; var newElementsInCol = {3}",
-                    jsS.Serialize(collectionsData),
-                    jsS.Serialize(elementsData),
-                    collectionsListDetails,
-                    jsS.Serialize(collectionsAndInsertedElements));
+                    MinifyData(siteGenParams, jsS.Serialize(collectionsData)),
+                    MinifyData(siteGenParams, jsS.Serialize(elementsData)),
+                    collectionsListDetails,         //no minify ~ text to be displayed!
+                    jsS.Serialize(collectionsAndInsertedElements)
+                    //it needs cleanup, it's Dictionary, but Uglify seems to have an issue with a serialized dictionary, it returns the Value of the last Key in the dictionary
+                    //MinifyData(siteGenParams, jsS.Serialize(collectionsAndInsertedElements))
+                );
 
             var collectionsDetails2 =
                 string.Format("var collectionsData2 = {0};",
@@ -421,10 +460,11 @@ namespace Utils
 
                 detRecordingsInfo =
                     string.Format("var recordingsData = {0}; var episodesDataR = {1}; var recordingsStat = '{2}'; var newRecordingsEpisodes = {3}",
-                        jsS.Serialize(recordingsData),
-                        jsS.Serialize(recordingsEpisodesData),
-                        recordingsListDetails,
-                        jsS.Serialize(recordingsWithInsertedEp));
+                        MinifyData(siteGenParams, jsS.Serialize(recordingsData)),
+                        MinifyData(siteGenParams, jsS.Serialize(recordingsEpisodesData)),
+                        recordingsListDetails,                      //no minify ~ text to be displayed!
+                        jsS.Serialize(recordingsWithInsertedEp)     //no minify ~ only ints
+                    );
 
                 #endregion
             }
@@ -435,7 +475,6 @@ namespace Utils
             result.AdditionalDataReturn = new GeneratedJSData(detMovieInfo, detSerialeInfo, detRecordingsInfo, moviesDetails2, detCollectionsInfo, collectionsDetails2);
             return result;
         }
-
 
         #region POSTERS saving methods
 
@@ -461,36 +500,39 @@ namespace Utils
                 }
             }
 
-            var postersToSave = new List<MovieShortInfo>(data.Where(x => !existingPostersForIds.Contains(x.Id)));
+            var postersToSave = new List<MovieShortInfo>(data.Where(x => !existingPostersForIds.Contains(x.Id) && x.HasPoster));
 
-            var formProgressIndicator = new FrmProgressIndicator(string.Format("Site generation - {0} posters", subFolder), "-", postersToSave.Count);
-            formProgressIndicator.Argument =
-                new BgwArgument_Work
-                {
-                    SiteGenLocation = siteGenLocation,
-                    SubFolder = subFolder,
-                    MSI = postersToSave
-                };
-
-            formProgressIndicator.DoWork += formPI_DoWork_GenerateSitePosters;
-
-            switch (formProgressIndicator.ShowDialog())
+            if (postersToSave.Any())
             {
-                case DialogResult.Cancel:
-                    result.Success = false;
-                    result.CustomErrorMessage = "Operation has been canceled";
+                var formProgressIndicator = new FrmProgressIndicator(string.Format("Site generation - {0} posters", subFolder), "-", postersToSave.Count);
+                formProgressIndicator.Argument =
+                    new BgwArgument_Work
+                    {
+                        SiteGenLocation = siteGenLocation,
+                        SubFolder = subFolder,
+                        MSI = postersToSave
+                    };
 
-                    return result;
+                formProgressIndicator.DoWork += formPI_DoWork_GenerateSitePosters;
 
-                case DialogResult.Abort:
-                    result.Success = false;
-                    result.CustomErrorMessage = formProgressIndicator.Result.Error.Message;
+                switch (formProgressIndicator.ShowDialog())
+                {
+                    case DialogResult.Cancel:
+                        result.Success = false;
+                        result.CustomErrorMessage = "Operation has been canceled";
 
-                    return result;
+                        return result;
 
-                case DialogResult.OK:
-                    result.AdditionalDataReturn = formProgressIndicator.Result.Result;
-                    break;
+                    case DialogResult.Abort:
+                        result.Success = false;
+                        result.CustomErrorMessage = formProgressIndicator.Result.Error.Message;
+
+                        return result;
+
+                    case DialogResult.OK:
+                        result.AdditionalDataReturn = formProgressIndicator.Result.Result;
+                        break;
+                }
             }
 
             return result;
@@ -588,36 +630,39 @@ namespace Utils
                     }
                 }
 
-                var thumbnailsToSave = new List<MovieShortInfo>(data.Where(x => !existingThumbnailsForIds.Contains(x.Id)));
+                var thumbnailsToSave = new List<MovieShortInfo>(data.Where(x => !existingThumbnailsForIds.Contains(x.Id) && x.ThumbnailGenerated));
 
-                var formProgressIndicator = new FrmProgressIndicator(string.Format("Site generation - {0} thumbnails", subFolder), "-", thumbnailsToSave.Count);
-                formProgressIndicator.Argument =
-                    new BgwArgument_Work
-                    {
-                        SiteGenLocation = siteGenParams.Location,
-                        SubFolder = subFolder,
-                        MSI = thumbnailsToSave
-                    };
-
-                formProgressIndicator.DoWork += formPI_DoWork_GenerateSiteMovies_Thumbnails;
-
-                switch (formProgressIndicator.ShowDialog())
+                if (thumbnailsToSave.Any())
                 {
-                    case DialogResult.Cancel:
-                        result.Success = false;
-                        result.CustomErrorMessage = "Operation has been canceled";
+                    var formProgressIndicator = new FrmProgressIndicator(string.Format("Site generation - {0} thumbnails", subFolder), "-", thumbnailsToSave.Count);
+                    formProgressIndicator.Argument =
+                        new BgwArgument_Work
+                        {
+                            SiteGenLocation = siteGenParams.Location,
+                            SubFolder = subFolder,
+                            MSI = thumbnailsToSave
+                        };
 
-                        return result;
+                    formProgressIndicator.DoWork += formPI_DoWork_GenerateSiteMovies_Thumbnails;
 
-                    case DialogResult.Abort:
-                        result.Success = false;
-                        result.CustomErrorMessage = formProgressIndicator.Result.Error.Message;
+                    switch (formProgressIndicator.ShowDialog())
+                    {
+                        case DialogResult.Cancel:
+                            result.Success = false;
+                            result.CustomErrorMessage = "Operation has been canceled";
 
-                        return result;
+                            return result;
 
-                    case DialogResult.OK:
-                        result.AdditionalDataReturn = formProgressIndicator.Result.Result;
-                        break;
+                        case DialogResult.Abort:
+                            result.Success = false;
+                            result.CustomErrorMessage = formProgressIndicator.Result.Error.Message;
+
+                            return result;
+
+                        case DialogResult.OK:
+                            result.AdditionalDataReturn = formProgressIndicator.Result.Result;
+                            break;
+                    }
                 }
 
                 //setting the marker for all previous existing thumbnails

@@ -38,7 +38,10 @@ namespace Utils
                 PreserveMarkesForExistingThumbnails =
                     cbSaveEpisodesThumbnals.Checked
                         ? false
-                        : cbPreserveMarkesForExistingThumbnails.Checked
+                        : cbPreserveMarkesForExistingThumbnails.Checked,
+
+                MinifyScriptFiles = cbMinifyScriptFiles.Checked,
+                MinifyDataFiles = cbMinifyScriptFiles.Checked && cbMinifyDataFiles.Checked
             };
 
             DialogResult = DialogResult.OK;
@@ -63,6 +66,11 @@ namespace Utils
         private void CbSaveEpisodesThumbnals_CheckedChanged(object sender, EventArgs e)
         {
             cbPreserveMarkesForExistingThumbnails.Enabled = !cbSaveEpisodesThumbnals.Checked;
+        }
+
+        private void cbMinifyScriptFiles_CheckedChanged(object sender, EventArgs e)
+        {
+            cbMinifyDataFiles.Enabled = cbMinifyScriptFiles.Checked;
         }
     }
 }

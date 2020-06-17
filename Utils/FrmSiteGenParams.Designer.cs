@@ -37,10 +37,13 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
             this.cbPreserveMarkesForExistingThumbnails = new System.Windows.Forms.CheckBox();
+            this.cbMinifyScriptFiles = new System.Windows.Forms.CheckBox();
+            this.cbMinifyDataFiles = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btnFolderSelector
             // 
+            this.btnFolderSelector.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnFolderSelector.Location = new System.Drawing.Point(617, 25);
             this.btnFolderSelector.Name = "btnFolderSelector";
             this.btnFolderSelector.Size = new System.Drawing.Size(53, 20);
@@ -51,6 +54,8 @@
             // 
             // tbFilesLocation
             // 
+            this.tbFilesLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbFilesLocation.Location = new System.Drawing.Point(123, 25);
             this.tbFilesLocation.Name = "tbFilesLocation";
             this.tbFilesLocation.Size = new System.Drawing.Size(487, 20);
@@ -103,7 +108,9 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(595, 128);
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Location = new System.Drawing.Point(595, 179);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 16;
@@ -113,7 +120,8 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(515, 128);
+            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOk.Location = new System.Drawing.Point(515, 179);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 15;
@@ -134,12 +142,39 @@
             this.cbPreserveMarkesForExistingThumbnails.Text = "Preserve existence markes for existing thumbnails";
             this.cbPreserveMarkesForExistingThumbnails.UseVisualStyleBackColor = true;
             // 
+            // cbMinifyScriptFiles
+            // 
+            this.cbMinifyScriptFiles.AutoSize = true;
+            this.cbMinifyScriptFiles.Checked = true;
+            this.cbMinifyScriptFiles.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbMinifyScriptFiles.Location = new System.Drawing.Point(123, 138);
+            this.cbMinifyScriptFiles.Name = "cbMinifyScriptFiles";
+            this.cbMinifyScriptFiles.Size = new System.Drawing.Size(102, 17);
+            this.cbMinifyScriptFiles.TabIndex = 18;
+            this.cbMinifyScriptFiles.Text = "Minify script files";
+            this.cbMinifyScriptFiles.UseVisualStyleBackColor = true;
+            this.cbMinifyScriptFiles.CheckedChanged += new System.EventHandler(this.cbMinifyScriptFiles_CheckedChanged);
+            // 
+            // cbMinifyDataFiles
+            // 
+            this.cbMinifyDataFiles.AutoSize = true;
+            this.cbMinifyDataFiles.Checked = true;
+            this.cbMinifyDataFiles.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbMinifyDataFiles.Location = new System.Drawing.Point(141, 160);
+            this.cbMinifyDataFiles.Name = "cbMinifyDataFiles";
+            this.cbMinifyDataFiles.Size = new System.Drawing.Size(98, 17);
+            this.cbMinifyDataFiles.TabIndex = 19;
+            this.cbMinifyDataFiles.Text = "Minify data files";
+            this.cbMinifyDataFiles.UseVisualStyleBackColor = true;
+            // 
             // FrmSiteGenParams
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(691, 166);
+            this.ClientSize = new System.Drawing.Size(691, 217);
+            this.Controls.Add(this.cbMinifyDataFiles);
+            this.Controls.Add(this.cbMinifyScriptFiles);
             this.Controls.Add(this.cbPreserveMarkesForExistingThumbnails);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
@@ -173,5 +208,7 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.CheckBox cbPreserveMarkesForExistingThumbnails;
+        private System.Windows.Forms.CheckBox cbMinifyScriptFiles;
+        private System.Windows.Forms.CheckBox cbMinifyDataFiles;
     }
 }

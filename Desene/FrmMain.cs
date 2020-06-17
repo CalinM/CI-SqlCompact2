@@ -806,101 +806,113 @@ namespace Desene
             if (genParams.ShowDialog() != DialogResult.OK)
                 return;
 
-            Settings.Default.LastPath = Path.GetFullPath(genParams.SiteGenParams.Location);
-            Settings.Default.Save();
-
-
-            var opRes = SiteGenerator.GenerateSiteFiles(genParams.SiteGenParams, this.Handle);
-
-            if (!opRes.Success)
+            try
             {
-                if (opRes.CustomErrorMessage == "Operation has been canceled")
+                Cursor.Current = Cursors.WaitCursor;
+
+                Settings.Default.LastPath = Path.GetFullPath(genParams.SiteGenParams.Location);
+                Settings.Default.Save();
+
+
+                var opRes = SiteGenerator.GenerateSiteFiles(genParams.SiteGenParams, this.Handle);
+
+                if (!opRes.Success)
                 {
-                    MessageBox.Show("Operation has been canceled", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                else
-                {
-                    MessageBox.Show(
-                        string.Format("The following error occurred generating the site:{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
-                        "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (opRes.CustomErrorMessage == "Operation has been canceled")
+                    {
+                        MessageBox.Show("Operation has been canceled", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            string.Format("The following error occurred generating the site:{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
+                            "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    return;
                 }
 
-                return;
+                #region Site images
+
+                var imagesPath = Path.Combine(genParams.SiteGenParams.Location, "Images");
+                if (!Directory.Exists(imagesPath))
+                    Directory.CreateDirectory(imagesPath);
+
+                new Bitmap(Resources.pixel).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\pixel.gif"), ImageFormat.Gif);
+                new Bitmap(Resources.info).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\info.png"), ImageFormat.Png);
+                new Bitmap(Resources.msg).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\msg.png"), ImageFormat.Png);
+                new Bitmap(Resources.arrowRight12).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\arrowRight12.png"), ImageFormat.Png);
+                new Bitmap(Resources.arrowDown12).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\arrowDown12.png"), ImageFormat.Png);
+                new Bitmap(Resources.search).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\search.png"), ImageFormat.Png);
+                new Bitmap(Resources.thumbnail).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\thumbnail.png"), ImageFormat.Png);
+                new Bitmap(Resources.mickey_mouse).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\mickey_mouse.png"), ImageFormat.Png);
+                new Bitmap(Resources.nav_icon).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\nav_icon.png"), ImageFormat.Png);
+                new Bitmap(Resources.settings16_h).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\settings16_h.png"), ImageFormat.Png);
+                new Bitmap(Resources.settings16_n).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\settings16_n.png"), ImageFormat.Png);
+                new Bitmap(Resources.settings24_n).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\settings24_n.png"), ImageFormat.Png);
+
+                #endregion
+
+                var genUniqueId = string.Empty;//DateTime.Now.ToString("yyyyMMddhhmmss");
+
+                #region Site scripts
+
+                var serializedData = (GeneratedJSData)opRes.AdditionalDataReturn;
+
+                var scriptPath = Path.Combine(genParams.SiteGenParams.Location, "Scripts");
+                if (!Directory.Exists(scriptPath))
+                    Directory.CreateDirectory(scriptPath);
+
+                //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiFilme_{genUniqueId}.js"), serializedData.Key);
+                //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiSeriale_{genUniqueId}.js"), serializedData.Value);
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\moviesDetails.js"), serializedData.MoviesData);
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\seriesDetails.js"), serializedData.SeriesData);
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\recordingDetails.js"), serializedData.RecordingsData);
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\moviesDetails2.js"), serializedData.MoviesDetails2);
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\collectionDetails.js"), serializedData.CollectionsData);
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\collectionDetails2.js"), serializedData.CollectionsDetails2);
+
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery-2.2.4.min.js"), Resources.jquery_2_2_4_min);
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery.contextMenu.min.js"), Resources.jquery_contextMenu_minJS);
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery.ui.position.min.js"), Resources.jquery_ui_position_minJS);
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery.lazy.min.js"), Resources.jquery_lazy_min);
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery.slimscroll.min.js"), Resources.jquery_slimscroll_min);
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jsgrid.min.js"), Resources.jsgrid_minJS);
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\owl.carousel.min.js"), Resources.owl_carousel_minJS);
+
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_main.js"), SiteGenerator.MinifyScript(genParams.SiteGenParams, Resources.cr_mainJS));
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_shared.js"), SiteGenerator.MinifyScript(genParams.SiteGenParams, Resources.cr_sharedJS));
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_collections.js"), SiteGenerator.MinifyScript(genParams.SiteGenParams, Resources.cr_collectionsJS));
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_movies.js"), SiteGenerator.MinifyScript(genParams.SiteGenParams, Resources.cr_moviesJS));
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_series.js"), SiteGenerator.MinifyScript(genParams.SiteGenParams, Resources.cr_seriesJS));
+
+                //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\YouTubePopUp.jquery.js"), Resources.YouTubePopUp_jquery);
+
+                #endregion
+
+                #region Site styles
+
+                var stylesPath = Path.Combine(genParams.SiteGenParams.Location, "Styles");
+                if (!Directory.Exists(stylesPath))
+                    Directory.CreateDirectory(stylesPath);
+
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\desene.css"), Resources.deseneCSS); //not working on CSS !!
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\jsgrid-theme.min.css"), Resources.jsgrid_theme_min);
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\jsgrid.min.css"), Resources.jsgrid_minCSS);
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\sections.css"), Resources.sections);
+                //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\YouTubePopUp.css"), Resources.YouTubePopUp);
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\owl.carousel.min.css"), Resources.owl_carousel_minCSS);
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\jquery.contextMenu.min.css"), Resources.jquery_contextMenu_minCSS);
+
+                #endregion
+
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "index.html"), Resources.index.Replace("##", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()));
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
             }
 
-            #region Site images
-
-            var imagesPath = Path.Combine(genParams.SiteGenParams.Location, "Images");
-            if (!Directory.Exists(imagesPath))
-                Directory.CreateDirectory(imagesPath);
-
-            new Bitmap(Resources.pixel).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\pixel.gif"), ImageFormat.Gif);
-            new Bitmap(Resources.info).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\info.png"), ImageFormat.Png);
-            new Bitmap(Resources.msg).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\msg.png"), ImageFormat.Png);
-            new Bitmap(Resources.arrowRight12).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\arrowRight12.png"), ImageFormat.Png);
-            new Bitmap(Resources.arrowDown12).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\arrowDown12.png"), ImageFormat.Png);
-            new Bitmap(Resources.search).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\search.png"), ImageFormat.Png);
-            new Bitmap(Resources.thumbnail).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\thumbnail.png"), ImageFormat.Png);
-            new Bitmap(Resources.mickey_mouse).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\mickey_mouse.png"), ImageFormat.Png);
-            new Bitmap(Resources.nav_icon).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\nav_icon.png"), ImageFormat.Png);
-            new Bitmap(Resources.settings16_h).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\settings16_h.png"), ImageFormat.Png);
-            new Bitmap(Resources.settings16_n).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\settings16_n.png"), ImageFormat.Png);
-
-            #endregion
-
-            var genUniqueId = string.Empty;//DateTime.Now.ToString("yyyyMMddhhmmss");
-
-            #region Site scripts
-
-            var serializedData = (GeneratedJSData)opRes.AdditionalDataReturn;
-
-            var scriptPath = Path.Combine(genParams.SiteGenParams.Location, "Scripts");
-            if (!Directory.Exists(scriptPath))
-                Directory.CreateDirectory(scriptPath);
-
-            //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiFilme_{genUniqueId}.js"), serializedData.Key);
-            //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\detaliiSeriale_{genUniqueId}.js"), serializedData.Value);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\moviesDetails.js"), serializedData.MoviesData);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\seriesDetails.js"), serializedData.SeriesData);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\recordingDetails.js"), serializedData.RecordingsData);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\moviesDetails2.js"), serializedData.MoviesDetails2);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\collectionDetails.js"), serializedData.CollectionsData);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\collectionDetails2.js"), serializedData.CollectionsDetails2);
-
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery-2.2.4.min.js"), Resources.jquery_2_2_4_min);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery.contextMenu.min.js"), Resources.jquery_contextMenu_minJS);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery.ui.position.min.js"), Resources.jquery_ui_position_minJS);
-            //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\desene.js"), Resources.deseneJS);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_main.js"), Resources.cr_mainJS);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_shared.js"), Resources.cr_sharedJS);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_collections.js"), Resources.cr_collectionsJS);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_movies.js"), Resources.cr_moviesJS);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_series.js"), Resources.cr_seriesJS);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery.lazy.min.js"), Resources.jquery_lazy_min);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery.slimscroll.min.js"), Resources.jquery_slimscroll_min);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jsgrid.min.js"), Resources.jsgrid_minJS);
-            //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\YouTubePopUp.jquery.js"), Resources.YouTubePopUp_jquery);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\owl.carousel.min.js"), Resources.owl_carousel_minJS);
-
-            #endregion
-
-            #region Site styles
-
-            var stylesPath = Path.Combine(genParams.SiteGenParams.Location, "Styles");
-            if (!Directory.Exists(stylesPath))
-                Directory.CreateDirectory(stylesPath);
-
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\desene.css"), Resources.deseneCSS);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\jsgrid-theme.min.css"), Resources.jsgrid_theme_min);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\jsgrid.min.css"), Resources.jsgrid_minCSS);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\sections.css"), Resources.sections);
-            //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\YouTubePopUp.css"), Resources.YouTubePopUp);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\owl.carousel.min.css"), Resources.owl_carousel_minCSS);
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Styles\\jquery.contextMenu.min.css"), Resources.jquery_contextMenu_minCSS);
-
-            #endregion
-
-            File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "index.html"), Resources.index.Replace("##", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
             //if (this.Focused())
             if (!_formActive)

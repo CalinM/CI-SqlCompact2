@@ -108,10 +108,6 @@ function RenderCollections(){
             height: h
         });
 
-        var getCurrentCfg = function(itemName) {
-            return localStorage.getItem(itemName) == null ? "" : "customicon";
-        }
-
         $.contextMenu({
             selector: '.c-settings',
             trigger: 'left',
@@ -138,7 +134,7 @@ function RenderCollections(){
                         $('[id^="detailSerie-inner"]').empty();
                     },
                     items: {
-                        "MoviesAsSeries": {name: "Show movie-type Collections as series", icon: getCurrentCfg("MoviesAsSeries") },
+                        "MoviesAsSeries": {name: "Show movie-type Collections as series", icon: GetCurrentCfg("MoviesAsSeries") },
                         //"sep1": "---------",
                     }
                 };
@@ -320,7 +316,7 @@ function ToggleExpandCollections(s) {
         }
         else
         {
-            BuildMoviesSection(collectionDetails, collectionDetailsEl);
+            BuildMoviesSection(collectionDetails, collectionDetailsEl); //no sort
         }
 
         toggleExpand();

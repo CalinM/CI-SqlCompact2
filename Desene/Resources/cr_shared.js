@@ -104,16 +104,13 @@ function DisplayHome() {
 						{
 							setTimeout(function() {
 								$(".movie-cover-new").off("click").on("click", function() {
-									$("#rootNav").css("display", "none");
-									$("#moviesSections").css("display", "block");
-									$("#rootNav span").removeClass("selected-subSection");
-
 									$("#snapshotStat").html(moviesStat);
-									BuildMoviesSection(moviesData);
+
+									BuildMoviesSection(moviesData, null);
 
 									setTimeout(() => {
 										var movieId = $(this).parent().data("movieid");
-										
+
 										$("#sections-wrapper").slimScroll({
 											scrollToAnimationDuration: 500,
 											scrollTo: parseInt($("div[data-movieid='" + movieId +"']").offset().top) - 100
@@ -124,14 +121,14 @@ function DisplayHome() {
 											movieEl.addClass("newItemClicked-highlight");
 
 											setTimeout(() => {
-												movieEl.removeClass("newItemClicked-highlight");												
+												movieEl.removeClass("newItemClicked-highlight");
 											}, 500);
-											
+
 										}, 1000);
 									}, 200);
 
 									$("#moviesSections span").removeClass("selected-subSection");
-									$("#moviesSections span[data-categ=17]").addClass("selected-subSection");			
+									$("#moviesSections span[data-categ=17]").addClass("selected-subSection");
 								})
 							}, 100);
 						}
@@ -278,32 +275,18 @@ function DisplaySearchResult(s) {
 
 	var searchedString = $(s).val().toLowerCase();
 	var titlesMatchingSearchCriteria = $.grep(moviesData, function (el) { return el.FN.toLowerCase().indexOf(searchedString) >= 0; });
-	BuildMoviesSection(titlesMatchingSearchCriteria);
+	BuildMoviesSection(titlesMatchingSearchCriteria, null); //no sort
 }
 
 function HandleCancelSearch(s) {
 	$(s).removeClass("focus");
-
-	var prevSelectedMoviesSection = $("#moviesSections .selected-subSection")[0];
-	if (prevSelectedMoviesSection != null) {
-		if ($(prevSelectedMoviesSection).data("titlestartwith") != null) {
-			var firstLetters = $(prevSelectedMoviesSection).data("titlestartwith").split(",");
-			var moviesInSection = $.grep(moviesData, function (el) { return firstLetters.indexOf(el.FN.charAt(0)) >= 0; });
-
-			buildMoviesSection(moviesInSection);
-		}
-		else {
-			buildMoviesGridSection();
-		}
-	}
-	else {
-		DisplayHome();
-	}
+		
+	BuildMoviesSection(moviesData, null);
 }
 
 function getRecommendedVal(movieVal) {
 	var result = movieVal.replace("+", "");
-	
+
 	if (result != "?")
 		result = result.replace("?", "");
 
@@ -317,7 +300,11 @@ function BuildMoviesSection(moviesInSection, outputToElement) {
 		"<div class=\"container\">" +
 		"<div class=\"cards\">";
 
-	moviesInSection.forEach(function (el) {
+	var sortCriteria = outputToElement == null
+		? GetSortFields("MoviesSort", "fn")
+		: ["fn"];
+	
+	moviesInSection.sort(fieldSorter(sortCriteria)).forEach(function (el) {
 		sectionHtml +=
 			"<div class=\"card\">" +
 			"<div class=\"movie-detail-wrapper\" data-movieId=\"" + el.Id + "\">" +
@@ -332,15 +319,15 @@ function BuildMoviesSection(moviesInSection, outputToElement) {
 				el.R != ""
 					? (
 						el.RL != ""
-							? "<a class='recommended recommendedWithLink' title='Recomandat: " + el.R + "\nClick for details ... (external link!)' href='" + el.RL + "' target='_blank'>" + getRecommendedVal(el.R) + "</a>"
-							: "<div class='recommended'title='Recomandat: " + el.R +"'>" + getRecommendedVal(el.R) + "</div>"
+							? "<a class='recommended recommendedWithLink' title='Recommended: " + el.R + "\nClick for details ... (external link!)' href='" + el.RL + "' target='_blank'>" + getRecommendedVal(el.R) + "</a>"
+							: "<div class='recommended'title='Recommended: " + el.R +"'>" + getRecommendedVal(el.R) + "</div>"
 					  )
 					: "<div class='recommended' title='Recomandare necunoscuta'>?</div>"
 			) +
 
-			"<a class='recommended info recommendedWithLink' title='Tematica: " + (el.T == "" ? "-" : el.T) + "\nAn: " + el.Y + "\nDurata: " + (el.L == "" || el.L == "00:00:00" ? "?" : el.L) + "\nClick for details ... (external link!)' href='" + el.DL + "' target='_blank'>i</a>" +
-			"<div class='quality' title='Dimensiune: " + el.S + "\nBitrate: " + el.B + "'>" + (el.Q == "" ? "SD?" : el.Q) + "</div>" +
-			"<div class='audio' title='Subtitrari: " + el.SU + "\nSursaNl: " + el.Nl + "'>" + el.A + "</div>" +
+			"<a class='recommended info recommendedWithLink' title='Theme: " + (el.T == "" ? "-" : el.T) + "\nYear: " + el.Y + "\nDuration: " + (el.L == "" || el.L == "00:00:00" ? "?" : el.L) + "\nClick for details ... (external link!)' href='" + el.DL + "' target='_blank'>i</a>" +
+			"<div class='quality' title='Size: " + el.S + "\nBitrate: " + el.B + "'>" + (el.Q == "" ? "SD?" : el.Q) + "</div>" +
+			"<div class='audio' title='Subtitles: " + (el.SU == "" ? "-" : el.SU) + "\nAudio Nl source: " + (el.Nl == "" ? "-" : el.Nl) + "'>" + el.A + "</div>" +
 			"</div>" +
 			"</div>" +
 			"</div>";
@@ -370,7 +357,7 @@ function BuildMoviesSection(moviesInSection, outputToElement) {
 					: movieWithoutPoster[0].FN);
 			},
 
-			throttle: 250	
+			throttle: 250
 		});
 
 		if (!isMobile()) {
@@ -380,7 +367,6 @@ function BuildMoviesSection(moviesInSection, outputToElement) {
 		}
 	}, 100);
 
-	CloseSideNav();
 	$(".about-message-img").css("display", "none");
 
 	$(".card").off("click").on("click", function () {
@@ -607,12 +593,90 @@ function onPlayerStateChange(event) {
 	}
 }
 
+function GetCurrentCfg(itemName) {
+	return localStorage.getItem(itemName) == null ? "" : "customicon";
+}
+
+function GetCurrentCfg2(itemName, itemValue, defaultValue) {
+	var itemCfg = localStorage.getItem(itemName);
+
+	if (itemCfg == null && itemValue == defaultValue)
+		return "customicon";
+		
+	return itemCfg != itemValue
+		? ""
+		: "customicon";
+}
+
+function GetCurrentCfg(itemName, defaultvalue, secondSort) {
+	var cfgValue = localStorage.getItem(itemName);
+
+	return cfgValue != null
+		? cfgValue
+		: defaultvalue;
+}
+
+function GetSortFields(itemName, secondSort) {
+	var cfgValue = localStorage.getItem(itemName).toUpperCase();
+	var defaultValue = "FN";
+
+	if (cfgValue == null)
+	{
+		return [defaultValue]
+	}
+	else
+	{
+		var result = [cfgValue];
+		if (cfgValue != secondSort.toUpperCase())
+			result.push(secondSort.toUpperCase());
+
+		return result;
+	}
+}
+
+function fieldSorter(fields) {
+    return function (a, b) {
+        return fields
+            .map(function (o) {
+                var dir = 1;
+                if (o[0] === '-') {
+                   dir = -1;
+                   o=o.substring(1);
+				}
+				
+				var varA =
+				(typeof a[o] === 'string')
+					? a[o].toUpperCase()
+					: a[o];
+			
+				var varB =
+					(typeof b[o] === 'string')
+						? b[o].toUpperCase()
+						: b[o];
+
+				if (o == "Y")
+				{
+					if (varA == "?") varA = "";
+					if (varB == "?") varB = "";
+				}
+
+                if (varA > varB) return dir;
+                if (varA < varB) return -(dir);
+                return 0;
+            })
+            .reduce(function firstNonZeroValue (p,n) {
+                return p ? p : n;
+            }, 0);
+    };
+}
+
+
 /*
 function checkImage(src, good, bad, colId) {
     var img = new Image();
-	img.onload = good(colId); 
+	img.onload = good(colId);
 	img.onerror = bad(colId);
-    img.src = src;	
+    img.src = src;
 }
 */
 /*

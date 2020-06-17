@@ -81,13 +81,15 @@ function BindNavigationMenuEvents() {
         CloseSideNav();
     });
 
-    $(".homeButton").on("click", function () {
+    $("#homeButton").on("click", function () {
         DisplayHome();
         CloseSideNav();
     });
 
 
     $(".sidenav span").on("click", function () {
+        $("#moviesSort").css("display", "none");
+
         switch ($(this).data("categ")) {
             case -1:	//back from subcategories
                 $("#moviesSections").css("display", "none");
@@ -101,33 +103,42 @@ function BindNavigationMenuEvents() {
                 CloseSideNav();
                 break;
 
-            case 1: 	//Movies
-                $("#rootNav").css("display", "none");
-                $("#moviesSections").css("display", "block");
-                $("#rootNav span").removeClass("selected-subSection");
-                break;
-
-            case 10:	//Movies sub-sections
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-            case 15:
-            case 16:
-                SoftCloseSearch();
+            case 1: //Movies
+                CloseSideNav();
 
                 $("#snapshotStat").html(moviesStat);
-                $("#moviesSections span").removeClass("selected-subSection");
-                $(this).addClass("selected-subSection");
+                $("#moviesSort").css("display", "table-cell");
 
-                var firstLetters = $(this).data("titlestartwith").split(",");
-                var moviesInSection = $.grep(moviesData, function (el) { return firstLetters.indexOf(el.FN.charAt(0)) >= 0; });
-
-                BuildMoviesSection(moviesInSection);
-                break;
-
-            case 17: //All                
-                BuildMoviesSection(moviesData);
+                $(function() {
+                    $.contextMenu({
+                        selector: "#sortButton", 
+                        trigger: 'left',
+                        build: function($trigger, e) {
+                            return {
+                                callback: function(key, options) {
+                                    localStorage.setItem("MoviesSort", key);
+                                    BuildMoviesSection(moviesData, null);
+                                },
+                                items: {
+                                    "fold1a": {
+                                        "name": "Sort by", 
+                                        "items": {
+                                            "FN": { name: "Name", icon: GetCurrentCfg2("MoviesSort", "FN", "FN") },
+                                            "Y": { name: "Year (oldest first)", icon: GetCurrentCfg2("MoviesSort", "Y", "FN") },
+                                            "-Y": { name: "Year (newest first)", icon: GetCurrentCfg2("MoviesSort", "-Y", "FN") },
+                                            "sep1": "---------",
+                                            "dateAdd": {name: "Date added", icon: GetCurrentCfg2("MoviesSort", "dateAdd", "fn"), disabled: true }
+                                        }
+                                    },
+                                    "sep2": "---------",
+                                    "gridview": { "name": "Advanced view (grid)", disabled: true}                                    
+                                }
+                            };
+                        }
+                    });          
+                });
+                
+                BuildMoviesSection(moviesData, null);
                 break;
 
             case 18: //All (grid)
@@ -174,7 +185,7 @@ function BindNavigationMenuEvents() {
 
                 break;
         }
-    });		
+    });
 }
 
 function ResizeMoviesSection() {
@@ -186,8 +197,8 @@ function ResizeMoviesSection() {
         $("#sections-wrapper").slimScroll({
             height: h
         });
-        
-        $('.slimScrollDiv').height(h);        
+
+        $('.slimScrollDiv').height(h);
     }
 
 

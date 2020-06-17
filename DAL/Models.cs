@@ -471,6 +471,8 @@ namespace DAL
         public bool SaveMoviesThumbnals { get; set; }
         public bool SaveEpisodesThumbnals { get; set; }
         public bool PreserveMarkesForExistingThumbnails { get; set; }
+        public bool MinifyScriptFiles { get; set; }
+        public bool MinifyDataFiles { get; set; }
     }
 
     public class BulkEditField
