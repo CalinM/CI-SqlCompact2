@@ -134,6 +134,7 @@ C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.CoreCompileInputs.c
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.CopyComplete
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.pdb
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\NUglify.dll
 C:\Work\_Utils\CI SqlCompact2\Utils\bin\Debug\Utils.dll.config
 C:\Work\_Utils\CI SqlCompact2\Utils\bin\Debug\Utils.dll
 C:\Work\_Utils\CI SqlCompact2\Utils\bin\Debug\Utils.pdb
@@ -242,6 +243,7 @@ C:\Work\_Utils\CI SqlCompact2\Utils\bin\Debug\Microsoft.WindowsAPICodePack.Shell
 C:\Work\_Utils\CI SqlCompact2\Utils\bin\Debug\MigraDoc.DocumentObjectModel-gdi.dll
 C:\Work\_Utils\CI SqlCompact2\Utils\bin\Debug\MigraDoc.Rendering-gdi.dll
 C:\Work\_Utils\CI SqlCompact2\Utils\bin\Debug\MigraDoc.RtfRendering-gdi.dll
+C:\Work\_Utils\CI SqlCompact2\Utils\bin\Debug\NUglify.dll
 C:\Work\_Utils\CI SqlCompact2\Utils\bin\Debug\Ookii.Dialogs.dll
 C:\Work\_Utils\CI SqlCompact2\Utils\bin\Debug\PdfSharp-gdi.dll
 C:\Work\_Utils\CI SqlCompact2\Utils\bin\Debug\PdfSharp.Charting-gdi.dll
@@ -270,4 +272,3 @@ C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.csproj.CoreCompileInputs.cac
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.csproj.CopyComplete
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.dll
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.pdb
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\NUglify.dll

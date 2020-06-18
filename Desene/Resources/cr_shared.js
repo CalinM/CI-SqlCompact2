@@ -593,7 +593,7 @@ function onPlayerStateChange(event) {
 	}
 }
 
-function GetCurrentCfg(itemName) {
+function GetCurrentCfg3(itemName) {
 	return localStorage.getItem(itemName) == null ? "" : "customicon";
 }
 
@@ -617,8 +617,9 @@ function GetCurrentCfg(itemName, defaultvalue, secondSort) {
 }
 
 function GetSortFields(itemName, secondSort) {
-	var cfgValue = localStorage.getItem(itemName).toUpperCase();
 	var defaultValue = "FN";
+	var cfgValue = localStorage.getItem(itemName);
+	
 
 	if (cfgValue == null)
 	{
@@ -626,8 +627,8 @@ function GetSortFields(itemName, secondSort) {
 	}
 	else
 	{
-		var result = [cfgValue];
-		if (cfgValue != secondSort.toUpperCase())
+		var result = [cfgValue.toUpperCase()];
+		if (cfgValue.toUpperCase() != secondSort.toUpperCase())
 			result.push(secondSort.toUpperCase());
 
 		return result;

@@ -134,7 +134,7 @@ function RenderCollections(){
                         $('[id^="detailSerie-inner"]').empty();
                     },
                     items: {
-                        "MoviesAsSeries": {name: "Show movie-type Collections as series", icon: GetCurrentCfg("MoviesAsSeries") },
+                        "MoviesAsSeries": {name: "Show movie-type Collections as series", icon: GetCurrentCfg3("MoviesAsSeries") },
                         //"sep1": "---------",
                     }
                 };

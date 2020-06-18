@@ -51,6 +51,7 @@ C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.CoreCompileInputs
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.CopyComplete
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.exe
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.pdb
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\NUglify.dll
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Desene.exe.config
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Desene.exe
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Desene.pdb
@@ -65,6 +66,7 @@ C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\NReco.VideoConverter.dll
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\MediaToolkit.dll
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Ookii.Dialogs.dll
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\MigraDoc.Rendering-gdi.dll
+C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\NUglify.dll
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\AngleSharp.dll
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\Microsoft.WindowsAPICodePack.dll
 C:\Work\_Utils\CI SqlCompact2\Desene\bin\Debug\PdfSharp.Charting-gdi.dll
@@ -104,4 +106,3 @@ C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.csproj.CoreCompileInputs.c
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.csproj.CopyComplete
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.exe
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.pdb
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\NUglify.dll
