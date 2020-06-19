@@ -1940,6 +1940,26 @@ namespace Desene
                 }
             }
 
+            var tempSortList = result.OrderBy(o => o.InsertedDate).ToList();
+            var i = 0;
+
+            foreach (var sortedEl in tempSortList)
+            {
+                var origEl = result.FirstOrDefault(x => x.Id == sortedEl.Id);
+                origEl.ISP = i;
+                i++;
+            }
+
+            tempSortList = result.OrderBy(o => o.LastChangeDate).ToList();
+            i = 0;
+
+            foreach (var sortedEl in tempSortList)
+            {
+                var origEl = result.FirstOrDefault(x => x.Id == sortedEl.Id);
+                origEl.USP = i;
+                i++;
+            }
+
             return result;
         }
 

@@ -329,6 +329,8 @@ namespace DAL
         public string Nl { get; set; }  //?   *              ~   NLSource
         public string Tr { get; set; }  //Trailer           ~   TrailerVideoId
         public int Th { get; set; }     //Thumbnail present? (Bit like ~ 0-1)
+        public int ISP { get; set; }     //Inserted Sort position
+        public int USP { get; set; }     //LastUpdate Sort position
 
         [ScriptIgnore]
         public byte[] Cover { get; set; }

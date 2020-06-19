@@ -1,4 +1,4 @@
-$(document).ready(function () {
+﻿$(document).ready(function () {
     DisplayHome();
     ResizeMoviesSection();
 
@@ -111,7 +111,7 @@ function BindNavigationMenuEvents() {
 
                 $(function() {
                     $.contextMenu({
-                        selector: "#sortButton", 
+                        selector: "#sortButton",
                         trigger: 'left',
                         build: function($trigger, e) {
                             return {
@@ -121,23 +121,28 @@ function BindNavigationMenuEvents() {
                                 },
                                 items: {
                                     "fold1a": {
-                                        "name": "Sort by", 
+                                        "name": "Sort by",
                                         "items": {
                                             "FN": { name: "Name", icon: GetCurrentCfg2("MoviesSort", "FN", "FN") },
-                                            "Y": { name: "Year (oldest first)", icon: GetCurrentCfg2("MoviesSort", "Y", "FN") },
-                                            "-Y": { name: "Year (newest first)", icon: GetCurrentCfg2("MoviesSort", "-Y", "FN") },
+                                            "Y": { name: "Year ▲", icon: GetCurrentCfg2("MoviesSort", "Y", "FN") },
+                                            "-Y": { name: "Year ▼", icon: GetCurrentCfg2("MoviesSort", "-Y", "FN") },
                                             "sep1": "---------",
-                                            "dateAdd": {name: "Date added", icon: GetCurrentCfg2("MoviesSort", "dateAdd", "fn"), disabled: true }
+                                            "ISP": { name: "Date added ▲", icon: GetCurrentCfg2("MoviesSort", "ISP", "FN") },
+                                            "-ISP": { name: "Date added ▼", icon: GetCurrentCfg2("MoviesSort", "-ISP", "FN") },
+                                            //"sep2": "---------",
+                                            //"USP": { name: "Date updated ▲", icon: GetCurrentCfg2("MoviesSort", "USP", "FN") },
+                                            //"-USP": { name: "Date updated ▼", icon: GetCurrentCfg2("MoviesSort", "-USP", "FN") }
+
                                         }
                                     },
-                                    "sep2": "---------",
-                                    "gridview": { "name": "Advanced view (grid)", disabled: true}                                    
+                                    "sep3": "---------",
+                                    "gridview": { "name": "Advanced view (grid)", disabled: true}
                                 }
                             };
                         }
-                    });          
+                    });
                 });
-                
+
                 BuildMoviesSection(moviesData, null);
                 break;
 
