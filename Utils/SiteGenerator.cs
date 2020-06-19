@@ -70,7 +70,8 @@ namespace Utils
                             {
                                 Id = x.Id,
                                 FileName = x.FN,
-                                HasPoster = x.HasPoster
+                                HasPoster = x.HasPoster,
+                                HasThumbnails = x.HasThumbnails
                             })
                         .ToList();
 
@@ -630,7 +631,7 @@ namespace Utils
                     }
                 }
 
-                var thumbnailsToSave = new List<MovieShortInfo>(data.Where(x => !existingThumbnailsForIds.Contains(x.Id) && x.ThumbnailGenerated));
+                var thumbnailsToSave = new List<MovieShortInfo>(data.Where(x => !existingThumbnailsForIds.Contains(x.Id) && x.HasThumbnails)); // && x.ThumbnailGenerated --> this is NOT "HasThumbnails"
 
                 if (thumbnailsToSave.Any())
                 {

@@ -1855,15 +1855,40 @@ namespace Desene
                 conn.Open();
 
                 var commandSource = new SqlCeCommand(@"
-                    SELECT
-                        vs.BitRate,
-	                    CASE
+                    SELECT DISTINCT
+                        vs.BitRate
+
+	                    ,CASE
                             WHEN Poster IS NULL THEN CONVERT(BIT, 0)
                             ELSE CONVERT(BIT, 1)
-	                    END AS HasPoster,
-                        fd.*
+	                    END AS HasPoster
+
+                        ,fd.Id
+                        ,FileName
+						,RecommendedLink
+						,Recommended
+						,Year
+						,Quality
+						,FileSize2
+              			,Duration
+						,BitRate
+						,AudioLanguages
+						,SubtitleLanguages
+						,DescriptionLink
+				        ,Theme
+						,CONVERT(NVARCHAR(4000), Notes) AS Notes
+						,Trailer
+						,InsertedDate
+						,LastChangeDate
+
+	                    ,CASE
+                            WHEN th.Id IS NULL THEN CONVERT(BIT, 0)
+                            ELSE CONVERT(BIT, 1)
+	                    END AS HasThumbnails
+
                     FROM FileDetail fd
 	                    LEFT OUTER JOIN VideoStream vs ON fd.Id = vs.FileDetailId
+                        LEFT OUTER JOIN Thumbnails th ON fd.Id = th.FileDetailId
                     WHERE ParentId IS NULL ORDER BY FileName", conn);
 
                 using (var reader = commandSource.ExecuteReader())
@@ -1896,6 +1921,7 @@ namespace Desene
 
                         //mfw.Cover = reader["Poster"] == DBNull.Value ? null : (byte[])reader["Poster"];
                         mfw.HasPoster = (bool)reader["HasPoster"];
+                        mfw.HasThumbnails = (bool)reader["HasThumbnails"];
 
                         var insertedDate =
                             reader["InsertedDate"] == DBNull.Value //SD or bad imports

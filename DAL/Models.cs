@@ -13,8 +13,14 @@ namespace DAL
         public string Quality { get; set; }
         //public byte[] Cover { get; set; }
         public bool HasPoster { get; set; }
+        public bool HasThumbnails { get; set; }
         public bool HasSynopsis { get; set; }
         public bool ThumbnailGenerated { get; set;}
+
+        public MovieShortInfo()
+        {
+            HasThumbnails = true;
+        }
     }
 
     public class SeriesEpisodesShortInfo
@@ -335,6 +341,9 @@ namespace DAL
 
         [ScriptIgnore]
         public DateTime LastChangeDate { get; set; }
+
+        [ScriptIgnore]
+        public bool HasThumbnails { get; set; }
     }
 
     public class MoviesDetails2ForWeb
