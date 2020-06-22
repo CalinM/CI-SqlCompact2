@@ -107,43 +107,8 @@ function BindNavigationMenuEvents() {
                 CloseSideNav();
 
                 $("#snapshotStat").html(moviesStat);
-                $("#moviesSort").css("display", "table-cell");
-
-                $(function() {
-                    $.contextMenu({
-                        selector: "#sortButton",
-                        trigger: 'left',
-                        build: function($trigger, e) {
-                            return {
-                                callback: function(key, options) {
-                                    localStorage.setItem("MoviesSort", key);
-                                    BuildMoviesSection(moviesData, null);
-                                },
-                                items: {
-                                    "fold1a": {
-                                        "name": "Sort by",
-                                        "items": {
-                                            "FN": { name: "Name", icon: GetCurrentCfg2("MoviesSort", "FN", "FN") },
-                                            "Y": { name: "Year ▲", icon: GetCurrentCfg2("MoviesSort", "Y", "FN") },
-                                            "-Y": { name: "Year ▼", icon: GetCurrentCfg2("MoviesSort", "-Y", "FN") },
-                                            "sep1": "---------",
-                                            "ISP": { name: "Date added ▲", icon: GetCurrentCfg2("MoviesSort", "ISP", "FN") },
-                                            "-ISP": { name: "Date added ▼", icon: GetCurrentCfg2("MoviesSort", "-ISP", "FN") },
-                                            //"sep2": "---------",
-                                            //"USP": { name: "Date updated ▲", icon: GetCurrentCfg2("MoviesSort", "USP", "FN") },
-                                            //"-USP": { name: "Date updated ▼", icon: GetCurrentCfg2("MoviesSort", "-USP", "FN") }
-
-                                        }
-                                    },
-                                    "sep3": "---------",
-                                    "gridview": { "name": "Advanced view (grid)", disabled: true}
-                                }
-                            };
-                        }
-                    });
-                });
-
                 BuildMoviesSection(moviesData, null);
+                
                 break;
 
             case 18: //All (grid)

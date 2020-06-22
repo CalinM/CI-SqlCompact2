@@ -103,7 +103,7 @@ function DisplayHome() {
 						if (sectionType == 0)
 						{
 							setTimeout(function() {
-								$(".movie-cover-new").off("click").on("click", function() {
+								$(".movie-cover-new").off("dblclick").on("dblclick", function() {
 									$("#snapshotStat").html(moviesStat);
 
 									BuildMoviesSection(moviesData, null);
@@ -121,8 +121,8 @@ function DisplayHome() {
 											movieEl.addClass("newItemClicked-highlight");
 
 											setTimeout(() => {
-												movieEl.removeClass("newItemClicked-highlight");
-											}, 500);
+												movieEl.removeClass("newItemClicked-highlight");												
+											}, 1500);
 
 										}, 1000);
 									}, 200);
@@ -293,7 +293,48 @@ function getRecommendedVal(movieVal) {
 	return result;
 }
 
+function ShowOptionsButton(){
+	$("#moviesSort").css("display", "table-cell");
+
+	$(function() {
+		$.contextMenu({
+			selector: "#sortButton",
+			trigger: 'left',
+			build: function($trigger, e) {
+				return {
+					callback: function(key, options) {
+						localStorage.setItem("MoviesSort", key);
+						BuildMoviesSection(moviesData, null);
+					},
+					items: {
+						"fold1a": {
+							"name": "Sort by",
+							"items": {
+								"FN": { name: "Name", icon: GetCurrentCfg2("MoviesSort", "FN", "FN") },
+								"Y": { name: "Year ▲", icon: GetCurrentCfg2("MoviesSort", "Y", "FN") },
+								"-Y": { name: "Year ▼", icon: GetCurrentCfg2("MoviesSort", "-Y", "FN") },
+								"sep1": "---------",
+								"ISP": { name: "Date added ▲", icon: GetCurrentCfg2("MoviesSort", "ISP", "FN") },
+								"-ISP": { name: "Date added ▼", icon: GetCurrentCfg2("MoviesSort", "-ISP", "FN") },
+								//"sep2": "---------",
+								//"USP": { name: "Date updated ▲", icon: GetCurrentCfg2("MoviesSort", "USP", "FN") },
+								//"-USP": { name: "Date updated ▼", icon: GetCurrentCfg2("MoviesSort", "-USP", "FN") }
+
+							}
+						},
+						"sep3": "---------",
+						"gridview": { "name": "Advanced view (grid)", disabled: true}
+					}
+				};
+			}
+		});
+	});
+}
+
 function BuildMoviesSection(moviesInSection, outputToElement) {
+	if (outputToElement == null)
+		ShowOptionsButton();
+
 	var partialPath = outputToElement == null ? "Movies" : "Collections";
 
 	var sectionHtml =
