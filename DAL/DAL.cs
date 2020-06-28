@@ -2461,38 +2461,46 @@ namespace Desene
                 conn.Open();
 
                 var cmd = new SqlCeCommand(@"
-                        SELECT
-                            fd.Id,
-                            fd.ParentId,
-                            fd.FileName,
-                            fd.Recommended,
-                            fd.RecommendedLink,
-                            fd.Year,
-                            fd.Quality,
+                    SELECT
+                        fd.Id,
+                        fd.ParentId,
+                        fd.FileName,
+                        fd.Recommended,
+                        fd.RecommendedLink,
+                        fd.Year,
+                        fd.Quality,
 
-                            fd.Duration,
-                            fd.FileSize2,
-                            fd.FileSize,
-                            fd.AudioLanguages,
-                            fd.SubtitleLanguages,
-                            fd.Theme,
-                            fd.Notes,
-                            fd.InsertedDate,
-                            fd.LastChangeDate,
-                            vs.BitRate,
-                            fd.DescriptionLink,
-                            fd.Trailer,
+                        fd.Duration,
+                        fd.FileSize2,
+                        fd.FileSize,
+                        fd.AudioLanguages,
+                        fd.SubtitleLanguages,
+                        fd.Theme,
+                        fd.Notes,
+                        fd.InsertedDate,
+                        fd.LastChangeDate,
+                        topVS.BitRate,
+                        fd.DescriptionLink,
+                        fd.Trailer,
 
-	                        CASE
-                                WHEN fd.Poster IS NULL THEN CONVERT(BIT, 0)
-                                ELSE CONVERT(BIT, 1)
-	                        END AS HasPoster
+	                    CASE
+                            WHEN fd.Poster IS NULL THEN CONVERT(BIT, 0)
+                            ELSE CONVERT(BIT, 1)
+	                    END AS HasPoster
 
-                        FROM FileDetail fd
-                            LEFT OUTER JOIN FileDetail p ON p.Id = fd.ParentId
-                            LEFT OUTER JOIN VideoStream vs ON fd.Id = vs.FileDetailId
-                        WHERE p.ParentId = -10
-                        ORDER BY fd.ParentId, fd.FileName", conn);
+                    FROM FileDetail fd
+                        LEFT OUTER JOIN FileDetail p ON p.Id = fd.ParentId
+                            
+					    OUTER APPLY
+						    (
+						    SELECT TOP(1) BitRate
+						    FROM VideoStream vs
+						    WHERE fd.Id = vs.FileDetailId
+						    ORDER BY vs.BitRate desc
+						    ) AS topVS                          
+                            
+                    WHERE p.ParentId = -10
+                    ORDER BY fd.ParentId, fd.FileName", conn);
 
                // cmd.Parameters.AddWithValue("@seriesType", (int)st);
 
