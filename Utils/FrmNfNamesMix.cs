@@ -253,8 +253,8 @@ namespace Utils
                 }
 
                 var mixReplaceDef = Helpers.GetDefaultMixFileNameReplaceValues();
-                mixReplaceDef.Add(new MixFileNameReplaceDef("/", (bool)_replaceSlashWithAnd ? " & " : string.Empty));
-                mixReplaceDef.Add(new MixFileNameReplaceDef("+", (bool)_replaceSlashWithAnd ? " & " : string.Empty));
+                mixReplaceDef.Add(new MixFileNameReplaceDef("/", _replaceSlashWithAnd.GetValueOrDefault(false) ? " & " : string.Empty));
+                mixReplaceDef.Add(new MixFileNameReplaceDef("+", _replaceSlashWithAnd.GetValueOrDefault(false) ? " & " : string.Empty));
 
                 foreach (var replaceDef in mixReplaceDef)
                 {
