@@ -634,7 +634,7 @@ namespace Desene
 
             var currentMenuItem = (ToolStripMenuItem)sender;
             currentMenuItem.Checked = true;
-            _currentSortField = currentMenuItem.Tag.ToString() + "COLLATE NOCASE ASC";
+            _currentSortField = currentMenuItem.Tag.ToString(); // + (currentMenuItem.Name == "miSortByName" ? " COLLATE NOCASE ASC" : string.Empty);
             ReloadData();
         }
 

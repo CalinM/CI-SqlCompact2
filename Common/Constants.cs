@@ -3,7 +3,7 @@
     public static class Constants
     {
         //public static string ConnectionString = "Data Source=movies-index.db;";
-        public static string ConnectionString = string.Format("Data Source={0};", @"c:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\movies-index.db");
+        public static string ConnectionString = string.Format("Data Source={0};", @"movies-index.db");
 
         //4091 is maximum for SQL CE !!!
         //public static string ConnectionString = "Data Source = CartoonsRepo.sdf;Max Database Size=4091;Persist Security Info=False";
