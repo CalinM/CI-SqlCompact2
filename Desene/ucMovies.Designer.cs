@@ -37,10 +37,15 @@
             this.miSave_ForShortCutOnly = new System.Windows.Forms.ToolStripMenuItem();
             this.miUndo_ForShortCutOnly = new System.Windows.Forms.ToolStripMenuItem();
             this.dgvMoviesList = new System.Windows.Forms.DataGridView();
+            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Calitate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pAdvFilter = new System.Windows.Forms.Panel();
             this.gbAdvFilterWrapper = new System.Windows.Forms.GroupBox();
             this.chkIncludeUnknownRec = new System.Windows.Forms.CheckBox();
+            this.cbAdvFilter_Theme = new Utils.SeparatorComboBox();
             this.lbAdvFilterReset = new System.Windows.Forms.Label();
+            this.cbAdvFilter_Audio = new Utils.SeparatorComboBox();
             this.lbSwitchToSimpleFilter = new System.Windows.Forms.LinkLabel();
             this.label3 = new System.Windows.Forms.Label();
             this.tbAdvFilter_Rec = new System.Windows.Forms.TextBox();
@@ -48,6 +53,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.pBasicFilter = new System.Windows.Forms.Panel();
             this.lbSwitchToAdvFilters = new System.Windows.Forms.LinkLabel();
+            this.tbFilter = new Utils.FilterTextBox();
             this.lbFilter = new System.Windows.Forms.Label();
             this.scSeriesDetails = new System.Windows.Forms.SplitContainer();
             this.pSeriesSecondToolbar = new System.Windows.Forms.Panel();
@@ -71,12 +77,6 @@
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Calitate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cbAdvFilter_Theme = new Utils.SeparatorComboBox();
-            this.cbAdvFilter_Audio = new Utils.SeparatorComboBox();
-            this.tbFilter = new Utils.FilterTextBox();
             this.cmMoviesNavGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miHighlightNoPoster = new System.Windows.Forms.ToolStripMenuItem();
             this.miHighlightNoSynopsis = new System.Windows.Forms.ToolStripMenuItem();
@@ -219,6 +219,34 @@
             this.dgvMoviesList.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dgvMoviesList_KeyPress);
             this.dgvMoviesList.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dgvMoviesList_MouseClick);
             // 
+            // colId
+            // 
+            this.colId.DataPropertyName = "Id";
+            this.colId.HeaderText = "Id";
+            this.colId.MinimumWidth = 8;
+            this.colId.Name = "colId";
+            this.colId.ReadOnly = true;
+            this.colId.Visible = false;
+            // 
+            // colTitle
+            // 
+            this.colTitle.DataPropertyName = "FileName";
+            this.colTitle.FillWeight = 179.6954F;
+            this.colTitle.HeaderText = "FileName";
+            this.colTitle.MinimumWidth = 8;
+            this.colTitle.Name = "colTitle";
+            this.colTitle.ReadOnly = true;
+            // 
+            // Calitate
+            // 
+            this.Calitate.DataPropertyName = "Quality";
+            this.Calitate.FillWeight = 20.30457F;
+            this.Calitate.HeaderText = "Quality";
+            this.Calitate.MinimumWidth = 8;
+            this.Calitate.Name = "Calitate";
+            this.Calitate.ReadOnly = true;
+            this.Calitate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
             // pAdvFilter
             // 
             this.pAdvFilter.Controls.Add(this.gbAdvFilterWrapper);
@@ -262,6 +290,25 @@
             this.chkIncludeUnknownRec.UseVisualStyleBackColor = true;
             this.chkIncludeUnknownRec.CheckedChanged += new System.EventHandler(this.chkIncludeUnknownRec_CheckedChanged);
             // 
+            // cbAdvFilter_Theme
+            // 
+            this.cbAdvFilter_Theme.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbAdvFilter_Theme.AutoAdjustItemHeight = true;
+            this.cbAdvFilter_Theme.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.cbAdvFilter_Theme.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbAdvFilter_Theme.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbAdvFilter_Theme.FormattingEnabled = true;
+            this.cbAdvFilter_Theme.Location = new System.Drawing.Point(112, 77);
+            this.cbAdvFilter_Theme.Name = "cbAdvFilter_Theme";
+            this.cbAdvFilter_Theme.SeparatorColor = System.Drawing.Color.Black;
+            this.cbAdvFilter_Theme.SeparatorMargin = 1;
+            this.cbAdvFilter_Theme.SeparatorStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+            this.cbAdvFilter_Theme.SeparatorWidth = 1;
+            this.cbAdvFilter_Theme.Size = new System.Drawing.Size(137, 21);
+            this.cbAdvFilter_Theme.TabIndex = 25;
+            this.cbAdvFilter_Theme.SelectionChangeCommitted += new System.EventHandler(this.cbAdvFilter_Audio_SelectionChangeCommitted);
+            // 
             // lbAdvFilterReset
             // 
             this.lbAdvFilterReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -278,6 +325,25 @@
             this.lbAdvFilterReset.Click += new System.EventHandler(this.lbAdvFilterReset_Click);
             this.lbAdvFilterReset.MouseEnter += new System.EventHandler(this.lbAdvFilterReset_MouseEnter);
             this.lbAdvFilterReset.MouseLeave += new System.EventHandler(this.lbAdvFilterReset_MouseLeave);
+            // 
+            // cbAdvFilter_Audio
+            // 
+            this.cbAdvFilter_Audio.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbAdvFilter_Audio.AutoAdjustItemHeight = true;
+            this.cbAdvFilter_Audio.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.cbAdvFilter_Audio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbAdvFilter_Audio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbAdvFilter_Audio.FormattingEnabled = true;
+            this.cbAdvFilter_Audio.Location = new System.Drawing.Point(112, 24);
+            this.cbAdvFilter_Audio.Name = "cbAdvFilter_Audio";
+            this.cbAdvFilter_Audio.SeparatorColor = System.Drawing.Color.Black;
+            this.cbAdvFilter_Audio.SeparatorMargin = 1;
+            this.cbAdvFilter_Audio.SeparatorStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+            this.cbAdvFilter_Audio.SeparatorWidth = 1;
+            this.cbAdvFilter_Audio.Size = new System.Drawing.Size(137, 21);
+            this.cbAdvFilter_Audio.TabIndex = 21;
+            this.cbAdvFilter_Audio.SelectionChangeCommitted += new System.EventHandler(this.cbAdvFilter_Audio_SelectionChangeCommitted);
             // 
             // lbSwitchToSimpleFilter
             // 
@@ -359,6 +425,19 @@
             this.lbSwitchToAdvFilters.Text = "advanced filters";
             this.lbSwitchToAdvFilters.VisitedLinkColor = System.Drawing.Color.Blue;
             this.lbSwitchToAdvFilters.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbSwitchToAdvFilters_LinkClicked);
+            // 
+            // tbFilter
+            // 
+            this.tbFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.tbFilter.ForeColor = System.Drawing.Color.Silver;
+            this.tbFilter.Location = new System.Drawing.Point(47, 9);
+            this.tbFilter.Name = "tbFilter";
+            this.tbFilter.Size = new System.Drawing.Size(253, 20);
+            this.tbFilter.TabIndex = 17;
+            this.tbFilter.ButtonClick += new System.EventHandler(this.tbFilter_ButtonClick);
+            this.tbFilter.TextChanged += new System.EventHandler(this.tbFilter_TextChanged);
             // 
             // lbFilter
             // 
@@ -528,7 +607,7 @@
             this.toolStrip2.Location = new System.Drawing.Point(0, 8);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.toolStrip2.Size = new System.Drawing.Size(22, 32);
+            this.toolStrip2.Size = new System.Drawing.Size(33, 32);
             this.toolStrip2.TabIndex = 2;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -552,15 +631,15 @@
             this.miSortByName.Checked = true;
             this.miSortByName.CheckState = System.Windows.Forms.CheckState.Checked;
             this.miSortByName.Name = "miSortByName";
-            this.miSortByName.Size = new System.Drawing.Size(170, 22);
-            this.miSortByName.Tag = "FileName";
+            this.miSortByName.Size = new System.Drawing.Size(180, 22);
+            this.miSortByName.Tag = "FileName COLLATE NOCASE ASC";
             this.miSortByName.Text = "Name (default)";
             this.miSortByName.Click += new System.EventHandler(this.SortMoviesGrid);
             // 
             // miSortByInsertDate
             // 
             this.miSortByInsertDate.Name = "miSortByInsertDate";
-            this.miSortByInsertDate.Size = new System.Drawing.Size(170, 22);
+            this.miSortByInsertDate.Size = new System.Drawing.Size(180, 22);
             this.miSortByInsertDate.Tag = "InsertedDate DESC";
             this.miSortByInsertDate.Text = "Insert date";
             this.miSortByInsertDate.ToolTipText = "Reverse order (last inserted is the first)";
@@ -569,7 +648,7 @@
             // miSortByLastChangedDate
             // 
             this.miSortByLastChangedDate.Name = "miSortByLastChangedDate";
-            this.miSortByLastChangedDate.Size = new System.Drawing.Size(170, 22);
+            this.miSortByLastChangedDate.Size = new System.Drawing.Size(180, 22);
             this.miSortByLastChangedDate.Tag = "LastChangeDate  DESC";
             this.miSortByLastChangedDate.Text = "Last changed date";
             this.miSortByLastChangedDate.ToolTipText = "Reverse order (last edited is the first)";
@@ -616,92 +695,13 @@
             this.dataGridViewTextBoxColumn3.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewTextBoxColumn3.Width = 23;
             // 
-            // colId
-            // 
-            this.colId.DataPropertyName = "Id";
-            this.colId.HeaderText = "Id";
-            this.colId.MinimumWidth = 8;
-            this.colId.Name = "colId";
-            this.colId.ReadOnly = true;
-            this.colId.Visible = false;
-            // 
-            // colTitle
-            // 
-            this.colTitle.DataPropertyName = "FileName";
-            this.colTitle.FillWeight = 179.6954F;
-            this.colTitle.HeaderText = "FileName";
-            this.colTitle.MinimumWidth = 8;
-            this.colTitle.Name = "colTitle";
-            this.colTitle.ReadOnly = true;
-            // 
-            // Calitate
-            // 
-            this.Calitate.DataPropertyName = "Quality";
-            this.Calitate.FillWeight = 20.30457F;
-            this.Calitate.HeaderText = "Quality";
-            this.Calitate.MinimumWidth = 8;
-            this.Calitate.Name = "Calitate";
-            this.Calitate.ReadOnly = true;
-            this.Calitate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // cbAdvFilter_Theme
-            // 
-            this.cbAdvFilter_Theme.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbAdvFilter_Theme.AutoAdjustItemHeight = true;
-            this.cbAdvFilter_Theme.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.cbAdvFilter_Theme.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbAdvFilter_Theme.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbAdvFilter_Theme.FormattingEnabled = true;
-            this.cbAdvFilter_Theme.Location = new System.Drawing.Point(112, 77);
-            this.cbAdvFilter_Theme.Name = "cbAdvFilter_Theme";
-            this.cbAdvFilter_Theme.SeparatorColor = System.Drawing.Color.Black;
-            this.cbAdvFilter_Theme.SeparatorMargin = 1;
-            this.cbAdvFilter_Theme.SeparatorStyle = System.Drawing.Drawing2D.DashStyle.Solid;
-            this.cbAdvFilter_Theme.SeparatorWidth = 1;
-            this.cbAdvFilter_Theme.Size = new System.Drawing.Size(137, 21);
-            this.cbAdvFilter_Theme.TabIndex = 25;
-            this.cbAdvFilter_Theme.SelectionChangeCommitted += new System.EventHandler(this.cbAdvFilter_Audio_SelectionChangeCommitted);
-            // 
-            // cbAdvFilter_Audio
-            // 
-            this.cbAdvFilter_Audio.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbAdvFilter_Audio.AutoAdjustItemHeight = true;
-            this.cbAdvFilter_Audio.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.cbAdvFilter_Audio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbAdvFilter_Audio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbAdvFilter_Audio.FormattingEnabled = true;
-            this.cbAdvFilter_Audio.Location = new System.Drawing.Point(112, 24);
-            this.cbAdvFilter_Audio.Name = "cbAdvFilter_Audio";
-            this.cbAdvFilter_Audio.SeparatorColor = System.Drawing.Color.Black;
-            this.cbAdvFilter_Audio.SeparatorMargin = 1;
-            this.cbAdvFilter_Audio.SeparatorStyle = System.Drawing.Drawing2D.DashStyle.Solid;
-            this.cbAdvFilter_Audio.SeparatorWidth = 1;
-            this.cbAdvFilter_Audio.Size = new System.Drawing.Size(137, 21);
-            this.cbAdvFilter_Audio.TabIndex = 21;
-            this.cbAdvFilter_Audio.SelectionChangeCommitted += new System.EventHandler(this.cbAdvFilter_Audio_SelectionChangeCommitted);
-            // 
-            // tbFilter
-            // 
-            this.tbFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.tbFilter.ForeColor = System.Drawing.Color.Silver;
-            this.tbFilter.Location = new System.Drawing.Point(47, 9);
-            this.tbFilter.Name = "tbFilter";
-            this.tbFilter.Size = new System.Drawing.Size(253, 20);
-            this.tbFilter.TabIndex = 17;
-            this.tbFilter.ButtonClick += new System.EventHandler(this.tbFilter_ButtonClick);
-            this.tbFilter.TextChanged += new System.EventHandler(this.tbFilter_TextChanged);
-            // 
             // cmMoviesNavGrid
             // 
             this.cmMoviesNavGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miHighlightNoPoster,
             this.miHighlightNoSynopsis});
             this.cmMoviesNavGrid.Name = "cmMoviesNavGrid";
-            this.cmMoviesNavGrid.Size = new System.Drawing.Size(258, 70);
+            this.cmMoviesNavGrid.Size = new System.Drawing.Size(258, 48);
             // 
             // miHighlightNoPoster
             // 

@@ -2,9 +2,13 @@
 {
     public static class Constants
     {
-        //4091 is maximum for SQL CE !!!
-        public static string ConnectionString = "Data Source = CartoonsRepo.sdf;Max Database Size=4091;Persist Security Info=False";
+        //public static string ConnectionString = "Data Source=movies-index.db;";
+        public static string ConnectionString = string.Format("Data Source={0};", @"c:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\movies-index.db");
 
+        //4091 is maximum for SQL CE !!!
+        //public static string ConnectionString = "Data Source = CartoonsRepo.sdf;Max Database Size=4091;Persist Security Info=False";
+
+        /*
         public static string[] DatabaseDef =
             {
                 @"CREATE TABLE FileDetail (
@@ -111,7 +115,7 @@
                 @"ALTER TABLE SubtitleStream ADD CONSTRAINT FK_FileDetail_SubtitleStream
                   FOREIGN KEY (FileDetailId) REFERENCES FileDetail(Id)"
             };
-
+        */
         /*
         public static string[] DatabaseDef =
             {

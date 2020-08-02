@@ -121,12 +121,34 @@ namespace Desene.DetailFormsAndUserControls
 
             SetBulkEditButtonStateInParent();
             _lastSelectedRowIndex = -1;
-
+            /*
             var episodesInSeries = DAL.GetEpisodesInSeries(sesInfo);
 
             if (episodesInSeries.Rows.Count > 0)
             {
                 lbSeriesEpisodesCaption.Text = string.Format("Episodes ({0})", episodesInSeries.Rows.Count);
+
+                _bsEpisodesGridData.DataSource = episodesInSeries;
+                _bsEpisodesGridData.ResetBindings(false);
+
+                //dgvEpisodes.ClearSelection();
+
+                dgvEpisodes.Visible = true;
+                lbNoEpisodeWarning.Visible = false;
+            }
+            else
+            {
+                lbSeriesEpisodesCaption.Text = "Episodes";
+
+                dgvEpisodes.Visible = false;
+                lbNoEpisodeWarning.Visible = true;
+            }*/
+
+            var episodesInSeries = DAL.GetEpisodesInSeries(sesInfo);
+
+            if (episodesInSeries.Count > 0)
+            {
+                lbSeriesEpisodesCaption.Text = string.Format("Episodes ({0})", episodesInSeries.Count);
 
                 _bsEpisodesGridData.DataSource = episodesInSeries;
                 _bsEpisodesGridData.ResetBindings(false);
@@ -161,11 +183,11 @@ namespace Desene.DetailFormsAndUserControls
         {
             if (e.RowIndex >= 0)
             {
-                var row = (DataRowView)dgvEpisodes.Rows[e.RowIndex].DataBoundItem;
+                var mtd = (MovieTechnicalDetails)dgvEpisodes.Rows[e.RowIndex].DataBoundItem;
 
-                if (row != null)
+                if (mtd != null)
                 {
-                    _parent.TryLocateEpisodeInTree((int)row["Id"]);
+                    _parent.TryLocateEpisodeInTree(mtd.Id);
                 }
             }
         }

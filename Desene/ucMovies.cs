@@ -26,7 +26,7 @@ namespace Desene
         private MovieShortInfo _previousSelectedMsi;
         private Timer _genericTimer;
         private string _lookupStartingWith = string.Empty;
-        private string _currentSortField = "FileName";
+        private string _currentSortField = "FileName COLLATE NOCASE ASC";
         private string _advancedFilter = string.Empty;
 
         public ucMovies(FrmMain parent)
@@ -634,7 +634,7 @@ namespace Desene
 
             var currentMenuItem = (ToolStripMenuItem)sender;
             currentMenuItem.Checked = true;
-            _currentSortField = currentMenuItem.Tag.ToString();
+            _currentSortField = currentMenuItem.Tag.ToString() + "COLLATE NOCASE ASC";
             ReloadData();
         }
 
@@ -742,7 +742,7 @@ namespace Desene
             var filterValues = new List<string>();
 
             if (cbAdvFilter_Audio.SelectedIndex > 0)
-                filterValues.Add(string.Format("(CHARINDEX('{0}', AudioLanguages) > 0)", cbAdvFilter_Audio.SelectedValue));
+                filterValues.Add(string.Format("(AudioLanguages LIKE '%{0}%')", cbAdvFilter_Audio.SelectedValue));
 
             if (!string.IsNullOrEmpty(tbAdvFilter_Rec.Text))
                 filterValues.Add(string.Format(@"
@@ -751,7 +751,7 @@ namespace Desene
                             REPLACE(REPLACE(Recommended, '+', ''), '?', '') IS NULL OR
                             REPLACE(REPLACE(Recommended, '+', ''), '?', '') = ''
 		                THEN {0}             --this dictates the column type (int)
-		                ELSE REPLACE(REPLACE(Recommended, '+', ''), '?', '')
+		                ELSE CAST(REPLACE(REPLACE(Recommended, '+', ''), '?', '') AS INT)
 	                END <= {1})",
                     chkIncludeUnknownRec.Checked ? "0" : "99",
                     tbAdvFilter_Rec.Text));

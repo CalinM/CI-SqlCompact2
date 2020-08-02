@@ -3,7 +3,6 @@ using Desene.DetailFormsAndUserControls.Movies;
 using Desene.Properties;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlServerCe;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -11,7 +10,6 @@ using System.Drawing.Imaging;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 using Common.ExtensionMethods;
@@ -46,6 +44,7 @@ namespace Desene
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
+            /*
             //using MessageBox instead of MsgBox because the "owner" is not available yet
             if (!File.Exists("CartoonsRepo.sdf"))
             {
@@ -70,7 +69,10 @@ namespace Desene
                 DatabaseOperations.CreateIndex("VideoStream", "video1", "FileDetailId ASC");
                 DatabaseOperations.CreateIndex("Thumbnails", "stills1", "FileDetailId ASC");
                 DatabaseOperations.CreateField("FileDetail", "SectionType", "int NULL");
-            }
+            }*/
+
+            if (!File.Exists("movies-index.db"))
+                File.WriteAllBytes("movies-index.db", Resources.movies_index);
 
             pMainContainer.Controls.Clear();
 
@@ -415,6 +417,7 @@ namespace Desene
 
         private void button1_Click(object sender, EventArgs e)
         {
+            /*
             var opRes = OldDataMigration.ImportFilmeHD();
 
             if (!opRes.Success)
@@ -426,11 +429,12 @@ namespace Desene
 
 
 
-            MessageBox.Show("Done");
+            MessageBox.Show("Done");*/
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            /*
             var opRes = OldDataMigration.ImportSeriale();
             if (!opRes.Success)
             {
@@ -440,11 +444,12 @@ namespace Desene
             }
 
 
-            MessageBox.Show("Done");
+            MessageBox.Show("Done");*/
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
+            /*
             try
             {
                 var conn = new SqlCeConnection(Constants.ConnectionString);
@@ -459,7 +464,7 @@ namespace Desene
                 {
                     while (reader.Read())
                     {
-                        var fileId = (int)reader["Id"];
+                        var fileId = (int)(long)reader["Id"];
                         var nlSourceVal = reader["NlAudioSource"].ToString();
                         var notes = reader["Notes"].ToString();
 
@@ -502,6 +507,7 @@ namespace Desene
             {
                 MessageBox.Show(ex.Message);
             }
+            */
 
             /*
             var filesPath = string.Empty;

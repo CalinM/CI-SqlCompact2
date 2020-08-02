@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Common
@@ -25,7 +28,7 @@ namespace Common
 
         public object AdditionalDataReturn { get; set; }
 
-        public static string GetErrorMessage(Exception ex, bool includeStackTrace = false)
+        public static string GetErrorMessage(Exception ex, bool includeStackTrace = true)
         {
             var msg = new StringBuilder();
             BuildErrorMessage(ex, ref msg);

@@ -79,7 +79,8 @@ function DisplayHome() {
 								"Quality: " + el.Q + "\n" +
 								"Audio: " + el.A + "\n" +
 								"Subtitle: " + el.SU + "\n" +
-								"Recommended: " + el.R;
+								"Recommended: " + el.R + "\n" + "\n" +
+								"Double click to jump to movie info ...";
 
 							// if (sectionType == 3 && el.T == 0) //collection of type "movies" ~ no poster at collection level
 							// {
