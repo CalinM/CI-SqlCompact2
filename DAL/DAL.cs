@@ -2508,7 +2508,16 @@ namespace Desene
 
                         FROM FileDetail fd
                             LEFT OUTER JOIN FileDetail p ON p.Id = fd.ParentId
-                            LEFT OUTER JOIN VideoStream vs ON fd.Id = vs.FileDetailId
+
+                            LEFT OUTER JOIN VideoStream topVS ON topVS.Id =
+                                    (
+                                        SELECT Id
+                                        FROM VideoStream vs2
+                                        WHERE vs2.FileDetailId = fd.Id
+                                        ORDER BY Id ASC
+                                        LIMIT 1
+                                    )
+
                         WHERE p.ParentId = -10
                         ORDER BY fd.ParentId, fd.FileName COLLATE NOCASE ASC", conn);
 
