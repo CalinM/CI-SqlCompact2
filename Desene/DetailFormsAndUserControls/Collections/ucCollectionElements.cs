@@ -97,13 +97,13 @@ namespace Desene.DetailFormsAndUserControls
 
                 if (((CheckBox)sender).Checked)
                 {
-                    foreach (DataRow episodeRow in ((DataTable)_bsEpisodesGridData.DataSource).Rows)
+                    foreach (var episodeRow in (List<MovieTechnicalDetails>)_bsEpisodesGridData.DataSource)
                     {
-                        var epId = (int)episodeRow.ItemArray[0]; //0 is the checkbox column?
-                        if (_checkState.ContainsKey(epId))
+                        //var epId = (int)episodeRow.ItemArray[0]; //0 is the checkbox column?
+                        if (_checkState.ContainsKey(episodeRow.Id))
                             continue;
 
-                        _checkState.Add(epId, true);
+                        _checkState.Add(episodeRow.Id, true);
                     }
                 }
             }
@@ -126,9 +126,9 @@ namespace Desene.DetailFormsAndUserControls
 
             var episodesInSeries = DAL.GetCollectionElements(sesInfo);
 
-            if (episodesInSeries.Rows.Count > 0)
+            if (episodesInSeries.Any())
             {
-                lbCollectionElementsCaption.Text = string.Format("Elements ({0})", episodesInSeries.Rows.Count);
+                lbCollectionElementsCaption.Text = string.Format("Elements ({0})", episodesInSeries.Count);
 
                 dgvElements.Visible = true;
                 lbNoEpisodeWarning.Visible = false;

@@ -292,9 +292,9 @@ namespace Desene
                     .ToList();
         }
 
-        public static DataTable GetCollectionElements(SeriesEpisodesShortInfo sesInfo)
+        public static List<MovieTechnicalDetails> GetCollectionElements(SeriesEpisodesShortInfo sesInfo)
         {
-            var result = new DataTable();
+            var result = new List<MovieTechnicalDetails>();
 
             using (var conn = new SqliteConnection(Constants.ConnectionString))
             {
@@ -304,7 +304,13 @@ namespace Desene
                     new SqliteCommand(
                         string.Format(@"
                             SELECT
-                                fd.*
+                                fd.Id,
+                                fd.FileName,
+                                fd.Year,
+                                fd.FileSize2,
+                                fd.Duration,
+                                fd.Quality,
+                                fd.AudioLanguages
                             FROM FileDetail fd
                             WHERE ParentId = {0}
                             ORDER BY FileName COLLATE NOCASE ASC",
@@ -313,7 +319,21 @@ namespace Desene
 
                 using (var reader = commandSource.ExecuteReader())
                 {
-                    result.Load(reader);
+                    while (reader.Read())
+                    {
+                        result.Add(new MovieTechnicalDetails()
+                        {
+                            Id = (int)(long)reader["Id"],
+                            FileName = reader["FileName"].ToString(),
+                            Year = reader["Year"].ToString(),
+                            FileSize2 = reader["FileSize2"].ToString(),
+                            Duration = reader["Duration"] == DBNull.Value
+                                                    ? "<not set>"
+                                                    : Convert.ToDateTime(reader["Duration"]).ToString("HH:mm:ss"),
+                            Quality = reader["Quality"].ToString(),
+                            AudioLanguages =  reader["AudioLanguages"].ToString(),
+                        });
+                    }
                 }
             }
 
@@ -1247,7 +1267,10 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@Season", CurrentMTD.Season);
 
                     //the series do not have a a quality value
-                    cmd.Parameters.AddWithValue("@Quality", CurrentMTD.ParentId.GetValueOrDefault(-1) > 0 ? GetQualityStrFromSize(CurrentMTD) : string.Empty);
+                    cmd.Parameters.AddWithValue("@Quality",
+                            CurrentMTD.ParentId == null || CurrentMTD.ParentId.GetValueOrDefault(-1) > 0 //movie or episode
+                                ? GetQualityStrFromSize(CurrentMTD)
+                                : string.Empty);
 
                     CurrentMTD.AudioLanguages = string.Join(", ", CurrentMTD.AudioStreams.Select(a => a.Language == "" ? "?" : a.Language).Distinct());
                     cmd.Parameters.AddWithValue("@AudioLanguages", CurrentMTD.AudioLanguages);
@@ -2607,7 +2630,7 @@ namespace Desene
                     WHERE fd1.ParentId = -1
                     ORDER BY fd1.FileName
                  */
-                var commandSource = new SqliteCommand("SELECT * FROM FileDetail WHERE ParentId = -10 ORDER BY FileName", conn);
+                var commandSource = new SqliteCommand("SELECT Id, FileName, SectionType, Notes FROM FileDetail WHERE ParentId = -10 ORDER BY FileName", conn);
 
                 using (var reader = commandSource.ExecuteReader())
                 {
@@ -2752,7 +2775,7 @@ namespace Desene
             {
                 conn.Open();
 
-                var commandSource = new SqliteCommand(string.Format("SELECT * FROM FileDetail WHERE ParentId = {0} ORDER BY FileName", collectionId), conn);
+                var commandSource = new SqliteCommand(string.Format("SELECT Id, FileName, Theme, Quality, ParentId FROM FileDetail WHERE ParentId = {0} ORDER BY FileName", collectionId), conn);
 
                 using (var reader = commandSource.ExecuteReader())
                 {
@@ -2828,8 +2851,10 @@ namespace Desene
                             }
 
                             var cmd = new SqliteCommand(sqlString, conn);
+                            cmd.Transaction = tx;
                             cmd.ExecuteNonQuery();
 
+                            //re-building the AudioLanguages in FileDetail
                             if (fvc.FieldName == "Language")
                             {
                                 sqlString = string.Format(@"
@@ -2841,6 +2866,7 @@ namespace Desene
                                     episodes);
 
                                 cmd = new SqliteCommand(sqlString, conn);
+                                cmd.Transaction = tx;
                                 var newLanguageValues = new List<SelectableElement>();
 
                                 using (var reader = cmd.ExecuteReader())
@@ -2867,6 +2893,7 @@ namespace Desene
                                 foreach (var gEl in groupList)
                                 {
                                     cmd = new SqliteCommand(string.Format(sqlString, gEl.Description, gEl.Value), conn);
+                                    cmd.Transaction = tx;
                                     cmd.ExecuteNonQuery();
                                 }
                             }
