@@ -2520,7 +2520,7 @@ namespace Desene
                             fd.Notes,
                             fd.InsertedDate,
                             fd.LastChangeDate,
-                            vs.BitRate,
+                            topVS.BitRate,
                             fd.DescriptionLink,
                             fd.Trailer,
 
@@ -3227,6 +3227,38 @@ namespace Desene
                 }
 
                 result.AdditionalDataReturn = audios;
+            }
+            catch (Exception ex)
+            {
+                result.FailWithMessage(ex);
+            }
+
+            return result;
+        }
+
+        public static OperationResult UpdateSeasonName(int seriesId, string oldName, string newName)
+        {
+            var result = new OperationResult();
+
+            try
+            {
+                using (var conn = new SqliteConnection(Constants.ConnectionString))
+                {
+                    conn.Open();
+                    SqliteCommand cmd;
+
+                    var insertString = @"
+                        UPDATE FileDetail
+                           SET Season = @newName
+                         WHERE ParentId = @seriesId AND Season = @oldName";
+
+                    cmd = new SqliteCommand(insertString, conn);
+                    cmd.Parameters.AddWithValue("@newName", newName);
+                    cmd.Parameters.AddWithValue("@seriesId", seriesId);
+                    cmd.Parameters.AddWithValue("@oldName", oldName);
+
+                    cmd.ExecuteNonQuery();
+                }
             }
             catch (Exception ex)
             {

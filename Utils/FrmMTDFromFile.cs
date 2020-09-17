@@ -123,5 +123,10 @@ namespace Utils
         {
             lbFilename.ForeColor = SystemColors.WindowText;
         }
+
+        private void cbGenerateThumbnails_CheckedChanged(object sender, EventArgs e)
+        {
+            lbWarning.Visible = cbGenerateThumbnails.Checked;
+        }
     }
 }

@@ -887,7 +887,7 @@ namespace Desene
                 File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\owl.carousel.min.js"), Resources.owl_carousel_minJS);
 
                 File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_main.js"), SiteGenerator.MinifyScript(genParams.SiteGenParams, Resources.cr_mainJS));
-                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_shared.js"), SiteGenerator.MinifyScript(genParams.SiteGenParams, Resources.cr_sharedJS));
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_shared.js"), SiteGenerator.MinifyScript(genParams.SiteGenParams, Resources.cr_sharedJS), Encoding.UTF8); //also set the file encoding to UTF8 in the Resources  !!!
                 File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_collections.js"), SiteGenerator.MinifyScript(genParams.SiteGenParams, Resources.cr_collectionsJS));
                 File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_movies.js"), SiteGenerator.MinifyScript(genParams.SiteGenParams, Resources.cr_moviesJS));
                 File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_series.js"), SiteGenerator.MinifyScript(genParams.SiteGenParams, Resources.cr_seriesJS));

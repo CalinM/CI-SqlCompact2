@@ -43,58 +43,53 @@
             this.pRercordingSpecifics = new System.Windows.Forms.Panel();
             this.lbSkipMultiVersion = new System.Windows.Forms.Label();
             this.cbSkipMultiVersion = new System.Windows.Forms.CheckBox();
-            this.cbLanguages = new Utils.SeparatorComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tbSeason = new System.Windows.Forms.TextBox();
+            this.cbLanguages = new Utils.SeparatorComboBox();
             this.pRercordingSpecifics.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbLocation
             // 
             this.lbLocation.AutoSize = true;
-            this.lbLocation.Location = new System.Drawing.Point(39, 43);
-            this.lbLocation.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbLocation.Location = new System.Drawing.Point(26, 28);
             this.lbLocation.Name = "lbLocation";
-            this.lbLocation.Size = new System.Drawing.Size(70, 20);
+            this.lbLocation.Size = new System.Drawing.Size(48, 13);
             this.lbLocation.TabIndex = 0;
             this.lbLocation.Text = "Location";
             // 
             // tbFilesLocation
             // 
-            this.tbFilesLocation.Location = new System.Drawing.Point(190, 37);
-            this.tbFilesLocation.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tbFilesLocation.Location = new System.Drawing.Point(127, 24);
             this.tbFilesLocation.Name = "tbFilesLocation";
-            this.tbFilesLocation.Size = new System.Drawing.Size(728, 26);
+            this.tbFilesLocation.Size = new System.Drawing.Size(487, 20);
             this.tbFilesLocation.TabIndex = 1;
             this.tbFilesLocation.TextChanged += new System.EventHandler(this.tbFilesLocation_TextChanged);
             // 
             // lbFilesExtensions
             // 
             this.lbFilesExtensions.AutoSize = true;
-            this.lbFilesExtensions.Location = new System.Drawing.Point(39, 82);
-            this.lbFilesExtensions.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbFilesExtensions.Location = new System.Drawing.Point(26, 53);
             this.lbFilesExtensions.Name = "lbFilesExtensions";
-            this.lbFilesExtensions.Size = new System.Drawing.Size(122, 20);
+            this.lbFilesExtensions.Size = new System.Drawing.Size(81, 13);
             this.lbFilesExtensions.TabIndex = 2;
             this.lbFilesExtensions.Text = "Files extensions";
             // 
             // lbSeason
             // 
             this.lbSeason.AutoSize = true;
-            this.lbSeason.Location = new System.Drawing.Point(39, 125);
-            this.lbSeason.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbSeason.Location = new System.Drawing.Point(26, 81);
             this.lbSeason.Name = "lbSeason";
-            this.lbSeason.Size = new System.Drawing.Size(64, 20);
+            this.lbSeason.Size = new System.Drawing.Size(43, 13);
             this.lbSeason.TabIndex = 3;
             this.lbSeason.Text = "Season";
             // 
             // lbYear
             // 
             this.lbYear.AutoSize = true;
-            this.lbYear.Location = new System.Drawing.Point(39, 166);
-            this.lbYear.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbYear.Location = new System.Drawing.Point(26, 108);
             this.lbYear.Name = "lbYear";
-            this.lbYear.Size = new System.Drawing.Size(43, 20);
+            this.lbYear.Size = new System.Drawing.Size(29, 13);
             this.lbYear.TabIndex = 4;
             this.lbYear.Text = "Year";
             // 
@@ -106,50 +101,46 @@
             "*.mp4",
             "*.avi",
             "*.ts"});
-            this.cbFileExtensions.Location = new System.Drawing.Point(190, 77);
-            this.cbFileExtensions.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbFileExtensions.Location = new System.Drawing.Point(127, 50);
             this.cbFileExtensions.Name = "cbFileExtensions";
-            this.cbFileExtensions.Size = new System.Drawing.Size(132, 28);
-            this.cbFileExtensions.TabIndex = 5;
+            this.cbFileExtensions.Size = new System.Drawing.Size(89, 21);
+            this.cbFileExtensions.TabIndex = 2;
             this.cbFileExtensions.SelectedIndexChanged += new System.EventHandler(this.cbFileExtensions_SelectedIndexChanged);
             // 
             // tbYear
             // 
-            this.tbYear.Location = new System.Drawing.Point(190, 162);
-            this.tbYear.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tbYear.Location = new System.Drawing.Point(127, 105);
             this.tbYear.Name = "tbYear";
-            this.tbYear.Size = new System.Drawing.Size(132, 26);
-            this.tbYear.TabIndex = 7;
+            this.tbYear.Size = new System.Drawing.Size(89, 20);
+            this.tbYear.TabIndex = 4;
             // 
             // btnFolderSelector
             // 
-            this.btnFolderSelector.Location = new System.Drawing.Point(930, 37);
-            this.btnFolderSelector.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnFolderSelector.Location = new System.Drawing.Point(620, 24);
             this.btnFolderSelector.Name = "btnFolderSelector";
-            this.btnFolderSelector.Size = new System.Drawing.Size(80, 31);
+            this.btnFolderSelector.Size = new System.Drawing.Size(53, 20);
             this.btnFolderSelector.TabIndex = 8;
+            this.btnFolderSelector.TabStop = false;
             this.btnFolderSelector.Text = "Folder";
             this.btnFolderSelector.UseVisualStyleBackColor = true;
             this.btnFolderSelector.Click += new System.EventHandler(this.btnFolderSelector_Click);
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(776, 262);
-            this.btnOk.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnOk.Location = new System.Drawing.Point(517, 170);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(112, 35);
-            this.btnOk.TabIndex = 9;
+            this.btnOk.Size = new System.Drawing.Size(75, 23);
+            this.btnOk.TabIndex = 6;
             this.btnOk.Text = "Ok";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(897, 262);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnCancel.Location = new System.Drawing.Point(598, 170);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(112, 35);
-            this.btnCancel.TabIndex = 10;
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 7;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -157,11 +148,12 @@
             // cbGenerateThumbnails
             // 
             this.cbGenerateThumbnails.AutoSize = true;
-            this.cbGenerateThumbnails.Location = new System.Drawing.Point(190, 203);
-            this.cbGenerateThumbnails.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cbGenerateThumbnails.Checked = true;
+            this.cbGenerateThumbnails.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbGenerateThumbnails.Location = new System.Drawing.Point(127, 132);
             this.cbGenerateThumbnails.Name = "cbGenerateThumbnails";
-            this.cbGenerateThumbnails.Size = new System.Drawing.Size(458, 24);
-            this.cbGenerateThumbnails.TabIndex = 11;
+            this.cbGenerateThumbnails.Size = new System.Drawing.Size(302, 17);
+            this.cbGenerateThumbnails.TabIndex = 5;
             this.cbGenerateThumbnails.Text = "Use the first frame at 25-50-75% from duration as thumbnail";
             this.cbGenerateThumbnails.UseVisualStyleBackColor = true;
             this.cbGenerateThumbnails.CheckedChanged += new System.EventHandler(this.cbGenerateThumbnails_CheckedChanged);
@@ -170,13 +162,11 @@
             // 
             this.lbWarning.AutoSize = true;
             this.lbWarning.ForeColor = System.Drawing.Color.Red;
-            this.lbWarning.Location = new System.Drawing.Point(186, 229);
-            this.lbWarning.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbWarning.Location = new System.Drawing.Point(124, 149);
             this.lbWarning.Name = "lbWarning";
-            this.lbWarning.Size = new System.Drawing.Size(418, 20);
+            this.lbWarning.Size = new System.Drawing.Size(283, 13);
             this.lbWarning.TabIndex = 12;
             this.lbWarning.Text = "Warning! The import operation will take significantly longer!";
-            this.lbWarning.Visible = false;
             // 
             // pRercordingSpecifics
             // 
@@ -184,17 +174,19 @@
             this.pRercordingSpecifics.Controls.Add(this.cbSkipMultiVersion);
             this.pRercordingSpecifics.Controls.Add(this.cbLanguages);
             this.pRercordingSpecifics.Controls.Add(this.label1);
-            this.pRercordingSpecifics.Location = new System.Drawing.Point(556, 71);
+            this.pRercordingSpecifics.Location = new System.Drawing.Point(371, 46);
+            this.pRercordingSpecifics.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pRercordingSpecifics.Name = "pRercordingSpecifics";
-            this.pRercordingSpecifics.Size = new System.Drawing.Size(377, 115);
+            this.pRercordingSpecifics.Size = new System.Drawing.Size(251, 75);
             this.pRercordingSpecifics.TabIndex = 18;
             // 
             // lbSkipMultiVersion
             // 
             this.lbSkipMultiVersion.AutoSize = true;
-            this.lbSkipMultiVersion.Location = new System.Drawing.Point(10, 54);
+            this.lbSkipMultiVersion.Location = new System.Drawing.Point(7, 35);
+            this.lbSkipMultiVersion.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbSkipMultiVersion.Name = "lbSkipMultiVersion";
-            this.lbSkipMultiVersion.Size = new System.Drawing.Size(200, 20);
+            this.lbSkipMultiVersion.Size = new System.Drawing.Size(134, 13);
             this.lbSkipMultiVersion.TabIndex = 21;
             this.lbSkipMultiVersion.Text = "Skip multi-version episodes";
             // 
@@ -203,11 +195,28 @@
             this.cbSkipMultiVersion.AutoSize = true;
             this.cbSkipMultiVersion.Checked = true;
             this.cbSkipMultiVersion.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbSkipMultiVersion.Location = new System.Drawing.Point(220, 55);
+            this.cbSkipMultiVersion.Location = new System.Drawing.Point(147, 36);
+            this.cbSkipMultiVersion.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbSkipMultiVersion.Name = "cbSkipMultiVersion";
-            this.cbSkipMultiVersion.Size = new System.Drawing.Size(22, 21);
-            this.cbSkipMultiVersion.TabIndex = 20;
+            this.cbSkipMultiVersion.Size = new System.Drawing.Size(15, 14);
+            this.cbSkipMultiVersion.TabIndex = 6;
             this.cbSkipMultiVersion.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 6);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(117, 13);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "Default audio language";
+            // 
+            // tbSeason
+            // 
+            this.tbSeason.Location = new System.Drawing.Point(127, 77);
+            this.tbSeason.Name = "tbSeason";
+            this.tbSeason.Size = new System.Drawing.Size(89, 20);
+            this.tbSeason.TabIndex = 3;
             // 
             // cbLanguages
             // 
@@ -215,38 +224,21 @@
             this.cbLanguages.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.cbLanguages.DropDownWidth = 250;
             this.cbLanguages.FormattingEnabled = true;
-            this.cbLanguages.Location = new System.Drawing.Point(220, 8);
+            this.cbLanguages.Location = new System.Drawing.Point(147, 5);
+            this.cbLanguages.Margin = new System.Windows.Forms.Padding(2);
             this.cbLanguages.Name = "cbLanguages";
             this.cbLanguages.SeparatorColor = System.Drawing.Color.Black;
             this.cbLanguages.SeparatorMargin = 1;
             this.cbLanguages.SeparatorStyle = System.Drawing.Drawing2D.DashStyle.Solid;
             this.cbLanguages.SeparatorWidth = 1;
-            this.cbLanguages.Size = new System.Drawing.Size(142, 27);
-            this.cbLanguages.TabIndex = 19;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 9);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(174, 20);
-            this.label1.TabIndex = 18;
-            this.label1.Text = "Default audio language";
-            // 
-            // tbSeason
-            // 
-            this.tbSeason.Location = new System.Drawing.Point(190, 119);
-            this.tbSeason.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tbSeason.Name = "tbSeason";
-            this.tbSeason.Size = new System.Drawing.Size(132, 26);
-            this.tbSeason.TabIndex = 6;
+            this.cbLanguages.Size = new System.Drawing.Size(96, 21);
+            this.cbLanguages.TabIndex = 5;
             // 
             // FrmEpisodeInfoFromFiles
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1041, 317);
+            this.ClientSize = new System.Drawing.Size(694, 206);
             this.Controls.Add(this.tbSeason);
             this.Controls.Add(this.pRercordingSpecifics);
             this.Controls.Add(this.lbWarning);
@@ -262,7 +254,6 @@
             this.Controls.Add(this.tbFilesLocation);
             this.Controls.Add(this.lbLocation);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmEpisodeInfoFromFiles";

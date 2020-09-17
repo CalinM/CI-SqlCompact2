@@ -277,7 +277,8 @@ namespace Desene.DetailFormsAndUserControls
             {
                 using (var ms = new MemoryStream(cachedMovieStills.MovieStills[2]))
                 {
-                    pbMovieStill3.Image = Image.FromStream(ms);
+                    if (ms != null && ms.Length > 0) //Rocket and Groot?!?!
+                        pbMovieStill3.Image = Image.FromStream(ms);
                 }
             }
 

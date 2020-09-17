@@ -86,7 +86,7 @@
             this.cbFileExtensions.Location = new System.Drawing.Point(127, 50);
             this.cbFileExtensions.Name = "cbFileExtensions";
             this.cbFileExtensions.Size = new System.Drawing.Size(89, 21);
-            this.cbFileExtensions.TabIndex = 5;
+            this.cbFileExtensions.TabIndex = 2;
             this.cbFileExtensions.SelectedIndexChanged += new System.EventHandler(this.cbFileExtensions_SelectedIndexChanged);
             // 
             // tbYear
@@ -94,7 +94,7 @@
             this.tbYear.Location = new System.Drawing.Point(127, 77);
             this.tbYear.Name = "tbYear";
             this.tbYear.Size = new System.Drawing.Size(89, 20);
-            this.tbYear.TabIndex = 7;
+            this.tbYear.TabIndex = 3;
             // 
             // btnFolderSelector
             // 
@@ -102,6 +102,7 @@
             this.btnFolderSelector.Name = "btnFolderSelector";
             this.btnFolderSelector.Size = new System.Drawing.Size(53, 20);
             this.btnFolderSelector.TabIndex = 8;
+            this.btnFolderSelector.TabStop = false;
             this.btnFolderSelector.Text = "Folder";
             this.btnFolderSelector.UseVisualStyleBackColor = true;
             this.btnFolderSelector.Click += new System.EventHandler(this.btnFolderSelector_Click);
@@ -111,7 +112,7 @@
             this.btnOk.Location = new System.Drawing.Point(517, 142);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 9;
+            this.btnOk.TabIndex = 5;
             this.btnOk.Text = "Ok";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
@@ -121,7 +122,7 @@
             this.btnCancel.Location = new System.Drawing.Point(598, 142);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 10;
+            this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -129,10 +130,12 @@
             // cbGenerateThumbnails
             // 
             this.cbGenerateThumbnails.AutoSize = true;
+            this.cbGenerateThumbnails.Checked = true;
+            this.cbGenerateThumbnails.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbGenerateThumbnails.Location = new System.Drawing.Point(127, 104);
             this.cbGenerateThumbnails.Name = "cbGenerateThumbnails";
             this.cbGenerateThumbnails.Size = new System.Drawing.Size(302, 17);
-            this.cbGenerateThumbnails.TabIndex = 11;
+            this.cbGenerateThumbnails.TabIndex = 4;
             this.cbGenerateThumbnails.Text = "Use the first frame at 25-50-75% from duration as thumbnail";
             this.cbGenerateThumbnails.UseVisualStyleBackColor = true;
             this.cbGenerateThumbnails.CheckedChanged += new System.EventHandler(this.cbGenerateThumbnails_CheckedChanged);
@@ -146,7 +149,6 @@
             this.lbWarning.Size = new System.Drawing.Size(283, 13);
             this.lbWarning.TabIndex = 12;
             this.lbWarning.Text = "Warning! The import operation will take significantly longer!";
-            this.lbWarning.Visible = false;
             // 
             // FrmElementsInfoFromFiles
             // 

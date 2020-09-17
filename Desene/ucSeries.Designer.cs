@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pSeriesTreeWrapper = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pDummyMenuForShortCutKeys = new System.Windows.Forms.Panel();
@@ -55,6 +56,8 @@
             this.btnDeleteSeasonEpisode = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pSeriesDetailsContainer = new Utils.CustomPanel();
+            this.cmsTree = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miChangeSeasonName = new System.Windows.Forms.ToolStripMenuItem();
             this.pSeriesTreeWrapper.SuspendLayout();
             this.panel2.SuspendLayout();
             this.pDummyMenuForShortCutKeys.SuspendLayout();
@@ -68,6 +71,7 @@
             this.pSeriesSecondToolbar.SuspendLayout();
             this.panel3.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.cmsTree.SuspendLayout();
             this.SuspendLayout();
             // 
             // pSeriesTreeWrapper
@@ -159,6 +163,7 @@
             this.tvSeries.TabIndex = 4;
             this.tvSeries.Text = "treeViewAdv1";
             this.tvSeries.SelectionChanged += new System.EventHandler(this.tvSeries_SelectionChanged);
+            this.tvSeries.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tvSeries_MouseClick);
             // 
             // pFilters
             // 
@@ -376,6 +381,20 @@
             this.pSeriesDetailsContainer.Size = new System.Drawing.Size(681, 580);
             this.pSeriesDetailsContainer.TabIndex = 0;
             // 
+            // cmsTree
+            // 
+            this.cmsTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miChangeSeasonName});
+            this.cmsTree.Name = "contextMenuStrip1";
+            this.cmsTree.Size = new System.Drawing.Size(188, 26);
+            this.cmsTree.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cmsTree_ItemClicked);
+            // 
+            // miChangeSeasonName
+            // 
+            this.miChangeSeasonName.Name = "miChangeSeasonName";
+            this.miChangeSeasonName.Size = new System.Drawing.Size(187, 22);
+            this.miChangeSeasonName.Text = "Change season name";
+            // 
             // ucSeries
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -404,6 +423,7 @@
             this.panel3.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.cmsTree.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -437,5 +457,7 @@
         private System.Windows.Forms.Label lbDoNotDelete;
         private System.Windows.Forms.ToolStripButton btnBulkEdit;
         private Utils.CustomPanel pSeriesDetailsContainer;
+        private System.Windows.Forms.ContextMenuStrip cmsTree;
+        private System.Windows.Forms.ToolStripMenuItem miChangeSeasonName;
     }
 }

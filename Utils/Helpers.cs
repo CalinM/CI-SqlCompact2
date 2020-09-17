@@ -166,6 +166,7 @@ namespace Utils
                 new List<MixFileNameReplaceDef>()
                 {
                     new MixFileNameReplaceDef(":", " - "),
+                    new MixFileNameReplaceDef("? (", " ("),
                     new MixFileNameReplaceDef("?", string.Empty),
                     new MixFileNameReplaceDef("\"", "'"),
                     new MixFileNameReplaceDef("*", string.Empty),
@@ -177,6 +178,60 @@ namespace Utils
                     new MixFileNameReplaceDef("’", "'")
                 };
          }
+
+        public static DialogResult InputBox(Form owner, string title, string promptText, ref string value)
+        {
+            var form = new Form
+            {
+                Owner = owner,
+                Text = title,
+                ClientSize = new Size(396, 107),
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent,
+                MinimizeBox = false,
+                MaximizeBox = false
+            };
+
+            var label = new Label
+            {
+                Text = promptText,
+                AutoSize = true
+            };
+            label.SetBounds(9, 20, 372, 13);
+
+            var textBox = new TextBox
+            {
+                Text = value,
+                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
+            };
+            textBox.SetBounds(12, 36, 372, 20);
+
+            var buttonOk = new Button
+            {
+                Text = "OK",
+                DialogResult = DialogResult.OK,
+                Anchor = AnchorStyles.Bottom | AnchorStyles.Right
+            };
+            buttonOk.SetBounds(228, 72, 75, 23);
+
+            var buttonCancel = new Button
+            {
+                Text = "Cancel",
+                DialogResult = DialogResult.Cancel,
+                Anchor = AnchorStyles.Bottom | AnchorStyles.Right
+            };
+            buttonCancel.SetBounds(309, 72, 75, 23);
+
+            form.Controls.AddRange(new Control[] { label, textBox, buttonOk, buttonCancel });
+            form.ClientSize = new Size(Math.Max(300, label.Right + 10), form.ClientSize.Height);
+            form.AcceptButton = buttonOk;
+            form.CancelButton = buttonCancel;
+
+            var dialogResult = form.ShowDialog();
+            value = textBox.Text;
+
+            return dialogResult;
+        }
     }
 
     public class DrawingControl

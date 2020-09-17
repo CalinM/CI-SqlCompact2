@@ -594,7 +594,7 @@ namespace Desene
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            
+
             var sesi = (SeriesEpisodesShortInfo)tvSeries.SelectedNode.Tag;
 
             var languageChange = frmBulkEpisodeEdit.SelectedBulkValues.Any(x => x.FieldName == "Language");
@@ -618,6 +618,53 @@ namespace Desene
                 //this resets the grid selection and disable the button
                 ((ucSeriesEpisodes)prevInstance[0]).LoadControls(sesi);
             }
+        }
+
+        private void tvSeries_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Right)
+                return;
+
+            var selectedNode = tvSeries.SelectedNode;
+
+            if (selectedNode == null || selectedNode.Tag == null)
+                return;
+
+            var sesi = (SeriesEpisodesShortInfo)selectedNode.Tag;
+
+            if (sesi == null || !sesi.IsSeason)
+                return;
+
+            cmsTree.Show(tvSeries, e.Location);
+        }
+
+        private void cmsTree_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            if (e.ClickedItem.Name == "miChangeSeasonName")
+            {
+                var selectedNode = tvSeries.SelectedNode;
+                var sesi = (SeriesEpisodesShortInfo)selectedNode.Tag;
+
+                string value = sesi.FileName;
+                if (Utils.Helpers.InputBox(_parent, "Rename season", "New value (to move individual episodes in a different season, use the bulk episode edit):", ref value) == DialogResult.OK)
+                {
+                    if (sesi.FileName != value)
+                    {
+                        var opRes = DAL.UpdateSeasonName(sesi.SeriesId, sesi.Season, value);
+
+                        if (!opRes.Success)
+                        {
+                            MsgBox.Show(string.Format("The following error occurred while updating the season name:{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else
+                        {
+                            sesi.FileName = value;
+                        }
+                    }
+                }
+            }
+
         }
 
         #endregion
