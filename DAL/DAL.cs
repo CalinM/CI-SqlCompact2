@@ -268,10 +268,13 @@ namespace Desene
                 {
                     while (reader.Read())
                     {
+                        int i;
+
                         result.Add(new MovieTechnicalDetails()
                         {
                                 Id = (int)(long)reader["Id"],
                                 Season = reader["Season"].ToString(),
+                                Season2 = int.TryParse(reader["Season"].ToString(), out i) ? string.Format("Season {0}", i) : reader["Season"].ToString(),
                                 FileName = reader["FileName"].ToString(),
                                 Year = reader["Year"].ToString(),
                                 FileSize2 = reader["FileSize2"].ToString(),
@@ -287,7 +290,7 @@ namespace Desene
 
             return
                 result
-                    .OrderBy(o => o.Season, new NaturalSortComparer<string>())
+                    .OrderBy(o => o.Season2, new NaturalSortComparer<string>())
                     .ThenBy(o => o.FileName)
                     .ToList();
         }

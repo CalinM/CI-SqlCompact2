@@ -159,5 +159,23 @@ namespace Desene.EditUserControls
                 MsgBox.Show(ex.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void bGotoDescription_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tbDescriptionLink.Text))
+                System.Diagnostics.Process.Start(tbDescriptionLink.Text);
+        }
+
+        private void bGotoRecommendedSite_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tbRecommendedLink.Text))
+                System.Diagnostics.Process.Start(tbRecommendedLink.Text);
+        }
+
+        private void bGotoTrailer_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tbTrailer.Text))
+                System.Diagnostics.Process.Start(tbTrailer.Text);
+        }
     }
 }

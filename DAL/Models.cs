@@ -129,7 +129,7 @@ namespace DAL
         public bool HasCover { get; set; }
 
         public string Season { get; set; }
-        //public string Season2 { get; set; }
+        public string Season2 { get; set; }
 
         public string Theme { get; set; }
         public string StreamLink { get; set; }

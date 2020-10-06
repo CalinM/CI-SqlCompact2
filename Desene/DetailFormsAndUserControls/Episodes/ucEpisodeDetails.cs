@@ -87,6 +87,17 @@ namespace Desene.DetailFormsAndUserControls
                 }
 
                 RefreshControls(DAL.CurrentMTD);
+                ttMovieDbDates.SetToolTip(pbDbDates,
+                    string.Format("Inserted: {0}{1}Last modified: {2}{1}Id: {3}",
+                        DAL.CurrentMTD.InsertedDate == null
+                            ? "?"
+                            : ((DateTime)DAL.CurrentMTD.InsertedDate).ToString("dd.MM.yyyy"),
+                        Environment.NewLine,
+                        DAL.CurrentMTD.LastChangeDate == null
+                            ? "-"
+                            : ((DateTime)DAL.CurrentMTD.LastChangeDate).ToString("dd.MM.yyyy"),
+                        DAL.CurrentMTD.Id
+                        ));
 
 
                 var vsUC = Controls.OfType<UserControl>().FirstOrDefault(uc => uc.Tag != null && uc.Tag.ToString() == "videoStreams");
