@@ -8,13 +8,21 @@ using Utils;
 
 namespace Desene
 {
-    public partial class FrmEditSeriesBaseInfo : Form
+    public partial class FrmEditSeriesBaseInfo : EscapeForm
     {
         public int NewId;
 
         public FrmEditSeriesBaseInfo()
         {
             InitializeComponent();
+            toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
+            toolStrip1.Padding = new Padding(5, 0, 1, 0);
+
+        }
+
+        private void FrmEditSeriesBaseInfo_Load(object sender, EventArgs e)
+        {
+
         }
 
         private void FrmEditSeriesBaseInfo_FormClosed(object sender, FormClosedEventArgs e)

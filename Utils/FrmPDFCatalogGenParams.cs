@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Utils
 {
-    public partial class FrmPDFCatalogGenParams : Form
+    public partial class FrmPDFCatalogGenParams : EscapeForm
     {
         public PdfGenParams PdfGenParams;
 

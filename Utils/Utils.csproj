@@ -102,6 +102,9 @@
     </Compile>
     <Compile Include="DataGridViewAutoFilter\DataGridViewAutoFilterColumnHeaderCell.cs" />
     <Compile Include="DataGridViewAutoFilter\DataGridViewAutoFilterTextBoxColumn.cs" />
+    <Compile Include="EscapeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FilterTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -303,6 +306,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Christmas-Tree-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Reset.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Merge.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Options.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

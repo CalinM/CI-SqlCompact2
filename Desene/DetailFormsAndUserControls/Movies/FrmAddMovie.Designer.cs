@@ -35,27 +35,33 @@ namespace Desene
             this.btnCancel = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnImportMovieData = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnLoadPoster = new System.Windows.Forms.ToolStripButton();
-            this.ucMovieInfo1 = new Desene.DetailFormsAndUserControls.ucMovieInfo(true);
+            this.btnOpenPages = new System.Windows.Forms.ToolStripButton();
+            this.ucMovieInfo1 = new Desene.DetailFormsAndUserControls.ucMovieInfo();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
-            //
+            // 
             // toolStrip1
-            //
+            // 
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnSave,
             this.btnCancel,
             this.toolStripSeparator1,
             this.btnImportMovieData,
-            this.btnLoadPoster});
+            this.toolStripSeparator2,
+            this.btnLoadPoster,
+            this.btnOpenPages});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Padding = new System.Windows.Forms.Padding(5, 0, 1, 0);
             this.toolStrip1.Size = new System.Drawing.Size(884, 25);
             this.toolStrip1.TabIndex = 185;
             this.toolStrip1.Text = "toolStrip1";
-            //
+            // 
             // btnSave
-            //
+            // 
             this.btnSave.Enabled = false;
             this.btnSave.Image = global::Desene.Properties.Resources.save_as;
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -63,23 +69,23 @@ namespace Desene
             this.btnSave.Size = new System.Drawing.Size(51, 22);
             this.btnSave.Text = "Save";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            //
+            // 
             // btnCancel
-            //
+            // 
             this.btnCancel.Image = global::Desene.Properties.Resources.cancel;
             this.btnCancel.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(63, 22);
             this.btnCancel.Text = "Cancel";
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            //
+            // 
             // toolStripSeparator1
-            //
+            // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            //
+            // 
             // btnImportMovieData
-            //
+            // 
             this.btnImportMovieData.Image = global::Desene.Properties.Resources.import;
             this.btnImportMovieData.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImportMovieData.Name = "btnImportMovieData";
@@ -87,18 +93,32 @@ namespace Desene
             this.btnImportMovieData.Text = "Import from file";
             this.btnImportMovieData.ToolTipText = "Import movie data from file";
             this.btnImportMovieData.Click += new System.EventHandler(this.btnImportMovieData_Click);
-            //
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
             // btnLoadPoster
-            //
+            // 
             this.btnLoadPoster.Image = global::Desene.Properties.Resources.image;
             this.btnLoadPoster.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoadPoster.Name = "btnLoadPoster";
             this.btnLoadPoster.Size = new System.Drawing.Size(89, 22);
             this.btnLoadPoster.Text = "Load poster";
             this.btnLoadPoster.Click += new System.EventHandler(this.btnLoadPoster_Click);
-            //
+            // 
+            // btnOpenPages
+            // 
+            this.btnOpenPages.Image = global::Desene.Properties.Resources.www;
+            this.btnOpenPages.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnOpenPages.Name = "btnOpenPages";
+            this.btnOpenPages.Size = new System.Drawing.Size(117, 22);
+            this.btnOpenPages.Text = "Open base pages";
+            this.btnOpenPages.Click += new System.EventHandler(this.btnOpenPages_Click);
+            // 
             // ucMovieInfo1
-            //
+            // 
             this.ucMovieInfo1.AllowDrop = true;
             this.ucMovieInfo1.AutoSize = true;
             this.ucMovieInfo1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -107,9 +127,9 @@ namespace Desene
             this.ucMovieInfo1.Name = "ucMovieInfo1";
             this.ucMovieInfo1.Size = new System.Drawing.Size(884, 366);
             this.ucMovieInfo1.TabIndex = 186;
-            //
+            // 
             // FrmAddMovie
-            //
+            // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -140,5 +160,7 @@ namespace Desene
         private System.Windows.Forms.ToolStripButton btnLoadPoster;
         private System.Windows.Forms.ToolStripButton btnImportMovieData;
         private ucMovieInfo ucMovieInfo1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton btnOpenPages;
     }
 }

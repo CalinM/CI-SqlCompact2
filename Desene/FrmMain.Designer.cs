@@ -52,6 +52,7 @@ namespace Desene
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.btnFilesDetails = new System.Windows.Forms.ToolStripButton();
             this.btnBuildFileNames = new System.Windows.Forms.ToolStripButton();
+            this.btnCheckFiles = new System.Windows.Forms.ToolStripButton();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.sslbStatistics = new System.Windows.Forms.ToolStripStatusLabel();
             this.sslbAdditionalInfo1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -71,7 +72,6 @@ namespace Desene
             // mainMenu
             // 
             this.mainMenu.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.mainMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnCategory,
             this.separatorMainButtons,
@@ -81,7 +81,8 @@ namespace Desene
             this.toolStripDropDownButton1,
             this.toolStripSeparator3,
             this.btnFilesDetails,
-            this.btnBuildFileNames});
+            this.btnBuildFileNames,
+            this.btnCheckFiles});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
@@ -250,6 +251,15 @@ namespace Desene
             this.btnBuildFileNames.Size = new System.Drawing.Size(155, 28);
             this.btnBuildFileNames.Text = "Mix Netflix files names";
             this.btnBuildFileNames.Click += new System.EventHandler(this.BtnBuildFileNames_Click);
+            // 
+            // btnCheckFiles
+            // 
+            this.btnCheckFiles.Image = global::Desene.Properties.Resources.CheckFileExistence;
+            this.btnCheckFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnCheckFiles.Name = "btnCheckFiles";
+            this.btnCheckFiles.Size = new System.Drawing.Size(144, 28);
+            this.btnCheckFiles.Text = "Check files existence";
+            this.btnCheckFiles.Click += new System.EventHandler(this.btnCheckFiles_Click);
             // 
             // statusStrip
             // 
@@ -427,6 +437,7 @@ namespace Desene
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem miRecordings;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.ToolStripButton btnCheckFiles;
     }
 }
 

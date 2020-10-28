@@ -23,6 +23,10 @@ namespace Desene.DetailFormsAndUserControls
         private BindingSource _bsControlsData;
         private bool _isNew;
         public byte[] TmpPoster; //used when a poster is dragged before initializing the DAL.NewMTD object
+        public string MovieTitle
+        {
+            get { return tbTitle.Text; }
+        }
 
         public ucMovieInfo()
         {

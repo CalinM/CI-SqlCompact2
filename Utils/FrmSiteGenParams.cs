@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Utils
 {
-    public partial class FrmSiteGenParams : Form
+    public partial class FrmSiteGenParams : EscapeForm
     {
         public SiteGenParams SiteGenParams;
 

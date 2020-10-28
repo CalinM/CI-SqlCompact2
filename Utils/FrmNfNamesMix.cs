@@ -15,6 +15,9 @@ namespace Utils
         private List<string> _fileNamesMix;
         private bool _mustRebuild;
         private bool? _replaceSlashWithAnd = null;
+        private NamesMix_Ext _namesMix_Ext;
+        private NamesMix_NameType _namesMix_NameType;
+        private NamesMix_ProcessFN _namesMix_ProcessFN;
 
         public FrmNfNamesMix()
         {
@@ -26,6 +29,9 @@ namespace Utils
 
         private void FrmNfNamesMix_Load(object sender, EventArgs e)
         {
+
+            rtbLanguage1.Focus();
+
             if (Settings.Default.FrmNfNamesMix_WL.X > 0 && Settings.Default.FrmNfNamesMix_WL.Y > 0) //to auto-correct bad configuration
             {
                 Location = Settings.Default.FrmNfNamesMix_WL;
@@ -37,7 +43,7 @@ namespace Utils
                 Size = Settings.Default.FrmNfNamesMix_WS;
             }
 
-            cbNamingType.SelectedIndex = 1;
+            SetCurrentOpt();
         }
 
         private void FrmNfNamesMix_FormClosed(object sender, FormClosedEventArgs e)
@@ -50,32 +56,6 @@ namespace Utils
 
             // Save settings
             Settings.Default.Save();
-        }
-
-        private void BtnConfirm_Click(object sender, EventArgs e)
-        {
-            if (_mustRebuild)
-            {
-                var opRes = MixFileNames();
-
-                if (!opRes.Success)
-                {
-                    MsgBox.Show(opRes.CustomErrorMessage, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                else
-                {
-                    _fileNamesMix = (List<string>)opRes.AdditionalDataReturn;
-                }
-            }
-
-            if (SaveMixedNames())
-                Close();
-        }
-
-        private void BtnPreview_Click(object sender, EventArgs e)
-        {
-            BuildPreview();
         }
 
         private void BuildPreview()
@@ -111,8 +91,11 @@ namespace Utils
                         BorderStyle = BorderStyle.None,
                         ScrollBars = RichTextBoxScrollBars.Vertical,
                         Font = new Font("Consolas", 10),
-                        ReadOnly = true
+                        ReadOnly = true,
+                        BackColor = Color.WhiteSmoke,
                     };
+
+                    previewRE.KeyPress += PreviewRE_KeyPress;
 
                     tpPreview.Controls.Add(previewRE);
 
@@ -132,10 +115,16 @@ namespace Utils
             tcNfNamesMix.SelectedIndex = 2;
         }
 
+        private void PreviewRE_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //to get rid of the Windows sound
+            e.Handled = true;
+        }
+
         private void RtbLanguage1_TextChanged(object sender, EventArgs e)
         {
-            btnConfirm.Enabled = !string.IsNullOrWhiteSpace(rtbLanguage1.Text);
-            btnPreview.Enabled = btnConfirm.Enabled;
+            btnSave.Enabled = !string.IsNullOrWhiteSpace(rtbLanguage1.Text);
+            btnPreview.Enabled = btnSave.Enabled;
 
             _mustRebuild = true;
         }
@@ -150,15 +139,7 @@ namespace Utils
 
             try
             {
-                var ext =
-                    string.IsNullOrEmpty(cbFilesExt.Text)
-                        ? string.Empty
-                        : string.Format("{0}{1}",
-                            cbFilesExt.Text.Contains(".")
-                                ? string.Empty
-                                : ".",
-                            cbFilesExt.Text);
-
+                var ext = EnumHelpers.GetEnumDescription(_namesMix_Ext);
                 var epProcessedList1 = 0;
                 var epProcessedList2 = 0;
 
@@ -188,7 +169,7 @@ namespace Utils
                                     epNo,
                                     title1,
                                     ext,
-                                    cbNamingType.Text)
+                                    EnumHelpers.GetEnumDescription(_namesMix_NameType))
                             );
 
                         epProcessedList2++;
@@ -218,19 +199,35 @@ namespace Utils
                             var title1 = myString1.Substring((charLocation1 + 1), myString1.Length - (charLocation1 + 1)).Trim();
                             var title2 = myString2.Substring((charLocation2 + 1), myString2.Length - (charLocation2 + 1)).Trim();
 
+                            switch (_namesMix_ProcessFN)
+                            {
+                                case NamesMix_ProcessFN.none:
+                                    break;
+
+                                case NamesMix_ProcessFN.ToSentenceCase:
+                                    title1 = title1.ToSentenceCase(true);
+                                    title2 = title2.ToSentenceCase(true);
+                                    break;
+
+                                case NamesMix_ProcessFN.ToTitleCase:
+                                    title1 = title1.ToTitleCase(true);
+                                    title2 = title2.ToTitleCase(true);
+                                    break;
+                            }
+
                             mixLines.Add(
                                 title1 == title2
                                     ? string.Format("E{0}{3}{1}{2}",
                                         epNo,
                                         title1,
                                         ext,
-                                        cbNamingType.Text)
+                                        EnumHelpers.GetEnumDescription(_namesMix_NameType))
                                     : string.Format("E{0}{4}{1} ({2}){3}",
                                         epNo,
                                         title1,
                                         title2,
                                         ext,
-                                        cbNamingType.Text)
+                                        EnumHelpers.GetEnumDescription(_namesMix_NameType))
                             );
 
                             epProcessedList2++;
@@ -322,90 +319,144 @@ namespace Utils
             return true;
         }
 
-        private void CbFilesExt_SelectedIndexChanged(object sender, EventArgs e)
+        private void UncheckAllMenuItems(ToolStripMenuItem parent)
         {
-            if (btnPreview.Enabled)
+            foreach (ToolStripItem item in parent.DropDownItems)
             {
-                _mustRebuild = true;
-                BuildPreview();
+                if (item is ToolStripMenuItem)
+                {
+                    ((ToolStripMenuItem)item).Checked = false;
+                }
             }
         }
 
-        private bool _preventEvent = false;
-
-        private void cbProcessNamesOpt_SelectedIndexChanged(object sender, EventArgs e)
+        private void miOpt_FileExt_SubItems_Click(object sender, EventArgs e)
         {
-            if (_preventEvent) return;
+            UncheckAllMenuItems(miOpt_FileExt);
+            ((ToolStripMenuItem)sender).Checked = true;
+            _namesMix_Ext = (NamesMix_Ext)int.Parse(((ToolStripMenuItem)sender).Tag.ToString());
 
-            RichTextBox currentRichEdit = null;
+            SetCurrentOpt();
+        }
 
-            switch (tcNfNamesMix.SelectedTab.TabIndex)
+        private void miOpt_NameType_SubItems_Click(object sender, EventArgs e)
+        {
+            UncheckAllMenuItems(miOpt_NameType);
+            ((ToolStripMenuItem)sender).Checked = true;
+            _namesMix_NameType = (NamesMix_NameType)int.Parse(((ToolStripMenuItem)sender).Tag.ToString());
+
+            SetCurrentOpt();
+        }
+
+        private void miOpt_FNproc_SubItems_Click(object sender, EventArgs e)
+        {
+            var currentMenuItem = (ToolStripMenuItem)sender;
+            var originallyChecked = currentMenuItem.Checked;
+
+            UncheckAllMenuItems(miOpt_FNproc);
+
+            currentMenuItem.Checked = !originallyChecked;
+
+            _namesMix_ProcessFN =
+                    currentMenuItem.Checked
+                        ? (NamesMix_ProcessFN)int.Parse(((ToolStripMenuItem)sender).Tag.ToString())
+                        : NamesMix_ProcessFN.none;
+
+            SetCurrentOpt();
+        }
+
+        private void SetCurrentOpt()
+        {
+            _mustRebuild = true;
+
+            tsslCurrentOpt.Text =
+                string.Format("{0}, {1}, {2}",
+                    _namesMix_Ext.ToString(),
+                    EnumHelpers.GetEnumDescription(_namesMix_NameType),
+                    EnumHelpers.GetEnumDescription(_namesMix_ProcessFN));
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            tcNfNamesMix.SelectedIndex = 0;
+            rtbLanguage1.Clear();
+            rtbLanguage2.Clear();
+
+            if (tcNfNamesMix.TabPages.ContainsKey("tpPreview"))
             {
-                case 0:
-                    currentRichEdit = rtbLanguage1;
-                    break;
-                case 1:
-                    currentRichEdit = rtbLanguage2;
-                    break;
+                var rtpPreview = (RichTextBox)(tcNfNamesMix.TabPages["tpPreview"].Controls.Find("rtbPreview", true)[0]);
+                rtpPreview.Clear();
             }
 
-            if (currentRichEdit == null)
+            _namesMix_Ext = NamesMix_Ext.mkv;
+            _namesMix_NameType = NamesMix_NameType.dash;
+            _namesMix_ProcessFN = NamesMix_ProcessFN.none;
+
+            SetCurrentOpt();
+        }
+
+        private void miSampleData_Click(object sender, EventArgs e)
+        {
+            rtbLanguage1.Text = @"1. Tak’s Torenhoge Tuimeltaart / Bamboeboe
+2. Gipsbaksels / Okra-bal
+3. Kijk op en Speel/ Naar De Maan
+4. Lente-Surprise-Ei
+5. De Jacht op het Blaadje/ Ridders van de Duikeltafel
+6. Esdoorn’s mobiele Blubsietaartenkraam/ Papieren-Vliegtuig-Briefjes
+7. Met de stroom mee/ Doorgeef-Fantasie
+8. Op jacht naar de Kist/ Houvast
+9. Niets in de Schatkist/ Zoekspelletje
+10. Kukeldroedeldag/ Slaapfeestje aan dek
+11. Tak’s stille knalfeest / Tappa-Tappa-Tapschoenen
+12. De Wieldinges / Teletouw
+13. Natuurvrienden/ De Schip-shop";
+
+            rtbLanguage2.Text = @"1.Stick's Towering, Toppling Cake/Bambooboo
+2.Rutabagels / Okra - Ball
+3.Look Up And Play / To The Moon
+4.Spring - a - ling Surprise
+5.Chase The Leaf/ Knights of the Tumble Tale
+6.Maple's Mobile Mudpie Stand/Paper Plane Messages
+7.Go With The Flow / Passing Fancy
+8.Quest for The Chest/ Get A Grip
+9.Nothing In The Finding Place / Finding Play
+10.Cock - A - Doodle Day / Glow In The Dark Sleepover
+11.Stick's Quiet Riot/Tappa Tappa Tap Shoes
+12.The Wheel Thing / Twine Line
+13.The Nature Of Friendship / The Ship Shop";
+
+            //_mustRebuild = true;
+        }
+
+        private void btnPreview_Click(object sender, EventArgs e)
+        {
+            BuildPreview();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (_mustRebuild)
             {
-                ResetProcessNamesOptCb();
-                return;
-            };
+                var opRes = MixFileNames();
 
-            var originalText = currentRichEdit.Lines;
-
-            if (originalText.Length == 0)
-            {
-                ResetProcessNamesOptCb();
-                return;
-            };
-
-            currentRichEdit.Text = string.Empty;
-
-            for (var i = 0; i < originalText.Length; i++)
-            {
-                var textLine = originalText[i];
-
-                currentRichEdit.AppendText(
-                    (cbProcessNamesOpt.SelectedIndex == 0
-                        ? textLine.ToTitleCase(true)
-                        : textLine.ToSentenceCase(true))
-                    +
-                    (i < originalText.Length-1
-                        ? Environment.NewLine
-                        : string.Empty
-                    )
-                );
-            }
-
-            if (MsgBox.Show("Do you want to persist the changes?", "Confirmation",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
-            {
-                currentRichEdit.Text = string.Empty;
-
-                for (var i = 0; i < originalText.Length; i++)
+                if (!opRes.Success)
                 {
-                    var textLine = originalText[i];
-
-                    currentRichEdit.AppendText(textLine +
-                        (i < originalText.Length-1
-                        ? Environment.NewLine
-                        : string.Empty
-                    ));
+                    MsgBox.Show(opRes.CustomErrorMessage, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                else
+                {
+                    _fileNamesMix = (List<string>)opRes.AdditionalDataReturn;
                 }
             }
 
-            ResetProcessNamesOptCb();
+            if (SaveMixedNames())
+                Close();
         }
 
-        private void ResetProcessNamesOptCb()
+        private void btnClose_Click(object sender, EventArgs e)
         {
-            _preventEvent = true;
-            cbProcessNamesOpt.SelectedIndex = -1;
-            _preventEvent = false;
+            this.Close();
         }
     }
 }

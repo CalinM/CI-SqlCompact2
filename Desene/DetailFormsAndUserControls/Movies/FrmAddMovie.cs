@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -9,7 +10,7 @@ using Utils;
 
 namespace Desene
 {
-    public partial class FrmAddMovie : Form
+    public partial class FrmAddMovie : EscapeForm
     {
         private int? _collectionId;
 
@@ -126,6 +127,22 @@ namespace Desene
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void btnOpenPages_Click(object sender, EventArgs e)
+        {
+            var movieName = ucMovieInfo1.MovieTitle;
+
+            if (string.IsNullOrEmpty(movieName))
+            {
+                MsgBox.Show("Movie title is mandatory!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            Process.Start("http://www.google.com/search?q=" + Uri.EscapeDataString(movieName + "+cinemagia"), "_blank");
+            Process.Start("http://www.google.com/search?q=" + Uri.EscapeDataString(movieName + "+imdb"), "_blank");
+            Process.Start("https://www.commonsensemedia.org/search/" + Uri.EscapeDataString(movieName), "_blank");
+            Process.Start("https://www.youtube.com/results?search_query=" + movieName.Replace(" ", "+") + "+trailer", "_blank");
         }
     }
 }

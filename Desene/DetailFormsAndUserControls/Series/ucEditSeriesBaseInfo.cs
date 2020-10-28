@@ -177,5 +177,17 @@ namespace Desene.EditUserControls
             if (!string.IsNullOrEmpty(tbTrailer.Text))
                 System.Diagnostics.Process.Start(tbTrailer.Text);
         }
+
+        private void tbDescriptionLink_Leave(object sender, EventArgs e)
+        {
+            if (tbDescriptionLink.Text.ToLower().Contains("imdb") && tbDescriptionLink.Text.ToLower().Contains("ref"))
+                tbDescriptionLink.Text = tbDescriptionLink.Text.Substring(0, tbDescriptionLink.Text.ToLower().IndexOf("ref")-1);
+
+            /*
+            ref-1 because it can be like:
+            https://www.imdb.com/title/tt00000000/?ref_=fn_al_tt_1
+            https://www.imdb.com/title/tt00000000/episodes?season=1&ref_=tt_eps_sn_1
+            */
+        }
     }
 }

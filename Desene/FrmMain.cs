@@ -1180,6 +1180,53 @@ namespace Desene
             }
         }
 
+        private void btnCheckFiles_Click(object sender, EventArgs e)
+        {
+            var selectedPath = Helpers.SelectFolder("Please select the movies location (folder)", Settings.Default.LastPath);
+            if (string.IsNullOrEmpty(selectedPath))
+                return;
+
+            var d = new DirectoryInfo(selectedPath);
+            var files = d.GetFiles("*.mkv");
+
+            var movies = DAL.GetMoviesGridData("FileName COLLATE NOCASE ASC", "");
+
+            var titlesWithoutFiles = new List<string>();
+            foreach (var movie in movies)
+            {
+                if (files.Any(_ => _.Name.Contains(movie.FileName)))
+                {
+                    continue;
+                }
+
+                titlesWithoutFiles.Add(movie.FileName);
+            }
+
+            using (var saveDialog = new SaveFileDialog())
+            {
+                saveDialog.Title = "Save combined names as ...";
+                saveDialog.Filter = "Text files (*.txt)|*.txt";
+                saveDialog.FileName = "_#_titlesWithoutFiles";
+
+                if (saveDialog.ShowDialog() != DialogResult.OK)
+                    return;
+
+                try
+                {
+                    using (var sw = new StreamWriter(saveDialog.FileName, false, Encoding.Unicode))
+                    {
+                        foreach (var s in titlesWithoutFiles)
+                            sw.WriteLine(s);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MsgBox.Show(OperationResult.GetErrorMessage(ex), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+        }
+
         //public Encoding GetEncoding(string filename)
         //{
         //    // Read the BOM

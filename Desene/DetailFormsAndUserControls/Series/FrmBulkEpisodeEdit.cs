@@ -7,7 +7,7 @@ using Utils;
 
 namespace Desene.DetailFormsAndUserControls.Series
 {
-    public partial class FrmBulkEpisodeEdit : Form
+    public partial class FrmBulkEpisodeEdit : EscapeForm
     {
         private List<BulkEditField> _allBulkEditFields = new List<BulkEditField>();
         private List<ucBulkEditFieldValue> _fieldValuesControls = new List<ucBulkEditFieldValue>();
@@ -90,7 +90,7 @@ namespace Desene.DetailFormsAndUserControls.Series
             }
 
             if (MsgBox.Show(
-                    string.Format("Are you sure you want update the speicified fields ({0}) on all selected episodes?", updates.Count),
+                    string.Format("Are you sure you want update the specified fields ({0}) on all selected episodes?", updates.Count),
                     "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 return;
 

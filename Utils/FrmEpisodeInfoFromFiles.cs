@@ -14,7 +14,7 @@ using Utils;
 
 namespace Utils
 {
-    public partial class FrmEpisodeInfoFromFiles : Form
+    public partial class FrmEpisodeInfoFromFiles : EscapeForm
     {
         private int? _parentId;
         private List<SelectableElement> _seasons = new List<SelectableElement>();

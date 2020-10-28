@@ -129,6 +129,7 @@
             this.rbAll.Name = "rbAll";
             this.rbAll.Size = new System.Drawing.Size(36, 17);
             this.rbAll.TabIndex = 18;
+            this.rbAll.TabStop = true;
             this.rbAll.Text = "All";
             this.rbAll.UseVisualStyleBackColor = true;
             // 
@@ -160,6 +161,7 @@
             this.rbMovies.Name = "rbMovies";
             this.rbMovies.Size = new System.Drawing.Size(59, 17);
             this.rbMovies.TabIndex = 22;
+            this.rbMovies.TabStop = true;
             this.rbMovies.Text = "Movies";
             this.rbMovies.UseVisualStyleBackColor = true;
             this.rbMovies.CheckedChanged += new System.EventHandler(this.rbMovies_CheckedChanged);

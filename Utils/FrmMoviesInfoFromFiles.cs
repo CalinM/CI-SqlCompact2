@@ -11,7 +11,7 @@ using Utils.Properties;
 
 namespace Utils
 {
-    public partial class FrmMoviesInfoFromFiles : Form
+    public partial class FrmMoviesInfoFromFiles : EscapeForm
     {
         public FilesImportParams MoviesImportParams;
 

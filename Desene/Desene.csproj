@@ -306,6 +306,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Images\www.png" />
+    <Content Include="Images\CheckFileExistence.png" />
+    <Content Include="Images\Merge.png" />
+    <Content Include="Images\Options.png" />
+    <Content Include="Images\Reset.png" />
     <Content Include="Resources\jquery.contextMenu.min.css" />
     <Content Include="Resources\jquery.contextMenu.min.js" />
     <Content Include="Resources\jquery.ui.position.min.js" />

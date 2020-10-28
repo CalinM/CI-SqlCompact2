@@ -11,7 +11,7 @@ using Common.ExtensionMethods;
 
 namespace Utils
 {
-    public partial class FrmFileDetails : Form
+    public partial class FrmFileDetails : EscapeForm
     {
         private DataTable _fileDetails;
 

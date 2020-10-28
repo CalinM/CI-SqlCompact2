@@ -37,11 +37,15 @@ namespace Desene.DetailFormsAndUserControls.Collections
             }
         }
 
+        private bool _preventEvent;
+
         public ucCollectionInfo()
         {
             InitializeComponent();
 
+            _preventEvent = true;
             cbSectionType.SelectedIndex = 0;
+            _preventEvent = false;
         }
 
 
@@ -81,6 +85,8 @@ namespace Desene.DetailFormsAndUserControls.Collections
 
         private void cbSectionType_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (_preventEvent) return;
+
             Common.Helpers.UnsavedChanges = true;
             //lbSiteSectionType.ForeColor = SystemColors.WindowText;
         }

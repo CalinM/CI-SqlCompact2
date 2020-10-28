@@ -48,8 +48,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvFilesDetails.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dgvFilesDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvFilesDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvFilesDetails.Location = new System.Drawing.Point(12, 46);
+            this.dgvFilesDetails.Location = new System.Drawing.Point(8, 30);
+            this.dgvFilesDetails.Margin = new System.Windows.Forms.Padding(2);
             this.dgvFilesDetails.MultiSelect = false;
             this.dgvFilesDetails.Name = "dgvFilesDetails";
             this.dgvFilesDetails.ReadOnly = true;
@@ -57,19 +59,19 @@
             this.dgvFilesDetails.RowHeadersWidth = 62;
             this.dgvFilesDetails.RowTemplate.Height = 20;
             this.dgvFilesDetails.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvFilesDetails.Size = new System.Drawing.Size(1274, 409);
+            this.dgvFilesDetails.Size = new System.Drawing.Size(849, 266);
             this.dgvFilesDetails.TabIndex = 113;
             this.dgvFilesDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvFilesDetails_CellFormatting);
             // 
             // toolStrip1
             // 
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnClose,
             this.btnExport});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1298, 34);
+            this.toolStrip1.Size = new System.Drawing.Size(865, 25);
             this.toolStrip1.TabIndex = 114;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -78,7 +80,7 @@
             this.btnClose.Image = ((System.Drawing.Image)(resources.GetObject("btnClose.Image")));
             this.btnClose.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(83, 29);
+            this.btnClose.Size = new System.Drawing.Size(56, 22);
             this.btnClose.Text = "Close";
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
@@ -90,30 +92,31 @@
             this.btnExport.Image = ((System.Drawing.Image)(resources.GetObject("btnExport.Image")));
             this.btnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(105, 29);
+            this.btnExport.Size = new System.Drawing.Size(70, 22);
             this.btnExport.Text = "Export";
             // 
             // miExportToXML
             // 
             this.miExportToXML.Name = "miExportToXML";
-            this.miExportToXML.Size = new System.Drawing.Size(171, 34);
+            this.miExportToXML.Size = new System.Drawing.Size(112, 22);
             this.miExportToXML.Text = "to XML";
             this.miExportToXML.Click += new System.EventHandler(this.miExportToXML_Click);
             // 
             // miExportToCSV
             // 
             this.miExportToCSV.Name = "miExportToCSV";
-            this.miExportToCSV.Size = new System.Drawing.Size(171, 34);
+            this.miExportToCSV.Size = new System.Drawing.Size(112, 22);
             this.miExportToCSV.Text = "to CSV";
             this.miExportToCSV.Click += new System.EventHandler(this.miExportToCSV_Click);
             // 
             // FrmFileDetails
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1298, 465);
+            this.ClientSize = new System.Drawing.Size(865, 302);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.dgvFilesDetails);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmFileDetails";

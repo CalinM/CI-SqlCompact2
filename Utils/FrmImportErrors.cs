@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace Utils
 {
-    public partial class FrmImportErrors : Form
+    public partial class FrmImportErrors : EscapeForm
     {
         public FrmImportErrors()
         {

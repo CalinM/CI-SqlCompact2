@@ -100,6 +100,7 @@
             this.tbDescriptionLink.Name = "tbDescriptionLink";
             this.tbDescriptionLink.Size = new System.Drawing.Size(409, 20);
             this.tbDescriptionLink.TabIndex = 1;
+            this.tbDescriptionLink.Leave += new System.EventHandler(this.tbDescriptionLink_Leave);
             // 
             // pbDescriptionLink
             // 

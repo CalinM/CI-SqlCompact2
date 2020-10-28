@@ -103,6 +103,37 @@ namespace Common
         Collection = 1
     }
 
+    public enum NamesMix_Ext
+    {
+        [Description(".mkv")]
+        mkv = 0,
+
+        [Description(".mp4")]
+        mp4 = 1
+    }
+
+    public enum NamesMix_NameType
+    {
+        [Description(" - ")]
+        dash = 0,
+
+        [Description(". ")]
+        dot = 1
+    }
+
+    public enum NamesMix_ProcessFN
+    {
+        [Description("no filename processing")]
+        none = 0,
+
+        [Description("filename ToSentenceCase")]
+        ToSentenceCase = 1,
+
+        [Description("filename ToTitleCase")]
+        ToTitleCase = 2
+    }
+
+
 
     public class EnumHelpers
     {
@@ -139,5 +170,22 @@ namespace Common
 
             return result;
         }
+
+        public static string GetEnumDescription(Enum enumElement)
+        {
+            if (enumElement == null)
+                return string.Empty;
+
+            var fi = enumElement.GetType().GetField(enumElement.ToString());
+            if (fi == null)
+                return string.Empty;
+
+            var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
+
+            return (attributes.Length > 0)
+                ? attributes[0].Description
+                : enumElement.ToString();
+        }
+
     }
 }

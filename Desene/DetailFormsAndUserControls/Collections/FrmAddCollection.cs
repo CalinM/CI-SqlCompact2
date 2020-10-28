@@ -7,7 +7,7 @@ using Utils;
 
 namespace Desene
 {
-    public partial class FrmAddCollection : Form
+    public partial class FrmAddCollection : EscapeForm
     {
         //private ucCollectionInfo _ucCollectionInfo;
 

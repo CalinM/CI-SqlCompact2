@@ -117,6 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnClose.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHySURBVDhPpZLfS5NRHMYPSGA3XqSmSAzn1Jg6lzN1/sCs
+        ZBcyTYawrNg055Klr1PnXgy1MSqMvAlR8EIcEQneiDVQYjqnIHNhDqRABNE7r+pPePweJ+g730XgAx8O
+        nPN9Pry857Ar54eow/9yVpGGH+yMG7Hy+v5BUhIzcGhbTxQTuUQmcT2hIOIuwZqrFMdfRYRm+oKJBMbx
+        G2DT7LLkg9uOVacWe2P38Cf4HpPtmiBtSwUT7PNpWU4Qdt1BQCjGb68eR752vChP40PnAi/r5cV30Tcx
+        QTyb/Vp879Zg11OBQ59NKnjFRD7k3fHAFemDM9yN4W0R3ugohK0usAESbDg1WHIUIjpyF/vTz6QCKnt+
+        jsKw/ADV/nLUL9fCGDDAHGqGELHHBKGeIvjtamwP6fDrY4vsFzxdM+NRoAGWjcewb1pPyyPRwZhg1VGA
+        hY7bCLu0mHI/gWhtkv0Hzq2XsUI8YwM2zFtysd5bhDmhDs8bKqWCi7fAC/FZsuXhS6sSKw411sVqdJal
+        XhbQO6h/myIv+Namgq9FAS4KCDo49HHXeCbgc7TKZ9aUtbtoUcJvU6OnMp0P8rKaUBEKgkuuEfKZMSly
+        5swZfxetKvTX3OSCh0QtUUXkE8nEv/PJdKt5vjUbQ3UZXGAmGgklP0scxk4AG7UbNInikmUAAAAASUVO
+        RK5CYII=
+</value>
+  </data>
+  <data name="toolStripDropDownButton1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHxSURBVDhPdZPLSxtRFMZno5BFYprJY7QknYk1mFS7UiiU
+        7lLcuk2hW2kIiEXdFYriC6mPLlQE+1JoQCL9B9puRLsx1bWCWanoTsGVVnt+905iCPGDb3LmO+ebe869
+        N0YddArnhd+qOCxsF/qE96JROCucFFoINfAKGxMBc6szZJV8Hk+XljUw54XP1JvGk4epp1uQWEtGoMdp
+        Oyn0Zm5sn/+9qymwsjIHY86iN2xNmFGn2L/+8x8kRiPX6jdzdpP/u+tRYGbaFnN8ITO1dPHm84/rqb3j
+        24+Hl4rEaOSooVaAR3XGhqmZvaHIeN/KxjWmke3923R26BQSo5GjhlpBsxCvscZDkAo+cnZYDUPYaSuK
+        xs63E49uH6hOqBEtiUGgvF94WInkn7eF32olVhUJcxnJdHb4lBw11Lr6Vx6VDwwUft37gZfZoTNy1FR9
+        QHlXVShFtDe5e1Q9Aq2mwvHEX0YgV2+Eu02MWJVNxEDbrEyMVrOJLcIZgg6he4zO4qvp5fO+T4Wr2mNE
+        I0cNtYJpYUqHhjEXtQP5mGPm1EUKRcbkd6d8kYhdrWx+LvygQ0HMDrxbzr++eZFOnMjrA63WvcoAM9ee
+        66/hMz3dyY7mkv04uCmvDUL+OLVgZtpm5TtzHWBmtkEhJ1QmG1aZWcMw/gNKjvMCucKlUgAAAABJRU5E
+        rkJggg==
+</value>
+  </data>
+  <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>122, 18</value>
+  </metadata>
   <data name="rtbLanguage1.Text" xml:space="preserve">
     <value>1. Tak’s Torenhoge Tuimeltaart / Bamboeboe
 2. Gipsbaksels / Okra-bal

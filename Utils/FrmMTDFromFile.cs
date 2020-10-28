@@ -8,7 +8,7 @@ using Utils.Properties;
 
 namespace Utils
 {
-    public partial class FrmMTDFromFile : Form
+    public partial class FrmMTDFromFile : EscapeForm
     {
         private string _filePath = string.Empty;
         private bool _isNew;

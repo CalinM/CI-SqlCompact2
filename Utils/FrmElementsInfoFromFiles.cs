@@ -12,7 +12,7 @@ using DAL;
 
 namespace Utils
 {
-    public partial class FrmElementsInfoFromFiles : Form
+    public partial class FrmElementsInfoFromFiles : EscapeForm
     {
         private int? _parentId;
         private List<SelectableElement> _seasons = new List<SelectableElement>();
