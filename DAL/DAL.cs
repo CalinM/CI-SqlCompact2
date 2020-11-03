@@ -64,18 +64,18 @@ namespace Desene
                     SELECT
 	                    Id,
 	                    FileName,
-	                    CASE
-                            WHEN Poster IS NULL THEN 0
+                        CASE
+                            WHEN length(Poster) IS NULL THEN 0
                             ELSE 1
 	                    END AS HasPoster,
 
 	                    CASE
-	                        WHEN Quality IS NULL THEN 'sd?'
+	                        WHEN length(Quality) IS NULL THEN 'sd?'
 	                        ELSE Quality
 	                    END AS Quality,
 
 	                    CASE
-	                        WHEN Synopsis IS NULL THEN 0
+	                        WHEN length(Synopsis) IS NULL THEN 0
 	                        ELSE 1
 	                    END AS HasSynopsis
 

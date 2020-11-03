@@ -39,6 +39,7 @@
             this.lbLocation = new System.Windows.Forms.Label();
             this.cbForceAddMissingMovies = new System.Windows.Forms.CheckBox();
             this.cbPreserveManuallySetData = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lbWarning
@@ -85,9 +86,9 @@
             // 
             // btnFolderSelector
             // 
-            this.btnFolderSelector.Location = new System.Drawing.Point(620, 24);
+            this.btnFolderSelector.Location = new System.Drawing.Point(620, 23);
             this.btnFolderSelector.Name = "btnFolderSelector";
-            this.btnFolderSelector.Size = new System.Drawing.Size(53, 20);
+            this.btnFolderSelector.Size = new System.Drawing.Size(53, 22);
             this.btnFolderSelector.TabIndex = 17;
             this.btnFolderSelector.Text = "Folder";
             this.btnFolderSelector.UseVisualStyleBackColor = true;
@@ -154,11 +155,26 @@
             this.cbPreserveManuallySetData.Text = "Preserve manually set data (Descriptions, Recomandations, movie Theme, etc)";
             this.cbPreserveManuallySetData.UseVisualStyleBackColor = true;
             // 
+            // button1
+            // 
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(589, 25);
+            this.button1.Margin = new System.Windows.Forms.Padding(0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(24, 18);
+            this.button1.TabIndex = 24;
+            this.button1.Text = ". . .";
+            this.button1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // FrmMoviesInfoFromFiles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(694, 206);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.cbPreserveManuallySetData);
             this.Controls.Add(this.cbForceAddMissingMovies);
             this.Controls.Add(this.lbWarning);
@@ -196,5 +212,6 @@
         private System.Windows.Forms.Label lbLocation;
         private System.Windows.Forms.CheckBox cbForceAddMissingMovies;
         private System.Windows.Forms.CheckBox cbPreserveManuallySetData;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -52,6 +52,8 @@ namespace Utils
         {
             var result = new OperationResult();
             var jsS = new JavaScriptSerializer();
+            jsS.MaxJsonLength = Int32.MaxValue;
+
             var genDetails = DateTime.Now.ToString("yyyyMMdd");
 
             List<MovieShortInfo> msi = null;

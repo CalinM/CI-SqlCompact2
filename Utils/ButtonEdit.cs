@@ -19,6 +19,7 @@ namespace Utils
         private string _buttonToolTip = string.Empty;
         private ToolTip _tooltip;
 
+        //private Color ButtonBackgroundColorNormal =
 
         public event EventHandler ButtonClick
         {
@@ -87,6 +88,7 @@ namespace Utils
                 _buttonEmulation.SizeMode = _buttonImageSizeMode;
             }
         }
+
         public int ButtonImageForceWidth
         {
             get
@@ -97,7 +99,7 @@ namespace Utils
             {
                 _buttonImageForceWidth = value;
                 _buttonEmulation.Size = new Size(_buttonImageForceWidth, ClientSize.Height);
-                _buttonEmulation.Location = new Point(ClientSize.Width-_buttonImageForceWidth - 2, 0);
+                //_buttonEmulation.Location = new Point(ClientSize.Width-_buttonImageForceWidth - 2, 0);
             }
         }
 
@@ -148,9 +150,21 @@ namespace Utils
             _buttonEmulation = new PictureBox
                                    {
                                        Size = new Size(_buttonImageForceWidth, ClientSize.Height),
-                                       Location = new Point(ClientSize.Width-_buttonImageForceWidth - 2, 0),
-                                       Anchor = AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom
-                                   };
+                                       //Location = new Point(ClientSize.Width-_buttonImageForceWidth, 0),
+                                       //Anchor = AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom,
+                                       BackColor = Color.FromArgb(252, 252, 252),
+                                       Dock = DockStyle.Right
+                                    };
+
+            _buttonEmulation.MouseHover += (s, e) =>
+                {
+                    ((PictureBox)s).BackColor = Color.WhiteSmoke;//SystemColors.InactiveCaption;
+    };
+
+            _buttonEmulation.MouseLeave += (s, e) =>
+                {
+                    ((PictureBox)s).BackColor = Color.FromArgb(252, 252, 252);
+                };
 
             Controls.Add(_buttonEmulation);
         }
