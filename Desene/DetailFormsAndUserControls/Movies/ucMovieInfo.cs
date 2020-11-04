@@ -32,18 +32,19 @@ namespace Desene.DetailFormsAndUserControls
         {
             InitializeComponent();
 
+            _isNew = true;
             PostConstructor();
         }
 
-        public ucMovieInfo(bool isNew)
+        public ucMovieInfo(bool? isNew)
         {
             InitializeComponent();
             typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
                 | BindingFlags.Instance | BindingFlags.NonPublic, null,
                 pMovieDetail, new object[] { true });
 
-            _isNew = isNew;
-            pbDbDates.Visible = !isNew;
+            _isNew = isNew.GetValueOrDefault(true);
+            pbDbDates.Visible = !_isNew;
 
             PostConstructor();
         }
