@@ -20,23 +20,6 @@ namespace Utils
             InitializeComponent();
             _hideAfterXmSec = hideAfterXmSec;
 
-            //todo: taskbar position and size ... https://stackoverflow.com/questions/1264406/how-do-i-get-the-taskbars-position-and-size
-            switch (startPosition)
-            {
-                case StartPosition2.TopLeft:
-                    Location = new Point(10, 100);
-                    break;
-                case StartPosition2.TopRight:
-                    Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - 10 - this.Width, 100);
-                    break;
-                case StartPosition2.BottomLeft:
-                    Location = new Point(10, Screen.PrimaryScreen.WorkingArea.Height - this.Height - 5);
-                    break;
-                case StartPosition2.BottomRight:
-                    Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - 10 - this.Width, Screen.PrimaryScreen.WorkingArea.Height - this.Height - 20);
-                    break;
-            }
-
             switch (messageType)
             {
                 case MessageType.Information:
@@ -64,6 +47,23 @@ namespace Utils
             lbAppName.Top = lbText.Height + lbText.Top + 5;
 
             Height = lbAppName.Top + lbAppName.Height + 22;
+
+            //todo: taskbar position and size ... https://stackoverflow.com/questions/1264406/how-do-i-get-the-taskbars-position-and-size
+            switch (startPosition)
+            {
+                case StartPosition2.TopLeft:
+                    Location = new Point(10, 100);
+                    break;
+                case StartPosition2.TopRight:
+                    Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - 10 - this.Width, 100);
+                    break;
+                case StartPosition2.BottomLeft:
+                    Location = new Point(10, Screen.PrimaryScreen.WorkingArea.Height - this.Height - 5);
+                    break;
+                case StartPosition2.BottomRight:
+                    Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - 10 - this.Width, Screen.PrimaryScreen.WorkingArea.Height - this.Height - 20);
+                    break;
+            }
         }
 
 

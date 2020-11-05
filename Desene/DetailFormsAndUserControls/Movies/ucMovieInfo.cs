@@ -125,8 +125,6 @@ namespace Desene.DetailFormsAndUserControls
                 _bsControlsData.DataSource = mtd;
                 _bsControlsData.ResetBindings(false);
 
-                lbSynopsisRetrievalError.Visible = false;
-
                 ttTitleContent.RemoveAll();
                 if (mtd.HasTitle && !string.IsNullOrEmpty(mtd.Title))
                 {
@@ -478,9 +476,6 @@ namespace Desene.DetailFormsAndUserControls
 
             tbDescriptionLink.DataBindings[0].WriteValue();
 
-            lbSynopsisRetrievalError.Visible = false;
-            lbSynopsisRetrievalError.Text = "error!";
-
             if (string.IsNullOrEmpty(tbDescriptionLink.Text))
             {
                 tbSynopsis.Text = string.Empty;
@@ -496,8 +491,8 @@ namespace Desene.DetailFormsAndUserControls
 
                     if (!opRes.Success)
                     {
-                        lbSynopsisRetrievalError.Text = opRes.CustomErrorMessage;
-                        lbSynopsisRetrievalError.Visible = true;
+                        Utils.Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "Synopsis retrieval",
+                            opRes.CustomErrorMessage, 5000, (this.Parent as Form));
                     }
                     else
                     {

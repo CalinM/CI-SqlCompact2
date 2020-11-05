@@ -32,8 +32,6 @@
             this.pMovieDetail = new System.Windows.Forms.Panel();
             this.pbDbDates = new System.Windows.Forms.PictureBox();
             this.pbLoader = new System.Windows.Forms.PictureBox();
-            this.lbSynopsisRetrievalError = new System.Windows.Forms.Label();
-            this.tbSynopsis = new Utils.CustomTextBox();
             this.lbSynopsis = new System.Windows.Forms.Label();
             this.bGotoDescription = new Utils.UnselectableButton();
             this.bGotoTrailer = new Utils.UnselectableButton();
@@ -74,6 +72,7 @@
             this.tbSizeAsInt = new System.Windows.Forms.TextBox();
             this.ttTitleContent = new System.Windows.Forms.ToolTip(this.components);
             this.ttMovieDbDates = new System.Windows.Forms.ToolTip(this.components);
+            this.tbSynopsis = new Utils.CustomTextBox();
             this.pMovieDetail.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDbDates)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoader)).BeginInit();
@@ -89,7 +88,6 @@
             this.pMovieDetail.AllowDrop = true;
             this.pMovieDetail.Controls.Add(this.pbDbDates);
             this.pMovieDetail.Controls.Add(this.pbLoader);
-            this.pMovieDetail.Controls.Add(this.lbSynopsisRetrievalError);
             this.pMovieDetail.Controls.Add(this.tbSynopsis);
             this.pMovieDetail.Controls.Add(this.lbSynopsis);
             this.pMovieDetail.Controls.Add(this.bGotoDescription);
@@ -159,30 +157,6 @@
             this.pbLoader.TabIndex = 294;
             this.pbLoader.TabStop = false;
             this.pbLoader.Visible = false;
-            // 
-            // lbSynopsisRetrievalError
-            // 
-            this.lbSynopsisRetrievalError.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbSynopsisRetrievalError.BackColor = System.Drawing.SystemColors.Window;
-            this.lbSynopsisRetrievalError.ForeColor = System.Drawing.Color.Red;
-            this.lbSynopsisRetrievalError.Location = new System.Drawing.Point(133, 80);
-            this.lbSynopsisRetrievalError.Name = "lbSynopsisRetrievalError";
-            this.lbSynopsisRetrievalError.Size = new System.Drawing.Size(413, 60);
-            this.lbSynopsisRetrievalError.TabIndex = 295;
-            this.lbSynopsisRetrievalError.Text = "lbSynopsisRetrievalError";
-            this.lbSynopsisRetrievalError.Visible = false;
-            // 
-            // tbSynopsis
-            // 
-            this.tbSynopsis.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbSynopsis.Location = new System.Drawing.Point(129, 76);
-            this.tbSynopsis.Multiline = true;
-            this.tbSynopsis.Name = "tbSynopsis";
-            this.tbSynopsis.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbSynopsis.Size = new System.Drawing.Size(438, 69);
-            this.tbSynopsis.TabIndex = 293;
             // 
             // lbSynopsis
             // 
@@ -603,6 +577,17 @@
             this.ttMovieDbDates.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.ttMovieDbDates.ToolTipTitle = "Operations dates:";
             // 
+            // tbSynopsis
+            // 
+            this.tbSynopsis.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbSynopsis.Location = new System.Drawing.Point(129, 76);
+            this.tbSynopsis.Multiline = true;
+            this.tbSynopsis.Name = "tbSynopsis";
+            this.tbSynopsis.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbSynopsis.Size = new System.Drawing.Size(438, 69);
+            this.tbSynopsis.TabIndex = 293;
+            // 
             // ucMovieInfo
             // 
             this.AllowDrop = true;
@@ -667,11 +652,10 @@
         private Utils.UnselectableButton bGotoRecommendedSite;
         private Utils.UnselectableButton bGotoTrailer;
         private Utils.UnselectableButton bGotoDescription;
-        private Utils.CustomTextBox tbSynopsis;
         private System.Windows.Forms.Label lbSynopsis;
         private System.Windows.Forms.PictureBox pbLoader;
-        private System.Windows.Forms.Label lbSynopsisRetrievalError;
         private System.Windows.Forms.ToolTip ttMovieDbDates;
         private System.Windows.Forms.PictureBox pbDbDates;
+        private Utils.CustomTextBox tbSynopsis;
     }
 }
