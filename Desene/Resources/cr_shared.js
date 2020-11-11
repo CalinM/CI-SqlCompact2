@@ -122,7 +122,7 @@ function DisplayHome() {
 											movieEl.addClass("newItemClicked-highlight");
 
 											setTimeout(() => {
-												movieEl.removeClass("newItemClicked-highlight");												
+												movieEl.removeClass("newItemClicked-highlight");
 											}, 1500);
 
 										}, 1000);
@@ -281,7 +281,7 @@ function DisplaySearchResult(s) {
 
 function HandleCancelSearch(s) {
 	$(s).removeClass("focus");
-		
+
 	BuildMoviesSection(moviesData, null);
 }
 
@@ -304,7 +304,16 @@ function ShowOptionsButton(){
 			build: function($trigger, e) {
 				return {
 					callback: function(key, options) {
-						localStorage.setItem("MoviesSort", key);
+
+						if (key == "MovieAudioFilter_Any")
+							localStorage.setItem("MovieAudioFilter", "*");
+						if (key == "MovieAudioFilter_RO")
+							localStorage.setItem("MovieAudioFilter", "RO");
+						if (key == "MovieAudioFilter_NL")
+							localStorage.setItem("MovieAudioFilter", "NL");
+						else
+							localStorage.setItem("MoviesSort", key);
+
 						BuildMoviesSection(moviesData, null);
 					},
 					items: {
@@ -323,7 +332,17 @@ function ShowOptionsButton(){
 
 							}
 						},
-						"sep3": "---------",
+						"sep2": "---------",
+						"fold2a": {
+							"name": "Contain audio",
+							"items": {
+								"MovieAudioFilter_Any": { name: "Any", icon: GetCurrentCfg2("MovieAudioFilter", "*", "*") },
+								"sep3": "---------",
+								"MovieAudioFilter_RO": { name: "Romanian", icon: GetCurrentCfg2("MovieAudioFilter", "RO", "*") },
+								"MovieAudioFilter_NL": { name: "Dutch", icon: GetCurrentCfg2("MovieAudioFilter", "NL", "*") },
+							}
+						},
+						"sep4": "---------",
 						"gridview": { "name": "Advanced view (grid)", disabled: true}
 					}
 				};
@@ -332,7 +351,7 @@ function ShowOptionsButton(){
 	});
 }
 
-function BuildMoviesSection(moviesInSection, outputToElement) {
+function BuildMoviesSection(moviesInSection_, outputToElement) {
 	if (outputToElement == null)
 		ShowOptionsButton();
 
@@ -345,7 +364,30 @@ function BuildMoviesSection(moviesInSection, outputToElement) {
 	var sortCriteria = outputToElement == null
 		? GetSortFields("MoviesSort", "fn")
 		: ["fn"];
-	
+
+	var filterCriteria = outputToElement == null
+		? GetCurrentCfg("MovieAudioFilter", "*")
+		: null;
+
+	var isLanguageFilter = filterCriteria != null && filterCriteria != "*";
+	var moviesInSection = isLanguageFilter
+		? $.grep(moviesInSection_, function (el) { return el.A.toUpperCase().includes(filterCriteria); })
+		: moviesInSection_;
+
+	if (isLanguageFilter)
+	{
+		$("#snapshotStat").html("The current filtered view contains " + moviesInSection.length + " movies");
+		$("footer").addClass("footer-filtered");
+	}
+	else
+	{
+		if ($("footer").hasClass("footer-filtered"))
+		{
+			$("footer").removeClass("footer-filtered");
+			$("#snapshotStat").html(moviesStat);
+		}
+	}
+
 	moviesInSection.sort(fieldSorter(sortCriteria)).forEach(function (el) {
 		sectionHtml +=
 			"<div class=\"card\">" +
@@ -644,7 +686,7 @@ function GetCurrentCfg2(itemName, itemValue, defaultValue) {
 
 	if (itemCfg == null && itemValue == defaultValue)
 		return "customicon";
-		
+
 	return itemCfg != itemValue
 		? ""
 		: "customicon";
@@ -661,7 +703,7 @@ function GetCurrentCfg(itemName, defaultvalue, secondSort) {
 function GetSortFields(itemName, secondSort) {
 	var defaultValue = "FN";
 	var cfgValue = localStorage.getItem(itemName);
-	
+
 
 	if (cfgValue == null)
 	{
@@ -686,12 +728,12 @@ function fieldSorter(fields) {
                    dir = -1;
                    o=o.substring(1);
 				}
-				
+
 				var varA =
 				(typeof a[o] === 'string')
 					? a[o].toUpperCase()
 					: a[o];
-			
+
 				var varB =
 					(typeof b[o] === 'string')
 						? b[o].toUpperCase()
