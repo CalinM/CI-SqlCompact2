@@ -52,6 +52,63 @@ namespace Desene
             }
         }
 
+        public static BindingList<MovieShortInfo> GetMoviesGridData2(string sortField, string simpleFilter)
+        {
+            var result = new BindingList<MovieShortInfo>();
+
+            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                var commandSource = new SqliteCommand(string.Format(@"
+                    SELECT
+	                    Id,
+	                    FileName,
+                        CASE
+                            WHEN length(Poster) IS NULL THEN 0
+                            ELSE 1
+	                    END AS HasPoster,
+
+	                    CASE
+	                        WHEN length(Quality) IS NULL THEN 'sd?'
+	                        ELSE Quality
+	                    END AS Quality,
+
+	                    CASE
+	                        WHEN length(Synopsis) IS NULL THEN 0
+	                        ELSE 1
+	                    END AS HasSynopsis
+
+                    FROM FileDetail
+                    WHERE
+                        ParentId IS NULL
+
+                        AND
+                        (UPPER(FileName) LIKE '%{0}%' OR UPPER(Notes) LIKE '%{0}%')
+
+                    ORDER BY {1}",
+                    simpleFilter.ToUpper(),
+                    sortField), conn);
+
+                using (var reader = commandSource.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        result.Add(new MovieShortInfo
+                        {
+                            Id = (int)(long)reader["Id"],
+                            FileName = reader["FileName"].ToString(),
+                            HasPoster = (long)reader["HasPoster"] == 1,
+                            Quality = reader["Quality"].ToString(),
+                            HasSynopsis = (long)reader["HasSynopsis"] == 1
+                        });
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public static BindingList<MovieShortInfo> GetMoviesGridData(string sortField, string advFilter)
         {
             var result = new BindingList<MovieShortInfo>();

@@ -255,7 +255,8 @@ namespace Desene
 
             if (!string.IsNullOrEmpty(tbFilter.Text))
             {
-                dgvMoviesList.DataSource = DAL.MoviesData.Where(x => x.FileName.ToLower().Contains(tbFilter.Text.ToLower())).ToList();
+                //dgvMoviesList.DataSource = DAL.MoviesData.Where(x => x.FileName.ToLower().Contains(tbFilter.Text.ToLower())).ToList();
+                dgvMoviesList.DataSource = DAL.GetMoviesGridData2(_currentSortField, tbFilter.Text);
             }
             else
             {

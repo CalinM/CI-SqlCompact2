@@ -305,14 +305,41 @@ function ShowOptionsButton(){
 				return {
 					callback: function(key, options) {
 
-						if (key == "MovieAudioFilter_Any")
-							localStorage.setItem("MovieAudioFilter", "*");
-						if (key == "MovieAudioFilter_RO")
-							localStorage.setItem("MovieAudioFilter", "RO");
-						if (key == "MovieAudioFilter_NL")
-							localStorage.setItem("MovieAudioFilter", "NL");
-						else
-							localStorage.setItem("MoviesSort", key);
+						switch (key)
+						{
+							case "MovieAudioFilter_Any":
+								localStorage.setItem("MovieAudioFilter", "*");
+								break;
+							case "MovieAudioFilter_RO":
+								localStorage.setItem("MovieAudioFilter", "RO");
+								break;
+							case "MovieAudioFilter_NL":
+								localStorage.setItem("MovieAudioFilter", "NL");
+								break;
+							case "MovieTheme_Any":
+								localStorage.setItem("MovieTheme", "*");
+								break;
+							case "MovieTheme_Christmas":
+								localStorage.setItem("MovieTheme", "Christmas");
+								break;
+							case "MovieTheme_Easter":
+								localStorage.setItem("MovieTheme", "Easter");
+								break;
+							case "MovieTheme_Helloween":
+								localStorage.setItem("MovieTheme", "Helloween");
+								break;
+							case "MovieTheme_Sinterklass":
+								localStorage.setItem("MovieTheme", "Sinterklass");
+								break;
+							case "MovieTheme_Winter":
+								localStorage.setItem("MovieTheme", "Winter");
+								break;
+
+								//Valentine's day
+							default:
+								localStorage.setItem("MoviesSort", key);
+								break;
+						}
 
 						BuildMoviesSection(moviesData, null);
 					},
@@ -340,6 +367,18 @@ function ShowOptionsButton(){
 								"sep3": "---------",
 								"MovieAudioFilter_RO": { name: "Romanian", icon: GetCurrentCfg2("MovieAudioFilter", "RO", "*") },
 								"MovieAudioFilter_NL": { name: "Dutch", icon: GetCurrentCfg2("MovieAudioFilter", "NL", "*") },
+							}
+						},
+						"fold2b": {
+							"name": "Theme",
+							"items": {
+								"MovieTheme_Any": { name: "Any", icon: GetCurrentCfg2("MovieTheme", "*", "*") },
+								"sep3": "---------",
+								"MovieTheme_Christmas": { name: "Christmas", icon: GetCurrentCfg2("MovieTheme", "Christmas", "*") },
+								"MovieTheme_Easter": { name: "Easter", icon: GetCurrentCfg2("MovieTheme", "Easter", "*") },
+								"MovieTheme_Helloween": { name: "Helloween", icon: GetCurrentCfg2("MovieTheme", "Helloween", "*") },
+								"MovieTheme_Sinterklass": { name: "Sinterklass", icon: GetCurrentCfg2("MovieTheme", "Sinterklass", "*") },
+								"MovieTheme_Winter": { name: "Winter", icon: GetCurrentCfg2("MovieTheme", "Winter", "*") },
 							}
 						},
 						"sep4": "---------",
@@ -374,7 +413,15 @@ function BuildMoviesSection(moviesInSection_, outputToElement) {
 		? $.grep(moviesInSection_, function (el) { return el.A.toUpperCase().includes(filterCriteria); })
 		: moviesInSection_;
 
-	if (isLanguageFilter)
+	var filterCriteria2 = outputToElement == null
+		? GetCurrentCfg("MovieTheme", "*")
+		: null;
+
+	var isLanguageFilter2 = filterCriteria2 != null && filterCriteria2 != "*";
+	if (isLanguageFilter2)
+		moviesInSection = $.grep(moviesInSection, function (el) { return el.T == filterCriteria2; })
+
+	if (isLanguageFilter || isLanguageFilter2)
 	{
 		$("#snapshotStat").html("The current filtered view contains " + moviesInSection.length + " movies");
 		$("footer").addClass("footer-filtered");

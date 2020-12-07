@@ -122,6 +122,7 @@ C:\Work\_Utils\CI SqlCompact2\DAL\obj\Debug\DAL.pdb
 C:\Work\Personal\CI-SqlCompact2\DAL\bin\Debug\runtimes\win-x86\native\e_sqlite3.dll
 C:\Work\Personal\CI-SqlCompact2\DAL\bin\Debug\runtimes\win-x64\native\e_sqlite3.dll
 C:\Work\Personal\CI-SqlCompact2\DAL\bin\Debug\runtimes\win-arm\native\e_sqlite3.dll
+C:\Work\Personal\CI-SqlCompact2\DAL\bin\Debug\DAL.dll.config
 C:\Work\Personal\CI-SqlCompact2\DAL\bin\Debug\DAL.dll
 C:\Work\Personal\CI-SqlCompact2\DAL\bin\Debug\DAL.pdb
 C:\Work\Personal\CI-SqlCompact2\DAL\bin\Debug\Microsoft.Win32.Primitives.dll
@@ -240,4 +241,3 @@ C:\Work\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
 C:\Work\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.csproj.CopyComplete
 C:\Work\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.dll
 C:\Work\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.pdb
-C:\Work\Personal\CI-SqlCompact2\DAL\bin\Debug\DAL.dll.config

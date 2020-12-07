@@ -115,9 +115,11 @@ C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Memory.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Microsoft.WindowsAPICodePack.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\PdfSharp.Charting-gdi.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Text.Encoding.CodePages.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Aga.Controls.pdb
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Common.pdb
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\DAL.pdb
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\DAL.dll.config
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.pdb
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.dll.config
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\AngleSharp.xml
@@ -149,5 +151,3 @@ C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.CoreCompileInputs
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.CopyComplete
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.exe
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.pdb
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\DAL.dll.config

@@ -270,6 +270,7 @@ C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Numerics.Vectors.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Buffers.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Common.pdb
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.pdb
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.dll.config
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\AngleSharp.xml
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Memory.xml
@@ -294,4 +295,3 @@ C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.CoreCompileInputs.c
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.CopyComplete
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.pdb
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.dll.config
