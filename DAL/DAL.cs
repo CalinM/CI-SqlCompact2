@@ -2735,7 +2735,7 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@FileName", title);
                     //sectionType
 
-                    var count = (int)cmd.ExecuteScalar();
+                    var count = (int)(long)cmd.ExecuteScalar();
 
                     if (count > 0)
                         return result.FailWithMessage("A Collection with exactly the same name already exists!");
