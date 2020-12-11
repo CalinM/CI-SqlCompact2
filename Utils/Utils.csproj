@@ -97,6 +97,7 @@
     <Compile Include="ButtonEdit.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CustomDialogs.cs" />
     <Compile Include="CustomPanel.cs">
       <SubType>Component</SubType>
     </Compile>

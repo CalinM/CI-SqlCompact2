@@ -22,7 +22,6 @@ namespace Desene.DetailFormsAndUserControls
     {
         private BindingSource _bsControlsData;
         private bool _isNew;
-        public byte[] TmpPoster; //used when a poster is dragged before initializing the DAL.NewMTD object
         public string MovieTitle
         {
             get { return tbTitle.Text; }
@@ -52,6 +51,8 @@ namespace Desene.DetailFormsAndUserControls
         private void PostConstructor()
         {
             InitControls();
+
+            DAL.TmpPoster = null; //used when a poster is dragged before initializing the DAL.NewMTD object
 
             cbTheme.MouseWheel += Utils.Helpers.Combobox_OnMouseWheel;
             cbQuality.MouseWheel += Utils.Helpers.Combobox_OnMouseWheel;
@@ -314,12 +315,16 @@ namespace Desene.DetailFormsAndUserControls
             if (_isNew)
             {
                 if (DAL.NewMTD == null)
-                    TmpPoster = bytes;
+                    DAL.TmpPoster = bytes;
                 else
                     DAL.NewMTD.Poster = bytes;
             }
             else
-                DAL.CurrentMTD.Poster = bytes;
+            {
+                //2020.12 ->it must go in DAL.CurrentMTD (and from there to the cached list) only when saved!
+                //DAL.CurrentMTD.Poster = bytes;
+                DAL.TmpPoster = bytes;
+            }
         }
 
         private void cbTheme_SelectionChangeCommitted(object sender, EventArgs e)

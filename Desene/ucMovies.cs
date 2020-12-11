@@ -39,7 +39,6 @@ namespace Desene
             _parent = parent;
             _parent.OnAddButtonPress += AddMovie;
             _parent.OnDeleteButtonPress += DeleteMovie;
-            _parent.OnCloseModule += CloseModule;
 
             Helpers.GenericSetButtonsState2 = SetSaveButtonState;
             pDummyMenuForShortCutKeys.SendToBack();
@@ -363,14 +362,6 @@ namespace Desene
             }
         }
 
-        private void CloseModule(object sender, EventArgs e)
-        {
-            if (!Utils.Helpers.ConfirmDiscardChanges())
-                return;
-
-            _preventEvent = true;
-        }
-
         private void btnLoadPoster_Click(object sender, EventArgs e)
         {
             var prevInstance = pMovieDetailsContainer.Controls.Find("ucMovieInfo", false);
@@ -380,30 +371,32 @@ namespace Desene
                 return;
             }
 
-            using (var openFileDialog = new OpenFileDialog())
+            var selectedMovieData = (MovieShortInfo)dgvMoviesList.SelectedRows[0].DataBoundItem;
+
+            var dialog = new CustomDialogs
             {
-                var selectedMovieData = (MovieShortInfo)dgvMoviesList.SelectedRows[0].DataBoundItem;
+                Title = string.Format("Choose a poster for movie '{0}'", selectedMovieData.FileName),
+                DialogType = DialogType.OpenFile,
+                InitialDirectory = Settings.Default.LastCoverPath,
+                Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*",
+                FileNameLabel = "FileName or URL",
+                //ConfirmButtonText = "Confirm"
+            };
 
-                openFileDialog.Title = string.Format("Choose a poster for series '{0}'", selectedMovieData.FileName);
-                openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*";
-                openFileDialog.InitialDirectory = Settings.Default.LastCoverPath;
+            if (!dialog.Show(Handle)) return;
 
-                if (openFileDialog.ShowDialog() != DialogResult.OK) return;
+            Settings.Default.LastCoverPath = Path.GetFullPath(dialog.FileName);
+            Settings.Default.Save();
 
-                Settings.Default.LastCoverPath = Path.GetFullPath(openFileDialog.FileName);
-                Settings.Default.Save();
+            using (var file = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
+            {
+                var bytes = new byte[file.Length];
+                file.Read(bytes, 0, (int)file.Length);
 
-
-                using (var file = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
-                {
-                    var bytes = new byte[file.Length];
-                    file.Read(bytes, 0, (int)file.Length);
-
-                    ((ucMovieInfo)prevInstance[0]).SetPoster(bytes);
-                }
-
-                Helpers.UnsavedChanges = true;
+                ((ucMovieInfo)prevInstance[0]).SetPoster(bytes);
             }
+
+            Helpers.UnsavedChanges = true;
         }
 
         private void btnImportMovies_Click(object sender, EventArgs e)
@@ -531,6 +524,9 @@ namespace Desene
         {
             var prevInstance = pMovieDetailsContainer.Controls.Find("ucMovieInfo", false);
             ((ucMovieInfo)prevInstance[0]).tbDummyForFocus.Focus();
+
+            if (DAL.TmpPoster != null)
+                DAL.CurrentMTD.Poster = DAL.TmpPoster;
 
             var opRes = DAL.SaveMTD();
 
@@ -843,6 +839,52 @@ namespace Desene
             Settings.Default.Save();
 
             dgvMoviesList.Invalidate();
+        }
+    }
+
+    public class MyReflector
+    {
+        string myNamespace;
+        Assembly myAssembly;
+        public MyReflector(string assemblyName, string namespaceName)
+        {
+            myNamespace = namespaceName;
+            myAssembly = null;
+            var alist = Assembly.GetExecutingAssembly().GetReferencedAssemblies();
+            foreach (AssemblyName aN in alist)
+            {
+                if (aN.FullName.StartsWith(assemblyName))
+                {
+                    myAssembly = Assembly.Load(aN);
+                    break;
+                }
+            }
+        }
+        public Type GetType(string typeName)
+        {
+            Type type = null;
+            string[] names = typeName.Split('.');
+
+            if (names.Length > 0)
+                type = myAssembly.GetType(myNamespace + "." + names[0]);
+
+            for (int i = 1; i < names.Length; ++i)
+            {
+                type = type.GetNestedType(names[i], BindingFlags.NonPublic);
+            }
+            return type;
+        }
+
+        public object Call(Type type, object obj, string func, object[] parameters)
+        {
+            MethodInfo methInfo = type.GetMethod(func, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            return methInfo.Invoke(obj, parameters);
+        }
+
+        public object GetField(Type type, object obj, string field)
+        {
+            FieldInfo fieldInfo = type.GetField(field, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            return fieldInfo.GetValue(obj);
         }
     }
 }

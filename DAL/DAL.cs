@@ -16,6 +16,7 @@ namespace Desene
     {
         public static BindingList<MovieShortInfo> MoviesData;
         public static List<CachedMovieStills> CachedMoviesStills = new List<CachedMovieStills>();
+        public static byte[] TmpPoster;
         public static MovieTechnicalDetails CurrentMTD;
         public static MovieTechnicalDetails NewMTD;
         public static List<string> MovieThemes = new List<string>();

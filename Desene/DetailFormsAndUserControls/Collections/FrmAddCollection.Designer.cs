@@ -91,7 +91,7 @@
             this.ucCollectionInfo.Location = new System.Drawing.Point(0, 25);
             this.ucCollectionInfo.Name = "ucCollectionInfo";
             this.ucCollectionInfo.ParentEl = null;
-            this.ucCollectionInfo.Poster = null;
+            //this.ucCollectionInfo.Poster = null;
             this.ucCollectionInfo.Size = new System.Drawing.Size(684, 386);
             this.ucCollectionInfo.TabIndex = 187;
             // 

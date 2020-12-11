@@ -118,7 +118,7 @@ namespace Desene.DetailFormsAndUserControls.Collections
                         //SetPoster(bytes);
                         Common.Helpers.UnsavedChanges = true;
 
-                        Poster = bytes;
+                        SetPoster(bytes);
                     }
                 }
             }
@@ -128,18 +128,16 @@ namespace Desene.DetailFormsAndUserControls.Collections
             }
         }
 
-        //public void SetPoster(byte[] bytes)
-        //{
-        //    using (var ms = new MemoryStream())
-        //    {
-        //        ms.Write(bytes, 0, bytes.Length);
-        //        pbCover.Image = Image.FromStream(ms);
-        //    }
+        public void SetPoster(byte[] bytes)
+        {
+            using (var ms = new MemoryStream())
+            {
+                ms.Write(bytes, 0, bytes.Length);
+                pbCover.Image = Image.FromStream(ms);
+            }
 
-        //    if (_isNew)
-        //        Poster = bytes;
-        //    else
-        //        DAL.CurrentMTD.Poster = bytes;
-        //}
+            //2020.12 -> it must go in DAL.CurrentMTD (and from there to the cached list) only when saved!
+            DAL.TmpPoster = bytes;
+        }
     }
 }

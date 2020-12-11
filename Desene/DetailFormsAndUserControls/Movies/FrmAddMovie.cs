@@ -30,7 +30,7 @@ namespace Desene
             //if (OnImportMovie is null) return;
 
             //OnImportMovie(sender, e);
-            var currentPoster = ucMovieInfo1.TmpPoster;
+            var currentPoster = DAL.TmpPoster;
 
             if (DAL.NewMTD != null)
             {
@@ -58,7 +58,7 @@ namespace Desene
             }
 
             DAL.NewMTD.Poster = currentPoster;
-            ucMovieInfo1.TmpPoster = null;
+            DAL.TmpPoster = null;
             ucMovieInfo1.RefreshControls(DAL.NewMTD);
 
             if (DAL.NewMTD.MovieStills.Count > 0)
@@ -77,19 +77,22 @@ namespace Desene
 
         private void btnLoadPoster_Click(object sender, EventArgs e)
         {
-            using (var openFileDialog = new OpenFileDialog())
+            var dialog = new CustomDialogs
             {
-                openFileDialog.Title = "Choose a poster";
-                openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*";
-                openFileDialog.InitialDirectory = !string.IsNullOrEmpty(Settings.Default.LastCoverPath) ? Path.GetDirectoryName(Settings.Default.LastCoverPath) : "";
+                Title = "Choose a poster",
+                DialogType = DialogType.OpenFile,
+                InitialDirectory = Settings.Default.LastCoverPath,
+                Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*",
+                FileNameLabel = "FileName or URL",
+                //ConfirmButtonText = "Confirm"
+            };
 
-                if (openFileDialog.ShowDialog() != DialogResult.OK) return;
+            if (!dialog.Show(Handle)) return;
 
-                Settings.Default.LastCoverPath = Path.GetFullPath(openFileDialog.FileName);
-                Settings.Default.Save();
+            Settings.Default.LastCoverPath = Path.GetFullPath(dialog.FileName);
+            Settings.Default.Save();
 
-                ucMovieInfo1.SetNewPoster(openFileDialog.FileName);
-            }
+            ucMovieInfo1.SetNewPoster(dialog.FileName);
         }
 
         private void btnSave_Click(object sender, EventArgs e)

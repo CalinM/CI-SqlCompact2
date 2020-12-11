@@ -32,7 +32,7 @@ namespace Desene
                 return;
             }
 
-            var opRes = DAL.InsertCollection(ucCollectionInfo.Title, ucCollectionInfo.Notes, ucCollectionInfo.SectionType, ucCollectionInfo.Poster);
+            var opRes = DAL.InsertCollection(ucCollectionInfo.Title, ucCollectionInfo.Notes, ucCollectionInfo.SectionType, DAL.TmpPoster);
 
             if (!opRes.Success)
             {
@@ -80,8 +80,8 @@ namespace Desene
                     var bytes = new byte[file.Length];
                     file.Read(bytes, 0, (int)file.Length);
 
-                    //_ucCollectionInfo.SetPoster(bytes);
-                    ucCollectionInfo.Poster = bytes;
+                    ucCollectionInfo.SetPoster(bytes);
+                    //ucCollectionInfo.Poster = bytes;
                 }
 
                 Common.Helpers.UnsavedChanges = true;

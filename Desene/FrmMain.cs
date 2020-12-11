@@ -140,6 +140,9 @@ namespace Desene
 
         private void miMovies_Click(object sender, EventArgs e)
         {
+            if (!Utils.Helpers.ConfirmDiscardChanges())
+                return;
+
             try
             {
                 Cursor = Cursors.WaitCursor;
@@ -182,6 +185,9 @@ namespace Desene
 
         private void miMoviesList_Click(object sender, EventArgs e)
         {
+            if (!Utils.Helpers.ConfirmDiscardChanges())
+                return;
+
             try
             {
                 Cursor = Cursors.WaitCursor;
@@ -224,6 +230,9 @@ namespace Desene
 
         private void miCollections_Click(object sender, EventArgs e)
         {
+            if (!Utils.Helpers.ConfirmDiscardChanges())
+                return;
+
             try
             {
                 Cursor = Cursors.WaitCursor;
@@ -273,6 +282,9 @@ namespace Desene
 
         private void LoadSeriesTypeControls(object sender, SeriesType st)
         {
+            if (!Utils.Helpers.ConfirmDiscardChanges())
+                return;
+
             try
             {
                 Cursor = Cursors.WaitCursor;

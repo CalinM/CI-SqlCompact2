@@ -287,6 +287,11 @@ namespace Desene
 
         private void btnSaveChanges_Click(object sender, EventArgs e)
         {
+            SaveChangesAndRefresh();
+        }
+
+        private void SaveChangesAndRefresh()
+        {
             SaveChanges();
 
             var prevInstance = pSeriesDetailsContainer.Controls.Find("ucEpisodeDetails", false);
@@ -301,6 +306,9 @@ namespace Desene
         {
             var selectedNodeData = (SeriesEpisodesShortInfo)tvSeries.SelectedNode.Tag;
             tvSeries.Focus(); //required to push all changes from editors into the DAL.CurrentMTD object
+
+            if (DAL.TmpPoster != null)
+                DAL.CurrentMTD.Poster = DAL.TmpPoster;
 
             var opRes = DAL.SaveMTD(selectedNodeData.IsEpisode);
 
@@ -327,11 +335,25 @@ namespace Desene
                 selectedNodeData.Theme = DAL.CurrentMTD.Theme;
             }
 
+            DAL.TmpPoster = null;
+
             return opRes;
         }
 
         private void btnImportEpisodes_Click(object sender, EventArgs e)
         {
+            if (Common.Helpers.UnsavedChanges)
+            {
+                if (MsgBox.Show("There are pending changes present! Do you want to save them before continuing?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    SaveChangesAndRefresh();
+                }
+                else
+                {
+                    UndoChanges();
+                }
+            }
+
             var sesi = (SeriesEpisodesShortInfo)tvSeries.SelectedNode.Tag;
 
             var iParams = new FrmEpisodeInfoFromFiles(sesi.Id, sesi.IsSeason ? sesi.Season : null) { Owner = _parent };
@@ -420,30 +442,32 @@ namespace Desene
                 return;
             }
 
-            using (var openFileDialog = new OpenFileDialog())
+            var selectedNodeData = (SeriesEpisodesShortInfo)tvSeries.SelectedNode.Tag;
+
+            var dialog = new CustomDialogs
             {
-                var selectedNodeData = (SeriesEpisodesShortInfo)tvSeries.SelectedNode.Tag;
+                Title = string.Format("Choose a poster for series '{0}'", selectedNodeData.FileName),
+                DialogType = DialogType.OpenFile,
+                InitialDirectory = Settings.Default.LastCoverPath,
+                Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*",
+                FileNameLabel = "FileName or URL",
+                //ConfirmButtonText = "Confirm"
+            };
 
-                openFileDialog.Title = string.Format("Choose a poster for series '{0}'", selectedNodeData.FileName);
-                openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*";
-                openFileDialog.InitialDirectory = Settings.Default.LastCoverPath;
+            if (!dialog.Show(Handle)) return;
 
-                if (openFileDialog.ShowDialog() != DialogResult.OK) return;
+            Settings.Default.LastCoverPath = Path.GetFullPath(dialog.FileName);
+            Settings.Default.Save();
 
-                Settings.Default.LastCoverPath = Path.GetFullPath(openFileDialog.FileName);
-                Settings.Default.Save();
+            using (var file = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
+            {
+                var bytes = new byte[file.Length];
+                file.Read(bytes, 0, (int)file.Length);
 
-
-                using (var file = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
-                {
-                    var bytes = new byte[file.Length];
-                    file.Read(bytes, 0, (int)file.Length);
-
-                    ((ucEditSeriesBaseInfo)prevInstance[0]).SetPoster(bytes);
-                }
-
-                Helpers.UnsavedChanges = true;
+                ((ucEditSeriesBaseInfo)prevInstance[0]).SetPoster(bytes);
             }
+
+            Helpers.UnsavedChanges = true;
         }
 
         private void btnDeleteSeasonEpisode_Click(object sender, EventArgs e)
@@ -485,6 +509,11 @@ namespace Desene
         }
 
         private void btnUndo_Click(object sender, EventArgs e)
+        {
+            UndoChanges();
+        }
+
+        private void UndoChanges()
         {
             LoadSelectionDetails(pSeriesDetailsContainer.VerticalScroll.Value);
             Helpers.UnsavedChanges = false;

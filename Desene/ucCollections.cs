@@ -86,7 +86,7 @@ namespace Desene
 
                 btnImportElements.Enabled = !isElementSeleted;
                 btnLoadPoster.Enabled =
-                    (!isElementSeleted && (CollectionsSiteSectionType)seShortInfo.SectionType == CollectionsSiteSectionType.SeriesType) ||
+                    (!isElementSeleted /*&& (CollectionsSiteSectionType)seShortInfo.SectionType == CollectionsSiteSectionType.SeriesType*/) ||
                     (isElementSeleted && (CollectionsSiteSectionType)seShortInfo.SectionType == CollectionsSiteSectionType.MovieType);
                 btnRefreshElementData.Enabled = isElementSeleted;
                 btnDeleteElement.Enabled = isElementSeleted; //the collection is deleted by action in the main form toolbar
@@ -457,8 +457,10 @@ namespace Desene
                 else
                 {
                     var prevAsType = (ucCollectionInfo)prevInstance[0];
+                    if (DAL.TmpPoster == null && prevAsType.Poster != null)
+                        DAL.TmpPoster = prevAsType.Poster;
 
-                    opRes = DAL.UpdateCollection(selectedNodeData.Id, prevAsType.Title, prevAsType.Notes, prevAsType.SectionType, prevAsType.Poster);
+                    opRes = DAL.UpdateCollection(selectedNodeData.Id, prevAsType.Title, prevAsType.Notes, prevAsType.SectionType, DAL.TmpPoster);
 
                     if (opRes.Success)
                     {
@@ -470,6 +472,9 @@ namespace Desene
             }
             else
             {
+                if (DAL.TmpPoster != null)
+                    DAL.CurrentMTD.Poster = DAL.TmpPoster;
+
                 opRes = DAL.SaveMTD(selectedNodeData.IsEpisode);
 
                 if (opRes.Success)
@@ -487,6 +492,8 @@ namespace Desene
                     string.Format("The following error occurred while saving the changes:{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
                     "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            DAL.TmpPoster = null;
 
             return opRes;
         }
@@ -606,37 +613,39 @@ namespace Desene
 
         private void btnLoadPoster_Click(object sender, EventArgs e)
         {
-            var prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucMovieInfo", false);
+            var prevInstance = pCollectionElementDetailsContainer.Controls.Find("ucCollectionInfo", false);
             if (!prevInstance.Any())
             {
                 MsgBox.Show("The previous UserControl instance could not be found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            using (var openFileDialog = new OpenFileDialog())
+            var selectedNodeData = (SeriesEpisodesShortInfo)tvCollections.SelectedNode.Tag;
+
+            var dialog = new CustomDialogs
             {
-                var selectedNodeData = (SeriesEpisodesShortInfo)tvCollections.SelectedNode.Tag;
+                Title = string.Format("Choose a poster for collection '{0}'", selectedNodeData.FileName),
+                DialogType = DialogType.OpenFile,
+                InitialDirectory = Settings.Default.LastCoverPath,
+                Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*",
+                FileNameLabel = "FileName or URL",
+                //ConfirmButtonText = "Confirm"
+            };
 
-                openFileDialog.Title = string.Format("Choose a poster for series '{0}'", selectedNodeData.FileName);
-                openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*";
-                openFileDialog.InitialDirectory = Settings.Default.LastCoverPath;
+            if (!dialog.Show(Handle)) return;
 
-                if (openFileDialog.ShowDialog() != DialogResult.OK) return;
+            Settings.Default.LastCoverPath = Path.GetFullPath(dialog.FileName);
+            Settings.Default.Save();
 
-                Settings.Default.LastCoverPath = Path.GetFullPath(openFileDialog.FileName);
-                Settings.Default.Save();
+            using (var file = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
+            {
+                var bytes = new byte[file.Length];
+                file.Read(bytes, 0, (int)file.Length);
 
-
-                using (var file = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
-                {
-                    var bytes = new byte[file.Length];
-                    file.Read(bytes, 0, (int)file.Length);
-
-                    ((ucMovieInfo)prevInstance[0]).SetPoster(bytes); //todo?
-                }
-
-                Helpers.UnsavedChanges = true;
+                ((ucCollectionInfo)prevInstance[0]).SetPoster(bytes);
             }
+
+            Helpers.UnsavedChanges = true;
         }
 
         private void btnDeleteElement_Click(object sender, EventArgs e)

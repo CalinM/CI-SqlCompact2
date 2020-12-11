@@ -42,7 +42,7 @@ namespace Desene
             }
 
             var opRes = DAL.InsertSeries(ucEditSeriesBaseInfo.Title, ucEditSeriesBaseInfo.DescriptionLink, ucEditSeriesBaseInfo.Recommended,
-                ucEditSeriesBaseInfo.RecommendedLink, ucEditSeriesBaseInfo.Notes, ucEditSeriesBaseInfo.Poster, ucEditSeriesBaseInfo.Trailer);
+                ucEditSeriesBaseInfo.RecommendedLink, ucEditSeriesBaseInfo.Notes, DAL.TmpPoster, ucEditSeriesBaseInfo.Trailer);
 
             if (!opRes.Success)
             {
@@ -64,29 +64,31 @@ namespace Desene
 
         private void btnLoadPoster_Click(object sender, EventArgs e)
         {
-            using (var openFileDialog = new OpenFileDialog())
+            var dialog = new CustomDialogs
             {
-                openFileDialog.Title = "Choose a poster";
-                openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*";
-                openFileDialog.InitialDirectory = Settings.Default.LastCoverPath;
+                Title = "Choose a poster",
+                DialogType = DialogType.OpenFile,
+                InitialDirectory = Settings.Default.LastCoverPath,
+                Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*",
+                FileNameLabel = "FileName or URL",
+                //ConfirmButtonText = "Confirm"
+            };
 
-                if (openFileDialog.ShowDialog() != DialogResult.OK) return;
+            if (!dialog.Show(Handle)) return;
 
-                Settings.Default.LastCoverPath = Path.GetFullPath(openFileDialog.FileName);
-                Settings.Default.Save();
+            Settings.Default.LastCoverPath = Path.GetFullPath(dialog.FileName);
+            Settings.Default.Save();
 
-
-                using (var ms = new MemoryStream())
+            using (var ms = new MemoryStream())
+            {
+                using (var file = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
                 {
-                    using (var file = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
-                    {
-                        byte[] bytes = new byte[file.Length];
-                        file.Read(bytes, 0, (int)file.Length);
-                        ms.Write(bytes, 0, (int)file.Length);
-                    }
-
-                    ucEditSeriesBaseInfo.Poster = ms.ToArray();
+                    byte[] bytes = new byte[file.Length];
+                    file.Read(bytes, 0, (int)file.Length);
+                    ms.Write(bytes, 0, (int)file.Length);
                 }
+
+                ucEditSeriesBaseInfo.SetPoster(ms.ToArray());
             }
         }
     }

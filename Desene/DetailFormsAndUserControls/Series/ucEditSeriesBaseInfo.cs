@@ -44,6 +44,7 @@ namespace Desene.EditUserControls
             get { return tbTrailer.Text; }
         }
 
+        /*
         private byte[] _poster;
         public byte[] Poster
         {
@@ -57,7 +58,7 @@ namespace Desene.EditUserControls
                     pbCover.Image = Image.FromStream(ms);
                 }
             }
-        }
+        }*/
 
         //public ucEditSeriesBaseInfo()
         //{
@@ -119,10 +120,8 @@ namespace Desene.EditUserControls
                 pbCover.Image = Image.FromStream(ms);
             }
 
-            if (_isNew)
-                Poster = bytes;
-            else
-                DAL.CurrentMTD.Poster = bytes;
+            //2020.12 -> it must go in DAL.CurrentMTD (and from there to the cached list) only when saved!
+            DAL.TmpPoster = bytes;
         }
 
         private void UcEditSeriesBaseInfo_DragOver(object sender, DragEventArgs e)
