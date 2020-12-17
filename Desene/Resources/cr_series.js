@@ -3,118 +3,146 @@ var currentSeriesTypeViewDataD;
 var showingSeries;
 
 function RenderSeriesTypeView() {
-    $(this).addClass("selected-subSection");
+    var sectionHtml;
 
-    var sectionHtml =
-        "<table id=\"seriesHeaderTable\" class=\"tableWrapper\">" +
-        "<tr class=\"headerRow\">" +
-        "<td style=\"width: 30px;\">" +
-        "</td>" +
-        "<td>" +
-        "Series name</br>/ Episode title" +
-        "</td>" +
-        "<td class=\"markerCol\">" +
-        "</td>" +
-        "<td class=\"detailCell w100\">" +
-        "Recommended" +
-        "</td>" +
-        "<td class=\"detailCell w80\">" +
-        "Quality" +
-        "</td>" +
-        "<td class=\"detailCell w100\">" +
-        "Size" +
-        "</td>" +
-        "<td class=\"detailCell w100\">" +
-        "Audio" +
-        "</td>" +
-        "<td class=\"detailCell w125\">" +
-        "Year" +
-        "</td>" +
-        "<td class=\"detailCell w125\">" +
-        "No. of episodes / Theme" +
-        "</td>" +
-        "</tr>" +
-        "</table>" +
+    if (isMobile())
+    {
+        sectionHtml =
+            "<div class=\"container\">" +
+                "<div class=\"cards\">";
 
-        "<div class=\"detailsTableWrapper\">" +
-        "<table id=\"seriesMainTable\" class=\"tableWrapper\">";
+        currentSeriesTypeViewDataM.forEach(function (el) {
+            sectionHtml +=
+                    "<div class=\"cardM\">" +
+                        "<div class=\"movie-detail-wrapper\" data-movieId=\"" + el.Id + "\">" +
+                            "<div class=\"movie-detail\">" +
 
-    var serialIndex = 0;
-
-    currentSeriesTypeViewDataM.forEach(function (serial) {
-        serialIndex++;
-
-        var link = serial.DL != null ? serial.DL : "www.imdb.com";
-        var tooltip = serial.N != "" ? serial.N + "\n" : "";
-        tooltip += "Click for details ... (external link!)";
-
-        //var episoadeSerial = $.grep(currentSeriesTypeViewDataD, function (el) { return el.SId == serial.Id; });
-        var alternateRowClass = serialIndex % 2 == 0 ? " alternateRow" : "";
-
-        var differentAudioStyle = serial.DifferentAudio
-            ? "style=\"color: red; cursor: help;\" title=\"Exista episoade cu diferente in track-urile audio (ex. nu sunt dublate Ro)\""
-            : "";
+                                //the movieId is also placed on the Poster to be visible in the lazy loading process
+                                "<img data-src=\"Imgs/Series/poster-" + el.Id + ".jpg\" data-movieId=\"" + el.Id + "\" class=\"movie-cover lazy\" alt=\"Loading poster ...\" title=\"" + el.FN + "\">" +
+                            "</div>" +
+                        "</div>" +
+                    "</div>";
+        }, this);
 
         sectionHtml +=
-            "<tr class=\"seriesLine noselect lineWithDetails" + alternateRowClass + "\">" +
-                "<td class=\"markerCol\">" +
-                    "<div class=\"markerSymbol serialExpander collapsed\" data-serialId=\"" + serial.Id + "\" alt=\">\"></div>" +
-                "</td>" +
-                "<td>" +
-                    serial.FN +
-                "</td>" +
-                "<td class=\"detailCell w25\">" +
-                    "<a href=\"" + link + "\" target=\"_blank\" title=\"" + tooltip + "\">" +
-                        "<img src=\"Images\\info.png\" class=\"infoSign\" alt=\"i\">" +
-                    "</a>" +
-                "</td>" +
-                "<td class=\"detailCell w100\">" +
-                    (
-                        serial.R != ""
-                        ? (
-                            serial.RL != ""
-                                ? "<a class='recommended recommendedWithLink' title='Recomandat: " + serial.R + "\nClick for details ... (external link!)' href='" + serial.RL + "' target='_blank'>" + getRecommendedVal(serial.R) + "</a>"
-                                : "<div class='recommended'title='Recomandat: " + serial.R +"'>" + getRecommendedVal(serial.R) + "</div>"
-                          )
-                        : "<div class='recommended' title='Recomandare necunoscuta'>?</div>"
-                    ) +
-                "</td>" +
-                "<td class=\"detailCell w80\">" +
-                    serial.Q +
-                "</td>" +
-                "<td class=\"detailCell w100\">" +
-                    serial.S + " GB" +
-                "</td>" +
-                "<td class=\"detailCell w100\" " + differentAudioStyle + ">" +
-                    serial.A +
-                "</td>" +
-                "<td class=\"detailCell w125\">" +
-                    serial.Y +
-                "</td>" +
-                "<td class=\"detailCell w125\">" +
-                    serial.Ec +
-                "</td>" +
+                "</div>" +
+            "</div>";
+    }
+    else
+    {
+        $(this).addClass("selected-subSection");
+
+        sectionHtml =
+            "<table id=\"seriesHeaderTable\" class=\"tableWrapper\">" +
+            "<tr class=\"headerRow\">" +
+            "<td style=\"width: 30px;\">" +
+            "</td>" +
+            "<td>" +
+            "Series name</br>/ Episode title" +
+            "</td>" +
+            "<td class=\"markerCol\">" +
+            "</td>" +
+            "<td class=\"detailCell w100\">" +
+            "Recommended" +
+            "</td>" +
+            "<td class=\"detailCell w80\">" +
+            "Quality" +
+            "</td>" +
+            "<td class=\"detailCell w100\">" +
+            "Size" +
+            "</td>" +
+            "<td class=\"detailCell w100\">" +
+            "Audio" +
+            "</td>" +
+            "<td class=\"detailCell w125\">" +
+            "Year" +
+            "</td>" +
+            "<td class=\"detailCell w125\">" +
+            "No. of episodes / Theme" +
+            "</td>" +
             "</tr>" +
-
-            "<tr class=\"detailSerieLine " + alternateRowClass + "\" data-serialId=\"" + serial.Id + "\" style=\"display: none;\">" +
-                "<td style=\"width: 30px;\">" +
-                "</td>" +
-                "<td id=\"detailSerie-inner" + serial.Id + "\" colspan=\"8\">" +
-                "</td>" +
-            "</tr>";
-    });
-
-    sectionHtml +=
             "</table>" +
-        "</div>";
+
+            "<div class=\"detailsTableWrapper\">" +
+            "<table id=\"seriesMainTable\" class=\"tableWrapper\">";
+
+        var serialIndex = 0;
+
+        currentSeriesTypeViewDataM.forEach(function (serial) {
+            serialIndex++;
+
+            var link = serial.DL != null ? serial.DL : "www.imdb.com";
+            var tooltip = serial.N != "" ? serial.N + "\n" : "";
+            tooltip += "Click for details ... (external link!)";
+
+            //var episoadeSerial = $.grep(currentSeriesTypeViewDataD, function (el) { return el.SId == serial.Id; });
+            var alternateRowClass = serialIndex % 2 == 0 ? " alternateRow" : "";
+
+            var differentAudioStyle = serial.DifferentAudio
+                ? "style=\"color: red; cursor: help;\" title=\"Exista episoade cu diferente in track-urile audio (ex. nu sunt dublate Ro)\""
+                : "";
+
+            sectionHtml +=
+                "<tr class=\"seriesLine noselect lineWithDetails" + alternateRowClass + "\">" +
+                    "<td class=\"markerCol\">" +
+                        "<div class=\"markerSymbol serialExpander collapsed\" data-serialId=\"" + serial.Id + "\" alt=\">\"></div>" +
+                    "</td>" +
+                    "<td>" +
+                        serial.FN +
+                    "</td>" +
+                    "<td class=\"detailCell w25\">" +
+                        "<a href=\"" + link + "\" target=\"_blank\" title=\"" + tooltip + "\">" +
+                            "<img src=\"Images\\info.png\" class=\"infoSign\" alt=\"i\">" +
+                        "</a>" +
+                    "</td>" +
+                    "<td class=\"detailCell w100\">" +
+                        (
+                            serial.R != ""
+                            ? (
+                                serial.RL != ""
+                                    ? "<a class='recommended recommendedWithLink' title='Recomandat: " + serial.R + "\nClick for details ... (external link!)' href='" + serial.RL + "' target='_blank'>" + getRecommendedVal(serial.R) + "</a>"
+                                    : "<div class='recommended'title='Recomandat: " + serial.R +"'>" + getRecommendedVal(serial.R) + "</div>"
+                            )
+                            : "<div class='recommended' title='Recomandare necunoscuta'>?</div>"
+                        ) +
+                    "</td>" +
+                    "<td class=\"detailCell w80\">" +
+                        serial.Q +
+                    "</td>" +
+                    "<td class=\"detailCell w100\">" +
+                        serial.S + " GB" +
+                    "</td>" +
+                    "<td class=\"detailCell w100\" " + differentAudioStyle + ">" +
+                        serial.A +
+                    "</td>" +
+                    "<td class=\"detailCell w125\">" +
+                        serial.Y +
+                    "</td>" +
+                    "<td class=\"detailCell w125\">" +
+                        serial.Ec +
+                    "</td>" +
+                "</tr>" +
+
+                "<tr class=\"detailSerieLine " + alternateRowClass + "\" data-serialId=\"" + serial.Id + "\" style=\"display: none;\">" +
+                    "<td style=\"width: 30px;\">" +
+                    "</td>" +
+                    "<td id=\"detailSerie-inner" + serial.Id + "\" colspan=\"8\">" +
+                    "</td>" +
+                "</tr>";
+        });
+
+        sectionHtml +=
+                "</table>" +
+            "</div>";
+    }
 
     $(".about-message-img").css("display", "none");
     $("#sections-wrapper").html(sectionHtml);
 
     setTimeout(function () {
-        RebindSeriesEvents();
-
         if (!isMobile()) {
+            RebindSeriesEvents();
+
             var h = window.innerHeight - $(".master-toolbar").outerHeight() - $("footer").height() - $("#seriesHeaderTable").height();
             $(".detailsTableWrapper").height(h);
 
@@ -125,8 +153,26 @@ function RenderSeriesTypeView() {
                 height: $("#sections-wrapper").height()
             });
         }
+        else {
+            RebindSeriesEventsM();
 
-        //$(".movieTrailerLink").YouTubePopUp();
+            $("#sections-wrapper .lazy").lazy({
+                appendScroll: $("#sections-wrapper"),
+                onError: function (element) {
+                    var movieId = $(element).data("movieid");
+                    var movieCard = $(".movie-detail-wrapper[data-movieid=\"" + movieId + "\"] .movie-detail:first");
+
+                    movieCard.html($("#posterNotFound").html());
+
+                    var movieWithoutPoster = $.grep(moviesInSection, function (el) { return el.Id == movieId });
+                    movieCard.find(".movieTitle-posterNotFound:first").text(movieWithoutPoster.length != 1
+                        ? "Error retrieving movie title!"
+                        : movieWithoutPoster[0].FN);
+                },
+
+                throttle: 250
+            });
+        }
     }, 100);
 
     CloseSideNav();
@@ -158,14 +204,14 @@ function RebindSeriesEvents() {
         if (evt.ctrlKey) {
             $(this).closest("table").find(".thRow").each(function (el) {
                 $(this).css("display", "none");
-            })        
+            })
         }
         else
         {
             var currentRow = $(this).closest("tr");
             var episodeId = currentRow.data("episodeid");
             var thumbnailRow = $("#th-" + episodeId);
-    
+
             if (thumbnailRow.length > 0) //it was previously generated
             {
                 if ($(thumbnailRow).css("display") == "none")
@@ -194,10 +240,195 @@ function RebindSeriesEvents() {
                                 "</tr>" +
                             "</table>" +
                             "</td>" +
-                    "</tr>"; 
-    
+                    "</tr>";
+
                 $(currentRow).after(thumbnailRowStr);
             }
+        }
+    });
+}
+
+function RebindSeriesEventsM() {
+
+    var recalcDetailsHeight = function () {
+        $(".detailLine").height($(".detailLine-wrapper").height());
+    };
+
+    $(".cardM").off("click").on("click", function () {
+        var seriesId = $(this).children().data("movieid");
+
+        $(".cardM").removeClass("selectedCard");
+		if ($(".detailLine[data-movieid='" + seriesId + "']").length > 0) {
+			$('.detailLine').remove(); //only remove, nothing more
+		}
+		else {
+            $('.detailLine').remove();
+            $(this).addClass("selectedCard");
+
+			var clickedTop = $(this).offset().top;
+			var visibleElements = $(this).parent().find(".cardM:visible");
+			var elementsOnLine =
+				$.grep(visibleElements, function (el) { return $(el).offset().top == clickedTop; });
+
+			var lastElementOnLine = elementsOnLine[elementsOnLine.length - 1];
+            var widthInnerTable = elementsOnLine.length * $(".cardM").outerWidth(true);
+
+            var movieData = $.grep(currentSeriesTypeViewDataM, function (el) { return el.Id == seriesId });
+			var baseData = movieData[0];
+
+            var seriesSeasons = new Array();
+
+            unique(
+                $.grep(currentSeriesTypeViewDataD,
+                    function (el) {
+                        return el.SId == seriesId;
+                    })
+                    .map(function (el) {
+                        return el.SZ;
+                    })
+            ).forEach(function (seasonNo) {
+                seriesSeasons.push({ SeasonId: seasonNo, SeasonName: isNumeric(seasonNo) ? "Season " + seasonNo : seasonNo })
+            });
+
+            var sortedSeasons =
+                seriesSeasons.sort((a, b) => a.SeasonName.localeCompare(b.SeasonName, undefined, { numeric: true, sensitivity: 'base' }));
+
+            var detailLine =
+                "<div class='detailLine' data-movieId='" + seriesId + "' style='height: 0;'>" +
+                    "<table class='detailLine-wrapper' style='min-width: 0px; width: " + widthInnerTable + "px; border: none; border-collapse: collapse;'>" +
+                        "<tr>" +
+                            "<td colspan=2>" +
+                                "<table style='width: 100%; border-collapse: collapse;'>"+
+                                    "<tr class='series-title-row-m'>" +
+                                        "<td class='title' style='width: 100%;'>" +
+                                            baseData.FN +
+                                        "</td>" +
+                                        "<td class='series-quality-m'>" +
+                                            baseData.Q +
+                                        "</td>" +
+                                        "<td class='recommended-cell'>" +
+                                            "<div class='recommended-m' style='font-size: 16px'>" +
+                                                getRecommendedVal(baseData.R) +
+                                            "</div>" +
+                                        "</td>"   +
+                                    "</tr> " +
+                                "</table>" +
+                            "</td>"   +
+                        "</tr>";
+
+            sortedSeasons.forEach(function (seasonObj) {
+                detailLine +=
+                        "<tr>" +
+                            "<td class='season-cell-m' colspan=2>" +
+                                seasonObj.SeasonName +
+                            "</td>" +
+                        "</tr>";
+
+                var episodesInSeason = $.grep(currentSeriesTypeViewDataD, function (el) { return el.SId == seriesId && el.SZ == seasonObj.SeasonId; });
+
+                episodesInSeason.forEach(function (episode) {
+                    detailLine +=
+                        "<tr>" +
+                            "<td class='episode-title-cell-m' data-episodeId='" + episode.Id + "'>" + //only on episode name, to avoid triggering th efunctionality while scrolling
+                               episode.FN + (episode.T == "Christmas"
+                               ? " 🎅" //🎄
+                               : episode.T == "Helloween"
+                                   ? " 🎃"
+                                   : "") +
+                            "</td>" +
+                            "<td class='episodes-audio-m'>" +
+                               episode.A +
+                            "</td>" +
+                        "</tr>";
+                });
+            });
+
+            detailLine +=
+                    "</table>" +
+                "</div>"
+                ;
+
+            $(lastElementOnLine).after(detailLine);
+
+
+            setTimeout(function() {
+                recalcDetailsHeight();
+
+                $(".episode-title-cell-m").on("click", function() {
+                    var episodeId = $(this).data("episodeid");
+                    var parentRow = $(this).parent();
+
+                    $(".detailLine-wrapper tr").removeClass("episodeDetailExpanded");
+                    $(".episode-details-open").removeClass("episode-details-open");
+
+                    if ($(".episodeDetails[data-episodeid='" + episodeId + "']").length > 0) {
+                        $('.episodeDetails').remove(); //only remove, nothing more
+                        recalcDetailsHeight();
+                    }
+                    else {
+                        $('.episodeDetails').remove();
+                        var episodeData = $.grep(currentSeriesTypeViewDataD, function (el) { return el.Id == episodeId; })[0];
+
+                        var episodeDetails =
+                                    "<tr class='episodeDetails' data-episodeid='" + episodeId + "'>" +
+                                        "<td colspan=2>" +
+                                            "<table style='width: 100%;'>"+
+                                                "<tr>" +
+                                                    "<td>" +
+                                                        "Year: " + episodeData.Y + "</br>" +
+                                                        "Quality: " + episodeData.Q + "</br>" +
+                                                        "Duration: " + episodeData.L + "</br>" +
+                                                        "Size: " + episodeData.S + "</br>" +
+                                                    "</td>" +
+
+                                                    "<td style='width: 500px;'>" +
+                                                        "<div class='screenshots-wrapper owl-carousel owl-theme' style=''>" +
+
+                                                        "<div class='parentVertAlign'>" +
+                                                        "<img class='forceVertAlign' src=\"Imgs\\Series\\Thumbnails\\thumb-" + episodeId + "-0.jpg\" alt=\"?\">" +
+                                                        "</div>" +
+                                                        "<div class='parentVertAlign'>" +
+                                                        "<img class='forceVertAlign' src=\"Imgs\\Series\\Thumbnails\\thumb-" + episodeId + "-1.jpg\" alt=\"?\">" +
+                                                        "</div>" +
+                                                        "<div class='parentVertAlign'>" +
+                                                        "<img class='forceVertAlign' src=\"Imgs\\Series\\Thumbnails\\thumb-" + episodeId + "-2.jpg\" alt=\"?\">" +
+                                                        "</div>" +
+                                                    "</td>" +
+
+                                                "</tr> " +
+                                            "</table>" +
+                                        "</td>"   +
+                                    "</tr>";
+
+                        $(parentRow).after(episodeDetails);
+                        $(parentRow).addClass("episodeDetailExpanded");
+                        $(this).addClass("episode-details-open");
+
+                        setTimeout(function () {
+                            recalcDetailsHeight();
+                        }, 50);
+
+                        $('.screenshots-wrapper').owlCarousel({
+                            margin: 10,
+                            nav: true,
+                            navText: ["<div class='nav-btn prev-slide'></div>", "<div class='nav-btn next-slide'></div>"],
+                            responsive: {
+                                0: {
+                                    items: 1
+                                },
+                                600: {
+                                    items: 1
+                                },
+                                1000: {
+                                    items: 1
+                                }
+                            }
+                        });
+                    }
+
+
+                });
+            }, 100);
         }
     });
 }
