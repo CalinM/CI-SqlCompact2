@@ -39,23 +39,6 @@
     <ApplicationIcon>Images\icon1.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Data.Sqlite, Version=3.1.6.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\_Tools\SQLiteLibs\Microsoft.Data.Sqlite.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.batteries_v2">
-      <HintPath>..\_Tools\SQLiteLibs\SQLitePCLRaw.batteries_v2.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.core, Version=2.0.2.669, Culture=neutral, PublicKeyToken=1488e028ca7ab535, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\_Tools\SQLiteLibs\SQLitePCLRaw.core.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.nativelibrary">
-      <HintPath>..\_Tools\SQLiteLibs\SQLitePCLRaw.nativelibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.provider.dynamic_cdecl">
-      <HintPath>..\_Tools\SQLiteLibs\SQLitePCLRaw.provider.dynamic_cdecl.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />

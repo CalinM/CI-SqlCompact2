@@ -146,9 +146,8 @@ C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.csproj.CoreCompileInputs.cac
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.csproj.CopyComplete
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.dll
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.pdb
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\runtimes\win-x86\native\e_sqlite3.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\runtimes\win-x64\native\e_sqlite3.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\runtimes\win-arm\native\e_sqlite3.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\x64\SQLite.Interop.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\x86\SQLite.Interop.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.dll.config
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.pdb
@@ -261,21 +260,13 @@ C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\NUglify.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Ookii.Dialogs.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\PdfSharp-gdi.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\PdfSharp.Charting-gdi.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Text.Encoding.CodePages.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Microsoft.Data.Sqlite.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\SQLitePCLRaw.core.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Memory.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Numerics.Vectors.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Buffers.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Data.SQLite.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Common.pdb
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.pdb
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.dll.config
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\AngleSharp.xml
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Memory.xml
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Numerics.Vectors.xml
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Buffers.xml
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Data.SQLite.xml
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csprojAssemblyReference.cache
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmElementsInfoFromFiles.resources
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmEpisodeInfoFromFiles.resources

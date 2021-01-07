@@ -75,33 +75,16 @@ C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.csproj.CoreCompileInputs.c
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.csproj.CopyComplete
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.exe
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.pdb
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\runtimes\win-x86\native\e_sqlite3.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\runtimes\win-x64\native\e_sqlite3.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\runtimes\win-arm\native\e_sqlite3.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\x64\SQLite.Interop.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\x86\SQLite.Interop.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Desene.exe.config
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Desene.exe
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Desene.pdb
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Data.Common.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Diagnostics.StackTrace.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Diagnostics.Tracing.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Globalization.Extensions.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.IO.Compression.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Net.Http.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Net.Sockets.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Runtime.Serialization.Primitives.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Security.Cryptography.Algorithms.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Security.SecureString.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Threading.Overlapped.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Xml.XPath.XDocument.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Aga.Controls.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Common.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\DAL.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Microsoft.Data.Sqlite.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\SQLitePCLRaw.batteries_v2.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\SQLitePCLRaw.core.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\SQLitePCLRaw.nativelibrary.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\SQLitePCLRaw.provider.dynamic_cdecl.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Data.SQLite.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\MigraDoc.DocumentObjectModel-gdi.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\PdfSharp-gdi.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
@@ -111,7 +94,6 @@ C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Ookii.Dialogs.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\MigraDoc.Rendering-gdi.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\NUglify.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\AngleSharp.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Memory.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Microsoft.WindowsAPICodePack.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\PdfSharp.Charting-gdi.dll
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Text.Encoding.CodePages.dll
@@ -122,9 +104,9 @@ C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\DAL.pdb
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\DAL.dll.config
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.pdb
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.dll.config
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Data.SQLite.xml
 C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\AngleSharp.xml
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csprojAssemblyReference.cache
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.exe.config
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmAddCollection.resources
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Collections.ucCollectionInfo.resources
 C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.ucCollectionElements.resources

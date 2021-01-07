@@ -8,7 +8,7 @@ using System.Linq;
 
 using DAL;
 using Common.ExtensionMethods;
-using Microsoft.Data.Sqlite;
+using System.Data.SQLite;
 
 namespace Desene
 {
@@ -30,11 +30,11 @@ namespace Desene
 
             try
             {
-                using (var conn = new SqliteConnection(Constants.ConnectionString))
+                using (var conn = new SQLiteConnection(Constants.ConnectionString))
                 {
                     conn.Open();
 
-                    var commandSource = new SqliteCommand("SELECT DISTINCT Theme FROM FileDetail WHERE Theme IS NOT NULL AND Theme <> '' ORDER BY Theme COLLATE NOCASE ASC", conn);
+                    var commandSource = new SQLiteCommand("SELECT DISTINCT Theme FROM FileDetail WHERE Theme IS NOT NULL AND Theme <> '' ORDER BY Theme COLLATE NOCASE ASC", conn);
 
                     using (var reader = commandSource.ExecuteReader())
                     {
@@ -57,11 +57,11 @@ namespace Desene
         {
             var result = new BindingList<MovieShortInfo>();
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                var commandSource = new SqliteCommand(string.Format(@"
+                var commandSource = new SQLiteCommand(string.Format(@"
                     SELECT
 	                    Id,
 	                    FileName,
@@ -114,11 +114,11 @@ namespace Desene
         {
             var result = new BindingList<MovieShortInfo>();
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                var commandSource = new SqliteCommand(string.Format(@"
+                var commandSource = new SQLiteCommand(string.Format(@"
                     SELECT
 	                    Id,
 	                    FileName,
@@ -167,11 +167,11 @@ namespace Desene
         {
             var result = new List<SeriesEpisodesShortInfo>();
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                var cmd = new SqliteCommand("SELECT Id, FileName, AudioLanguages FROM FileDetail WHERE ParentId = @displayType ORDER BY FileName COLLATE NOCASE ASC", conn);
+                var cmd = new SQLiteCommand("SELECT Id, FileName, AudioLanguages FROM FileDetail WHERE ParentId = @displayType ORDER BY FileName COLLATE NOCASE ASC", conn);
                 cmd.Parameters.AddWithValue("@displayType", (int)SeriesType);
 
                 using (var reader = cmd.ExecuteReader())
@@ -196,11 +196,11 @@ namespace Desene
 
         public static string GetSeriesTitleFromId(int seriesId)
         {
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                var commandSource = new SqliteCommand(string.Format("SELECT FileName FROM FileDetail WHERE Id = {0}", seriesId), conn);
+                var commandSource = new SQLiteCommand(string.Format("SELECT FileName FROM FileDetail WHERE Id = {0}", seriesId), conn);
 
                 using (var reader = commandSource.ExecuteReader())
                 {
@@ -218,11 +218,11 @@ namespace Desene
         {
             var result = new List<SeriesEpisodesShortInfo>();
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                var commandSource = new SqliteCommand(string.Format("SELECT DISTINCT Season FROM FileDetail WHERE ParentId = {0} ORDER BY Season", seriesId), conn);
+                var commandSource = new SQLiteCommand(string.Format("SELECT DISTINCT Season FROM FileDetail WHERE ParentId = {0} ORDER BY Season", seriesId), conn);
 
                 using (var reader = commandSource.ExecuteReader())
                 {
@@ -260,11 +260,11 @@ namespace Desene
         {
             var result = new List<SeriesEpisodesShortInfo>();
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                var commandSource = new SqliteCommand(string.Format("SELECT * FROM FileDetail WHERE ParentId = {0} AND Season = '{1}' ORDER BY FileName COLLATE NOCASE ASC", seriesId, seasonVal), conn);
+                var commandSource = new SQLiteCommand(string.Format("SELECT * FROM FileDetail WHERE ParentId = {0} AND Season = '{1}' ORDER BY FileName COLLATE NOCASE ASC", seriesId, seasonVal), conn);
 
                 using (var reader = commandSource.ExecuteReader())
                 {
@@ -277,7 +277,7 @@ namespace Desene
                             Theme = reader["Theme"].ToString(),
                             Quality = reader["Quality"].ToString(),
                             Season = seasonVal,
-                            SeriesId = (int)(long)reader["ParentId"],
+                            SeriesId = (int)reader["ParentId"],
                             IsEpisode = true
                         });
                     }
@@ -296,12 +296,12 @@ namespace Desene
         {
             var result = new List<MovieTechnicalDetails>();
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
                 var commandSource =
-                    new SqliteCommand(
+                    new SQLiteCommand(
                         string.Format(@"
                             SELECT
                                 fd.Id,
@@ -357,12 +357,12 @@ namespace Desene
         {
             var result = new List<MovieTechnicalDetails>();
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
                 var commandSource =
-                    new SqliteCommand(
+                    new SQLiteCommand(
                         string.Format(@"
                             SELECT
                                 fd.Id,
@@ -405,7 +405,7 @@ namespace Desene
         {
             var result = new List<SeriesEpisodesShortInfo>();
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
@@ -423,13 +423,13 @@ namespace Desene
                             : "-1",
                         filterBy);
 
-                var commandSource = new SqliteCommand(sqlString, conn);
+                var commandSource = new SQLiteCommand(sqlString, conn);
 
                 using (var reader = commandSource.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        var parentId = (int)(long)reader["ParentId"];
+                        var parentId = (int)reader["ParentId"];
 
                         if (parentId > 0)
                         {
@@ -508,7 +508,7 @@ namespace Desene
 
             try
             {
-                using (var conn = new SqliteConnection(Constants.ConnectionString))
+                using (var conn = new SQLiteConnection(Constants.ConnectionString))
                 {
                     conn.Open();
 
@@ -534,7 +534,7 @@ namespace Desene
                             @Trailer,
                             @displayType)";
 
-                    var cmd = new SqliteCommand(insertString, conn);
+                    var cmd = new SQLiteCommand(insertString, conn);
                     cmd.Parameters.AddWithValue("@FileName", title);
                     cmd.Parameters.AddWithValue("@InsertedDate", DateTime.Now);
                     cmd.Parameters.AddWithValue("@Recommended", recommended);
@@ -566,10 +566,10 @@ namespace Desene
 
             try
             {
-                using (var conn = new SqliteConnection(Constants.ConnectionString))
+                using (var conn = new SQLiteConnection(Constants.ConnectionString))
                 {
                     conn.Open();
-                    SqliteCommand cmd;
+                    SQLiteCommand cmd;
 
                     #region Checks
 
@@ -577,7 +577,7 @@ namespace Desene
                     {
                         var checks = "SELECT COUNT(*) FROM FileDetail WHERE ParentId = @ParentId AND FileName = @FileName AND FileSize = @FileSize";
 
-                        cmd = new SqliteCommand(checks, conn);
+                        cmd = new SQLiteCommand(checks, conn);
                         cmd.Parameters.AddWithValue("@ParentId", eip.ParentId);
                         cmd.Parameters.AddWithValue("@FileName", mtd.FileName);
                         cmd.Parameters.AddWithValue("@FileSize", mtd.FileSize);
@@ -591,7 +591,7 @@ namespace Desene
                     {
                         var checks = "SELECT COUNT(*) FROM FileDetail WHERE FileName = @FileName and ParentId IS NULL";
 
-                        cmd = new SqliteCommand(checks, conn);
+                        cmd = new SQLiteCommand(checks, conn);
                         cmd.Parameters.AddWithValue("@FileName", mtd.FileName);
 
                         var count = (int)(long)cmd.ExecuteScalar();
@@ -662,7 +662,7 @@ namespace Desene
                             @Synopsis
                         )";
 
-                    cmd = new SqliteCommand(insertString, conn);
+                    cmd = new SQLiteCommand(insertString, conn);
                     cmd.Parameters.AddWithValue("@FileName", mtd.FileName);
                     cmd.Parameters.AddWithValue("@Year", eip == null ? mtd.Year ?? (object)DBNull.Value : eip.Year);
                     cmd.Parameters.AddWithValue("@Format", mtd.Format);
@@ -721,7 +721,7 @@ namespace Desene
                     {
                         if (movieStill == null) continue;
 
-                        cmd = new SqliteCommand(insertString, conn);
+                        cmd = new SQLiteCommand(insertString, conn);
                         cmd.Parameters.AddWithValue("@FileDetailId", newFileDetailId);
                         cmd.Parameters.AddWithValue("@MovieStill", movieStill);
                         cmd.ExecuteNonQuery();
@@ -767,7 +767,7 @@ namespace Desene
 
                     foreach (var videoStream in mtd.VideoStreams)
                     {
-                        cmd = new SqliteCommand(insertString, conn);
+                        cmd = new SQLiteCommand(insertString, conn);
                         cmd.Parameters.AddWithValue("@FileDetailId", newFileDetailId);
                         cmd.Parameters.AddWithValue("@Index", index);
                         cmd.Parameters.AddWithValue("@Format", videoStream.Format);
@@ -825,7 +825,7 @@ namespace Desene
 
                     foreach (var audioStream in mtd.AudioStreams)
                     {
-                        cmd = new SqliteCommand(insertString, conn);
+                        cmd = new SQLiteCommand(insertString, conn);
                         cmd.Parameters.AddWithValue("@FileDetailId", newFileDetailId);
                         cmd.Parameters.AddWithValue("@Index", index);
                         cmd.Parameters.AddWithValue("@Format", audioStream.Format);
@@ -868,7 +868,7 @@ namespace Desene
 
                     foreach (var subtitleStream in mtd.SubtitleStreams)
                     {
-                        cmd = new SqliteCommand(insertString, conn);
+                        cmd = new SQLiteCommand(insertString, conn);
                         cmd.Parameters.AddWithValue("@FileDetailId", newFileDetailId);
                         cmd.Parameters.AddWithValue("@Index", index);
                         cmd.Parameters.AddWithValue("@Format", subtitleStream.Format);
@@ -898,10 +898,10 @@ namespace Desene
 
             try
             {
-                using (var conn = new SqliteConnection(Constants.ConnectionString))
+                using (var conn = new SQLiteConnection(Constants.ConnectionString))
                 {
                     conn.Open();
-                    SqliteCommand cmd;
+                    SQLiteCommand cmd;
                     var insertString = string.Empty;
 
                     var descriptionLink = string.Empty;
@@ -920,7 +920,7 @@ namespace Desene
                     {
                         if (eip.PreserveManuallySetData)
                         {
-                            cmd = new SqliteCommand(string.Format("SELECT * FROM FileDetail WHERE Id = {0}", existingFileInfo.Id), conn);
+                            cmd = new SQLiteCommand(string.Format("SELECT * FROM FileDetail WHERE Id = {0}", existingFileInfo.Id), conn);
 
                             using (var reader = cmd.ExecuteReader()) //cmd.ExecuteReader()
                             {
@@ -1004,7 +1004,7 @@ namespace Desene
                             @NlAudioSource
                         )";
 
-                    cmd = new SqliteCommand(insertString, conn);
+                    cmd = new SQLiteCommand(insertString, conn);
                     cmd.Parameters.AddWithValue("@FileName", mtd.FileName);
                     cmd.Parameters.AddWithValue("@Year", string.IsNullOrEmpty(year) ? (object)DBNull.Value : year);
                     cmd.Parameters.AddWithValue("@Format", mtd.Format);
@@ -1057,7 +1057,7 @@ namespace Desene
                     {
                         if (movieStill == null) continue;
 
-                        cmd = new SqliteCommand(insertString, conn);
+                        cmd = new SQLiteCommand(insertString, conn);
                         cmd.Parameters.AddWithValue("@FileDetailId", newFileDetailId);
                         cmd.Parameters.AddWithValue("@MovieStill", movieStill);
                         cmd.ExecuteNonQuery();
@@ -1103,7 +1103,7 @@ namespace Desene
 
                     foreach (var videoStream in mtd.VideoStreams)
                     {
-                        cmd = new SqliteCommand(insertString, conn);
+                        cmd = new SQLiteCommand(insertString, conn);
                         cmd.Parameters.AddWithValue("@FileDetailId", newFileDetailId);
                         cmd.Parameters.AddWithValue("@Index", index);
                         cmd.Parameters.AddWithValue("@Format", videoStream.Format);
@@ -1161,7 +1161,7 @@ namespace Desene
 
                     foreach (var audioStream in mtd.AudioStreams)
                     {
-                        cmd = new SqliteCommand(insertString, conn);
+                        cmd = new SQLiteCommand(insertString, conn);
                         cmd.Parameters.AddWithValue("@FileDetailId", newFileDetailId);
                         cmd.Parameters.AddWithValue("@Index", index);
                         cmd.Parameters.AddWithValue("@Format", audioStream.Format);
@@ -1204,7 +1204,7 @@ namespace Desene
 
                     foreach (var subtitleStream in mtd.SubtitleStreams)
                     {
-                        cmd = new SqliteCommand(insertString, conn);
+                        cmd = new SQLiteCommand(insertString, conn);
                         cmd.Parameters.AddWithValue("@FileDetailId", newFileDetailId);
                         cmd.Parameters.AddWithValue("@Index", index);
                         cmd.Parameters.AddWithValue("@Format", subtitleStream.Format);
@@ -1267,7 +1267,7 @@ namespace Desene
 
             try
             {
-                using (var conn = new SqliteConnection(Constants.ConnectionString))
+                using (var conn = new SQLiteConnection(Constants.ConnectionString))
                 {
                     conn.Open();
 
@@ -1300,7 +1300,7 @@ namespace Desene
                                ,Synopsis = @Synopsis
                          WHERE Id = @Id";
 
-                    var cmd = new SqliteCommand(updateString, conn);
+                    var cmd = new SQLiteCommand(updateString, conn);
                     cmd.Parameters.AddWithValue("@FileName", CurrentMTD.FileName);
                     cmd.Parameters.AddWithValue("@Year", CurrentMTD.Year);
                     cmd.Parameters.AddWithValue("@Format", CurrentMTD.Format);
@@ -1381,7 +1381,7 @@ namespace Desene
 
                         foreach (var videoStream in CurrentMTD.VideoStreams)
                         {
-                            cmd = new SqliteCommand(updateString, conn);
+                            cmd = new SQLiteCommand(updateString, conn);
                             cmd.Parameters.AddWithValue("@Format", videoStream.Format);
                             cmd.Parameters.AddWithValue("@Format_Profile", videoStream.Format_Profile);
                             cmd.Parameters.AddWithValue("@BitRateMode", videoStream.BitRateMode);
@@ -1420,7 +1420,7 @@ namespace Desene
 
                         foreach (var audioStream in CurrentMTD.AudioStreams)
                         {
-                            cmd = new SqliteCommand(updateString, conn);
+                            cmd = new SQLiteCommand(updateString, conn);
                             cmd.Parameters.AddWithValue("@Format", audioStream.Format);
                             cmd.Parameters.AddWithValue("@BitRate", audioStream.BitRate);
                             cmd.Parameters.AddWithValue("@Channel", audioStream.Channel);
@@ -1451,7 +1451,7 @@ namespace Desene
 
                         foreach (var subtitleStream in CurrentMTD.SubtitleStreams)
                         {
-                            cmd = new SqliteCommand(updateString, conn);
+                            cmd = new SQLiteCommand(updateString, conn);
                             cmd.Parameters.AddWithValue("@Format", subtitleStream.Format);
                             cmd.Parameters.AddWithValue("@StreamSize", subtitleStream.StreamSize);
                             cmd.Parameters.AddWithValue("@TitleEmbedded", subtitleStream.HasTitle ? subtitleStream.Title : string.Empty);
@@ -1501,18 +1501,18 @@ namespace Desene
 
             try
             {
-                using (var conn = new SqliteConnection(Constants.ConnectionString))
+                using (var conn = new SQLiteConnection(Constants.ConnectionString))
                 {
                     conn.Open();
 
-                    var cmd = new SqliteCommand(string.Format("SELECT * FROM FileDetail WHERE Id = {0}", fileDetailId), conn);
+                    var cmd = new SQLiteCommand(string.Format("SELECT * FROM FileDetail WHERE Id = {0}", fileDetailId), conn);
 
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             mtd.Id = fileDetailId;
-                            mtd.ParentId = reader["ParentId"] == DBNull.Value ? (int?)null : (int)(long)reader["ParentId"];
+                            mtd.ParentId = reader["ParentId"] == DBNull.Value ? (int?)null : (int)reader["ParentId"];
                             mtd.FileName = reader["FileName"].ToString();
                             mtd.Year = reader["Year"].ToString();
                             mtd.Format = reader["Format"].ToString();
@@ -1546,7 +1546,7 @@ namespace Desene
 
                     if (fullLoad)
                     {
-                        cmd = new SqliteCommand(string.Format("SELECT * FROM VideoStream WHERE FileDetailId = {0} ORDER BY [Index]", fileDetailId), conn);
+                        cmd = new SQLiteCommand(string.Format("SELECT * FROM VideoStream WHERE FileDetailId = {0} ORDER BY [Index]", fileDetailId), conn);
 
                         using (var reader = cmd.ExecuteReader())
                         {
@@ -1554,28 +1554,27 @@ namespace Desene
 
                             while (reader.Read())
                             {
-                                mtd.VideoStreams.Add(
-                                    new VideoStreamInfo
-                                    {
-                                        Id = (int)(long)reader["Id"],
-                                        Index = (int)(long)reader["Index"],
-                                        Format = reader["Format"].ToString(),
-                                        Format_Profile = reader["Format_Profile"].ToString(),
-                                        BitRateMode = reader["BitRateMode"].ToString(),
-                                        BitRate = reader["BitRate"].ToString(),
-                                        Width = reader["Width"].ToString(),
-                                        Height = reader["Height"].ToString(),
-                                        FrameRate_Mode = reader["FrameRate_Mode"].ToString(),
-                                        FrameRate = reader["FrameRate"].ToString(),
-                                        Delay = reader["Delay"].ToString(),
-                                        StreamSize = reader["StreamSize"].ToString(),
-                                        Title = reader["TitleEmbedded"].ToString(),
-                                        Language = reader["Language"].ToString()
-                                    });
+                                var vsObj = new VideoStreamInfo();
+                                vsObj.Id = (int)(long)reader["Id"];
+                                vsObj.Index = (int)reader["Index"];
+                                vsObj.Format = reader["Format"].ToString();
+                                vsObj.Format_Profile = reader["Format_Profile"].ToString();
+                                vsObj.BitRateMode = reader["BitRateMode"].ToString();
+                                vsObj.BitRate = reader["BitRate"].ToString();
+                                vsObj.Width = reader["Width"].ToString();
+                                vsObj.Height = reader["Height"].ToString();
+                                vsObj.FrameRate_Mode = reader["FrameRate_Mode"].ToString();
+                                vsObj.FrameRate = reader["FrameRate"].ToString();
+                                vsObj.Delay = reader["Delay"].ToString();
+                                vsObj.StreamSize = reader["StreamSize"].ToString();
+                                vsObj.Title = reader["TitleEmbedded"].ToString();
+                                vsObj.Language = reader["Language"].ToString();
+
+                                mtd.VideoStreams.Add(vsObj);
                             }
                         }
 
-                        cmd = new SqliteCommand(string.Format("SELECT * FROM AudioStream WHERE FileDetailId = {0} ORDER BY [Index]", fileDetailId), conn);
+                        cmd = new SQLiteCommand(string.Format("SELECT * FROM AudioStream WHERE FileDetailId = {0} ORDER BY [Index]", fileDetailId), conn);
 
                         using (var reader = cmd.ExecuteReader())
                         {
@@ -1587,7 +1586,7 @@ namespace Desene
                                     new AudioStreamInfo
                                     {
                                         Id = (int)(long)reader["Id"],
-                                        Index = (int)(long)reader["Index"],
+                                        Index = (int)reader["Index"],
                                         Format = reader["Format"].ToString(),
                                         BitRate = reader["BitRate"].ToString(),
                                         Channel = reader["Channel"].ToString(),
@@ -1599,12 +1598,12 @@ namespace Desene
                                         StreamSize = reader["StreamSize"].ToString(),
                                         Title = reader["TitleEmbedded"].ToString(),
                                         Language = reader["Language"].ToString(),
-                                        AudioSource = (int)(long)reader["AudioSource"]
+                                        AudioSource = (int)reader["AudioSource"]
                                     });
                             }
                         }
 
-                        cmd = new SqliteCommand(string.Format("SELECT * FROM SubtitleStream WHERE FileDetailId = {0} ORDER BY [Index]", fileDetailId), conn);
+                        cmd = new SQLiteCommand(string.Format("SELECT * FROM SubtitleStream WHERE FileDetailId = {0} ORDER BY [Index]", fileDetailId), conn);
 
                         using (var reader = cmd.ExecuteReader())
                         {
@@ -1616,7 +1615,7 @@ namespace Desene
                                     new SubtitleStreamInfo
                                     {
                                         Id = (int)(long)reader["Id"],
-                                        Index = (int)(long)reader["Index"],
+                                        Index = (int)reader["Index"],
                                         Format = reader["Format"].ToString(),
                                         StreamSize = reader["StreamSize"].ToString(),
                                         Title = reader["TitleEmbedded"].ToString(),
@@ -1643,11 +1642,11 @@ namespace Desene
         {
             var result = new CachedMovieStills { FileDetailId = fileDetailId };
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                var cmd = new SqliteCommand(string.Format("SELECT * FROM Thumbnails WHERE FileDetailId = {0}", fileDetailId), conn);
+                var cmd = new SQLiteCommand(string.Format("SELECT * FROM Thumbnails WHERE FileDetailId = {0}", fileDetailId), conn);
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -1690,13 +1689,13 @@ namespace Desene
         {
             var result = new OperationResult();
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 try
                 {
                     conn.Open();
 
-                    var cmd = new SqliteCommand(string.Format("SELECT Id FROM FileDetail WHERE ParentId = {0} AND Season = '{1}'", seriesId, seasonNo), conn);
+                    var cmd = new SQLiteCommand(string.Format("SELECT Id FROM FileDetail WHERE ParentId = {0} AND Season = '{1}'", seriesId, seasonNo), conn);
 
                     var episodeIds = new List<int>();
 
@@ -1723,13 +1722,13 @@ namespace Desene
         {
             var result = new OperationResult();
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 try
                 {
                     conn.Open();
 
-                    var cmd = new SqliteCommand(string.Format("SELECT Id FROM FileDetail WHERE ParentId = {0}", seriesId), conn);
+                    var cmd = new SQLiteCommand(string.Format("SELECT Id FROM FileDetail WHERE ParentId = {0}", seriesId), conn);
 
                     var episodeIds = new List<int> { seriesId };
 
@@ -1756,7 +1755,7 @@ namespace Desene
         {
             var result = new OperationResult();
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 try
                 {
@@ -1773,7 +1772,7 @@ namespace Desene
             return result;
         }
 
-        private static OperationResult RemoveData(string episodeIds, SqliteConnection conn, bool removeFromFileDetail = true)
+        private static OperationResult RemoveData(string episodeIds, SQLiteConnection conn, bool removeFromFileDetail = true)
         {
             var result = new OperationResult();
 
@@ -1787,7 +1786,7 @@ namespace Desene
                 foreach (var tableName in tableNames)
                 {
                     var cmd =
-                        new SqliteCommand(
+                        new SQLiteCommand(
                             string.Format("DELETE FROM {0} WHERE {1} IN ({2})",
                                 tableName,
                                 tableName == "FileDetail" ? "Id" : "FileDetailId",
@@ -1809,7 +1808,7 @@ namespace Desene
         {
             var result = new OperationResult();
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 try
                 {
@@ -1817,7 +1816,7 @@ namespace Desene
 
                     var sqlString = string.Empty;
                     var resultStr = "There are no movies in the list ...";
-                    SqliteCommand cmd = null;
+                    SQLiteCommand cmd = null;
 
                     switch (section)
                     {
@@ -1861,7 +1860,7 @@ namespace Desene
 
                                 ORDER BY Pos, Quality";
 
-                            cmd = new SqliteCommand(sqlString, conn);
+                            cmd = new SQLiteCommand(sqlString, conn);
 
                             using (var reader = cmd.ExecuteReader())
                             {
@@ -1914,7 +1913,7 @@ namespace Desene
                                         : -10
                                 );
 
-                            cmd = new SqliteCommand(sqlString, conn);
+                            cmd = new SQLiteCommand(sqlString, conn);
 
                             using (var reader = cmd.ExecuteReader())
                             {
@@ -1951,11 +1950,11 @@ namespace Desene
         {
             var result = new List<MovieForWeb>();
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                var commandSource = new SqliteCommand(@"
+                var commandSource = new SQLiteCommand(@"
                     SELECT DISTINCT
                         vs.BitRate
 
@@ -2068,11 +2067,11 @@ namespace Desene
         {
             var result = new List<MoviesDetails2ForWeb>();
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                var cmd1 = new SqliteCommand(
+                var cmd1 = new SQLiteCommand(
                     !getMovieTypeCollectionElements
                         ? @"
                             SELECT
@@ -2121,7 +2120,7 @@ namespace Desene
 
 
                         var cmd2 =
-                            new SqliteCommand(
+                            new SQLiteCommand(
                                 string.Format(@"
                                     SELECT
 	                                    Width || ' x ' || Height AS Col1,
@@ -2154,7 +2153,7 @@ namespace Desene
 
 
                         var cmd3 =
-                            new SqliteCommand(
+                            new SQLiteCommand(
                                 string.Format(@"
                                     SELECT
 	                                    Language,
@@ -2197,7 +2196,7 @@ namespace Desene
 
 
                         var cmd4 =
-                            new SqliteCommand(
+                            new SQLiteCommand(
                                 string.Format(@"
                                     SELECT
 	                                    Language
@@ -2244,14 +2243,14 @@ namespace Desene
         {
             byte[] result = null;
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
                 const string sqlString = @"
                     SELECT Poster FROM FileDetail WHERE Id = @id";
 
-                var cmd = new SqliteCommand(sqlString, conn);
+                var cmd = new SQLiteCommand(sqlString, conn);
                 cmd.Parameters.AddWithValue("@id", id);
 
                 using (var reader = cmd.ExecuteReader())
@@ -2283,11 +2282,11 @@ namespace Desene
         {
             var result = new List<SeriesForWeb>();
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                var cmd = new SqliteCommand(@"
+                var cmd = new SQLiteCommand(@"
                     SELECT
                         fd.Id,
                         fd.FileName,
@@ -2319,7 +2318,7 @@ namespace Desene
                         sfw.N = reader["Notes"].ToString();
                         //sfw.Cover = reader["Poster"] == DBNull.Value ? null : (byte[])reader["Poster"];
                         sfw.HasPoster = (int)(long)reader["HasPoster"] == 1;
-                        sfw.T = reader["SectionType"] == DBNull.Value ? 0 : (int)(long)reader["SectionType"];
+                        sfw.T = reader["SectionType"] == DBNull.Value ? 0 : (int)reader["SectionType"];
 
                         result.Add(sfw);
                     }
@@ -2333,11 +2332,11 @@ namespace Desene
         {
             var result = new List<EpisodesForWeb>();
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                var cmd = new SqliteCommand(@"
+                var cmd = new SQLiteCommand(@"
                         SELECT
                             fd.Id,
                             fd.ParentId,
@@ -2383,7 +2382,7 @@ namespace Desene
                         */
                         var efw = new EpisodesForWeb();
                         efw.Id = (int)(long)reader["Id"];
-                        efw.SId = (int)(long)reader["ParentId"];
+                        efw.SId = (int)reader["ParentId"];
                         efw.FN = reader["FileName"].ToString();
                         efw.SZ = reader["Season"].ToString(); //seasonNo;
                         efw.Y = reader["Year"].ToString();
@@ -2558,11 +2557,11 @@ namespace Desene
         {
             var result = new List<CollectionElementForWeb>();
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                var cmd = new SqliteCommand(@"
+                var cmd = new SQLiteCommand(@"
                         SELECT
                             fd.Id,
                             fd.ParentId,
@@ -2613,7 +2612,7 @@ namespace Desene
                     {
                         var efw = new CollectionElementForWeb();
                         efw.Id = (int)(long)reader["Id"];
-                        efw.CId = (int)(long)reader["ParentId"];
+                        efw.CId = (int)reader["ParentId"];
                         efw.FN = reader["FileName"].ToString();
                         efw.R = reader["Recommended"].ToString();
                         efw.RL = reader["RecommendedLink"].ToString();
@@ -2680,7 +2679,7 @@ namespace Desene
         {
             var result = new List<SeriesEpisodesShortInfo>();
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
@@ -2691,7 +2690,7 @@ namespace Desene
                     WHERE fd1.ParentId = -1
                     ORDER BY fd1.FileName
                  */
-                var commandSource = new SqliteCommand("SELECT Id, FileName, SectionType, Notes FROM FileDetail WHERE ParentId = -10 ORDER BY FileName", conn);
+                var commandSource = new SQLiteCommand("SELECT Id, FileName, SectionType, Notes FROM FileDetail WHERE ParentId = -10 ORDER BY FileName", conn);
 
                 using (var reader = commandSource.ExecuteReader())
                 {
@@ -2704,7 +2703,7 @@ namespace Desene
                             Season = string.Empty,
                             SeriesId = (int)(long)reader["Id"],
                             IsSeries = true,
-                            SectionType = (int)(long)reader["SectionType"],
+                            SectionType = (int)reader["SectionType"],
                             Notes = reader["Notes"].ToString()
                         });
                     }
@@ -2722,16 +2721,16 @@ namespace Desene
 
             try
             {
-                using (var conn = new SqliteConnection(Constants.ConnectionString))
+                using (var conn = new SQLiteConnection(Constants.ConnectionString))
                 {
                     conn.Open();
-                    SqliteCommand cmd;
+                    SQLiteCommand cmd;
 
                     #region Checks
 
                     var checks = "SELECT COUNT(*) FROM FileDetail WHERE ParentId = @ParentId AND FileName = @FileName";
 
-                    cmd = new SqliteCommand(checks, conn);
+                    cmd = new SQLiteCommand(checks, conn);
                     cmd.Parameters.AddWithValue("@ParentId", parentId);
                     cmd.Parameters.AddWithValue("@FileName", title);
                     //sectionType
@@ -2762,7 +2761,7 @@ namespace Desene
                             @Poster
                         )";
 
-                    cmd = new SqliteCommand(insertString, conn);
+                    cmd = new SQLiteCommand(insertString, conn);
                     cmd.Parameters.AddWithValue("@FileName", title);
                     cmd.Parameters.AddWithValue("@ParentId", parentId);
                     cmd.Parameters.AddWithValue("@Notes", string.IsNullOrEmpty(notes) ? (object)DBNull.Value : notes);
@@ -2794,10 +2793,10 @@ namespace Desene
 
             try
             {
-                using (var conn = new SqliteConnection(Constants.ConnectionString))
+                using (var conn = new SQLiteConnection(Constants.ConnectionString))
                 {
                     conn.Open();
-                    SqliteCommand cmd;
+                    SQLiteCommand cmd;
 
                     var insertString = @"
                         UPDATE FileDetail
@@ -2807,7 +2806,7 @@ namespace Desene
                                Poster = @Poster
                          WHERE Id = @Id";
 
-                    cmd = new SqliteCommand(insertString, conn);
+                    cmd = new SQLiteCommand(insertString, conn);
                     cmd.Parameters.AddWithValue("@FileName", title);
                     cmd.Parameters.AddWithValue("@Notes", string.IsNullOrEmpty(notes) ? (object)DBNull.Value : notes);
                     cmd.Parameters.AddWithValue("@SectionType", sectionType);
@@ -2832,11 +2831,11 @@ namespace Desene
         {
             var result = new List<SeriesEpisodesShortInfo>();
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                var commandSource = new SqliteCommand(string.Format("SELECT Id, FileName, Theme, Quality, ParentId FROM FileDetail WHERE ParentId = {0} ORDER BY FileName", collectionId), conn);
+                var commandSource = new SQLiteCommand(string.Format("SELECT Id, FileName, Theme, Quality, ParentId FROM FileDetail WHERE ParentId = {0} ORDER BY FileName", collectionId), conn);
 
                 using (var reader = commandSource.ExecuteReader())
                 {
@@ -2849,7 +2848,7 @@ namespace Desene
                             Theme = reader["Theme"].ToString(),
                             Quality = reader["Quality"].ToString(),
                             Season = "0", //???
-                            SeriesId = (int)(long)reader["ParentId"],
+                            SeriesId = (int)reader["ParentId"],
                             IsEpisode = true,
                             SectionType = parentSectionType
                         });
@@ -2865,7 +2864,7 @@ namespace Desene
             var result = new OperationResult();
             var episodes = string.Join(",", selectedEpisodes);
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 conn.Open();
                 var tx = conn.BeginTransaction();
@@ -2911,7 +2910,7 @@ namespace Desene
                                     fvc.FieldName, fvc.Value, episodes);
                             }
 
-                            var cmd = new SqliteCommand(sqlString, conn);
+                            var cmd = new SQLiteCommand(sqlString, conn);
                             cmd.Transaction = tx;
                             cmd.ExecuteNonQuery();
 
@@ -2926,7 +2925,7 @@ namespace Desene
                                     WHERE FileDetailId IN ({0})",
                                     episodes);
 
-                                cmd = new SqliteCommand(sqlString, conn);
+                                cmd = new SQLiteCommand(sqlString, conn);
                                 cmd.Transaction = tx;
                                 var newLanguageValues = new List<SelectableElement>();
 
@@ -2934,7 +2933,7 @@ namespace Desene
                                 {
                                     while (reader.Read())
                                     {
-                                        newLanguageValues.Add(new SelectableElement((int)(long)reader["FileDetailId"], reader["Language"].ToString()));
+                                        newLanguageValues.Add(new SelectableElement((int)reader["FileDetailId"], reader["Language"].ToString()));
                                     }
                                 }
 
@@ -2953,7 +2952,7 @@ namespace Desene
 
                                 foreach (var gEl in groupList)
                                 {
-                                    cmd = new SqliteCommand(string.Format(sqlString, gEl.Description, gEl.Value), conn);
+                                    cmd = new SQLiteCommand(string.Format(sqlString, gEl.Description, gEl.Value), conn);
                                     cmd.Transaction = tx;
                                     cmd.ExecuteNonQuery();
                                 }
@@ -2979,11 +2978,11 @@ namespace Desene
         //{
         //    var result = new List<MovieForWeb>();
 
-        //    using (var conn = new SqliteConnection(Constants.ConnectionString))
+        //    using (var conn = new SQLiteConnection(Constants.ConnectionString))
         //    {
         //        conn.Open();
 
-        //        var commandSource = new SqliteCommand(@"
+        //        var commandSource = new SQLiteCommand(@"
         //            SELECT
         //                vs.BitRate,
         //             CASE
@@ -3016,11 +3015,11 @@ namespace Desene
         {
             var result = new List<MovieForWeb>();
 
-            using (var conn = new SqliteConnection(Constants.ConnectionString))
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                var commandSource = new SqliteCommand(string.Format(@"
+                var commandSource = new SQLiteCommand(string.Format(@"
                         SELECT
 	                        CASE
                                 WHEN Poster IS NULL THEN 0
@@ -3069,7 +3068,7 @@ namespace Desene
                         mfw.Tr = GetTrailerId(reader["Trailer"].ToString());
 
                         //mfw.Cover = reader["Poster"] == DBNull.Value ? null : (byte[])reader["Poster"];
-                        mfw.HasPoster = (int)(long)reader["HasPoster"] == 1;
+                        mfw.HasPoster = (reader["HasPoster"].GetType() == typeof(long) ? (int)(long)reader["HasPoster"] : (int)reader["HasPoster"]) == 1;
 
                         if (mfw.HasPoster)
                             mfw.Cover = (byte[])reader["Poster"];
@@ -3116,7 +3115,7 @@ namespace Desene
 
             try
             {
-                using (var conn = new SqliteConnection(Constants.ConnectionString))
+                using (var conn = new SQLiteConnection(Constants.ConnectionString))
                 {
                     conn.Open();
 
@@ -3137,7 +3136,7 @@ namespace Desene
                                 FROM FileDetail fd
                                 WHERE ParentId = -1";
 
-                    var commandSource = new SqliteCommand(sqlStrig, conn);
+                    var commandSource = new SQLiteCommand(sqlStrig, conn);
 
                     using (var reader = commandSource.ExecuteReader())
                     {
@@ -3163,7 +3162,7 @@ namespace Desene
 
             try
             {
-                using (var conn = new SqliteConnection(Constants.ConnectionString))
+                using (var conn = new SQLiteConnection(Constants.ConnectionString))
                 {
                     conn.Open();
 
@@ -3178,7 +3177,7 @@ namespace Desene
                             ? " AND (Synopsis IS NULL OR Synopsis = '')"
                             : string.Empty);
 
-                    var commandSource = new SqliteCommand(sqlStrig, conn);
+                    var commandSource = new SQLiteCommand(sqlStrig, conn);
 
                     using (var reader = commandSource.ExecuteReader())
                     {
@@ -3211,7 +3210,7 @@ namespace Desene
 
             try
             {
-                using (var conn = new SqliteConnection(Constants.ConnectionString))
+                using (var conn = new SQLiteConnection(Constants.ConnectionString))
                 {
                     conn.Open();
 
@@ -3220,7 +3219,7 @@ namespace Desene
                            SET Synopsis = @Synopsis
                          WHERE Id = @Id";
 
-                    var cmd = new SqliteCommand(updateString, conn);
+                    var cmd = new SQLiteCommand(updateString, conn);
                     cmd.Parameters.AddWithValue("@Synopsis", synopsis);
                     cmd.Parameters.AddWithValue("@Id", movieId);
 
@@ -3245,11 +3244,11 @@ namespace Desene
                 var episodesAudioLanguages = new List<string>();
                 var audios = "?";
 
-                using (var conn = new SqliteConnection(Constants.ConnectionString))
+                using (var conn = new SQLiteConnection(Constants.ConnectionString))
                 {
                     conn.Open();
 
-                    var cmd = new SqliteCommand(@"
+                    var cmd = new SQLiteCommand(@"
                         SELECT DISTINCT
                             fd.AudioLanguages
                         FROM FileDetail fd
@@ -3280,7 +3279,7 @@ namespace Desene
                                SET AudioLanguages = @audios
                              WHERE Id = @seriesId";
 
-                    cmd = new SqliteCommand(updateString, conn);
+                    cmd = new SQLiteCommand(updateString, conn);
                         cmd.Parameters.AddWithValue("@audios", audios);
                         cmd.Parameters.AddWithValue("@seriesId", seriesId);
 
@@ -3303,17 +3302,17 @@ namespace Desene
 
             try
             {
-                using (var conn = new SqliteConnection(Constants.ConnectionString))
+                using (var conn = new SQLiteConnection(Constants.ConnectionString))
                 {
                     conn.Open();
-                    SqliteCommand cmd;
+                    SQLiteCommand cmd;
 
                     var insertString = @"
                         UPDATE FileDetail
                            SET Season = @newName
                          WHERE ParentId = @seriesId AND Season = @oldName";
 
-                    cmd = new SqliteCommand(insertString, conn);
+                    cmd = new SQLiteCommand(insertString, conn);
                     cmd.Parameters.AddWithValue("@newName", newName);
                     cmd.Parameters.AddWithValue("@seriesId", seriesId);
                     cmd.Parameters.AddWithValue("@oldName", oldName);
