@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using Common;
 
 using DAL;
-
+using Desene.DetailFormsAndUserControls.Movies;
 using Desene.DetailFormsAndUserControls.Shared;
 
 using Utils;
@@ -27,11 +27,18 @@ namespace Desene.DetailFormsAndUserControls
             get { return tbTitle.Text; }
         }
 
+        public bool GetCSMData
+        {
+            get { return cbGrabCSMData.Checked; }
+        }
+
         public ucMovieInfo()
         {
             InitializeComponent();
 
             _isNew = true;
+            pbDbDates.Visible = false;
+            bRefreshCSMData.Visible = false;
             PostConstructor();
         }
 
@@ -44,6 +51,7 @@ namespace Desene.DetailFormsAndUserControls
 
             _isNew = isNew.GetValueOrDefault(true);
             pbDbDates.Visible = !_isNew;
+            bRefreshCSMData.Visible = !_isNew;
 
             PostConstructor();
         }
@@ -61,6 +69,7 @@ namespace Desene.DetailFormsAndUserControls
             //button1.CanSelect = false;
 
             ttTitleContent.SetToolTip(chbTitle, "The file doesn't have a 'Title' tag");
+            ttTitleContent.SetToolTip(cbGrabCSMData, "Attemp to grab meaningful data from CommonSenseMedia site on save");
         }
 
         private void ucMovieInfo_Load(object sender, EventArgs e)
@@ -68,6 +77,11 @@ namespace Desene.DetailFormsAndUserControls
             tbmDuration.ValidatingType = typeof(TimeSpan);
             tbDummyForFocus.Location = new Point(tbNotes.Left + 10, tbNotes.Top + 10);
             tbSizeAsInt.Location = new Point(tbSize.Left + 10, tbSize.Top);
+
+            var tt2 = new ToolTip(); //ttTitleContent not working?!!
+            tt2.SetToolTip(bGotoDescription, "Navigate using the default system browser to the current Description link");
+            tt2.SetToolTip(bGotoTrailer, "Navigate using the default system browser to the current Trailer link");
+            tt2.SetToolTip(bRefreshCSMData, "Reload data from CommonSenseMedia");
         }
 
         private void InitControls()
@@ -168,6 +182,14 @@ namespace Desene.DetailFormsAndUserControls
                 {
                     SetMovieStills(mtd.MovieStills);
                 }
+
+
+                var tt3 = new ToolTip(); //ttTitleContent not working?!!
+                tt3.SetToolTip(bGotoRecommendedSite, mtd.HasRecommendedDataSaved
+                    ? "Displays a window showing the last scraped/passed data from CommmonSenseMedia site"
+                    : "Navigate using the default system browser to the current CommonSenseMedia link");
+
+                _hasRecommendedDataSaved = mtd.HasRecommendedDataSaved;
             }
             finally
             {
@@ -175,6 +197,8 @@ namespace Desene.DetailFormsAndUserControls
                 Cursor = Cursors.Default;
             }
         }
+
+        private bool _hasRecommendedDataSaved;
 
         private void LoadControls2()
         {
@@ -450,8 +474,16 @@ namespace Desene.DetailFormsAndUserControls
 
         private void bGotoRecommendedSite_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(tbRecommendedLink.Text))
-                System.Diagnostics.Process.Start(tbRecommendedLink.Text);
+            if (_hasRecommendedDataSaved)
+            {
+                var frmRecommendedData = new FrmRecommendedData(DAL.CurrentMTD.Id);
+                frmRecommendedData.ShowDialog();
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(tbRecommendedLink.Text))
+                    System.Diagnostics.Process.Start(tbRecommendedLink.Text);
+            }
         }
 
         private void bGotoTrailer_Click(object sender, EventArgs e)
@@ -519,6 +551,53 @@ namespace Desene.DetailFormsAndUserControls
         {
             if (e.KeyChar == (char)Keys.Return)
                 TryGetSynopsis();
+        }
+
+        private void bRefreshCSMData_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+
+                if (!string.IsNullOrEmpty(DAL.CurrentMTD.RecommendedLink))
+                {
+                    if (!DAL.CurrentMTD.RecommendedLink.ToLower().Contains("commonsensemedia"))
+                    {
+                        Utils.Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "Recommended data",
+                            "The 'recommended' data is from a site which doesn't have scraper and parser built!", 5000, ParentForm);
+                    }
+                    else
+                    {
+                        var opRes = WebScraping.GetCommonSenseMediaData(DAL.CurrentMTD.RecommendedLink);
+
+                        if (!opRes.Success)
+                        {
+                            Utils.Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "Recommended data",
+                                opRes.CustomErrorMessage, 5000, ParentForm);
+                        }
+                        else
+                        {
+                            opRes = Desene.DAL.SaveCommonSenseMediaData(DAL.CurrentMTD.Id, (CSMScrapeResult)opRes.AdditionalDataReturn);
+
+                            if (!opRes.Success)
+                            {
+                                Utils.Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "Recommended data",
+                                    opRes.CustomErrorMessage, 5000, ParentForm);
+                            }
+                            else
+                            {
+                                _hasRecommendedDataSaved = true;
+                                Utils.Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Information, "Recommended data",
+                                    "CommonSenseMedia data was scraped, parsed and saved succesfully!", 5000, ParentForm);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
 
 

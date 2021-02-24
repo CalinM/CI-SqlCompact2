@@ -171,6 +171,16 @@ namespace Desene.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap consumerism {
+            get {
+                object obj = ResourceManager.GetObject("consumerism", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 
         ///
         ///function RenderCollections(){
@@ -256,19 +266,18 @@ namespace Desene.Properties {
         ///var showingSeries;
         ///
         ///function RenderSeriesTypeView() {
-        ///    $(this).addClass(&quot;selected-subSection&quot;);
+        ///    var sectionHtml;
         ///
-        ///    var sectionHtml =
-        ///        &quot;&lt;table id=\&quot;seriesHeaderTable\&quot; class=\&quot;tableWrapper\&quot;&gt;&quot; +
-        ///        &quot;&lt;tr class=\&quot;headerRow\&quot;&gt;&quot; +
-        ///        &quot;&lt;td style=\&quot;width: 30px;\&quot;&gt;&quot; +
-        ///        &quot;&lt;/td&gt;&quot; +
-        ///        &quot;&lt;td&gt;&quot; +
-        ///        &quot;Series name&lt;/br&gt;/ Episode title&quot; +
-        ///        &quot;&lt;/td&gt;&quot; +
-        ///        &quot;&lt;td class=\&quot;markerCol\&quot;&gt;&quot; +
-        ///        &quot;&lt;/td&gt;&quot; +
-        ///        &quot;&lt;td [rest of string was truncated]&quot;;.
+        ///    if (isMobile())
+        ///    {
+        ///        sectionHtml =
+        ///            &quot;&lt;div class=\&quot;container\&quot;&gt;&quot; +
+        ///                &quot;&lt;div class=\&quot;cards\&quot;&gt;&quot;;
+        ///
+        ///        currentSeriesTypeViewDataM.forEach(function (el) {
+        ///            sectionHtml +=
+        ///                    &quot;&lt;div class=\&quot;cardM\&quot;&gt;&quot; +
+        ///                        &quot;&lt;div class=\&quot;movie-detail-wrapper\&quot; data-movieId=\&quot;&quot; + el.Id + &quot;\&quot;&gt; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string cr_seriesJS {
             get {
@@ -301,6 +310,16 @@ namespace Desene.Properties {
         internal static string cr_sharedJS {
             get {
                 return ResourceManager.GetString("cr_sharedJS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap csm_recommended_age {
+            get {
+                object obj = ResourceManager.GetObject("csm_recommended_age", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -350,6 +369,26 @@ namespace Desene.Properties {
         internal static string deseneCSS {
             get {
                 return ResourceManager.GetString("deseneCSS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap drinking_druge_smoking {
+            get {
+                object obj = ResourceManager.GetObject("drinking_druge_smoking", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap educational_value {
+            get {
+                object obj = ResourceManager.GetObject("educational_value", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -501,6 +540,16 @@ namespace Desene.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap info2 {
+            get {
+                object obj = ResourceManager.GetObject("info2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to /*! jQuery v2.2.4 | (c) jQuery Foundation | jquery.org/license */
         ///!function(a,b){&quot;object&quot;==typeof module&amp;&amp;&quot;object&quot;==typeof module.exports?module.exports=a.document?b(a,!0):function(a){if(!a.document)throw new Error(&quot;jQuery requires a window with a document&quot;);return b(a)}:b(a)}(&quot;undefined&quot;!=typeof window?window:this,function(a,b){var c=[],d=a.document,e=c.slice,f=c.concat,g=c.push,h=c.indexOf,i={},j=i.toString,k=i.hasOwnProperty,l={},m=&quot;2.2.4&quot;,n=function(a,b){return new n.fn.init(a,b)},o=/^[\s\uFEFF\xA0]+|[ [rest of string was truncated]&quot;;.
         /// </summary>
@@ -641,6 +690,16 @@ namespace Desene.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap language {
+            get {
+                object obj = ResourceManager.GetObject("language", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap mickey_mouse {
             get {
                 object obj = ResourceManager.GetObject("mickey_mouse", resourceCulture);
@@ -694,7 +753,7 @@ namespace Desene.Properties {
         /// * Copyright 2013-2018 David Deutsch
         /// * Licensed under: SEE LICENSE IN https://github.com/OwlCarousel2/OwlCarousel2/blob/master/LICENSE
         /// */
-        ///.owl-carousel,.owl-carousel .owl-item{-webkit-tap-highlight-color:transparent;position:relative}.owl-carousel{display:none;width:100%;z-index:1}.owl-carousel .owl-stage{position:relative;-ms-touch-action:pan-Y;touch-action:manipulation;-moz-backface-visibility:hidden}.owl-carousel .owl-stage:after{content:&quot;.&quot;;display:block;clear:both;visibilit [rest of string was truncated]&quot;;.
+        ///.owl-carousel,.owl-carousel .owl-item{-webkit-tap-highlight-color:transparent;position:relative}.owl-carousel{display:none;width:100%;z-index:1}.owl-carousel .owl-stage{position:relative;-ms-touch-action:pan-Y;touch-action:manipulation;-moz-backface-visibility:hidden}.owl-carousel .owl-stage:after{content:&quot;.&quot;;display:block;clear:both;visi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string owl_carousel_minCSS {
             get {
@@ -708,7 +767,7 @@ namespace Desene.Properties {
         /// * Copyright 2013-2018 David Deutsch
         /// * Licensed under: SEE LICENSE IN https://github.com/OwlCarousel2/OwlCarousel2/blob/master/LICENSE
         /// */
-        ///!function(a,b,c,d){function e(b,c){this.settings=null,this.options=a.extend({},e.Defaults,c),this.$element=a(b),this._handlers={},this._plugins={},this._supress={},this._current=null,this._speed=null,this._coordinates=[],this._breakpoint=null,this._width=null,this._items=[],this._clones=[],this._mergers=[],this._widths=[],this._invalidated={}, [rest of string was truncated]&quot;;.
+        ///!function(a,b,c,d){function e(b,c){this.settings=null,this.options=a.extend({},e.Defaults,c),this.$element=a(b),this._handlers={},this._plugins={},this._supress={},this._current=null,this._speed=null,this._coordinates=[],this._breakpoint=null,this._width=null,this._items=[],this._clones=[],this._mergers=[],this._widths=[],this._invalidate [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string owl_carousel_minJS {
             get {
@@ -722,6 +781,36 @@ namespace Desene.Properties {
         internal static System.Drawing.Bitmap pixel {
             get {
                 object obj = ResourceManager.GetObject("pixel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Plugin {
+            get {
+                object obj = ResourceManager.GetObject("Plugin", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap positive_messages {
+            get {
+                object obj = ResourceManager.GetObject("positive_messages", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap positive_role_models {
+            get {
+                object obj = ResourceManager.GetObject("positive_role_models", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -860,6 +949,16 @@ namespace Desene.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap sexy_stuff {
+            get {
+                object obj = ResourceManager.GetObject("sexy_stuff", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap sort {
             get {
                 object obj = ResourceManager.GetObject("sort", resourceCulture);
@@ -880,9 +979,29 @@ namespace Desene.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap tools {
+            get {
+                object obj = ResourceManager.GetObject("tools", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap undo {
             get {
                 object obj = ResourceManager.GetObject("undo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap violence {
+            get {
+                object obj = ResourceManager.GetObject("violence", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

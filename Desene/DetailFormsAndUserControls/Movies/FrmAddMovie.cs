@@ -3,7 +3,8 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-
+using Common;
+using DAL;
 using Desene.Properties;
 
 using Utils;
@@ -122,6 +123,35 @@ namespace Desene
             DAL.NewMTD.Id = (int)opRes.AdditionalDataReturn;
             DAL.CurrentMTD = DAL.NewMTD;
             Common.Helpers.UnsavedChanges = false;
+
+            if (ucMovieInfo1.GetCSMData && !string.IsNullOrEmpty(DAL.CurrentMTD.RecommendedLink))
+            {
+                if (!DAL.CurrentMTD.RecommendedLink.ToLower().Contains("commonsensemedia"))
+                {
+                    Utils.Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "Recommended data",
+                        "The 'recommended' data is from a site which doesn't have scraper and parser built!", 5000, this);
+                }
+                else
+                {
+                    opRes = WebScraping.GetCommonSenseMediaData(DAL.CurrentMTD.RecommendedLink);
+
+                    if (!opRes.Success)
+                    {
+                        Utils.Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "Recommended data",
+                            opRes.CustomErrorMessage, 5000, this);
+                    }
+                    else
+                    {
+                        opRes = Desene.DAL.SaveCommonSenseMediaData(DAL.CurrentMTD.Id, (CSMScrapeResult)opRes.AdditionalDataReturn);
+
+                        if (!opRes.Success)
+                        {
+                            Utils.Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "Recommended data",
+                                opRes.CustomErrorMessage, 5000, this);
+                        }
+                    }
+                }
+            }
 
             DialogResult = DialogResult.OK;
             Close();

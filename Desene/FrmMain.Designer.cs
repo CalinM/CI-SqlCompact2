@@ -52,7 +52,10 @@ namespace Desene
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.btnFilesDetails = new System.Windows.Forms.ToolStripButton();
             this.btnBuildFileNames = new System.Windows.Forms.ToolStripButton();
-            this.btnCheckFiles = new System.Windows.Forms.ToolStripButton();
+            this.ddbTools = new System.Windows.Forms.ToolStripDropDownButton();
+            this.miCheckFiles = new System.Windows.Forms.ToolStripMenuItem();
+            this.miImportSynopsis = new System.Windows.Forms.ToolStripMenuItem();
+            this.miImportCommonSenseMediaData = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.sslbStatistics = new System.Windows.Forms.ToolStripStatusLabel();
             this.sslbAdditionalInfo1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -83,7 +86,7 @@ namespace Desene
             this.toolStripSeparator3,
             this.btnFilesDetails,
             this.btnBuildFileNames,
-            this.btnCheckFiles});
+            this.ddbTools});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
@@ -253,14 +256,40 @@ namespace Desene
             this.btnBuildFileNames.Text = "Mix Netflix files names";
             this.btnBuildFileNames.Click += new System.EventHandler(this.BtnBuildFileNames_Click);
             // 
-            // btnCheckFiles
+            // ddbTools
             // 
-            this.btnCheckFiles.Image = global::Desene.Properties.Resources.CheckFileExistence;
-            this.btnCheckFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnCheckFiles.Name = "btnCheckFiles";
-            this.btnCheckFiles.Size = new System.Drawing.Size(136, 22);
-            this.btnCheckFiles.Text = "Check files existence";
-            this.btnCheckFiles.Click += new System.EventHandler(this.btnCheckFiles_Click);
+            this.ddbTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miCheckFiles,
+            this.miImportSynopsis,
+            this.miImportCommonSenseMediaData});
+            this.ddbTools.Image = global::Desene.Properties.Resources.tools;
+            this.ddbTools.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ddbTools.Name = "ddbTools";
+            this.ddbTools.Size = new System.Drawing.Size(63, 22);
+            this.ddbTools.Text = "Tools";
+            // 
+            // miCheckFiles
+            // 
+            this.miCheckFiles.Image = global::Desene.Properties.Resources.CheckFileExistence;
+            this.miCheckFiles.Name = "miCheckFiles";
+            this.miCheckFiles.Size = new System.Drawing.Size(271, 22);
+            this.miCheckFiles.Text = "Check file existence";
+            this.miCheckFiles.Click += new System.EventHandler(this.btnCheckFiles_Click);
+            // 
+            // miImportSynopsis
+            // 
+            this.miImportSynopsis.Image = global::Desene.Properties.Resources.accessories_text_editor_icon;
+            this.miImportSynopsis.Name = "miImportSynopsis";
+            this.miImportSynopsis.Size = new System.Drawing.Size(271, 22);
+            this.miImportSynopsis.Text = "Import synopsis from description link";
+            this.miImportSynopsis.Click += new System.EventHandler(this.btnImportSynopsis_Click);
+            // 
+            // miImportCommonSenseMediaData
+            // 
+            this.miImportCommonSenseMediaData.Name = "miImportCommonSenseMediaData";
+            this.miImportCommonSenseMediaData.Size = new System.Drawing.Size(271, 22);
+            this.miImportCommonSenseMediaData.Text = "Import CommonSenseMedia data";
+            this.miImportCommonSenseMediaData.Click += new System.EventHandler(this.miImportCommonSenseMediaData_Click);
             // 
             // statusStrip
             // 
@@ -453,8 +482,11 @@ namespace Desene
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem miRecordings;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.ToolStripButton btnCheckFiles;
         private ButtonEdit buttonEdit1;
+        private System.Windows.Forms.ToolStripDropDownButton ddbTools;
+        private System.Windows.Forms.ToolStripMenuItem miCheckFiles;
+        private System.Windows.Forms.ToolStripMenuItem miImportSynopsis;
+        private System.Windows.Forms.ToolStripMenuItem miImportCommonSenseMediaData;
     }
 }
 

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Web.Script.Serialization;
 
 //using System.Web.Script.Serialization;
@@ -145,6 +147,7 @@ namespace DAL
         public string AudioLanguages { get; set; }
         public string SubtitleLanguages { get; set; }
         public string Synopsis { get; set; }
+        public bool HasRecommendedDataSaved { get; set;  }
 
         public List<VideoStreamInfo> VideoStreams { get; set; }
         public List<AudioStreamInfo> AudioStreams { get; set; }
@@ -572,4 +575,50 @@ namespace DAL
         public string SubFolder { get; set; }
         public List<MovieShortInfo> MSI { get; set; }
     }
+
+    public class CSMScrapeResult
+    {
+        public int Id { get; set; }
+
+        public int MovieId { get; set; }
+
+        public string GreenAge { get; set; } = null;
+
+        public int? Rating { get; set; } = null;
+
+        public string ShortDescription { get; set; } = null;
+
+        public string Review { get; set; } = null;
+
+        public string AdultRecomendedAge { get; set; } = null;
+
+        public int? AdultRating { get; set; } = null;
+
+        public string ChildRecomendedAge { get; set; } = null;
+
+        public int? ChildRating { get; set; } = null;
+        public string Story { get; set; } = null;
+
+        public string IsItAnyGood { get; set; } = null;
+
+        public List<string> TalkWithKidsAbout { get; set; }
+
+        public List<ALotOrALittle> ALotOrALittle { get; set; } = new List<ALotOrALittle>();
+    }
+
+    public class ALotOrALittle
+    {
+        public ALotOrAlittleElements Category { get; set; }
+
+        public int Rating { get; set; }
+
+        public string Description { get; set; }
+    }
+
+    public class RatingData
+    {
+        public string TextChar { get; set; }
+        public Color Color { get; set; }
+    }
 }
+

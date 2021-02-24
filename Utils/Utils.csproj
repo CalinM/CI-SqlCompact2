@@ -111,7 +111,6 @@
     <Compile Include="CustomFLP.cs">
       <SubType>Component</SubType>
     </Compile>
-    <DesignData Include="DatabaseOperations.cs" />
     <Compile Include="FilesMetaData.cs" />
     <Compile Include="FlashWindow.cs" />
     <Compile Include="FrmElementsInfoFromFiles.cs">

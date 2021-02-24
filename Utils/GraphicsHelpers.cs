@@ -2,6 +2,9 @@
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Drawing.Imaging;
+using System.Windows.Forms;
+using DAL;
+using System.Collections.Generic;
 
 namespace Utils
 {
@@ -120,7 +123,6 @@ namespace Utils
             }
         }
 
-
         private static GraphicsPath RoundedRect(Rectangle bounds, int radius)
         {
             int diameter = radius * 2;
@@ -151,6 +153,63 @@ namespace Utils
 
             path.CloseFigure();
             return path;
+        }
+
+
+        public static void DrawRating(int? rating, PictureBox pb, Font font, string textChar)
+        {
+            var r = rating.GetValueOrDefault(0);
+            var stars = new List<RatingData>();
+
+            for (int i = 0; i < r; i++)
+            {
+                stars.Add(new RatingData() { TextChar = textChar, Color = Color.Green });
+            }
+
+            for (int i = ((int)r)+1; i <=5 ; i++)
+            {
+                stars.Add(new RatingData() { TextChar = textChar, Color = Color.Silver });
+            }
+
+            // PictureBox needs an image to draw on
+            pb.Image = new Bitmap(pb.Width, pb.Height);
+            using (Graphics g = Graphics.FromImage(pb.Image))
+            {
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+                g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+
+                // create all-white background for drawing
+                SolidBrush brush = new SolidBrush(Color.Transparent);
+                g.FillRectangle(brush, 0, 0, pb.Image.Width, pb.Image.Height);
+
+                float x = 0;
+
+                for (int i = 0; i < stars.Count; i++)
+                {
+                    var rd = stars[i];
+
+                    // draw text in whatever color
+                    g.DrawString(rd.TextChar, font, new SolidBrush(rd.Color), x, 0);
+                    // measure text and advance x
+                    x +=  MeasureDisplayStringWidth(g, rd.TextChar, font)-5;//(g.MeasureString(chunks[i], pb.Font)).Width;
+                 }
+            }
+        }
+
+        private static int MeasureDisplayStringWidth(Graphics graphics, string text, Font font)
+        {
+            StringFormat format = new StringFormat ();
+            RectangleF rect = new RectangleF(0, 0, 1000, 1000);
+            CharacterRange[] ranges  = { new CharacterRange(0, text.Length) } ;
+            Region[] regions = new Region[1];
+
+            format.SetMeasurableCharacterRanges (ranges);
+
+            regions = graphics.MeasureCharacterRanges (text, font, rect, format);
+            rect = regions[0].GetBounds (graphics);
+
+            return (int)(rect.Right + 1.0f);
         }
     }
 }

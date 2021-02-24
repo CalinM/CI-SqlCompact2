@@ -30,8 +30,11 @@
         {
             this.components = new System.ComponentModel.Container();
             this.pMovieDetail = new System.Windows.Forms.Panel();
+            this.bRefreshCSMData = new Utils.UnselectableButton();
+            this.cbGrabCSMData = new System.Windows.Forms.CheckBox();
             this.pbDbDates = new System.Windows.Forms.PictureBox();
             this.pbLoader = new System.Windows.Forms.PictureBox();
+            this.tbSynopsis = new Utils.CustomTextBox();
             this.lbSynopsis = new System.Windows.Forms.Label();
             this.bGotoDescription = new Utils.UnselectableButton();
             this.bGotoTrailer = new Utils.UnselectableButton();
@@ -72,7 +75,6 @@
             this.tbSizeAsInt = new System.Windows.Forms.TextBox();
             this.ttTitleContent = new System.Windows.Forms.ToolTip(this.components);
             this.ttMovieDbDates = new System.Windows.Forms.ToolTip(this.components);
-            this.tbSynopsis = new Utils.CustomTextBox();
             this.pMovieDetail.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDbDates)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoader)).BeginInit();
@@ -86,6 +88,8 @@
             // pMovieDetail
             // 
             this.pMovieDetail.AllowDrop = true;
+            this.pMovieDetail.Controls.Add(this.bRefreshCSMData);
+            this.pMovieDetail.Controls.Add(this.cbGrabCSMData);
             this.pMovieDetail.Controls.Add(this.pbDbDates);
             this.pMovieDetail.Controls.Add(this.pbLoader);
             this.pMovieDetail.Controls.Add(this.tbSynopsis);
@@ -132,6 +136,37 @@
             this.pMovieDetail.DragDrop += new System.Windows.Forms.DragEventHandler(this.PMovieDetail_DragDrop);
             this.pMovieDetail.DragEnter += new System.Windows.Forms.DragEventHandler(this.PMovieDetail_DragEnter);
             // 
+            // bRefreshCSMData
+            // 
+            this.bRefreshCSMData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bRefreshCSMData.BackgroundImage = global::Desene.Properties.Resources.Plugin;
+            this.bRefreshCSMData.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.bRefreshCSMData.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.bRefreshCSMData.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.bRefreshCSMData.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.bRefreshCSMData.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.bRefreshCSMData.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bRefreshCSMData.Location = new System.Drawing.Point(526, 151);
+            this.bRefreshCSMData.Name = "bRefreshCSMData";
+            this.bRefreshCSMData.Size = new System.Drawing.Size(20, 20);
+            this.bRefreshCSMData.TabIndex = 299;
+            this.bRefreshCSMData.TabStop = false;
+            this.ttTitleContent.SetToolTip(this.bRefreshCSMData, "Navigate using the default system browser to the current CommonSenseMedia link");
+            this.bRefreshCSMData.UseVisualStyleBackColor = true;
+            this.bRefreshCSMData.Click += new System.EventHandler(this.bRefreshCSMData_Click);
+            // 
+            // cbGrabCSMData
+            // 
+            this.cbGrabCSMData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbGrabCSMData.AutoSize = true;
+            this.cbGrabCSMData.Checked = true;
+            this.cbGrabCSMData.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbGrabCSMData.Location = new System.Drawing.Point(529, 155);
+            this.cbGrabCSMData.Name = "cbGrabCSMData";
+            this.cbGrabCSMData.Size = new System.Drawing.Size(15, 14);
+            this.cbGrabCSMData.TabIndex = 297;
+            this.cbGrabCSMData.UseVisualStyleBackColor = true;
+            // 
             // pbDbDates
             // 
             this.pbDbDates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -158,6 +193,17 @@
             this.pbLoader.TabStop = false;
             this.pbLoader.Visible = false;
             // 
+            // tbSynopsis
+            // 
+            this.tbSynopsis.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbSynopsis.Location = new System.Drawing.Point(129, 76);
+            this.tbSynopsis.Multiline = true;
+            this.tbSynopsis.Name = "tbSynopsis";
+            this.tbSynopsis.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbSynopsis.Size = new System.Drawing.Size(438, 69);
+            this.tbSynopsis.TabIndex = 293;
+            // 
             // lbSynopsis
             // 
             this.lbSynopsis.AutoSize = true;
@@ -182,7 +228,6 @@
             this.bGotoDescription.Size = new System.Drawing.Size(20, 20);
             this.bGotoDescription.TabIndex = 291;
             this.bGotoDescription.TabStop = false;
-            this.ttTitleContent.SetToolTip(this.bGotoDescription, "Navigate using the default system browser to the current Description link");
             this.bGotoDescription.UseVisualStyleBackColor = true;
             this.bGotoDescription.Click += new System.EventHandler(this.bGotoDescription_Click);
             // 
@@ -201,7 +246,6 @@
             this.bGotoTrailer.Size = new System.Drawing.Size(20, 20);
             this.bGotoTrailer.TabIndex = 290;
             this.bGotoTrailer.TabStop = false;
-            this.ttTitleContent.SetToolTip(this.bGotoTrailer, "Navigate using the default system browser to the current Trailer link");
             this.bGotoTrailer.UseVisualStyleBackColor = true;
             this.bGotoTrailer.Click += new System.EventHandler(this.bGotoTrailer_Click);
             // 
@@ -220,7 +264,6 @@
             this.bGotoRecommendedSite.Size = new System.Drawing.Size(20, 20);
             this.bGotoRecommendedSite.TabIndex = 289;
             this.bGotoRecommendedSite.TabStop = false;
-            this.ttTitleContent.SetToolTip(this.bGotoRecommendedSite, "Navigate using the default system browser to the current CommonSenseMedia link");
             this.bGotoRecommendedSite.UseVisualStyleBackColor = true;
             this.bGotoRecommendedSite.Click += new System.EventHandler(this.bGotoRecommendedSite_Click);
             // 
@@ -484,7 +527,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbRecommendedLink.Location = new System.Drawing.Point(185, 151);
             this.tbRecommendedLink.Name = "tbRecommendedLink";
-            this.tbRecommendedLink.Size = new System.Drawing.Size(359, 20);
+            this.tbRecommendedLink.Size = new System.Drawing.Size(339, 20);
             this.tbRecommendedLink.TabIndex = 3;
             // 
             // tbRecommended
@@ -577,17 +620,6 @@
             this.ttMovieDbDates.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.ttMovieDbDates.ToolTipTitle = "Operations dates:";
             // 
-            // tbSynopsis
-            // 
-            this.tbSynopsis.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbSynopsis.Location = new System.Drawing.Point(129, 76);
-            this.tbSynopsis.Multiline = true;
-            this.tbSynopsis.Name = "tbSynopsis";
-            this.tbSynopsis.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbSynopsis.Size = new System.Drawing.Size(438, 69);
-            this.tbSynopsis.TabIndex = 293;
-            // 
             // ucMovieInfo
             // 
             this.AllowDrop = true;
@@ -657,5 +689,7 @@
         private System.Windows.Forms.ToolTip ttMovieDbDates;
         private System.Windows.Forms.PictureBox pbDbDates;
         private Utils.CustomTextBox tbSynopsis;
+        private System.Windows.Forms.CheckBox cbGrabCSMData;
+        private Utils.UnselectableButton bRefreshCSMData;
     }
 }

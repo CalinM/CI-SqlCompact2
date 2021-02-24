@@ -133,6 +133,18 @@ namespace Common
         ToTitleCase = 2
     }
 
+    public enum ALotOrAlittleElements
+    {
+        EducationalValue = 0,
+        PositiveMessages = 1,
+        PositiveRoleModelsAndRepresentations = 2,
+        ViolenceAndScariness = 3,
+        SexyStuff = 4,
+        Language = 5,
+        Consumerism = 6,
+        DrinkingDrugsAndSmoking = 7
+    }
+
 
 
     public class EnumHelpers

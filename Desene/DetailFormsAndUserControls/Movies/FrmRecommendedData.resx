@@ -117,13 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="ttTitleContent.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="ttTitleContent.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="ttMovieDbDates.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>144, 17</value>
-  </metadata>
+  <data name="lbIsItAnyGood.Text" xml:space="preserve">
+    <value>The Windows Forms Label control can be single-line or multi-line, and it can be either fixed in size or can automatically resize itself to accommodate its caption. The AutoSize property helps you size the controls to fit larger or smaller captions, which is particularly useful if the caption will change at run time.</value>
+  </data>
+  <data name="lbWhatsTheStory.Text" xml:space="preserve">
+    <value>The Windows Forms Label control can be single-line or multi-line, and it can be either fixed in size or can automatically resize itself to accommodate its caption. The AutoSize property helps you size the controls to fit larger or smaller captions, which is particularly useful if the caption will change at run time.</value>
+  </data>
+  <data name="lbWhatParentsNeedToKnow.Text" xml:space="preserve">
+    <value>The Windows Forms Label control can be single-line or multi-line, and it can be either fixed in size or can automatically resize itself to accommodate its caption. The AutoSize property helps you size the controls to fit larger or smaller captions, which is particularly useful if the caption will change at run time.</value>
+  </data>
 </root>

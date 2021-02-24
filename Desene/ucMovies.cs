@@ -57,7 +57,7 @@ namespace Desene
             _preventEvent = false;
         }
 
-        private void ReloadData(bool resetCachedstills = false)
+        public void ReloadData(bool resetCachedstills = false)
         {
             DAL.MoviesData = DAL.GetMoviesGridData(_currentSortField, _advancedFilter);
 
@@ -770,27 +770,6 @@ namespace Desene
         }
 
         #endregion
-
-        private void btnImportSynopsis_Click(object sender, EventArgs e)
-        {
-            var dlgResult =
-                MsgBox.Show("Do you want to preserve existing data?", "Confirmation", MessageBoxButtons.YesNoCancel,
-                    MessageBoxIcon.Question, MessageBoxDefaultButton.Button3);
-
-            if (dlgResult == DialogResult.Cancel) return;
-
-            var opRes = WebScraping.ImportSynopsis(dlgResult == DialogResult.Yes);
-
-            var importErrors = (List<TechnicalDetailsImportError>)opRes.AdditionalDataReturn;
-
-            if (importErrors.Any())
-            {
-                var frmIE = new FrmImportErrors(importErrors, true);
-                frmIE.ShowDialog();
-            }
-
-            ReloadData(true);
-        }
 
         private void dgvMoviesList_MouseClick(object sender, MouseEventArgs e)
         {

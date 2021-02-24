@@ -1623,6 +1623,11 @@ namespace Desene
                                     });
                             }
                         }
+
+                        cmd = new SQLiteCommand(string.Format("SELECT COUNT(1) FROM CommonSenseMediaDetail WHERE FileDetailId = {0}", fileDetailId), conn);
+                        cmd.CommandType = CommandType.Text;
+
+                        mtd.HasRecommendedDataSaved = Convert.ToInt32(cmd.ExecuteScalar()) > 0;
                     }
                 }
 
@@ -3234,6 +3239,175 @@ namespace Desene
             return result;
         }
 
+        public static OperationResult GetMoviesForCommonSenseMediaDataImport(bool preserveExisting)
+        {
+            var result = new OperationResult();
+            var returnData = new List<SynopsisImportMovieData>();
+
+            try
+            {
+                using (var conn = new SQLiteConnection(Constants.ConnectionString))
+                {
+                    conn.Open();
+
+                    var sqlStrig = string.Format(@"
+                        SELECT fd.Id, FileName, RecommendedLink
+                        FROM FileDetail fd
+                            LEFT OUTER JOIN CommonSenseMediaDetail csm ON csm.FileDetailId = fd.Id
+                        WHERE ParentId IS NULL
+                            AND fd.RecommendedLink IS NOT NULL AND fd.RecommendedLink <> ''
+                            {0}
+                        ",
+                        preserveExisting
+                            ? " AND (csm.Id IS NULL)"
+                            : string.Empty);
+
+                    var commandSource = new SQLiteCommand(sqlStrig, conn);
+
+                    using (var reader = commandSource.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            returnData.Add(
+                                new SynopsisImportMovieData
+                                {
+                                    MovieId = (int)(long)reader["Id"],
+                                    FileName = (string)reader["FileName"],
+                                    DescriptionLink = (string)reader["RecommendedLink"]
+                                });
+                        }
+                    }
+                }
+
+                result.AdditionalDataReturn = returnData;
+            }
+            catch (Exception ex)
+            {
+                result.FailWithMessage(ex);
+            }
+
+            return result;
+        }
+
+        public static OperationResult SaveCommonSenseMediaData(int movieId, CSMScrapeResult csmData)
+        {
+            var result = new OperationResult();
+
+            try
+            {
+                using (var conn = new SQLiteConnection(Constants.ConnectionString))
+                {
+                    conn.Open();
+                    SQLiteCommand cmd;
+
+                    var sqlString = @"
+                        INSERT INTO CommonSenseMediaDetail (
+                            FileDetailId,
+                            DateTimeStamp,
+                            GreenAge,
+                            Rating,
+                            ShortDescription,
+                            Review,
+                            AdultRecomendedAge,
+                            AdultRating,
+                            ChildRecomendedAge,
+                            ChildRating,
+                            Story,
+                            IsItAnyGood
+                        )
+                        VALUES (
+                            @FileDetailId,
+                            @DateTimeStamp,
+                            @GreenAge,
+                            @Rating,
+                            @ShortDescription,
+                            @Review,
+                            @AdultRecomendedAge,
+                            @AdultRating,
+                            @ChildRecomendedAge,
+                            @ChildRating,
+                            @Story,
+                            @IsItAnyGood
+                        );";
+
+                    cmd = new SQLiteCommand(sqlString, conn);
+                    cmd.Parameters.AddWithValue("@FileDetailId", movieId);
+                    cmd.Parameters.AddWithValue("@DateTimeStamp", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@GreenAge", csmData.GreenAge);
+                    cmd.Parameters.AddWithValue("@Rating", csmData.Rating);
+                    cmd.Parameters.AddWithValue("@ShortDescription", csmData.ShortDescription);
+                    cmd.Parameters.AddWithValue("@Review", csmData.Review);
+                    cmd.Parameters.AddWithValue("@AdultRecomendedAge", csmData.AdultRecomendedAge);
+                    cmd.Parameters.AddWithValue("@AdultRating", csmData.AdultRating);
+                    cmd.Parameters.AddWithValue("@ChildRecomendedAge", csmData.ChildRecomendedAge);
+                    cmd.Parameters.AddWithValue("@ChildRating", csmData.ChildRating);
+                    cmd.Parameters.AddWithValue("@Story", csmData.Story);
+                    cmd.Parameters.AddWithValue("@IsItAnyGood", csmData.IsItAnyGood);
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = "SELECT last_insert_rowid()";
+                    var newId = (int)(long)cmd.ExecuteScalar();
+
+
+                    if (csmData.TalkWithKidsAbout.Any())
+                    {
+                        sqlString = @"
+                            INSERT INTO CommonSenseMediaDetail_TalkAbout (
+                                CSMDetailId,
+                                SummaryPoint
+                            )
+                            VALUES (
+                                @CSMDetailId,
+                                @SummaryPoint
+                            )";
+
+                        foreach (var s in csmData.TalkWithKidsAbout)
+                        {
+                            if (string.IsNullOrEmpty(s)) continue;
+
+                            cmd = new SQLiteCommand(sqlString, conn);
+                            cmd.Parameters.AddWithValue("@CSMDetailId", newId);
+                            cmd.Parameters.AddWithValue("@SummaryPoint", s);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    if (csmData.ALotOrALittle.Any())
+                    {
+                        sqlString = @"
+                            INSERT INTO CommonSenseMediaDetail_ALotOrALittle (
+                                CSMDetailId,
+                                Category,
+                                Rating,
+                                Description
+                            )
+                            VALUES (
+                                @CSMDetailId,
+                                @Category,
+                                @Rating,
+                                @Description
+                            )";
+
+                        foreach (var aal in csmData.ALotOrALittle)
+                        {
+                            cmd = new SQLiteCommand(sqlString, conn);
+                            cmd.Parameters.AddWithValue("@CSMDetailId", newId);
+                            cmd.Parameters.AddWithValue("@Category", (int)aal.Category);
+                            cmd.Parameters.AddWithValue("@Rating", aal.Rating);
+                            cmd.Parameters.AddWithValue("@Description", aal.Description);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.FailWithMessage(ex);
+            }
+
+            return result;
+        }
+
 
         public static OperationResult SetSeriesValuesFromEpisodes(int seriesId)
         {
@@ -3318,6 +3492,81 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@oldName", oldName);
 
                     cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.FailWithMessage(ex);
+            }
+
+            return result;
+        }
+
+        public static OperationResult LoadCSMData(int fileDetailsId)
+        {
+            var result = new OperationResult();
+            var resultObj = new CSMScrapeResult();
+
+            try
+            {
+                using (var conn = new SQLiteConnection(Constants.ConnectionString))
+                {
+                    conn.Open();
+                    SQLiteCommand cmd;
+
+                    var sqlString = string.Format("select * from CommonSenseMediaDetail where FileDetailId = {0} LIMIT 1", fileDetailsId);
+                    cmd = new SQLiteCommand(sqlString, conn);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            resultObj.Id = (int)(long)reader["id"];
+                            resultObj.MovieId = fileDetailsId;
+                            resultObj.GreenAge = reader["GreenAge"].ToString();
+                            resultObj.Rating = (int)reader["Rating"];
+                            resultObj.ShortDescription = reader["ShortDescription"].ToString();
+                            resultObj.Review = reader["Review"].ToString();
+                            resultObj.AdultRecomendedAge = reader["AdultRecomendedAge"].ToString();
+                            resultObj.AdultRating = (int)reader["AdultRating"];
+                            resultObj.ChildRecomendedAge = reader["ChildRecomendedAge"].ToString();
+                            resultObj.ChildRating = (int)reader["ChildRating"];
+                            resultObj.Story = reader["Story"].ToString();
+                            resultObj.IsItAnyGood = reader["IsItAnyGood"].ToString();
+                        }
+                    }
+
+                    sqlString = string.Format("select * from CommonSenseMediaDetail_TalkAbout where CSMDetailId = {0}", resultObj.Id);
+                    cmd = new SQLiteCommand(sqlString, conn);
+
+                    resultObj.TalkWithKidsAbout = new List<string>();
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            resultObj.TalkWithKidsAbout.Add(reader["SummaryPoint"].ToString());
+                        }
+                    }
+
+                    sqlString = string.Format("select * from CommonSenseMediaDetail_ALotOrALittle where CSMDetailId = {0}", resultObj.Id);
+                    cmd = new SQLiteCommand(sqlString, conn);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            resultObj.ALotOrALittle.Add(
+                                new ALotOrALittle()
+                                {
+                                    Category = (ALotOrAlittleElements)(int)reader["Category"],
+                                    Rating = (int)reader["Rating"],
+                                    Description = reader["Description"].ToString()
+                                }); ;
+                        }
+                    }
+
+                    result.AdditionalDataReturn = resultObj;
                 }
             }
             catch (Exception ex)

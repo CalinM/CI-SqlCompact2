@@ -39,9 +39,17 @@
     <ApplicationIcon>Images\icon1.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AngleSharp, Version=0.13.0.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\_Tools\AngleSharp.0.13.0\lib\net46\AngleSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
+    <Reference Include="System.Text.Encoding.CodePages, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\_Tools\System.Text.Encoding.CodePages.4.5.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -77,6 +85,18 @@
     </Compile>
     <Compile Include="DetailFormsAndUserControls\Movies\FrmAddMovie.Designer.cs">
       <DependentUpon>FrmAddMovie.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Movies\FrmALotOrALittle_Explanation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Movies\FrmALotOrALittle_Explanation.Designer.cs">
+      <DependentUpon>FrmALotOrALittle_Explanation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Movies\FrmRecommendedData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DetailFormsAndUserControls\Movies\FrmRecommendedData.Designer.cs">
+      <DependentUpon>FrmRecommendedData.cs</DependentUpon>
     </Compile>
     <Compile Include="DetailFormsAndUserControls\Movies\ucMovieInfo.cs">
       <SubType>UserControl</SubType>
@@ -194,6 +214,12 @@
     <EmbeddedResource Include="DetailFormsAndUserControls\Movies\FrmAddMovie.resx">
       <DependentUpon>FrmAddMovie.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DetailFormsAndUserControls\Movies\FrmALotOrALittle_Explanation.resx">
+      <DependentUpon>FrmALotOrALittle_Explanation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DetailFormsAndUserControls\Movies\FrmRecommendedData.resx">
+      <DependentUpon>FrmRecommendedData.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DetailFormsAndUserControls\Movies\ucMovieInfo.resx">
       <DependentUpon>ucMovieInfo.cs</DependentUpon>
     </EmbeddedResource>
@@ -291,9 +317,21 @@
   <ItemGroup>
     <None Include="Images\www.png" />
     <Content Include="Images\CheckFileExistence.png" />
+    <Content Include="Images\consumerism.png" />
+    <Content Include="Images\csm_recommended_age.png" />
+    <Content Include="Images\drinking_druge_smoking.png" />
+    <Content Include="Images\educational_value.png" />
+    <Content Include="Images\info2.png" />
+    <Content Include="Images\language.png" />
     <Content Include="Images\Merge.png" />
     <Content Include="Images\Options.png" />
+    <Content Include="Images\Plugin.png" />
+    <Content Include="Images\positive_messages.png" />
+    <Content Include="Images\positive_role_models.png" />
     <Content Include="Images\Reset.png" />
+    <Content Include="Images\sexy_stuff.png" />
+    <Content Include="Images\tools.png" />
+    <Content Include="Images\violence.png" />
     <Content Include="Resources\jquery.contextMenu.min.css" />
     <Content Include="Resources\jquery.contextMenu.min.js" />
     <Content Include="Resources\jquery.ui.position.min.js" />

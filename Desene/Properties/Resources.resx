@@ -322,4 +322,40 @@
   <data name="Reset" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\Reset.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="tools" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\tools.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Plugin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\Plugin.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="consumerism" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\consumerism.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="csm_recommended_age" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\csm_recommended_age.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="drinking_druge_smoking" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\drinking_druge_smoking.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="educational_value" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\educational_value.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="info2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\info2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="language" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\language.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="positive_messages" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\positive_messages.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="positive_role_models" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\positive_role_models.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sexy_stuff" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\sexy_stuff.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="violence" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\violence.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

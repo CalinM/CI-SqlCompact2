@@ -40,6 +40,7 @@ namespace Desene
             separatorMainButtons.Visible = false;
             btnAdd.Visible = false;
             btnDelete.Visible = false;
+            ddbTools.Visible = false;
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
@@ -73,6 +74,40 @@ namespace Desene
 
             if (!File.Exists("movies-index.db"))
                 File.WriteAllBytes("movies-index.db", Resources.movies_index);
+
+            DatabaseOperations.ExecuteSqlString(@"
+                CREATE TABLE IF NOT EXISTS CommonSenseMediaDetail (
+                    Id                 INTEGER        PRIMARY KEY AUTOINCREMENT,
+                    DateTimeStamp      DATETIME,
+                    FileDetailId       INTEGER        REFERENCES FileDetail (Id)
+                                                      NOT NULL,
+                    GreenAge           VARCHAR (15),
+                    Rating             INT,
+                    ShortDescription   VARCHAR (1000),
+                    Review             TEXT,
+                    AdultRecomendedAge VARCHAR (15),
+                    AdultRating        INT,
+                    ChildRecomendedAge VARCHAR (15),
+                    ChildRating        INT,
+                    Story              TEXT,
+                    IsItAnyGood        TEXT
+                );");
+
+            DatabaseOperations.ExecuteSqlString(@"
+                CREATE TABLE IF NOT EXISTS CommonSenseMediaDetail_TalkAbout (
+                    Id            INTEGER PRIMARY KEY AUTOINCREMENT,
+                    CSMDetailId   INT     REFERENCES CommonSenseMediaDetail (Id),
+                    SummaryPoint TEXT
+                );");
+
+            DatabaseOperations.ExecuteSqlString(@"
+                CREATE TABLE IF NOT EXISTS CommonSenseMediaDetail_ALotOrALittle (
+                    Id          INTEGER PRIMARY KEY AUTOINCREMENT,
+                    CSMDetailId INT     REFERENCES CommonSenseMediaDetail (Id),
+                    Category    INT,
+                    Rating      INT,
+                    Description TEXT
+                );");
 
             pMainContainer.Controls.Clear();
 
@@ -138,6 +173,7 @@ namespace Desene
             Text = "Movies Indexer v" + string.Format("{0} (build date {1})", version, buildDate.ToString("dd.MM.yyyy"));
         }
 
+        private ucMovies _ucMovies;
         private void miMovies_Click(object sender, EventArgs e)
         {
             if (!Utils.Helpers.ConfirmDiscardChanges())
@@ -156,13 +192,16 @@ namespace Desene
                     GetStatistics(true, Sections.Movies);
 
                     pMainContainer.Controls.Clear();
-                    pMainContainer.Controls.Add(new ucMovies(this) { Dock = DockStyle.Fill });
+                    _ucMovies = new ucMovies(this) { Dock = DockStyle.Fill };
+
+                    pMainContainer.Controls.Add(_ucMovies);
                 }
                 else
                 {
                     if (!(OnCloseModule is null))
                         OnCloseModule(sender, e);
 
+                    _ucMovies = null;
                     senderItem.Checked = false;
 
                     pMainContainer.Controls.Clear();
@@ -171,6 +210,7 @@ namespace Desene
                 }
 
                 SetMainCrudButtonsState(senderItem.Checked, "Add movie");
+                ddbTools.Visible = true;
 
                 //todo: check if necessary
                 GC.Collect();
@@ -216,6 +256,7 @@ namespace Desene
                 }
 
                 SetMainCrudButtonsState(senderItem.Checked, "Add movie");
+                ddbTools.Visible = true;
 
                 //todo: check if necessary
                 GC.Collect();
@@ -257,6 +298,7 @@ namespace Desene
                 }
 
                 SetMainCrudButtonsState(senderItem.Checked, "Add collection");
+                ddbTools.Visible = false;
 
                 //todo: check if necessary
                 GC.Collect();
@@ -310,6 +352,7 @@ namespace Desene
                 }
 
                 SetMainCrudButtonsState(senderItem.Checked, "Add " + (st == SeriesType.Final ? "series" : "recordings group"));
+                ddbTools.Visible = false;
 
                 //todo: check if necessary
                 GC.Collect();
@@ -1239,8 +1282,44 @@ namespace Desene
                     MsgBox.Show(OperationResult.GetErrorMessage(ex), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-
         }
+
+        private void btnImportSynopsis_Click(object sender, EventArgs e)
+        {
+            var dlgResult =
+                MsgBox.Show("Do you want to preserve existing data?", "Confirmation", MessageBoxButtons.YesNoCancel,
+                    MessageBoxIcon.Question, MessageBoxDefaultButton.Button3);
+
+            if (dlgResult == DialogResult.Cancel) return;
+
+            var opRes = WebScraping.ImportSynopsis(dlgResult == DialogResult.Yes);
+
+            var importErrors = (List<TechnicalDetailsImportError>)opRes.AdditionalDataReturn;
+
+            if (importErrors.Any())
+            {
+                var frmIE = new FrmImportErrors(importErrors, true);
+                frmIE.ShowDialog();
+            }
+
+            if (_ucMovies != null)
+                _ucMovies.ReloadData(true);
+        }
+
+        private void miImportCommonSenseMediaData_Click(object sender, EventArgs e)
+        {
+            var dlgResult =
+                MsgBox.Show("Do you want to preserve existing data?", "Confirmation", MessageBoxButtons.YesNoCancel,
+                    MessageBoxIcon.Question, MessageBoxDefaultButton.Button3);
+
+            if (dlgResult == DialogResult.Cancel) return;
+
+            var opRes = WebScraping.ImportCommonSenseMediaData(dlgResult == DialogResult.Yes);
+
+            var x = 1;
+        }
+
+
 
         //public Encoding GetEncoding(string filename)
         //{
