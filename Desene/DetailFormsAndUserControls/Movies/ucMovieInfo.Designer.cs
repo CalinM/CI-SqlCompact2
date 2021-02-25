@@ -141,7 +141,6 @@
             this.bRefreshCSMData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.bRefreshCSMData.BackgroundImage = global::Desene.Properties.Resources.Plugin;
             this.bRefreshCSMData.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.bRefreshCSMData.Cursor = System.Windows.Forms.Cursors.Hand;
             this.bRefreshCSMData.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bRefreshCSMData.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.bRefreshCSMData.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
@@ -170,7 +169,6 @@
             // pbDbDates
             // 
             this.pbDbDates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbDbDates.Cursor = System.Windows.Forms.Cursors.Help;
             this.pbDbDates.Image = global::Desene.Properties.Resources.calender_icon;
             this.pbDbDates.InitialImage = global::Desene.Properties.Resources.calender_icon;
             this.pbDbDates.Location = new System.Drawing.Point(551, 208);
@@ -218,7 +216,6 @@
             this.bGotoDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.bGotoDescription.BackgroundImage = global::Desene.Properties.Resources.external_icon;
             this.bGotoDescription.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.bGotoDescription.Cursor = System.Windows.Forms.Cursors.Hand;
             this.bGotoDescription.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bGotoDescription.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.bGotoDescription.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
@@ -236,7 +233,6 @@
             this.bGotoTrailer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.bGotoTrailer.BackgroundImage = global::Desene.Properties.Resources.external_icon;
             this.bGotoTrailer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.bGotoTrailer.Cursor = System.Windows.Forms.Cursors.Hand;
             this.bGotoTrailer.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bGotoTrailer.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.bGotoTrailer.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
@@ -254,7 +250,6 @@
             this.bGotoRecommendedSite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.bGotoRecommendedSite.BackgroundImage = global::Desene.Properties.Resources.external_icon;
             this.bGotoRecommendedSite.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.bGotoRecommendedSite.Cursor = System.Windows.Forms.Cursors.Hand;
             this.bGotoRecommendedSite.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bGotoRecommendedSite.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.bGotoRecommendedSite.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
@@ -373,7 +368,6 @@
             // 
             // tbSize
             // 
-            this.tbSize.ButtonCursor = System.Windows.Forms.Cursors.Help;
             this.tbSize.ButtonImage = global::Desene.Properties.Resources.warning;
             this.tbSize.ButtonImageForceWidth = 12;
             this.tbSize.ButtonImageSizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;

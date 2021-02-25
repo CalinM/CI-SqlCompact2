@@ -577,7 +577,7 @@ namespace Desene.DetailFormsAndUserControls
                         }
                         else
                         {
-                            opRes = Desene.DAL.SaveCommonSenseMediaData(DAL.CurrentMTD.Id, (CSMScrapeResult)opRes.AdditionalDataReturn);
+                            opRes = DAL.SaveCommonSenseMediaData(DAL.CurrentMTD.Id, (CSMScrapeResult)opRes.AdditionalDataReturn);
 
                             if (!opRes.Success)
                             {

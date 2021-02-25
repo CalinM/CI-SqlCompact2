@@ -1777,20 +1777,67 @@ namespace Desene
             return result;
         }
 
-        private static OperationResult RemoveData(string episodeIds, SQLiteConnection conn, bool removeFromFileDetail = true)
+        private static OperationResult RemoveCommonSenseMediaData(int fileDetailId, SQLiteConnection conn)
         {
             var result = new OperationResult();
 
             try
             {
-                var tableNames =
-                    removeFromFileDetail
-                        ? new[] { "VideoStream", "Thumbnails", "AudioStream", "SubtitleStream", "FileDetail" }
-                        : new[] { "VideoStream", "Thumbnails", "AudioStream", "SubtitleStream" };
+                var cmsTables = new[] { "CommonSenseMediaDetail_ALotOrALittle", "CommonSenseMediaDetail_TalkAbout", "CommonSenseMediaDetail" };
+
+                var cmd =
+                    new SQLiteCommand(
+                        string.Format("SELECT Id FROM CommonSenseMediaDetail WHERE FileDetailId = {0}", fileDetailId),
+                        conn);
+
+                var csmId = cmd.ExecuteScalar();
+
+                if (csmId != null)
+                {
+                    foreach (var tableName in cmsTables)
+                    {
+                        cmd =
+                            new SQLiteCommand(
+                                string.Format("DELETE FROM {0} WHERE {1} IN ({2})",
+                                    tableName,
+                                    tableName == "CommonSenseMediaDetail" ? "Id" : "CSMDetailId",
+                                    csmId),
+                                conn);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.FailWithMessage(ex);
+            }
+
+            return result;
+        }
+
+        private static OperationResult RemoveData(string episodeIds, SQLiteConnection conn)
+        {
+            var result = new OperationResult();
+
+            try
+            {
+                SQLiteCommand cmd;
+
+                if (!episodeIds.Contains(","))
+                {
+                    var fileDetailId = int.Parse(episodeIds);
+                    result = RemoveCommonSenseMediaData(fileDetailId, conn);
+
+                    if (!result.Success)
+                        return result;
+                }
+
+                var tableNames = new[] { "VideoStream", "Thumbnails", "AudioStream", "SubtitleStream", "FileDetail" };
 
                 foreach (var tableName in tableNames)
                 {
-                    var cmd =
+                    cmd =
                         new SQLiteCommand(
                             string.Format("DELETE FROM {0} WHERE {1} IN ({2})",
                                 tableName,
@@ -3255,9 +3302,10 @@ namespace Desene
                         FROM FileDetail fd
                             LEFT OUTER JOIN CommonSenseMediaDetail csm ON csm.FileDetailId = fd.Id
                         WHERE ParentId IS NULL
-                            AND fd.RecommendedLink IS NOT NULL AND fd.RecommendedLink <> ''
+                            AND fd.RecommendedLink LIKE '%commonsensemedia%'
                             {0}
                         ",
+                        //AND fd.RecommendedLink IS NOT NULL AND fd.RecommendedLink <> ''
                         preserveExisting
                             ? " AND (csm.Id IS NULL)"
                             : string.Empty);
@@ -3298,6 +3346,11 @@ namespace Desene
                 using (var conn = new SQLiteConnection(Constants.ConnectionString))
                 {
                     conn.Open();
+
+                    result = RemoveCommonSenseMediaData(movieId, conn);
+                    if (!result.Success)
+                        return result;
+
                     SQLiteCommand cmd;
 
                     var sqlString = @"
@@ -3528,9 +3581,9 @@ namespace Desene
                             resultObj.ShortDescription = reader["ShortDescription"].ToString();
                             resultObj.Review = reader["Review"].ToString();
                             resultObj.AdultRecomendedAge = reader["AdultRecomendedAge"].ToString();
-                            resultObj.AdultRating = (int)reader["AdultRating"];
+                            resultObj.AdultRating = reader["AdultRating"] == DBNull.Value ? (int?)null : (int)reader["AdultRating"];
                             resultObj.ChildRecomendedAge = reader["ChildRecomendedAge"].ToString();
-                            resultObj.ChildRating = (int)reader["ChildRating"];
+                            resultObj.ChildRating = reader["ChildRating"] == DBNull.Value ? (int?)null : (int)reader["ChildRating"];
                             resultObj.Story = reader["Story"].ToString();
                             resultObj.IsItAnyGood = reader["IsItAnyGood"].ToString();
                         }

@@ -92,3 +92,5 @@ bin
 Common/obj/Debug/Common.csproj.CoreCompileInputs.cache
 Common/obj/Debug/Common.csproj.FileListAbsolute.txt
 Common/obj/Debug/Common.pdb
+/Utils/obj/Debug/.NETFramework,Version=v4.7.1.AssemblyAttributes.cs
+/Utils/obj/Release/.NETFramework,Version=v4.7.1.AssemblyAttributes.cs

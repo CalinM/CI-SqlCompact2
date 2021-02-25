@@ -8,3 +8,23 @@ C:\Work\_Utils\CI SqlCompact2\DAL\obj\Release\DAL.csproj.CoreCompileInputs.cache
 C:\Work\_Utils\CI SqlCompact2\DAL\obj\Release\DAL.csproj.CopyComplete
 C:\Work\_Utils\CI SqlCompact2\DAL\obj\Release\DAL.dll
 C:\Work\_Utils\CI SqlCompact2\DAL\obj\Release\DAL.pdb
+C:\Work\Personal\CI-SqlCompact2\DAL\bin\Release\x64\SQLite.Interop.dll
+C:\Work\Personal\CI-SqlCompact2\DAL\bin\Release\x86\SQLite.Interop.dll
+C:\Work\Personal\CI-SqlCompact2\DAL\bin\Release\DAL.dll.config
+C:\Work\Personal\CI-SqlCompact2\DAL\bin\Release\DAL.dll
+C:\Work\Personal\CI-SqlCompact2\DAL\bin\Release\DAL.pdb
+C:\Work\Personal\CI-SqlCompact2\DAL\bin\Release\Common.dll
+C:\Work\Personal\CI-SqlCompact2\DAL\bin\Release\EntityFramework.dll
+C:\Work\Personal\CI-SqlCompact2\DAL\bin\Release\EntityFramework.SqlServer.dll
+C:\Work\Personal\CI-SqlCompact2\DAL\bin\Release\System.Data.SQLite.dll
+C:\Work\Personal\CI-SqlCompact2\DAL\bin\Release\System.Data.SQLite.EF6.dll
+C:\Work\Personal\CI-SqlCompact2\DAL\bin\Release\System.Data.SQLite.Linq.dll
+C:\Work\Personal\CI-SqlCompact2\DAL\bin\Release\Common.pdb
+C:\Work\Personal\CI-SqlCompact2\DAL\bin\Release\EntityFramework.xml
+C:\Work\Personal\CI-SqlCompact2\DAL\bin\Release\EntityFramework.SqlServer.xml
+C:\Work\Personal\CI-SqlCompact2\DAL\bin\Release\System.Data.SQLite.xml
+C:\Work\Personal\CI-SqlCompact2\DAL\obj\Release\DAL.csprojAssemblyReference.cache
+C:\Work\Personal\CI-SqlCompact2\DAL\obj\Release\DAL.csproj.CoreCompileInputs.cache
+C:\Work\Personal\CI-SqlCompact2\DAL\obj\Release\DAL.csproj.CopyComplete
+C:\Work\Personal\CI-SqlCompact2\DAL\obj\Release\DAL.dll
+C:\Work\Personal\CI-SqlCompact2\DAL\obj\Release\DAL.pdb

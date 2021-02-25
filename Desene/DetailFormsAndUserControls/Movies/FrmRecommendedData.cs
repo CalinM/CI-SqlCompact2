@@ -89,12 +89,27 @@ namespace Desene.DetailFormsAndUserControls.Movies
             lbShortDescription.Text = csmData.ShortDescription;
 
 
-            lbAdultRecommendedAge.Text = csmData.AdultRecomendedAge;
-            GraphicsHelpers.DrawRating(csmData.AdultRating, pbAdultRating, new Font("Microsoft Sans Serif", 20, FontStyle.Regular), "⋆");
+            if (string.IsNullOrEmpty(csmData.AdultRecomendedAge))
+            {
+                lbAdultRecommendedAge.Text = "No reviews yet";
+                lbInfo1.Visible = false;
+            }
+            else
+            {
+                lbAdultRecommendedAge.Text = csmData.AdultRecomendedAge;
+                GraphicsHelpers.DrawRating(csmData.AdultRating, pbAdultRating, new Font("Microsoft Sans Serif", 20, FontStyle.Regular), "⋆");
+            }
 
-            lbKidsRecommendedAge.Text = csmData.ChildRecomendedAge;
-            GraphicsHelpers.DrawRating(csmData.ChildRating, pbKidsRating, new Font("Microsoft Sans Serif", 20, FontStyle.Regular), "⋆");
-
+            if (string.IsNullOrEmpty(csmData.ChildRecomendedAge))
+            {
+                lbKidsRecommendedAge.Text = "No reviews yet";
+                lbInfo2.Visible = false;
+            }
+            else
+            {
+                lbKidsRecommendedAge.Text = csmData.ChildRecomendedAge;
+                GraphicsHelpers.DrawRating(csmData.ChildRating, pbKidsRating, new Font("Microsoft Sans Serif", 20, FontStyle.Regular), "⋆");
+            }
 
 
             var scrapedDataObj = csmData.ALotOrALittle.FirstOrDefault(_ => _.Category == ALotOrAlittleElements.EducationalValue);
