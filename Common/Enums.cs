@@ -145,6 +145,15 @@ namespace Common
         DrinkingDrugsAndSmoking = 7
     }
 
+    public enum MoviesGridsHighlights
+    {
+        //None = 0,
+        //UnkownQuality = 1,
+        NoSynopsis = 2,
+        NoPoster = 3,
+        NoCSM = 4
+    }
+
 
 
     public class EnumHelpers

@@ -120,24 +120,30 @@ namespace Desene
 
                 var commandSource = new SQLiteCommand(string.Format(@"
                     SELECT
-	                    Id,
-	                    FileName,
+	                    fd.Id,
+	                    fd.FileName,
                         CASE
-                            WHEN length(Poster) IS NULL THEN 0
+                            WHEN length(fd.Poster) IS NULL THEN 0
                             ELSE 1
 	                    END AS HasPoster,
 
 	                    CASE
-	                        WHEN length(Quality) IS NULL THEN 'sd?'
-	                        ELSE Quality
+	                        WHEN length(fd.Quality) IS NULL THEN 'sd?'
+	                        ELSE fd.Quality
 	                    END AS Quality,
 
 	                    CASE
-	                        WHEN length(Synopsis) IS NULL THEN 0
+	                        WHEN length(fd.Synopsis) IS NULL THEN 0
 	                        ELSE 1
-	                    END AS HasSynopsis
+	                    END AS HasSynopsis,
 
-                    FROM FileDetail
+	                    CASE
+	                        WHEN csm.Id IS NULL THEN 0
+	                        ELSE 1
+	                    END AS HasCsmData
+
+                    FROM FileDetail fd
+                        LEFT OUTER JOIN CommonSenseMediaDetail csm ON csm.FileDetailId = fd.Id
                     WHERE ParentId IS NULL
                         {0}
                     ORDER BY {1}",
@@ -154,7 +160,8 @@ namespace Desene
                             FileName = reader["FileName"].ToString(),
                             HasPoster = (long)reader["HasPoster"] == 1,
                             Quality = reader["Quality"].ToString(),
-                            HasSynopsis = (long)reader["HasSynopsis"] == 1
+                            HasSynopsis = (long)reader["HasSynopsis"] == 1,
+                            HasCsmData = (long)reader["HasCsmData"] == 1,
                         });
                     }
                 }

@@ -48,6 +48,7 @@ namespace Desene
 
             miHighlightNoPoster.Checked = Settings.Default.HighlightNoPoster;
             miHighlightNoSynopsis.Checked = Settings.Default.HighlightNoSynopsis;
+            miHighlightNoCSM.Checked = Settings.Default.HighlightNoCSM;
         }
 
         private void ucMovies_Load(object sender, EventArgs e)
@@ -116,30 +117,86 @@ namespace Desene
 
         #region Basic events
 
+        private List<HighlightData> _highlightTempList;
+
+        public List<int> PartitionMeInto(int value, int count)
+        {
+            if (count <= 0) throw new ArgumentException("count must be greater than zero.", "count");
+            var result = new int[count];
+
+            int runningTotal = 0;
+            for (int i = 0; i < count; i++)
+            {
+                var remainder = value - runningTotal;
+                var share = remainder > 0 ? remainder / (count - i) : 0;
+                result[i] = share;
+                runningTotal += share;
+            }
+
+            if (runningTotal < value) result[count - 1] += value - runningTotal;
+
+            return result.ToList();
+        }
+
         private void dgvMoviesList_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            var rowObj = ((DataGridView)sender).Rows[e.RowIndex].DataBoundItem;
-            if (rowObj == null) return;
-
-            if (miHighlightNoPoster.Checked)
+            if (e.RowIndex != -1 && e.Value != null && e.ColumnIndex == 1 && e.RowIndex != dgvMoviesList.SelectedRows[0].Index)
             {
-                dgvMoviesList.Rows[e.RowIndex].DefaultCellStyle.BackColor = ((MovieShortInfo)rowObj).HasPoster ? Color.White : Color.LightPink;
-            }
 
-            if (miHighlightNoSynopsis.Checked)
-            {
-                dgvMoviesList.Rows[e.RowIndex].DefaultCellStyle.BackColor = ((MovieShortInfo)rowObj).HasSynopsis ? Color.White : Color.LightSkyBlue;
-            }
+                var rowObj = ((DataGridView)sender).Rows[e.RowIndex].DataBoundItem;
+                if (rowObj == null) return;
+
+                if (_highlightTempList == null)
+                    _highlightTempList = new List<HighlightData>();
+
+                if (!((MovieShortInfo)rowObj).HasPoster && miHighlightNoPoster.Checked)
+                    _highlightTempList.Add(new HighlightData(MoviesGridsHighlights.NoPoster, Color.LightPink));
+
+                if (!((MovieShortInfo)rowObj).HasSynopsis && miHighlightNoSynopsis.Checked)
+                    _highlightTempList.Add(new HighlightData(MoviesGridsHighlights.NoSynopsis, Color.LightSkyBlue));
+
+                if (!((MovieShortInfo)rowObj).HasCsmData && miHighlightNoCSM.Checked)
+                    _highlightTempList.Add(new HighlightData(MoviesGridsHighlights.NoCSM, Color.Bisque));
+
+                if (!_highlightTempList.Any()) return;
 
 
-            if (e.ColumnIndex == 2 && ((MovieShortInfo)rowObj).Quality == "sd?")
-            {
-                e.CellStyle.BackColor = Color.Lavender;
+                var sectionWidths = PartitionMeInto(e.CellBounds.Width, _highlightTempList.Count);
+                for (var i = 0; i < sectionWidths.Count(); i++)
+                {
+                    _highlightTempList[i].SectionWidth = sectionWidths[i];
+                }
+
+                //var sectionWidth = e.CellBounds.Width / _highlightTempList.Count;
+                var sectionWidthDrawn = 0;
+                for (int i = 0; i < _highlightTempList.Count; i++)
+                {
+                    var htEl = _highlightTempList[i];
+                    var backColorBrush = new SolidBrush(htEl.Color);
+                    var tmpRect = new Rectangle(e.CellBounds.Left + sectionWidthDrawn, e.CellBounds.Top, htEl.SectionWidth, e.CellBounds.Height);
+                    e.Graphics.FillRectangle(backColorBrush, tmpRect);
+
+                    sectionWidthDrawn += htEl.SectionWidth;
+                    //backColorBrush.Dispose;
+                }
+
+                //e.AdvancedBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
+                //e.AdvancedBorderStyle.Left = DataGridViewAdvancedCellBorderStyle.None;
+                //e.AdvancedBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.None;
+                //e.AdvancedBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
+
+
+                // here you force paint of content
+                e.PaintContent(e.ClipBounds);
+                e.Handled = true;
+
+                _highlightTempList.Clear();
             }
         }
 
         private void dgvMoviesList_SelectionChanged(object sender, EventArgs e)
         {
+            //((DataGridView)sender).Invalidate();
             if (_preventEvent || dgvMoviesList.SelectedRows.Count == 0) return;
 
             if (!Utils.Helpers.ConfirmDiscardChanges())
@@ -455,7 +512,19 @@ namespace Desene
                     return;
                 }
 
-                var opRes = DAL.RemoveMovieOrEpisode(_previousSelectedMsi.Id);
+                OperationResult opRes = null;
+                CSMScrapeResult csmData = null;
+
+                if (DAL.CurrentMTD.HasRecommendedDataSaved)
+                {
+                    opRes = DAL.LoadCSMData(DAL.CurrentMTD.Id);
+                    if (opRes.Success)
+                    {
+                        csmData = (CSMScrapeResult)opRes.AdditionalDataReturn;
+                    }
+                }
+
+                opRes = DAL.RemoveMovieOrEpisode(_previousSelectedMsi.Id);
 
                 if (!opRes.Success)
                 {
@@ -478,6 +547,8 @@ namespace Desene
                 }
 
                 rParam.mtd.Id = (int)opRes.AdditionalDataReturn;
+                if (csmData != null)
+                    DAL.SaveCommonSenseMediaData(rParam.mtd.Id, csmData);
 
                 try
                 {
@@ -815,6 +886,15 @@ namespace Desene
         {
             miHighlightNoSynopsis.Checked = !miHighlightNoSynopsis.Checked;
             Settings.Default.HighlightNoSynopsis = miHighlightNoSynopsis.Checked;
+            Settings.Default.Save();
+
+            dgvMoviesList.Invalidate();
+        }
+
+        private void miHighlightNoCSM_Click(object sender, EventArgs e)
+        {
+            miHighlightNoCSM.Checked = !miHighlightNoCSM.Checked;
+            Settings.Default.HighlightNoCSM = miHighlightNoCSM.Checked;
             Settings.Default.Save();
 
             dgvMoviesList.Invalidate();

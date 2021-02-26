@@ -118,5 +118,17 @@ namespace Desene.Properties {
                 this["RecWindowLocation"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool HighlightNoCSM {
+            get {
+                return ((bool)(this["HighlightNoCSM"]));
+            }
+            set {
+                this["HighlightNoCSM"] = value;
+            }
+        }
     }
 }

@@ -18,6 +18,7 @@ namespace DAL
         public bool HasThumbnails { get; set; }
         public bool HasSynopsis { get; set; }
         public bool ThumbnailGenerated { get; set;}
+        public bool HasCsmData { get; set; }
 
         public MovieShortInfo()
         {
@@ -619,6 +620,19 @@ namespace DAL
     {
         public string TextChar { get; set; }
         public Color Color { get; set; }
+    }
+
+    public class HighlightData
+    {
+        public MoviesGridsHighlights HighlightReason { get; set; }
+        public Color Color { get; set; }
+        public int SectionWidth { get; set; }
+
+        public HighlightData(MoviesGridsHighlights highlightReason, Color color)
+        {
+            HighlightReason = highlightReason;
+            Color = color;
+        }
     }
 }
 

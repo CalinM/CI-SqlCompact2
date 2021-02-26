@@ -109,6 +109,22 @@ namespace Desene
                     Description TEXT
                 );");
 
+            DatabaseOperations.ExecuteSqlString(@"
+                CREATE INDEX IF NOT EXISTS csmDetail1 ON CommonSenseMediaDetail (
+                    FileDetailId ASC
+                );");
+
+            DatabaseOperations.ExecuteSqlString(@"
+                CREATE INDEX IF NOT EXISTS csmALotOrALittle1 ON CommonSenseMediaDetail_ALotOrALittle (
+                    CSMDetailId ASC
+                );");
+
+            DatabaseOperations.ExecuteSqlString(@"
+                CREATE INDEX IF NOT EXISTS csmTalkAbout1 ON CommonSenseMediaDetail_TalkAbout (
+                    CSMDetailId ASC
+                );");
+
+
             pMainContainer.Controls.Clear();
 
             DAL.LoadBaseDbValues();

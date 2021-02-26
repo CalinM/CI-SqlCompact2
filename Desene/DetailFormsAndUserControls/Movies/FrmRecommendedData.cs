@@ -185,7 +185,7 @@ namespace Desene.DetailFormsAndUserControls.Movies
             lbWhatParentsNeedToKnow.Text = csmData.Review;
             pWhatParentsNeedToKnow.Height = (lbWhatParentsNeedToKnow.Location.Y * 2) + lbWhatParentsNeedToKnow.Height;
 
-            lbWhatsTheStory.Text = csmData.Review;
+            lbWhatsTheStory.Text = csmData.Story;
             pWhatsTheStory.Height = (lbWhatsTheStory.Location.Y * 2) + lbWhatsTheStory.Height;
 
             lbIsItAnyGood.Text = csmData.IsItAnyGood;
