@@ -3,8 +3,9 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-
+using Common;
 using DAL;
+using Desene.DetailFormsAndUserControls.Shared;
 using Utils;
 
 namespace Desene.EditUserControls
@@ -13,6 +14,7 @@ namespace Desene.EditUserControls
     {
         private bool _isNew;
         private BindingSource _bsControlsData;
+        private bool _hasRecommendedDataSaved;
 
         public string Title
         {
@@ -88,12 +90,24 @@ namespace Desene.EditUserControls
             tbNotes.DataBindings.Add("Text", _bsControlsData, "Notes");
             tbTrailer.DataBindings.Add("Text", _bsControlsData, "Trailer");
             pbCover.DataBindings.Add("Image", _bsControlsData, "Poster", true);
+
+            var tt2 = new ToolTip(); //ttTitleContent not working?!!
+            tt2.SetToolTip(bGotoDescription, "Navigate using the default system browser to the current Description link");
+            tt2.SetToolTip(bGotoTrailer, "Navigate using the default system browser to the current Trailer link");
+            tt2.SetToolTip(bRefreshCSMData, "Reload data from CommonSenseMedia");
         }
 
         public void RefreshControls(MovieTechnicalDetails mtd = null)
         {
             _bsControlsData.DataSource = mtd ?? DAL.CurrentMTD;
             _bsControlsData.ResetBindings(false);
+
+            _hasRecommendedDataSaved = DAL.CurrentMTD.HasRecommendedDataSaved;
+
+            var tt3 = new ToolTip(); //ttTitleContent not working?!!
+            tt3.SetToolTip(bGotoRecommendedSite, _hasRecommendedDataSaved
+                ? "Displays a window showing the last scraped/passed data from CommmonSenseMedia site"
+                : "Navigate using the default system browser to the current CommonSenseMedia link");
         }
 
         public bool ValidateInput()
@@ -136,9 +150,18 @@ namespace Desene.EditUserControls
             try
             {
                 if (File.GetAttributes(droppedObj).HasFlag(FileAttributes.Directory))
+                {
+                    var opRes = Utils.Helpers.GetFilesDetails(droppedObj, ParentForm);
+
+                    if (!opRes.Success)
+                        MsgBox.Show(opRes.CustomErrorMessage, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                     return;
+                }
+
 
                 var picturesExt = new string[] { ".jpg", ".jpeg", ".png", ".bmp" };
+                var textFilesExt = new string[] { ".txt", ".srt" };
 
                 if (Array.IndexOf(picturesExt, Path.GetExtension(droppedObj).ToLower()) >= 0)
                 {
@@ -151,6 +174,11 @@ namespace Desene.EditUserControls
                         SetPoster(bytes);
                         Common.Helpers.UnsavedChanges = true;
                     }
+                }
+                else
+                if (Array.IndexOf(textFilesExt, Path.GetExtension(droppedObj).ToLower()) >= 0)
+                {
+                    Utils.Helpers.FixDiacriticsInTextFile(droppedObj);
                 }
             }
             catch (Exception ex)
@@ -167,8 +195,16 @@ namespace Desene.EditUserControls
 
         private void bGotoRecommendedSite_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(tbRecommendedLink.Text))
-                System.Diagnostics.Process.Start(tbRecommendedLink.Text);
+            if (_hasRecommendedDataSaved)
+            {
+                var frmRecommendedData = new FrmRecommendedData(DAL.CurrentMTD.Id);
+                frmRecommendedData.ShowDialog();
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(tbRecommendedLink.Text))
+                    System.Diagnostics.Process.Start(tbRecommendedLink.Text);
+            }
         }
 
         private void bGotoTrailer_Click(object sender, EventArgs e)
@@ -187,6 +223,53 @@ namespace Desene.EditUserControls
             https://www.imdb.com/title/tt00000000/?ref_=fn_al_tt_1
             https://www.imdb.com/title/tt00000000/episodes?season=1&ref_=tt_eps_sn_1
             */
+        }
+
+        private void bRefreshCSMData_Click(object sender, EventArgs e)
+        {
+           try
+            {
+                Cursor = Cursors.WaitCursor;
+
+                if (!string.IsNullOrEmpty(DAL.CurrentMTD.RecommendedLink))
+                {
+                    if (!DAL.CurrentMTD.RecommendedLink.ToLower().Contains("commonsensemedia"))
+                    {
+                        Utils.Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "Recommended data",
+                            "The 'recommended' data is from a site which doesn't have scraper and parser built!", 5000, ParentForm);
+                    }
+                    else
+                    {
+                        var opRes = WebScraping.GetCommonSenseMediaData(DAL.CurrentMTD.RecommendedLink);
+
+                        if (!opRes.Success)
+                        {
+                            Utils.Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "Recommended data",
+                                opRes.CustomErrorMessage, 5000, ParentForm);
+                        }
+                        else
+                        {
+                            opRes = DAL.SaveCommonSenseMediaData(DAL.CurrentMTD.Id, (CSMScrapeResult)opRes.AdditionalDataReturn);
+
+                            if (!opRes.Success)
+                            {
+                                Utils.Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "Recommended data",
+                                    opRes.CustomErrorMessage, 5000, ParentForm);
+                            }
+                            else
+                            {
+                                _hasRecommendedDataSaved = true;
+                                Utils.Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Information, "Recommended data",
+                                    "CommonSenseMedia data was scraped, parsed and saved succesfully!", 5000, ParentForm);
+                            }
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
     }
 }

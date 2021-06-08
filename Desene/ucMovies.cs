@@ -368,14 +368,17 @@ namespace Desene
             {
                 Id = DAL.CurrentMTD.Id,
                 FileName = DAL.CurrentMTD.FileName,
-                //Cover = DAL.CurrentMTD.Poster,
                 HasPoster = DAL.CurrentMTD.Poster != null,
-                HasSynopsis = !string.IsNullOrEmpty(DAL.CurrentMTD.Synopsis)
+                HasSynopsis = !string.IsNullOrEmpty(DAL.CurrentMTD.Synopsis),
+                InsertedDate = (DateTime)DAL.CurrentMTD.InsertedDate,
+                LastChangedDate = (DateTime)DAL.CurrentMTD.InsertedDate,
             };
 
+            var x = DAL.GetQualityStrFromSize(DAL.CurrentMTD);
+
             DAL.MoviesData.Add(msi);
-            DAL.MoviesData = new BindingList<MovieShortInfo>(DAL.MoviesData.OrderBy(o => o.FileName).ToList());
-            RefreshGrid();
+
+            ResortGrid();
 
             FocusCurrentMovieInGrid(msi);
         }
@@ -564,12 +567,14 @@ namespace Desene
                         FileName = DAL.CurrentMTD.FileName,
                         //Cover = DAL.CurrentMTD.Poster,
                         HasPoster = DAL.CurrentMTD.Poster != null,
-                        HasSynopsis = !string.IsNullOrEmpty(DAL.CurrentMTD.Synopsis)
+                        HasSynopsis = !string.IsNullOrEmpty(DAL.CurrentMTD.Synopsis),
+                        InsertedDate = (DateTime)rParam.mtd.InsertedDate,
+                        LastChangedDate = (DateTime)rParam.mtd.LastChangeDate,
                     };
 
                     DAL.MoviesData.Add(msi);
-                    DAL.MoviesData = new BindingList<MovieShortInfo>(DAL.MoviesData.OrderBy(o => o.FileName).ToList());
-                    RefreshGrid();
+
+                    ResortGrid();
 
                     _previousSelectedMsi = msi; //not needed?
                 }
@@ -579,6 +584,18 @@ namespace Desene
                     FocusCurrentMovieInGrid(_previousSelectedMsi);
                 }
             }
+        }
+
+        private void ResortGrid()
+        {
+            DAL.MoviesData =
+                _currentSortField == "FileName COLLATE NOCASE ASC"
+                    ? new BindingList<MovieShortInfo>(DAL.MoviesData.OrderBy(o => o.FileName).ToList())
+                    : _currentSortField == "InsertedDate DESC"
+                        ? new BindingList<MovieShortInfo>(DAL.MoviesData.OrderByDescending(o => o.InsertedDate).ToList())
+                        : new BindingList<MovieShortInfo>(DAL.MoviesData.OrderByDescending(o => o.LastChangedDate).ToList());
+
+            RefreshGrid();
         }
 
         private void btnSaveChanges_Click(object sender, EventArgs e)
@@ -703,7 +720,10 @@ namespace Desene
             var currentMenuItem = (ToolStripMenuItem)sender;
             currentMenuItem.Checked = true;
             _currentSortField = currentMenuItem.Tag.ToString(); // + (currentMenuItem.Name == "miSortByName" ? " COLLATE NOCASE ASC" : string.Empty);
-            ReloadData();
+
+            ResortGrid();
+
+            //ReloadData();
         }
 
         #region Advanced filters

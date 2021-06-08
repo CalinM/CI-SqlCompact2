@@ -108,6 +108,8 @@ namespace Desene
             }
 
             DAL.NewMTD.ParentId = _collectionId;
+            DAL.NewMTD.InsertedDate = DateTime.Now;
+
             var opRes = DAL.InsertMTD(DAL.NewMTD, null);
 
             if (!opRes.Success)

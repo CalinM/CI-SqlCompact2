@@ -452,18 +452,40 @@ namespace Desene.DetailFormsAndUserControls
             try
             {
                 if (File.GetAttributes(droppedObj).HasFlag(FileAttributes.Directory))
+                {
+                    var opRes = Utils.Helpers.GetFilesDetails(droppedObj, ParentForm);
+
+                    if (!opRes.Success)
+                        MsgBox.Show(opRes.CustomErrorMessage, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                     return;
+                }
 
-                //var moviesExt = new string[] { ".mkv", ".mp4", ".avi" };
                 var picturesExt = new string[] { ".jpg", ".jpeg", ".png", ".bmp" };
-
-                //if (Array.IndexOf(moviesExt, Path.GetExtension(droppedObj).ToLower()) >= 0 && _isEdit)
-                //{
-                //}
+                var textFilesExt = new string[] { ".txt", ".srt" };
+                var moviesExt = new string[] { ".mkv", ".mp4", ".avi" };
 
                 if (Array.IndexOf(picturesExt, Path.GetExtension(droppedObj).ToLower()) >= 0)
                 {
-                    SetNewPoster(droppedObj);
+                    //SetNewPoster(droppedObj);
+                    using (var file = new FileStream(droppedObj, FileMode.Open, FileAccess.Read))
+                    {
+                        var bytes = new byte[file.Length];
+                        file.Read(bytes, 0, (int)file.Length);
+
+                        SetPoster(bytes);
+                        Helpers.UnsavedChanges = true;
+                    }
+                }
+                else
+                if (Array.IndexOf(textFilesExt, Path.GetExtension(droppedObj).ToLower()) >= 0)
+                {
+                    Utils.Helpers.FixDiacriticsInTextFile(droppedObj);
+                }
+                else
+                if (Array.IndexOf(moviesExt, Path.GetExtension(droppedObj).ToLower()) >= 0 && _isNew)
+                {
+                    //todo: move importfrom file in Utils and call the code here as well
                 }
             }
             catch (Exception ex)

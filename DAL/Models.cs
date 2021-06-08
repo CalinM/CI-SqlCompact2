@@ -19,6 +19,8 @@ namespace DAL
         public bool HasSynopsis { get; set; }
         public bool ThumbnailGenerated { get; set;}
         public bool HasCsmData { get; set; }
+        public DateTime InsertedDate { get; set; }
+        public DateTime LastChangedDate { get; set; }
 
         public MovieShortInfo()
         {

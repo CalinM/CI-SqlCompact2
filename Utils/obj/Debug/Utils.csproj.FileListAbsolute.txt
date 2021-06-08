@@ -267,7 +267,6 @@ C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.pdb
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.dll.config
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\AngleSharp.xml
 C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Data.SQLite.xml
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csprojAssemblyReference.cache
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmElementsInfoFromFiles.resources
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmEpisodeInfoFromFiles.resources
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmFileDetails.resources
@@ -286,3 +285,4 @@ C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.CoreCompileInputs.c
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.CopyComplete
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.dll
 C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.pdb
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.AssemblyReference.cache

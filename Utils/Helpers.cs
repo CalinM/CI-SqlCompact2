@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Dynamic;
+using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Forms;
 using Common;
+using Common.ExtensionMethods;
+using DAL;
 using Microsoft.Win32;
 using Ookii.Dialogs;
 using Utils.Properties;
@@ -231,6 +237,125 @@ namespace Utils
             value = textBox.Text;
 
             return dialogResult;
+        }
+
+        public static OperationResult FixDiacriticsInTextFile(string fileName)
+        {
+            var result = new OperationResult();
+
+            try
+            {
+                var ext = Path.GetExtension(fileName).ToLower();
+
+                if (ext != ".srt" && ext != ".txt")
+                    result.FailWithMessage(string.Format("Unsupported file format ({0})", ext));
+
+                var subtitleContent = string.Empty;
+
+                subtitleContent = File.ReadAllText(fileName, Encoding.UTF8);
+
+                if (subtitleContent.Contains("�"))
+                    subtitleContent = File.ReadAllText(fileName, Encoding.Default);
+
+                var newFileName =
+                    Path.Combine(
+                        Path.GetDirectoryName(fileName),
+                        string.Format("{0}_new{1}",
+                            Path.GetFileNameWithoutExtension(fileName),
+                            ext)
+                        );
+
+                using (var sw = new StreamWriter(newFileName, false, Encoding.UTF8))
+                {
+                    sw.WriteLine(
+                        subtitleContent
+                            .Replace("º", "ș")
+                            .Replace("þ", "ț")
+                            .Replace("ª", "Ș")
+                            .Replace("Þ", "Ț")
+                            .Replace("ã", "ă")
+                            .Replace("”", "\"")
+                            .Replace("Ã", "Ă")
+                        );
+                }
+            }
+            catch (Exception ex)
+            {
+                result.FailWithMessage(OperationResult.GetErrorMessage(ex));
+            }
+
+            return result;
+        }
+
+        public static OperationResult GetFilesDetails(string path, Form parentForm)
+        {
+            var result = new OperationResult();
+
+            var files =
+                 Directory.EnumerateFiles(path, "*.*", SearchOption.TopDirectoryOnly)
+                     .Where(s => s.EndsWith(".mkv") || s.EndsWith(".mp4")).ToArray();
+
+            Directory.GetFiles(path, "*.*");
+
+            if (!files.ToList().DistinctBy(Path.GetExtension).Any())
+                result.FailWithMessage(string.Format("The specified folder '{0}' is empty!", path));
+            else
+            {
+                var param = new FilesImportParams
+                {
+                    Location = path,
+                    FilesExtension = "*.*",
+                    DisplayInfoOnly = true
+                };
+
+                var opRes = FilesMetaData.GetFilesTechnicalDetails(files, param);
+
+                if (opRes.AdditionalDataReturn == null)
+                    result.FailWithMessage(string.Format("No details retrieved. {0}", opRes.CustomErrorMessage));
+
+                var filesInfoDeterminationResult = (KeyValuePair<List<MovieTechnicalDetails>, List<TechnicalDetailsImportError>>)opRes.AdditionalDataReturn;
+                var displayResult = new List<dynamic>();
+
+                foreach (var file in files)
+                {
+                    var fileInfoObj = filesInfoDeterminationResult.Key.FirstOrDefault(f => f.InitialPath == file);
+                    var dynamicObj = new ExpandoObject() as IDictionary<string, object>;
+                    dynamicObj.Add("Filename", Path.GetFileName(file));
+                    dynamicObj.Add("Resolution", string.Format("{0}x{1}", fileInfoObj.VideoStreams[0].Width, fileInfoObj.VideoStreams[0].Height));
+                    dynamicObj.Add("FileVideo Title", fileInfoObj.HasTitle || fileInfoObj.VideoStreams.Any(vs => vs.HasTitle));
+
+                    if (fileInfoObj != null)
+                    {
+                        foreach (var audioObj in fileInfoObj.AudioStreams)
+                        {
+                            dynamicObj.Add(string.Format("Audio {0}", audioObj.Index), audioObj.Language);
+                            dynamicObj.Add(string.Format("Channels {0}", audioObj.Index), audioObj.Channel);
+                            dynamicObj.Add(string.Format("Default {0}", audioObj.Index), audioObj.Default);
+                            dynamicObj.Add(string.Format("Forced {0}", audioObj.Index), audioObj.Forced);
+                            dynamicObj.Add(string.Format("Title {0}", audioObj.Index), audioObj.HasTitle);
+                        }
+
+                        dynamicObj.Add("Error", "");
+                    }
+                    else
+                    {
+                        var fileErrorObj = filesInfoDeterminationResult.Value.FirstOrDefault(f => f.FilePath == file);
+                        dynamicObj.Add("Error", fileInfoObj != null ? fileErrorObj.ErrorMesage : "Unknown error!");
+                    }
+
+                    dynamicObj.Add("Cover", !string.IsNullOrEmpty(fileInfoObj.Cover));
+
+                    displayResult.Add(dynamicObj);
+                }
+
+                if (!displayResult.Any())
+                    result.FailWithMessage("Something went wrong while processing the files details!");
+
+                var frmFileDetails = new FrmFileDetails(displayResult) { Owner = parentForm };
+                frmFileDetails.Show();
+            }
+
+            return result;
         }
     }
 

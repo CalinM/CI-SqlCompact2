@@ -1,4 +1,4 @@
-﻿namespace Desene.DetailFormsAndUserControls.Movies
+﻿namespace Desene.DetailFormsAndUserControls.Shared
 {
     partial class FrmALotOrALittle_Explanation
     {

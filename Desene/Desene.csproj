@@ -86,16 +86,16 @@
     <Compile Include="DetailFormsAndUserControls\Movies\FrmAddMovie.Designer.cs">
       <DependentUpon>FrmAddMovie.cs</DependentUpon>
     </Compile>
-    <Compile Include="DetailFormsAndUserControls\Movies\FrmALotOrALittle_Explanation.cs">
+    <Compile Include="DetailFormsAndUserControls\Shared\FrmALotOrALittle_Explanation.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DetailFormsAndUserControls\Movies\FrmALotOrALittle_Explanation.Designer.cs">
+    <Compile Include="DetailFormsAndUserControls\Shared\FrmALotOrALittle_Explanation.Designer.cs">
       <DependentUpon>FrmALotOrALittle_Explanation.cs</DependentUpon>
     </Compile>
-    <Compile Include="DetailFormsAndUserControls\Movies\FrmRecommendedData.cs">
+    <Compile Include="DetailFormsAndUserControls\Shared\FrmRecommendedData.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DetailFormsAndUserControls\Movies\FrmRecommendedData.Designer.cs">
+    <Compile Include="DetailFormsAndUserControls\Shared\FrmRecommendedData.Designer.cs">
       <DependentUpon>FrmRecommendedData.cs</DependentUpon>
     </Compile>
     <Compile Include="DetailFormsAndUserControls\Movies\ucMovieInfo.cs">
@@ -214,10 +214,10 @@
     <EmbeddedResource Include="DetailFormsAndUserControls\Movies\FrmAddMovie.resx">
       <DependentUpon>FrmAddMovie.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DetailFormsAndUserControls\Movies\FrmALotOrALittle_Explanation.resx">
+    <EmbeddedResource Include="DetailFormsAndUserControls\Shared\FrmALotOrALittle_Explanation.resx">
       <DependentUpon>FrmALotOrALittle_Explanation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DetailFormsAndUserControls\Movies\FrmRecommendedData.resx">
+    <EmbeddedResource Include="DetailFormsAndUserControls\Shared\FrmRecommendedData.resx">
       <DependentUpon>FrmRecommendedData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DetailFormsAndUserControls\Movies\ucMovieInfo.resx">

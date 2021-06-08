@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-
+using Common;
+using DAL;
 using Desene.Properties;
 
 using Utils;
@@ -53,6 +54,34 @@ namespace Desene
             }
 
             NewId = (int)opRes.AdditionalDataReturn;
+
+            if (!ucEditSeriesBaseInfo.RecommendedLink.ToLower().Contains("commonsensemedia"))
+            {
+                Utils.Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "Recommended data",
+                    "The 'recommended' data is from a site which doesn't have scraper and parser built!", 5000, this);
+            }
+            else
+            {
+                opRes = WebScraping.GetCommonSenseMediaData(ucEditSeriesBaseInfo.RecommendedLink);
+
+                if (!opRes.Success)
+                {
+                    Utils.Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "Recommended data",
+                        opRes.CustomErrorMessage, 5000, this);
+                }
+                else
+                {
+                    opRes = DAL.SaveCommonSenseMediaData(NewId, (CSMScrapeResult)opRes.AdditionalDataReturn);
+
+                    if (!opRes.Success)
+                    {
+                        Utils.Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "Recommended data",
+                            opRes.CustomErrorMessage, 5000, this);
+                    }
+                }
+            }
+
+
             DialogResult = DialogResult.OK;
             Close();
         }

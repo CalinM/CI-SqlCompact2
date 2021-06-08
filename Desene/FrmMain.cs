@@ -7,12 +7,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-
-using Common.ExtensionMethods;
 
 using DAL;
 
@@ -124,7 +121,6 @@ namespace Desene
                     CSMDetailId ASC
                 );");
 
-
             pMainContainer.Controls.Clear();
 
             DAL.LoadBaseDbValues();
@@ -227,6 +223,8 @@ namespace Desene
 
                 SetMainCrudButtonsState(senderItem.Checked, "Add movie");
                 ddbTools.Visible = true;
+                miCheckFiles.Visible = true;
+                miImportSynopsis.Visible = true;
 
                 //todo: check if necessary
                 GC.Collect();
@@ -368,7 +366,9 @@ namespace Desene
                 }
 
                 SetMainCrudButtonsState(senderItem.Checked, "Add " + (st == SeriesType.Final ? "series" : "recordings group"));
-                ddbTools.Visible = false;
+                ddbTools.Visible = st == SeriesType.Final;
+                miCheckFiles.Visible = false;
+                miImportSynopsis.Visible = false;
 
                 //todo: check if necessary
                 GC.Collect();
@@ -1014,84 +1014,21 @@ namespace Desene
             Settings.Default.LastPath = selectedPath;
             Settings.Default.Save();
 
-            GetFilesDetails(selectedPath);
+            Helpers.GetFilesDetails(selectedPath, this);
         }
 
-        private void GetFilesDetails(string path)
-        {
-            var files =
-                 Directory.EnumerateFiles(path, "*.*", SearchOption.TopDirectoryOnly)
-                     .Where(s => s.EndsWith(".mkv") || s.EndsWith(".mp4")).ToArray();
+        //private void GetFilesDetails(string path)
+        //{
+        //    var opRes = Utils.Helpers.GetFilesDetails(path);
 
-            Directory.GetFiles(path, "*.*");
+        //    if (!opRes.Success)
+        //        Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "File details",
+        //            opRes.CustomErrorMessage, 5000, this);
+        //    else
+        //    {
 
-            if (!files.ToList().DistinctBy(Path.GetExtension).Any())
-                Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "File details",
-                    string.Format("The specified folder '{0}' is empty!", path), 5000, this);
-            else
-            {
-                var param = new FilesImportParams
-                {
-                    Location = path,
-                    FilesExtension = "*.*",
-                    DisplayInfoOnly = true
-                };
-
-                var opRes = FilesMetaData.GetFilesTechnicalDetails(files, param);
-
-                if (opRes.AdditionalDataReturn == null)
-                {
-                    Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "File details",
-                        string.Format("No details retrieved. {0}", opRes.CustomErrorMessage), 5000, this);
-                    return;
-                }
-
-                var filesInfoDeterminationResult = (KeyValuePair<List<MovieTechnicalDetails>, List<TechnicalDetailsImportError>>)opRes.AdditionalDataReturn;
-                var displayResult = new List<dynamic>();
-
-                foreach (var file in files)
-                {
-                    var fileInfoObj = filesInfoDeterminationResult.Key.FirstOrDefault(f => f.InitialPath == file);
-                    var dynamicObj = new ExpandoObject() as IDictionary<string, object>;
-                    dynamicObj.Add("Filename", Path.GetFileName(file));
-                    dynamicObj.Add("Resolution", string.Format("{0}x{1}", fileInfoObj.VideoStreams[0].Width, fileInfoObj.VideoStreams[0].Height));
-                    dynamicObj.Add("FileVideo Title", fileInfoObj.HasTitle || fileInfoObj.VideoStreams.Any(vs => vs.HasTitle));
-
-                    if (fileInfoObj != null)
-                    {
-                        foreach (var audioObj in fileInfoObj.AudioStreams)
-                        {
-                            dynamicObj.Add(string.Format("Audio {0}", audioObj.Index), audioObj.Language);
-                            dynamicObj.Add(string.Format("Channels {0}", audioObj.Index), audioObj.Channel);
-                            dynamicObj.Add(string.Format("Default {0}", audioObj.Index), audioObj.Default);
-                            dynamicObj.Add(string.Format("Forced {0}", audioObj.Index), audioObj.Forced);
-                            dynamicObj.Add(string.Format("Title {0}", audioObj.Index), audioObj.HasTitle);
-                        }
-
-                        dynamicObj.Add("Error", "");
-                    }
-                    else
-                    {
-                        var fileErrorObj = filesInfoDeterminationResult.Value.FirstOrDefault(f => f.FilePath == file);
-                        dynamicObj.Add("Error", fileInfoObj != null ? fileErrorObj.ErrorMesage : "Unknown error!");
-                    }
-
-                    dynamicObj.Add("Cover", !string.IsNullOrEmpty(fileInfoObj.Cover));
-
-                    displayResult.Add(dynamicObj);
-                }
-
-                if (!displayResult.Any())
-                {
-                    Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "File details",
-                        "Something went wrong while processing the files details!", 5000, this);
-                    return;
-                }
-
-                var frmFileDetails = new FrmFileDetails(displayResult) { Owner = this };
-                frmFileDetails.Show();
-            }
-        }
+        //    }
+        //}
 
         private void BtnBuildFileNames_Click(object sender, EventArgs e)
         {
@@ -1107,53 +1044,19 @@ namespace Desene
         private void FrmMain_DragDrop(object sender, DragEventArgs e)
         {
             var droppedObj = ((string[])e.Data.GetData(DataFormats.FileDrop))[0];
+            OperationResult opRes;
 
-            try
+            if (File.GetAttributes(droppedObj).HasFlag(FileAttributes.Directory))
             {
-                if (File.GetAttributes(droppedObj).HasFlag(FileAttributes.Directory))
-                {
-                    GetFilesDetails(droppedObj);
-                }
-                else
-                {
-                    if (Path.GetExtension(droppedObj).ToLower() != ".srt" && Path.GetExtension(droppedObj).ToLower() != ".txt")
-                        return;
-
-                    var subtitleContent = string.Empty;
-
-                    subtitleContent = File.ReadAllText(droppedObj, Encoding.UTF8);
-
-                    if (subtitleContent.Contains("�"))
-                        subtitleContent = File.ReadAllText(droppedObj, Encoding.Default);
-
-
-                    var newFileName =
-                        Path.Combine(
-                            Path.GetDirectoryName(droppedObj),
-                            string.Format("{0}_new{1}",
-                                Path.GetFileNameWithoutExtension(droppedObj),
-                                Path.GetExtension(droppedObj))
-                            );
-
-                    using (var sw = new StreamWriter(newFileName, false, Encoding.UTF8))
-                    {
-                        sw.WriteLine(
-                            subtitleContent
-                                .Replace("º", "ș")
-                                .Replace("þ", "ț")
-                                .Replace("ª", "Ș")
-                                .Replace("Þ", "Ț")
-                                .Replace("ã", "ă")
-                                .Replace("”", "\"")
-                                .Replace("Ã", "Ă")
-                            );
-                    }
-                }
+                opRes = Helpers.GetFilesDetails(droppedObj, this);
             }
-            catch (Exception ex)
+            else
             {
-                MsgBox.Show(OperationResult.GetErrorMessage(ex), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                opRes = Helpers.FixDiacriticsInTextFile(droppedObj);
             }
+
+            if (!opRes.Success)
+                MsgBox.Show(opRes.CustomErrorMessage, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void PMainContainer_Paint(object sender, PaintEventArgs e)
@@ -1325,14 +1228,22 @@ namespace Desene
         private void miImportCommonSenseMediaData_Click(object sender, EventArgs e)
         {
             var dlgResult =
-                MsgBox.Show("Do you want to preserve existing data?", "Confirmation", MessageBoxButtons.YesNoCancel,
+                MsgBox.Show("Do you want to preserve existing data?", ("Import CommonSenseMedia for " + (miMovies.Checked ? "movies" : "series")), MessageBoxButtons.YesNoCancel,
                     MessageBoxIcon.Question, MessageBoxDefaultButton.Button3);
 
             if (dlgResult == DialogResult.Cancel) return;
 
-            var opRes = WebScraping.ImportCommonSenseMediaData(dlgResult == DialogResult.Yes);
+            var opRes = WebScraping.ImportCommonSenseMediaData(miMovies.Checked, dlgResult == DialogResult.Yes);
 
-            var x = 1;
+            if (!opRes.Success)
+            {
+                MsgBox.Show(string.Format("The following error occurred attempting to retrieve the CommonSenseMedia data:{0}{0}{1}", Environment.NewLine, opRes.CustomErrorMessage),
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                MessageBox.Show("Done");
+            }
         }
 
 

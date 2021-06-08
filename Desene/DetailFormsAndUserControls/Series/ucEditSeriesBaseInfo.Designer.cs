@@ -28,21 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pbCover = new System.Windows.Forms.PictureBox();
+            this.lbRecommended = new System.Windows.Forms.Label();
+            this.pbDescriptionLink = new System.Windows.Forms.Label();
+            this.lbSeriesTitle = new System.Windows.Forms.Label();
+            this.lbNotes = new System.Windows.Forms.Label();
+            this.lbTrailer = new System.Windows.Forms.Label();
+            this.bRefreshCSMData = new Utils.UnselectableButton();
+            this.bGotoTrailer = new Utils.UnselectableButton();
+            this.bGotoRecommendedSite = new Utils.UnselectableButton();
+            this.bGotoDescription = new Utils.UnselectableButton();
+            this.tbTrailer = new Utils.CustomTextBox();
             this.tbNotes = new Utils.CustomTextBox();
             this.tbRecommendedLink = new Utils.CustomTextBox();
             this.tbRecommended = new Utils.CustomTextBox();
-            this.lbRecommended = new System.Windows.Forms.Label();
             this.tbDescriptionLink = new Utils.CustomTextBox();
-            this.pbDescriptionLink = new System.Windows.Forms.Label();
             this.tbTitle = new Utils.CustomTextBox();
-            this.lbSeriesTitle = new System.Windows.Forms.Label();
-            this.lbNotes = new System.Windows.Forms.Label();
-            this.tbTrailer = new Utils.CustomTextBox();
-            this.lbTrailer = new System.Windows.Forms.Label();
-            this.bGotoDescription = new Utils.UnselectableButton();
-            this.bGotoRecommendedSite = new Utils.UnselectableButton();
-            this.bGotoTrailer = new Utils.UnselectableButton();
+            this.ttTitleContent = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pbCover)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,32 +60,6 @@
             this.pbCover.TabIndex = 193;
             this.pbCover.TabStop = false;
             // 
-            // tbNotes
-            // 
-            this.tbNotes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbNotes.Location = new System.Drawing.Point(128, 102);
-            this.tbNotes.Multiline = true;
-            this.tbNotes.Name = "tbNotes";
-            this.tbNotes.Size = new System.Drawing.Size(435, 219);
-            this.tbNotes.TabIndex = 4;
-            // 
-            // tbRecommendedLink
-            // 
-            this.tbRecommendedLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbRecommendedLink.Location = new System.Drawing.Point(184, 76);
-            this.tbRecommendedLink.Name = "tbRecommendedLink";
-            this.tbRecommendedLink.Size = new System.Drawing.Size(353, 20);
-            this.tbRecommendedLink.TabIndex = 3;
-            // 
-            // tbRecommended
-            // 
-            this.tbRecommended.Location = new System.Drawing.Point(128, 76);
-            this.tbRecommended.Name = "tbRecommended";
-            this.tbRecommended.Size = new System.Drawing.Size(50, 20);
-            this.tbRecommended.TabIndex = 2;
-            // 
             // lbRecommended
             // 
             this.lbRecommended.AutoSize = true;
@@ -92,16 +69,6 @@
             this.lbRecommended.TabIndex = 189;
             this.lbRecommended.Text = "Recommended:";
             // 
-            // tbDescriptionLink
-            // 
-            this.tbDescriptionLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbDescriptionLink.Location = new System.Drawing.Point(128, 50);
-            this.tbDescriptionLink.Name = "tbDescriptionLink";
-            this.tbDescriptionLink.Size = new System.Drawing.Size(409, 20);
-            this.tbDescriptionLink.TabIndex = 1;
-            this.tbDescriptionLink.Leave += new System.EventHandler(this.tbDescriptionLink_Leave);
-            // 
             // pbDescriptionLink
             // 
             this.pbDescriptionLink.AutoSize = true;
@@ -110,16 +77,6 @@
             this.pbDescriptionLink.Size = new System.Drawing.Size(82, 13);
             this.pbDescriptionLink.TabIndex = 187;
             this.pbDescriptionLink.Text = "Description link:";
-            // 
-            // tbTitle
-            // 
-            this.tbTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbTitle.Location = new System.Drawing.Point(128, 24);
-            this.tbTitle.Name = "tbTitle";
-            this.tbTitle.Size = new System.Drawing.Size(435, 20);
-            this.tbTitle.TabIndex = 0;
-            this.tbTitle.TextChanged += new System.EventHandler(this.tbTitle_TextChanged);
             // 
             // lbSeriesTitle
             // 
@@ -139,15 +96,6 @@
             this.lbNotes.TabIndex = 184;
             this.lbNotes.Text = "Notes:";
             // 
-            // tbTrailer
-            // 
-            this.tbTrailer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbTrailer.Location = new System.Drawing.Point(128, 325);
-            this.tbTrailer.Name = "tbTrailer";
-            this.tbTrailer.Size = new System.Drawing.Size(409, 20);
-            this.tbTrailer.TabIndex = 5;
-            // 
             // lbTrailer
             // 
             this.lbTrailer.AutoSize = true;
@@ -157,41 +105,22 @@
             this.lbTrailer.TabIndex = 195;
             this.lbTrailer.Text = "Trailer:";
             // 
-            // bGotoDescription
+            // bRefreshCSMData
             // 
-            this.bGotoDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bGotoDescription.BackgroundImage = global::Desene.Properties.Resources.external_icon;
-            this.bGotoDescription.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.bGotoDescription.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.bGotoDescription.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.bGotoDescription.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.bGotoDescription.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.bGotoDescription.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bGotoDescription.Location = new System.Drawing.Point(543, 50);
-            this.bGotoDescription.Name = "bGotoDescription";
-            this.bGotoDescription.Size = new System.Drawing.Size(20, 20);
-            this.bGotoDescription.TabIndex = 293;
-            this.bGotoDescription.TabStop = false;
-            this.bGotoDescription.UseVisualStyleBackColor = true;
-            this.bGotoDescription.Click += new System.EventHandler(this.bGotoDescription_Click);
-            // 
-            // bGotoRecommendedSite
-            // 
-            this.bGotoRecommendedSite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bGotoRecommendedSite.BackgroundImage = global::Desene.Properties.Resources.external_icon;
-            this.bGotoRecommendedSite.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.bGotoRecommendedSite.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.bGotoRecommendedSite.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.bGotoRecommendedSite.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.bGotoRecommendedSite.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.bGotoRecommendedSite.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bGotoRecommendedSite.Location = new System.Drawing.Point(543, 76);
-            this.bGotoRecommendedSite.Name = "bGotoRecommendedSite";
-            this.bGotoRecommendedSite.Size = new System.Drawing.Size(20, 20);
-            this.bGotoRecommendedSite.TabIndex = 294;
-            this.bGotoRecommendedSite.TabStop = false;
-            this.bGotoRecommendedSite.UseVisualStyleBackColor = true;
-            this.bGotoRecommendedSite.Click += new System.EventHandler(this.bGotoRecommendedSite_Click);
+            this.bRefreshCSMData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bRefreshCSMData.BackgroundImage = global::Desene.Properties.Resources.Plugin;
+            this.bRefreshCSMData.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.bRefreshCSMData.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.bRefreshCSMData.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.bRefreshCSMData.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.bRefreshCSMData.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bRefreshCSMData.Location = new System.Drawing.Point(522, 76);
+            this.bRefreshCSMData.Name = "bRefreshCSMData";
+            this.bRefreshCSMData.Size = new System.Drawing.Size(20, 20);
+            this.bRefreshCSMData.TabIndex = 300;
+            this.bRefreshCSMData.TabStop = false;
+            this.bRefreshCSMData.UseVisualStyleBackColor = true;
+            this.bRefreshCSMData.Click += new System.EventHandler(this.bRefreshCSMData_Click);
             // 
             // bGotoTrailer
             // 
@@ -211,11 +140,103 @@
             this.bGotoTrailer.UseVisualStyleBackColor = true;
             this.bGotoTrailer.Click += new System.EventHandler(this.bGotoTrailer_Click);
             // 
+            // bGotoRecommendedSite
+            // 
+            this.bGotoRecommendedSite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bGotoRecommendedSite.BackgroundImage = global::Desene.Properties.Resources.external_icon;
+            this.bGotoRecommendedSite.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.bGotoRecommendedSite.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.bGotoRecommendedSite.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.bGotoRecommendedSite.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.bGotoRecommendedSite.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.bGotoRecommendedSite.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bGotoRecommendedSite.Location = new System.Drawing.Point(543, 76);
+            this.bGotoRecommendedSite.Name = "bGotoRecommendedSite";
+            this.bGotoRecommendedSite.Size = new System.Drawing.Size(20, 20);
+            this.bGotoRecommendedSite.TabIndex = 294;
+            this.bGotoRecommendedSite.TabStop = false;
+            this.bGotoRecommendedSite.UseVisualStyleBackColor = true;
+            this.bGotoRecommendedSite.Click += new System.EventHandler(this.bGotoRecommendedSite_Click);
+            // 
+            // bGotoDescription
+            // 
+            this.bGotoDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bGotoDescription.BackgroundImage = global::Desene.Properties.Resources.external_icon;
+            this.bGotoDescription.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.bGotoDescription.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.bGotoDescription.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.bGotoDescription.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.bGotoDescription.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.bGotoDescription.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bGotoDescription.Location = new System.Drawing.Point(543, 50);
+            this.bGotoDescription.Name = "bGotoDescription";
+            this.bGotoDescription.Size = new System.Drawing.Size(20, 20);
+            this.bGotoDescription.TabIndex = 293;
+            this.bGotoDescription.TabStop = false;
+            this.bGotoDescription.UseVisualStyleBackColor = true;
+            this.bGotoDescription.Click += new System.EventHandler(this.bGotoDescription_Click);
+            // 
+            // tbTrailer
+            // 
+            this.tbTrailer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbTrailer.Location = new System.Drawing.Point(128, 325);
+            this.tbTrailer.Name = "tbTrailer";
+            this.tbTrailer.Size = new System.Drawing.Size(409, 20);
+            this.tbTrailer.TabIndex = 5;
+            // 
+            // tbNotes
+            // 
+            this.tbNotes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbNotes.Location = new System.Drawing.Point(128, 102);
+            this.tbNotes.Multiline = true;
+            this.tbNotes.Name = "tbNotes";
+            this.tbNotes.Size = new System.Drawing.Size(435, 219);
+            this.tbNotes.TabIndex = 4;
+            // 
+            // tbRecommendedLink
+            // 
+            this.tbRecommendedLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbRecommendedLink.Location = new System.Drawing.Point(184, 76);
+            this.tbRecommendedLink.Name = "tbRecommendedLink";
+            this.tbRecommendedLink.Size = new System.Drawing.Size(332, 20);
+            this.tbRecommendedLink.TabIndex = 3;
+            // 
+            // tbRecommended
+            // 
+            this.tbRecommended.Location = new System.Drawing.Point(128, 76);
+            this.tbRecommended.Name = "tbRecommended";
+            this.tbRecommended.Size = new System.Drawing.Size(50, 20);
+            this.tbRecommended.TabIndex = 2;
+            // 
+            // tbDescriptionLink
+            // 
+            this.tbDescriptionLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbDescriptionLink.Location = new System.Drawing.Point(128, 50);
+            this.tbDescriptionLink.Name = "tbDescriptionLink";
+            this.tbDescriptionLink.Size = new System.Drawing.Size(409, 20);
+            this.tbDescriptionLink.TabIndex = 1;
+            this.tbDescriptionLink.Leave += new System.EventHandler(this.tbDescriptionLink_Leave);
+            // 
+            // tbTitle
+            // 
+            this.tbTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbTitle.Location = new System.Drawing.Point(128, 24);
+            this.tbTitle.Name = "tbTitle";
+            this.tbTitle.Size = new System.Drawing.Size(435, 20);
+            this.tbTitle.TabIndex = 0;
+            this.tbTitle.TextChanged += new System.EventHandler(this.tbTitle_TextChanged);
+            // 
             // ucEditSeriesBaseInfo
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.bRefreshCSMData);
             this.Controls.Add(this.bGotoTrailer);
             this.Controls.Add(this.bGotoRecommendedSite);
             this.Controls.Add(this.bGotoDescription);
@@ -258,5 +279,7 @@
         private Utils.UnselectableButton bGotoDescription;
         private Utils.UnselectableButton bGotoRecommendedSite;
         private Utils.UnselectableButton bGotoTrailer;
+        private Utils.UnselectableButton bRefreshCSMData;
+        private System.Windows.Forms.ToolTip ttTitleContent;
     }
 }

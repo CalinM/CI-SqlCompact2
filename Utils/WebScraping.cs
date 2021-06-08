@@ -333,13 +333,13 @@ namespace Utils
 
         #region CommonSenseMedia data
 
-        public static OperationResult ImportCommonSenseMediaData(bool preserveExisting)
+        public static OperationResult ImportCommonSenseMediaData(bool forMovies, bool preserveExisting)
         {
             var result = new OperationResult();
 
             try
             {
-                var opRes = Desene.DAL.GetMoviesForCommonSenseMediaDataImport(preserveExisting);
+                var opRes = Desene.DAL.GetMoviesForCommonSenseMediaDataImport(forMovies, preserveExisting);
                 if (!opRes.Success)
                     return opRes;
 

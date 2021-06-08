@@ -1,4 +1,4 @@
-var trailerPlaying = false;
+﻿var trailerPlaying = false;
 var searchResultTimer = null;
 
 var waitForFinalEvent = (function () {
@@ -22,239 +22,388 @@ function DisplayHome() {
 	$("#rootNav").css("display", "block");
 
 
-	$("#sections-wrapper").html($("#homePageContent").html());
+	//$("#sections-wrapper").html($("#homePageContent").html());
 	$("#moviesSections span").removeClass("selected-subSection");
 	$(".about-message-img").css("display", "");
 
 	$("#genVersion").html("v" + genDetails);
 
-	$("#mobileWarning").css("display", isMobile() ? "block" : "none");
+	//$("#mobileWarning").css("display", isMobile() ? "block" : "none");
 	$("#snapshotStat").html("");
 
 	$(".closeNewsSectionWrapper").css("display", "none");
 	$(".about-message-img").css("display", "block");
+	
+	RenderWhatsNew();
+}
 
-	setTimeout(function () {
-		$(".tabbed li").off("click").on("click", function () {
-			if (!$(this).hasClass("active")) {
-				$(this).parent().find("li").removeClass("active");
-				$(this).addClass("active");
+function RenderWhatsNew() {
+	if (!isMobile()) {
+		if ($("#newWrapper").length == 0) {
+			var whatsNewSection =
+				"<div id='newWrapper' style='position: absolute; bottom: 0; width: 100%;'>" + 
+					"<div class='tabbed round'>" + 
+						"<ul>" + 
+							"<li data-type='0'>New movies</li>" + 
+							"<li data-type='1'>Updated movies</li>" + 
+							"<li data-type='2'>New series/episodes</li>" + 
+							"<li data-type='3'>New recordings/episodes</li>" + 
+							"<li data-type='4'>New collections/elements</li>" + 
+						"</ul>" + 
 
-				if ($("#newInnerWrapper").height() < 1) //can be 0.5 on different zoom levels
-					$("#newInnerWrapper").height(280);
+						"<div class='closeNewsSectionWrapper'>" + 
+							"<button id='closeNewsSection' class='circle' data-animation='xMarks' title='Close the News sections'></button>" + 
+						"</div>" + 
+					"</div>" + 
 
-				var sectionRenderer = function (sectionIds, sectionType, masterList) {
-					if (sectionIds.length > 0) {
-						var newMoviesDet =
-							masterList
-								.filter(
-									function (e) {
-										return sectionIds.indexOf(e.Id) >= 0;
+					"<div id='newInnerWrapper'>" + 
+					"</div>" + 
+				"</div>";
+
+			$("#sections-wrapper").append(whatsNewSection);			
+		}
+
+		setTimeout(function () {
+			$(".tabbed li").off("click").on("click", function () {
+				if (!$(this).hasClass("active")) {
+					$(this).parent().find("li").removeClass("active");
+					$(this).addClass("active");
+
+					if ($("#newInnerWrapper").height() < 1) //can be 0.5 on different zoom levels
+						$("#newInnerWrapper").height(280);
+
+					var sectionRenderer = function (sectionIds, sectionType, masterList) {
+						if (sectionIds.length > 0) {
+							var newMoviesDet =
+								masterList
+									.filter(
+										function (e) {
+											return sectionIds.indexOf(e.Id) >= 0;
+										})
+									.sort(function (a, b) {
+										return sectionIds.indexOf(a.Id) - sectionIds.indexOf(b.Id);
+									});
+
+							var sectionHtml = "<div id=\"newMovies\" class=\"owl-carousel owl-theme\">";
+							var extraPath = "";
+
+							switch (sectionType) {
+								case 0:
+									extraPath = "Movies";
+									break;
+								case 1:
+									extraPath = "Series";
+									break;
+								case 2:
+									extraPath = "Recordings";
+									break;
+								// case 3:
+								// 	extraPath = "Collections";
+								// 	break;
+							}
+
+							newMoviesDet.forEach(function (el) {
+								var tooltip =
+									"Title: " + el.FN + "\n" +
+									"Quality: " + el.Q + "\n" +
+									"Audio: " + el.A + "\n" +
+									"Subtitle: " + el.SU + "\n" +
+									"Recommended: " + el.R + "\n";
+									
+								if (sectionType == 0)
+									tooltip += "\n" + "Double click to jump to movie info ...";
+
+								// if (sectionType == 3 && el.T == 0) //collection of type "movies" ~ no poster at collection level
+								// {
+								// 	sectionHtml +=
+								// 		"<div class=\"collectionT0-new-cover\" title=\"" + tooltip + "\">" +
+								// 			el.FN +
+								// 		"</div>";
+								// }
+								// else {
+									sectionHtml +=
+										"<div data-movieId='" + el.Id + "'>" +
+											"<img src=\"Imgs/" + extraPath + "/poster-" + el.Id + ".jpg\" class=\"movie-cover-new\" alt=\"Loading poster ...\" title=\"" + tooltip + "\">" +
+										"</div>";
+								//}
+							});
+
+							sectionHtml += "</div>";
+
+							finishRenderSection(sectionHtml);
+
+							if (sectionType == 0)
+							{
+								setTimeout(function() {
+									$(".movie-cover-new").off("dblclick").on("dblclick", function() {
+										$("#snapshotStat").html(moviesStat);
+
+										BuildMoviesSection(moviesData, null);
+
+										setTimeout(() => {
+											var movieId = $(this).parent().data("movieid");
+
+											$("#sections-wrapper").slimScroll({
+												scrollToAnimationDuration: 500,
+												scrollTo: parseInt($("div[data-movieid='" + movieId +"']").offset().top) - 100
+											});
+
+											setTimeout(() => {
+												var movieEl = $(".movie-detail-wrapper[data-movieid=" + movieId + "]").parent();
+												movieEl.addClass("newItemClicked-highlight");
+
+												setTimeout(() => {
+													movieEl.removeClass("newItemClicked-highlight");
+												}, 1500);
+
+											}, 1000);
+										}, 200);
+
+										$("#moviesSections span").removeClass("selected-subSection");
+										$("#moviesSections span[data-categ=17]").addClass("selected-subSection");
 									})
-								.sort(function (a, b) {
-									return sectionIds.indexOf(a.Id) - sectionIds.indexOf(b.Id);
-								});
-
-						var sectionHtml = "<div id=\"newMovies\" class=\"owl-carousel owl-theme\">";
-						var extraPath = "";
-
-						switch (sectionType) {
-							case 0:
-								extraPath = "Movies";
-								break;
-							case 1:
-								extraPath = "Series";
-								break;
-							case 2:
-								extraPath = "Recordings";
-								break;
-							// case 3:
-							// 	extraPath = "Collections";
-							// 	break;
+								}, 100);
+							}
 						}
+						else {
+							$("#newMovies").html("No data available!");
+						}
+					}
 
-						newMoviesDet.forEach(function (el) {
+					var collectionSectionRenderer = function () {
+						var sectionHtml = "<div id=\"newMovies\" class=\"owl-carousel owl-theme\">";
+
+						Object.keys(newElementsInCol).sort((a, b) => b - a).forEach(function (elId) {
+							var colId = newElementsInCol[elId];
+							var elData;
+
+							if (elId == colId) {
+								//console.log("series-type");
+								elData = $.grep(collectionsData, function (x) { return x.Id == colId; });
+							}
+							else {
+								//console.log("movie-type");
+								elData = $.grep(collectionsElements, function (x) { return x.Id == elId; });
+							}
+
 							var tooltip =
-								"Title: " + el.FN + "\n" +
-								"Quality: " + el.Q + "\n" +
-								"Audio: " + el.A + "\n" +
-								"Subtitle: " + el.SU + "\n" +
-								"Recommended: " + el.R + "\n" + "\n" +
-								"Double click to jump to movie info ...";
+								"Title: " + elData[0].FN + "\n" +
+								"Quality: " + elData[0].Q + "\n" +
+								"Audio: " + elData[0].A + "\n" +
+								"Subtitle: " + elData[0].SU + "\n" +
+								"Recommended: " + elData[0].R;
 
-							// if (sectionType == 3 && el.T == 0) //collection of type "movies" ~ no poster at collection level
-							// {
-							// 	sectionHtml +=
-							// 		"<div class=\"collectionT0-new-cover\" title=\"" + tooltip + "\">" +
-							// 			el.FN +
-							// 		"</div>";
-							// }
-							// else {
-								sectionHtml +=
-									"<div data-movieId='" + el.Id + "'>" +
-										"<img src=\"Imgs/" + extraPath + "/poster-" + el.Id + ".jpg\" class=\"movie-cover-new\" alt=\"Loading poster ...\" title=\"" + tooltip + "\">" +
-									"</div>";
-							//}
+							sectionHtml +=
+								"<div>" +
+								"<img src=\"Imgs/Collections/poster-" + elData[0].Id + ".jpg\" class=\"movie-cover-new\" title=\"" + tooltip + "\" alt=\"" + elData[0].FN + "\">" +
+								"</div>";
 						});
 
 						sectionHtml += "</div>";
 
 						finishRenderSection(sectionHtml);
 
-						if (sectionType == 0)
-						{
-							setTimeout(function() {
-								$(".movie-cover-new").off("dblclick").on("dblclick", function() {
-									$("#snapshotStat").html(moviesStat);
-
-									BuildMoviesSection(moviesData, null);
-
-									setTimeout(() => {
-										var movieId = $(this).parent().data("movieid");
-
-										$("#sections-wrapper").slimScroll({
-											scrollToAnimationDuration: 500,
-											scrollTo: parseInt($("div[data-movieid='" + movieId +"']").offset().top) - 100
-										});
-
-										setTimeout(() => {
-											var movieEl = $(".movie-detail-wrapper[data-movieid=" + movieId + "]").parent();
-											movieEl.addClass("newItemClicked-highlight");
-
-											setTimeout(() => {
-												movieEl.removeClass("newItemClicked-highlight");
-											}, 1500);
-
-										}, 1000);
-									}, 200);
-
-									$("#moviesSections span").removeClass("selected-subSection");
-									$("#moviesSections span[data-categ=17]").addClass("selected-subSection");
-								})
-							}, 100);
-						}
 					}
-					else {
-						$("#newMovies").html("No data available!");
-					}
-				}
 
-				var collectionSectionRenderer = function () {
-					var sectionHtml = "<div id=\"newMovies\" class=\"owl-carousel owl-theme\">";
+					var finishRenderSection = function (sectionContent) {
+						$("#newInnerWrapper").html(sectionContent);
 
-					Object.keys(newElementsInCol).sort((a, b) => b - a).forEach(function (elId) {
-						var colId = newElementsInCol[elId];
-						var elData;
+						//issue with items cloning when items count < displayed; possible fix:
+						//loop: ( $('.owl-carousel .items').length > 5 )
+						//https://stackoverflow.com/questions/33119078/cloned-items-in-owl-carousel
+						//https://github.com/OwlCarousel2/OwlCarousel2/issues/2091
+						setTimeout(function () {
+							$("#newMovies").owlCarousel({
+								autoplay: true,
+								autoplayTimeout: 3000,
+								autoplayHoverPause: true,
+								loop: true,
+								margin: 10,
+								nav: false,
+								dots: true,
 
-						if (elId == colId) {
-							//console.log("series-type");
-							elData = $.grep(collectionsData, function (x) { return x.Id == colId; });
-						}
-						else {
-							//console.log("movie-type");
-							elData = $.grep(collectionsElements, function (x) { return x.Id == elId; });
-						}
-
-						var tooltip =
-							"Title: " + elData[0].FN + "\n" +
-							"Quality: " + elData[0].Q + "\n" +
-							"Audio: " + elData[0].A + "\n" +
-							"Subtitle: " + elData[0].SU + "\n" +
-							"Recommended: " + elData[0].R;
-
-						sectionHtml +=
-							"<div>" +
-							"<img src=\"Imgs/Collections/poster-" + elData[0].Id + ".jpg\" class=\"movie-cover-new\" title=\"" + tooltip + "\" alt=\"" + elData[0].FN + "\">" +
-							"</div>";
-					});
-
-					sectionHtml += "</div>";
-
-					finishRenderSection(sectionHtml);
-
-				}
-
-				var finishRenderSection = function (sectionContent) {
-					$("#newInnerWrapper").html(sectionContent);
-
-					//issue with items cloning when items count < displayed; possible fix:
-					//loop: ( $('.owl-carousel .items').length > 5 )
-					//https://stackoverflow.com/questions/33119078/cloned-items-in-owl-carousel
-					//https://github.com/OwlCarousel2/OwlCarousel2/issues/2091
-					setTimeout(function () {
-						$("#newMovies").owlCarousel({
-							autoplay: true,
-							autoplayTimeout: 3000,
-							autoplayHoverPause: true,
-							loop: true,
-							margin: 10,
-							nav: false,
-							dots: true,
-
-							responsive: {
-								0: {
-									items: 2,
-									//loop:( $('.item').length > 2 )
-								},
-								600: {
-									items: 3,
-									//loop:( $('.item').length > 3 )
-								},
-								1000: {
-									items: 6,
-									//margin: 20,
-									//loop:( $('.item').length > 6 )
-								},
-								2000: {
-									items: 8,
-									//loop:( $('.item').length > 8 )
+								responsive: {
+									0: {
+										items: 2,
+										//loop:( $('.item').length > 2 )
+									},
+									600: {
+										items: 3,
+										//loop:( $('.item').length > 3 )
+									},
+									1000: {
+										items: 6,
+										//margin: 20,
+										//loop:( $('.item').length > 6 )
+									},
+									2000: {
+										items: 8,
+										//loop:( $('.item').length > 8 )
+									}
 								}
-							}
+							});
+						}, 0);
+					}
+
+					switch ($(this).data("type")) {
+						case 0:
+							sectionRenderer(newMovies, 0, moviesData);
+							break;
+
+						case 1:
+							sectionRenderer(updatedMovies, 0, moviesData);
+							break;
+
+						case 2:
+							sectionRenderer(newSeriesEpisodes, 1, seriesData);
+							break;
+
+						case 3:
+							sectionRenderer(newRecordingsEpisodes, 2, recordingsData);
+							break;
+
+						case 4:
+							if (Object.keys(newElementsInCol).length > 0)
+								collectionSectionRenderer();
+							break;
+					}
+
+					$(".closeNewsSectionWrapper").css("display", "block");
+					$(".about-message-img").css("display", "none");
+				}
+			});
+
+			$("#closeNewsSection").off("click").on("click", function () {
+				$(".closeNewsSectionWrapper").css("display", "none");
+				$(".tabbed li").removeClass("active");
+				$("#newInnerWrapper").height(0);
+				$(".about-message-img").css("display", "block");
+		
+				setTimeout(function () {
+					$("#newMovies").empty();
+		
+				}, 1100);
+			});	
+		}, 0);	
+	}
+	else //IsMobile
+	{
+		var sectionRendererM =  function (sectionIds, sectionType, subSectionType, masterList, parentCell) {
+			if (sectionIds.length > 0) {
+				var newMoviesDet =
+					masterList
+						.filter(
+							function (e) {
+								return sectionIds.indexOf(e.Id) >= 0;
+							})
+						.sort(function (a, b) {
+							return sectionIds.indexOf(a.Id) - sectionIds.indexOf(b.Id);
 						});
-					}, 0);
-				}
+				
+				var elId = "newItems" +  "_" + subSectionType;
 
-				switch ($(this).data("type")) {
+				var sectionHtml = "<div id=\""+ elId + "\" class=\"owl-carousel owl-theme\">";
+				var extraPath = "";
+
+				switch (sectionType) {
 					case 0:
-						sectionRenderer(newMovies, 0, moviesData);
+						extraPath = "Movies";
 						break;
-
 					case 1:
-						sectionRenderer(updatedMovies, 0, moviesData);
-						break;
-
-					case 2:
-						sectionRenderer(newSeriesEpisodes, 1, seriesData);
-						break;
-
-					case 3:
-						sectionRenderer(newRecordingsEpisodes, 2, recordingsData);
-						break;
-
-					case 4:
-						if (Object.keys(newElementsInCol).length > 0)
-							collectionSectionRenderer();
+						extraPath = "Series";
 						break;
 				}
 
-				$(".closeNewsSectionWrapper").css("display", "block");
-				$(".about-message-img").css("display", "none");
+				newMoviesDet.forEach(function (el) {
+					var tooltip =
+						"Title: " + el.FN + "\n" +
+						"Quality: " + el.Q + "\n" +
+						"Audio: " + el.A + "\n" +
+						"Subtitle: " + el.SU + "\n" +
+						"Recommended: " + el.R + "\n" + "\n" +
+						"Double click to jump to movie info ...";
+
+					sectionHtml +=
+						"<div data-movieId='" + el.Id + "'>" +
+							"<img src=\"Imgs/" + extraPath + "/poster-" + el.Id + ".jpg\" class=\"movie-cover-new\" alt=\"Loading poster ...\" title=\"" + tooltip + "\">" +
+						"</div>";
+				});
+
+				sectionHtml += "</div>";
+
+				//finishRenderSection(sectionHtml);
+
+				$("#" + parentCell).html(sectionHtml);
+
+				setTimeout(function () {
+					$("#" + elId).owlCarousel({
+						autoplay: false,
+						autoplayTimeout: 3000,
+						autoplayHoverPause: false,
+						loop: true,
+						margin: 10,
+						nav: false,
+						dots: true,
+					});
+				}, 0);
 			}
-		});
+			else {
+				$("#newMovies").html("No data available!");
+			}			
+		}
+		
 
-	}, 0)
+		var whatsNewSection =
+			"<table id='newWrapper' style='width: 100%; table-layout: fixed; padding-left: 75px; padding-right: 75px; margin-top: 100px;'>" + 
+				"<tr>" +
+					"<td class='newSectionTitleM'>" +
+						"New movies" +
+					"</td>" +										
+				"</tr>" +	
+				"<tr>" +
+					"<td class='sectionTitleSeparator'>" +
+					"</td>" +										
+				"</tr>" +									
+				"<tr>" +				
+					"<td id='newMoviesM' class='newMoviesM'>" +
+					"</td>" +
+				"</tr>" +
+				"<tr>" +
+					"<td class='newSectionTitleM'>" +
+						"Updated movies" +
+					"</td>" +
+				"</tr>" +
+				"<tr>" +
+					"<td class='sectionTitleSeparator'>" +
+					"</td>" +										
+				"</tr>" +										
+				"<tr>" +
+					"<td id='updatedMoviesM' class='newMoviesM'>" +
+					"</td>" +
+				"</tr>" +
+				"<tr>" +
+					"<td class='newSectionTitleM'>" +
+						"New series/episodes" +
+					"</td>" +
+				"</tr>" +
+				"<tr>" +
+					"<td class='sectionTitleSeparator'>" +
+					"</td>" +										
+				"</tr>" +										
+				"<tr>" +
+					"<td id='newUpdatedSeriesM' class='newMoviesM'>" +
+					"</td>" +
+				"</tr>" +				
+			"</table>";
 
-	$("#closeNewsSection").off("click").on("click", function () {
-		$(".closeNewsSectionWrapper").css("display", "none");
-		$(".tabbed li").removeClass("active");
-		$("#newInnerWrapper").height(0);
-		$(".about-message-img").css("display", "block");
+		$("#sections-wrapper").append(whatsNewSection);	
 
-		setTimeout(function () {
-			$("#newMovies").empty();
-
-		}, 1100);
-	});
+		setTimeout(function() {
+			sectionRendererM(newMovies, 0, 0, moviesData, "newMoviesM");
+			sectionRendererM(updatedMovies, 0, 1, moviesData, "updatedMoviesM");
+			sectionRendererM(newSeriesEpisodes, 1, 2, seriesData, "newUpdatedSeriesM");
+		}, 0);
+	}
 }
 
 function SoftCloseSearch() {
@@ -304,7 +453,6 @@ function ShowOptionsButton(){
 			build: function($trigger, e) {
 				return {
 					callback: function(key, options) {
-
 						switch (key)
 						{
 							case "MovieAudioFilter_Any":
@@ -335,13 +483,16 @@ function ShowOptionsButton(){
 								localStorage.setItem("MovieTheme", "Winter");
 								break;
 
-								//Valentine's day
+							//Valentine's day ?
 							default:
 								localStorage.setItem("MoviesSort", key);
 								break;
 						}
 
-						BuildMoviesSection(moviesData, null);
+						if (key == "gridview")
+							BuildMoviesGridSection()
+						else
+							BuildMoviesSection(moviesData, null);
 					},
 					items: {
 						"fold1a": {
@@ -382,7 +533,7 @@ function ShowOptionsButton(){
 							}
 						},
 						"sep4": "---------",
-						"gridview": { "name": "Advanced view (grid)", disabled: true}
+						"gridview": { "name": "Advanced view (grid)"}
 					}
 				};
 			}

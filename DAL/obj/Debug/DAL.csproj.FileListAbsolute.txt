@@ -134,8 +134,8 @@ C:\Work\Personal\CI-SqlCompact2\DAL\bin\Debug\Common.pdb
 C:\Work\Personal\CI-SqlCompact2\DAL\bin\Debug\EntityFramework.xml
 C:\Work\Personal\CI-SqlCompact2\DAL\bin\Debug\EntityFramework.SqlServer.xml
 C:\Work\Personal\CI-SqlCompact2\DAL\bin\Debug\System.Data.SQLite.xml
-C:\Work\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.csprojAssemblyReference.cache
 C:\Work\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
 C:\Work\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.csproj.CopyComplete
 C:\Work\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.dll
 C:\Work\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.pdb
+C:\Work\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.csproj.AssemblyReference.cache

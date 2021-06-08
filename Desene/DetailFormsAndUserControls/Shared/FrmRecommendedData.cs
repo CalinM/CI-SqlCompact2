@@ -8,7 +8,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Utils;
 
-namespace Desene.DetailFormsAndUserControls.Movies
+namespace Desene.DetailFormsAndUserControls.Shared
 {
     public partial class FrmRecommendedData : Form
     {

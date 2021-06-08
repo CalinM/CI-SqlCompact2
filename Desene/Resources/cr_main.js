@@ -1,9 +1,15 @@
-﻿$(document).ready(function () {
+$(document).ready(function () {
     DisplayHome();
+    //RenderWhatsNew();
     ResizeMoviesSection();
 
     BindSearchEvents();
     BindNavigationMenuEvents();
+
+    if (isMobile()) {
+        window.scrollTo(0,1);
+        $("#rootNav span").css("font-size", "40px");
+    }
 });
 
 $(window).resize(function () {
@@ -65,7 +71,7 @@ function BindSearchEvents() {
 
 function BindNavigationMenuEvents() {
 	$(".menu-button").on("click", function () {
-        $("#sideNav").css("width", "250px");
+        $("#sideNav").css("width", (isMobile() ? "350px" : "250px"));
         $(".sideNav-overlay").css("display", "block");
 
         if ($("#sections-wrapper").find(".aboutPage-warning-title").length == 0) {
@@ -108,7 +114,7 @@ function BindNavigationMenuEvents() {
 
                 $("#snapshotStat").html(moviesStat);
                 BuildMoviesSection(moviesData, null);
-                
+
                 break;
 
             case 18: //All (grid)

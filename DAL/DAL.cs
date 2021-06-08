@@ -140,7 +140,10 @@ namespace Desene
 	                    CASE
 	                        WHEN csm.Id IS NULL THEN 0
 	                        ELSE 1
-	                    END AS HasCsmData
+	                    END AS HasCsmData,
+
+                        fd.InsertedDate,
+                        fd.LastChangeDate
 
                     FROM FileDetail fd
                         LEFT OUTER JOIN CommonSenseMediaDetail csm ON csm.FileDetailId = fd.Id
@@ -154,15 +157,32 @@ namespace Desene
                 {
                     while (reader.Read())
                     {
-                        result.Add(new MovieShortInfo
-                        {
-                            Id = (int)(long)reader["Id"],
-                            FileName = reader["FileName"].ToString(),
-                            HasPoster = (long)reader["HasPoster"] == 1,
-                            Quality = reader["Quality"].ToString(),
-                            HasSynopsis = (long)reader["HasSynopsis"] == 1,
-                            HasCsmData = (long)reader["HasCsmData"] == 1,
-                        });
+                        var msi =
+                            new MovieShortInfo
+                            {
+                                Id = (int)(long)reader["Id"],
+                                FileName = reader["FileName"].ToString(),
+                                HasPoster = (long)reader["HasPoster"] == 1,
+                                Quality = reader["Quality"].ToString(),
+                                HasSynopsis = (long)reader["HasSynopsis"] == 1,
+                                HasCsmData = (long)reader["HasCsmData"] == 1,
+                            };
+
+                        //todo: fix the dates for SD movies!!!
+                        var insertedDate =
+                            reader["InsertedDate"] == DBNull.Value
+                                ? new DateTime(1910, 1, 1)
+                                : (DateTime)reader["InsertedDate"];
+
+                        var lastChangedDate =
+                            reader["LastChangeDate"] == DBNull.Value
+                                ? insertedDate
+                                : (DateTime)reader["LastChangeDate"];
+
+                        msi.InsertedDate = insertedDate;
+                        msi.LastChangedDate = lastChangedDate;
+
+                        result.Add(msi);
                     }
                 }
             }
@@ -1630,12 +1650,12 @@ namespace Desene
                                     });
                             }
                         }
-
-                        cmd = new SQLiteCommand(string.Format("SELECT COUNT(1) FROM CommonSenseMediaDetail WHERE FileDetailId = {0}", fileDetailId), conn);
-                        cmd.CommandType = CommandType.Text;
-
-                        mtd.HasRecommendedDataSaved = Convert.ToInt32(cmd.ExecuteScalar()) > 0;
                     }
+
+                    cmd = new SQLiteCommand(string.Format("SELECT COUNT(1) FROM CommonSenseMediaDetail WHERE FileDetailId = {0}", fileDetailId), conn);
+                    cmd.CommandType = CommandType.Text;
+
+                    mtd.HasRecommendedDataSaved = Convert.ToInt32(cmd.ExecuteScalar()) > 0;
                 }
 
                 CurrentMTD = mtd;
@@ -3293,7 +3313,7 @@ namespace Desene
             return result;
         }
 
-        public static OperationResult GetMoviesForCommonSenseMediaDataImport(bool preserveExisting)
+        public static OperationResult GetMoviesForCommonSenseMediaDataImport(bool forMovies, bool preserveExisting)
         {
             var result = new OperationResult();
             var returnData = new List<SynopsisImportMovieData>();
@@ -3308,14 +3328,18 @@ namespace Desene
                         SELECT fd.Id, FileName, RecommendedLink
                         FROM FileDetail fd
                             LEFT OUTER JOIN CommonSenseMediaDetail csm ON csm.FileDetailId = fd.Id
-                        WHERE ParentId IS NULL
-                            AND fd.RecommendedLink LIKE '%commonsensemedia%'
+                        WHERE
+                            fd.RecommendedLink LIKE '%commonsensemedia%'
                             {0}
+                            {1}
                         ",
-                        //AND fd.RecommendedLink IS NOT NULL AND fd.RecommendedLink <> ''
                         preserveExisting
                             ? " AND (csm.Id IS NULL)"
-                            : string.Empty);
+                            : string.Empty,
+                        forMovies
+                            ? " AND ParentId IS NULL "
+                            : " AND ParentId = -1"
+                        );
 
                     var commandSource = new SQLiteCommand(sqlStrig, conn);
 
