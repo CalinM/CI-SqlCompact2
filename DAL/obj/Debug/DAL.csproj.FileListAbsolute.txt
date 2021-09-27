@@ -139,3 +139,23 @@ C:\Work\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.csproj.CopyComplete
 C:\Work\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.dll
 C:\Work\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.pdb
 C:\Work\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.csproj.AssemblyReference.cache
+Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\DAL\bin\Debug\x64\SQLite.Interop.dll
+Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\DAL\bin\Debug\x86\SQLite.Interop.dll
+Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\DAL\bin\Debug\DAL.dll.config
+Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\DAL\bin\Debug\DAL.dll
+Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\DAL\bin\Debug\DAL.pdb
+Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\DAL\bin\Debug\Common.dll
+Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\DAL\bin\Debug\EntityFramework.dll
+Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\DAL\bin\Debug\EntityFramework.SqlServer.dll
+Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\DAL\bin\Debug\System.Data.SQLite.dll
+Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\DAL\bin\Debug\System.Data.SQLite.EF6.dll
+Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\DAL\bin\Debug\System.Data.SQLite.Linq.dll
+Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\DAL\bin\Debug\Common.pdb
+Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\DAL\bin\Debug\EntityFramework.xml
+Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\DAL\bin\Debug\EntityFramework.SqlServer.xml
+Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\DAL\bin\Debug\System.Data.SQLite.xml
+Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.csproj.AssemblyReference.cache
+Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.csproj.CopyComplete
+Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.dll
+Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.pdb

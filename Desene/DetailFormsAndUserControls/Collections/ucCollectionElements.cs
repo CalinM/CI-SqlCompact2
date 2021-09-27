@@ -168,11 +168,11 @@ namespace Desene.DetailFormsAndUserControls
         {
             if (e.RowIndex >= 0)
             {
-                var row = (DataRowView)dgvElements.Rows[e.RowIndex].DataBoundItem;
+                var rowObj = (MovieTechnicalDetails)dgvElements.Rows[e.RowIndex].DataBoundItem;
 
-                if (row != null)
+                if (rowObj != null)
                 {
-                    _parent.TryLocateEpisodeInTree((int)row["Id"]);
+                    _parent.TryLocateEpisodeInTree(rowObj.Id);
                 }
             }
         }

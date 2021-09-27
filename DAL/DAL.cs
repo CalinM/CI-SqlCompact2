@@ -319,9 +319,9 @@ namespace Desene
         /// </summary>
         /// <param name="seriesId"></param>
         /// <returns></returns>
-        public static List<MovieTechnicalDetails> GetEpisodesInSeries(SeriesEpisodesShortInfo sesInfo)
+        public static List<EpisodeTechnicalDetails> GetEpisodesInSeries(SeriesEpisodesShortInfo sesInfo)
         {
-            var result = new List<MovieTechnicalDetails>();
+            var result = new List<EpisodeTechnicalDetails>();
 
             using (var conn = new SQLiteConnection(Constants.ConnectionString))
             {
@@ -338,9 +338,12 @@ namespace Desene
                                 fd.FileSize2,
                                 fd.Duration,
                                 fd.Quality,
-                                fd.AudioLanguages
+                                fd.AudioLanguages,
+                                vs.BitRate,
+                                vs.FrameRate
 
                             FROM FileDetail fd
+                                LEFT OUTER JOIN VideoStream AS vs ON vs.FileDetailId = fd.Id
                             WHERE ParentId = {0} {1}
                             ORDER BY Season, FileName COLLATE NOCASE ASC",
                             sesInfo.SeriesId,
@@ -355,7 +358,7 @@ namespace Desene
                     {
                         int i;
 
-                        result.Add(new MovieTechnicalDetails()
+                        result.Add(new EpisodeTechnicalDetails()
                         {
                                 Id = (int)(long)reader["Id"],
                                 Season = reader["Season"].ToString(),
@@ -368,6 +371,9 @@ namespace Desene
                                                         : Convert.ToDateTime(reader["Duration"]).ToString("HH:mm:ss"),
                                 Quality = reader["Quality"].ToString(),
                                 AudioLanguages =  reader["AudioLanguages"].ToString(),
+                                BitRate = reader["BitRate"].ToString(),
+                                FrameRate = reader["FrameRate"].ToString()
+
                         });
                     }
                 }

@@ -168,6 +168,12 @@ namespace DAL
         }
     }
 
+    public class EpisodeTechnicalDetails : MovieTechnicalDetails
+    {
+        public string BitRate { get; set; }
+        public string FrameRate { get; set; }
+    }
+
     public class VideoStreamInfo
     {
         public int Id { get; set; }

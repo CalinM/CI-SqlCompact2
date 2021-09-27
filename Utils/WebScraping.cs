@@ -266,7 +266,9 @@ namespace Utils
 
         private static string ParseSiteContent_Imdb(IHtmlDocument document)
         {
-            var summaryDiv = document.GetElementsByClassName("summary_text").FirstOrDefault();
+            var summaryDiv = document.QuerySelectorAll("*[data-testid='plot-xl']").FirstOrDefault();
+
+            //var summaryDiv = document.GetElementsByClassName("summary_text").FirstOrDefault();
 
             if (summaryDiv == null)
                 throw new Exception("Element not found on page!");

@@ -146,7 +146,7 @@
             this.miOpt_FileExt_mkv,
             this.miOpt_FileExt_mp4});
             this.miOpt_FileExt.Name = "miOpt_FileExt";
-            this.miOpt_FileExt.Size = new System.Drawing.Size(180, 22);
+            this.miOpt_FileExt.Size = new System.Drawing.Size(171, 22);
             this.miOpt_FileExt.Text = "File extension";
             // 
             // miOpt_FileExt_mkv
@@ -154,7 +154,7 @@
             this.miOpt_FileExt_mkv.Checked = true;
             this.miOpt_FileExt_mkv.CheckState = System.Windows.Forms.CheckState.Checked;
             this.miOpt_FileExt_mkv.Name = "miOpt_FileExt_mkv";
-            this.miOpt_FileExt_mkv.Size = new System.Drawing.Size(180, 22);
+            this.miOpt_FileExt_mkv.Size = new System.Drawing.Size(101, 22);
             this.miOpt_FileExt_mkv.Tag = "0";
             this.miOpt_FileExt_mkv.Text = ".mkv";
             this.miOpt_FileExt_mkv.Click += new System.EventHandler(this.miOpt_FileExt_SubItems_Click);
@@ -162,7 +162,7 @@
             // miOpt_FileExt_mp4
             // 
             this.miOpt_FileExt_mp4.Name = "miOpt_FileExt_mp4";
-            this.miOpt_FileExt_mp4.Size = new System.Drawing.Size(180, 22);
+            this.miOpt_FileExt_mp4.Size = new System.Drawing.Size(101, 22);
             this.miOpt_FileExt_mp4.Tag = "1";
             this.miOpt_FileExt_mp4.Text = ".mp4";
             this.miOpt_FileExt_mp4.Click += new System.EventHandler(this.miOpt_FileExt_SubItems_Click);
@@ -173,7 +173,7 @@
             this.miOpt_NameType_Dash,
             this.miOpt_NameType_Dot});
             this.miOpt_NameType.Name = "miOpt_NameType";
-            this.miOpt_NameType.Size = new System.Drawing.Size(180, 22);
+            this.miOpt_NameType.Size = new System.Drawing.Size(171, 22);
             this.miOpt_NameType.Text = "Naming type";
             // 
             // miOpt_NameType_Dash
@@ -181,7 +181,7 @@
             this.miOpt_NameType_Dash.Checked = true;
             this.miOpt_NameType_Dash.CheckState = System.Windows.Forms.CheckState.Checked;
             this.miOpt_NameType_Dash.Name = "miOpt_NameType_Dash";
-            this.miOpt_NameType_Dash.Size = new System.Drawing.Size(180, 22);
+            this.miOpt_NameType_Dash.Size = new System.Drawing.Size(82, 22);
             this.miOpt_NameType_Dash.Tag = "0";
             this.miOpt_NameType_Dash.Text = " -";
             this.miOpt_NameType_Dash.Click += new System.EventHandler(this.miOpt_NameType_SubItems_Click);
@@ -189,7 +189,7 @@
             // miOpt_NameType_Dot
             // 
             this.miOpt_NameType_Dot.Name = "miOpt_NameType_Dot";
-            this.miOpt_NameType_Dot.Size = new System.Drawing.Size(180, 22);
+            this.miOpt_NameType_Dot.Size = new System.Drawing.Size(82, 22);
             this.miOpt_NameType_Dot.Tag = "1";
             this.miOpt_NameType_Dot.Text = " .";
             this.miOpt_NameType_Dot.Click += new System.EventHandler(this.miOpt_NameType_SubItems_Click);
@@ -200,13 +200,13 @@
             this.miOpt_FNproc_SentCase,
             this.miOpt_FNproc_TitleCase});
             this.miOpt_FNproc.Name = "miOpt_FNproc";
-            this.miOpt_FNproc.Size = new System.Drawing.Size(180, 22);
+            this.miOpt_FNproc.Size = new System.Drawing.Size(171, 22);
             this.miOpt_FNproc.Text = "Process file names";
             // 
             // miOpt_FNproc_SentCase
             // 
             this.miOpt_FNproc_SentCase.Name = "miOpt_FNproc_SentCase";
-            this.miOpt_FNproc_SentCase.Size = new System.Drawing.Size(180, 22);
+            this.miOpt_FNproc_SentCase.Size = new System.Drawing.Size(159, 22);
             this.miOpt_FNproc_SentCase.Tag = "1";
             this.miOpt_FNproc_SentCase.Text = "ToSentenceCase";
             this.miOpt_FNproc_SentCase.Click += new System.EventHandler(this.miOpt_FNproc_SubItems_Click);
@@ -214,7 +214,7 @@
             // miOpt_FNproc_TitleCase
             // 
             this.miOpt_FNproc_TitleCase.Name = "miOpt_FNproc_TitleCase";
-            this.miOpt_FNproc_TitleCase.Size = new System.Drawing.Size(180, 22);
+            this.miOpt_FNproc_TitleCase.Size = new System.Drawing.Size(159, 22);
             this.miOpt_FNproc_TitleCase.Tag = "2";
             this.miOpt_FNproc_TitleCase.Text = "ToTitleCase";
             this.miOpt_FNproc_TitleCase.Click += new System.EventHandler(this.miOpt_FNproc_SubItems_Click);
@@ -222,12 +222,12 @@
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(168, 6);
             // 
             // miSampleData
             // 
             this.miSampleData.Name = "miSampleData";
-            this.miSampleData.Size = new System.Drawing.Size(180, 22);
+            this.miSampleData.Size = new System.Drawing.Size(171, 22);
             this.miSampleData.Text = "Sample data";
             this.miSampleData.Click += new System.EventHandler(this.miSampleData_Click);
             // 
@@ -283,6 +283,7 @@
             this.rtbLanguage1.Size = new System.Drawing.Size(837, 429);
             this.rtbLanguage1.TabIndex = 2;
             this.rtbLanguage1.Text = resources.GetString("rtbLanguage1.Text");
+            this.rtbLanguage1.TextChanged += new System.EventHandler(this.RtbLanguage1_TextChanged);
             // 
             // tpLanguage2
             // 
@@ -307,6 +308,7 @@
             this.rtbLanguage2.Size = new System.Drawing.Size(837, 429);
             this.rtbLanguage2.TabIndex = 3;
             this.rtbLanguage2.Text = resources.GetString("rtbLanguage2.Text");
+            this.rtbLanguage2.TextChanged += new System.EventHandler(this.RtbLanguage1_TextChanged);
             // 
             // FrmNfNamesMix
             // 
