@@ -429,6 +429,7 @@ namespace Utils
             e.Result = technicalDetailsImportErrorBgw;
         }
 
+        /*
         public static OperationResult GetCommonSenseMediaData(string recommendedLink)
         {
             var result = new OperationResult();
@@ -625,6 +626,188 @@ namespace Utils
                     }
 
                     result2 = new ALotOrALittle() { Rating = stars, Description = description, Category = category};
+                }
+
+                return result2;
+            }
+        }
+        */
+
+        public static OperationResult GetCommonSenseMediaData(string recommendedLink)
+        {
+            var result = new OperationResult();
+            CSMScrapeResult csmData = null;
+
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    var rx = new System.Text.RegularExpressions.Regex("<[^>]*>");
+
+                    //the implementation if forced to run synchronous to avoid ip banning from scrapped sites
+                    var request = client.GetAsync(recommendedLink).Result;
+                    request.EnsureSuccessStatusCode();
+
+                    if (request.Content == null)
+                        result.FailWithMessage("No content");
+
+                    var response = request.Content.ReadAsStreamAsync().Result;
+
+                    if (response == null || response.Length == 0)
+                        return result.FailWithMessage("Invalid response!");
+
+                    csmData = new CSMScrapeResult();
+                    var parser = new HtmlParser();
+                    var document = parser.ParseDocument(response);
+
+                    //var expandableSinopsis1 = document.GetElementsByClassName("field-name-field-review-recommended-age");
+
+                    var greenAge = document.GetElementsByClassName("rating__age").FirstOrDefault();
+                    csmData.GreenAge = greenAge == null ? null : greenAge.TextContent;
+
+                    var csmRatingL0 = document.GetElementsByClassName("rating__score").FirstOrDefault();
+
+                    if (csmRatingL0 != null)
+                    {
+                        csmData.Rating = csmRatingL0.QuerySelectorAll("i").Count(x => x.ClassName == "icon-star-rating active");
+                    }
+
+                    var shortDescriptionObj = document.GetElementsByClassName("review-view-summary-oneliner").FirstOrDefault();
+                    if (shortDescriptionObj != null)
+                    {
+                        //var metaElement = (AngleSharp.Html.Dom.IHtmlMetaElement)shortDescriptionObj;
+                        //csmData.ShortDescription = metaElement.Content;
+                        csmData.ShortDescription = shortDescriptionObj.TextContent;
+                    }
+
+                    var reviewObj = document.GetElementsByTagName("review-view-parents-need-know").FirstOrDefault();
+                    if (reviewObj != null)
+                    {
+                        var reviewTextObj = reviewObj.QuerySelectorAll("p").FirstOrDefault();
+
+                        if (reviewTextObj != null)
+                        {
+                            csmData.Review = rx.Replace(reviewTextObj.TextContent, "");
+                        }
+                    }
+
+                    var statisticParent = document.GetElementsByClassName("user-reviews-statistics row").FirstOrDefault();
+                    if (statisticParent != null)
+                    {
+                        var statisticsAdult = statisticParent.Children[0];
+
+                        if (statisticsAdult.GetElementsByClassName("user-reviews-statistics-empty").FirstOrDefault() == null)
+                        {
+                            var adultAge = statisticsAdult.GetElementsByClassName("rating__age").FirstOrDefault();
+                            csmData.AdultRecomendedAge = adultAge == null ? null : adultAge.TextContent;
+
+                            var adultRatingObj = statisticsAdult.GetElementsByClassName("rating__score").FirstOrDefault();
+                            if (adultRatingObj != null)
+                            {
+                                csmData.AdultRating = adultRatingObj.QuerySelectorAll("i").Count(x => x.ClassName == "icon-star-rating active");
+                            }
+                        }
+
+                        var statisticsChild = statisticParent.Children[1];
+
+                        if (statisticsChild.GetElementsByClassName("user-reviews-statistics-empty").FirstOrDefault() == null)
+                        {
+                            var childAge = statisticsChild.GetElementsByClassName("rating__age").FirstOrDefault();
+                            csmData.ChildRecomendedAge = childAge == null ? null : childAge.TextContent;
+
+                            var childRatingObj = statisticsChild.GetElementsByClassName("rating__score").FirstOrDefault();
+                            if (childRatingObj != null)
+                            {
+                                csmData.ChildRating = childRatingObj.QuerySelectorAll("i").Count(x => x.ClassName == "icon-star-rating active");
+                            }
+                        }
+                    }
+
+
+                    var storyObj = document.GetElementsByTagName("review-view-what-is-story").FirstOrDefault();
+                    if (storyObj != null)
+                    {
+                        var storyTextObj = storyObj.QuerySelectorAll("p").FirstOrDefault();
+
+                        if (storyTextObj != null)
+                        {
+                            csmData.Story = storyTextObj == null ? null : storyTextObj.TextContent;
+                        }
+                    }
+
+                    var anyGoodObj = document.GetElementsByTagName("review-view-is-any-good").FirstOrDefault();
+                    if (anyGoodObj != null)
+                    {
+                        var anyGoodTextObj = anyGoodObj.QuerySelectorAll("p").FirstOrDefault();
+
+                        if (anyGoodTextObj != null)
+                        {
+                            csmData.IsItAnyGood = anyGoodTextObj == null ? null : anyGoodTextObj.TextContent;
+                        }
+                    }
+
+                    var talkWithKidsAboutObj = document.GetElementsByTagName("review-view-families-can-talk").FirstOrDefault();
+                    if (talkWithKidsAboutObj != null)
+                    {
+                        var talkWithKidsAboutEl = talkWithKidsAboutObj.QuerySelectorAll("p");
+
+                        if (talkWithKidsAboutEl.Any())
+                        {
+                            csmData.TalkWithKidsAbout = new List<string>();
+
+                            foreach (var item in talkWithKidsAboutEl)
+                            {
+                                csmData.TalkWithKidsAbout.Add(item.TextContent);
+                            }
+                        }
+                    }
+
+                    foreach (ALotOrAlittleElements aLotOrALittle in (ALotOrAlittleElements[]) Enum.GetValues(typeof(ALotOrAlittleElements)))
+                    {
+                        var tmp = Get_ALotOrALittle(document, aLotOrALittle);
+
+                        if (tmp != null)
+                        {
+                            csmData.ALotOrALittle.Add(tmp);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return result.FailWithMessage(ex);
+                }
+            }
+
+            result.AdditionalDataReturn = csmData;
+            return result;
+
+            ALotOrALittle Get_ALotOrALittle(IHtmlDocument document, ALotOrAlittleElements category)
+            {
+                ALotOrALittle result2 = null;
+
+                var parentElement = document.GetElementsByTagName("span").FirstOrDefault(x => x.TextContent == EnumHelpers.GetEnumDescription(category));
+
+                if (parentElement != null)
+                {
+                    var parentObj = parentElement.ParentElement;
+
+                    var stars = 0;
+                    var description = string.Empty;
+
+                    var sectionRatingObj = parentObj.GetElementsByClassName("rating__score").FirstOrDefault();
+                    if (sectionRatingObj != null)
+                    {
+                        stars = sectionRatingObj.QuerySelectorAll("i").Count(x => x.ClassName == "icon-circle-solid active");
+                    }
+
+                    parentObj = parentObj.ParentElement;
+                    var descriptionAttributeObj = parentObj.GetAttribute("data-text");
+
+                    if (descriptionAttributeObj != null)
+                    {
+                        var rx = new System.Text.RegularExpressions.Regex("<[^>]*>");
+                        description = rx.Replace(descriptionAttributeObj, "");
+                    }
                 }
 
                 return result2;

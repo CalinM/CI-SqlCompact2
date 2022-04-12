@@ -18,6 +18,7 @@ namespace Utils
         private NamesMix_Ext _namesMix_Ext;
         private NamesMix_NameType _namesMix_NameType;
         private NamesMix_ProcessFN _namesMix_ProcessFN;
+        private IniFile _iniFile = new IniFile();
 
         public FrmNfNamesMix()
         {
@@ -29,18 +30,16 @@ namespace Utils
 
         private void FrmNfNamesMix_Load(object sender, EventArgs e)
         {
-
             rtbLanguage1.Focus();
 
-            if (Settings.Default.FrmNfNamesMix_WL.X > 0 && Settings.Default.FrmNfNamesMix_WL.Y > 0) //to auto-correct bad configuration
+            if (_iniFile.KeyExists("Top", "MixNamesWindow") && _iniFile.KeyExists("Left", "MixNamesWindow"))
             {
-                Location = Settings.Default.FrmNfNamesMix_WL;
+                Location = new Point(_iniFile.ReadInt("Left", "MixNamesWindow"), _iniFile.ReadInt("Top", "MixNamesWindow"));
             }
 
-            // Set window size
-            if (Settings.Default.FrmNfNamesMix_WS != null)
+            if (_iniFile.KeyExists("Width", "MixNamesWindow") && _iniFile.KeyExists("Height", "MixNamesWindow"))
             {
-                Size = Settings.Default.FrmNfNamesMix_WS;
+                Size = new Size(_iniFile.ReadInt("Width", "MixNamesWindow"), _iniFile.ReadInt("Height", "MixNamesWindow"));
             }
 
             SetCurrentOpt();
@@ -48,14 +47,12 @@ namespace Utils
 
         private void FrmNfNamesMix_FormClosed(object sender, FormClosedEventArgs e)
         {
-            // Copy window location to app settings
-            Settings.Default.FrmNfNamesMix_WL = Location;
+            _iniFile.Write("Top", Location.Y.ToString(), "MixNamesWindow");
+            _iniFile.Write("Left", Location.X.ToString(), "MixNamesWindow");
 
-            // Copy window size to app settings
-            Settings.Default.FrmNfNamesMix_WS = WindowState == FormWindowState.Normal ? Size : RestoreBounds.Size;
-
-            // Save settings
-            Settings.Default.Save();
+            var xSize = WindowState == FormWindowState.Normal ? Size : RestoreBounds.Size;
+            _iniFile.Write("Width", xSize.Width.ToString(), "MixNamesWindow");
+            _iniFile.Write("Height", xSize.Height.ToString(), "MixNamesWindow");
         }
 
         private void BuildPreview()

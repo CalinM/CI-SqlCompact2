@@ -53,7 +53,7 @@
             this.pMainControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pMainControls.Location = new System.Drawing.Point(0, 0);
             this.pMainControls.Name = "pMainControls";
-            this.pMainControls.Size = new System.Drawing.Size(458, 387);
+            this.pMainControls.Size = new System.Drawing.Size(446, 387);
             this.pMainControls.TabIndex = 196;
             // 
             // tbNotes
@@ -64,7 +64,7 @@
             this.tbNotes.Location = new System.Drawing.Point(70, 49);
             this.tbNotes.Multiline = true;
             this.tbNotes.Name = "tbNotes";
-            this.tbNotes.Size = new System.Drawing.Size(371, 292);
+            this.tbNotes.Size = new System.Drawing.Size(359, 292);
             this.tbNotes.TabIndex = 1;
             // 
             // tbTitle
@@ -73,7 +73,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbTitle.Location = new System.Drawing.Point(70, 23);
             this.tbTitle.Name = "tbTitle";
-            this.tbTitle.Size = new System.Drawing.Size(371, 20);
+            this.tbTitle.Size = new System.Drawing.Size(359, 20);
             this.tbTitle.TabIndex = 0;
             // 
             // lbNotes
@@ -123,16 +123,16 @@
             // 
             this.pPosterWrapper.Controls.Add(this.pbCover);
             this.pPosterWrapper.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pPosterWrapper.Location = new System.Drawing.Point(458, 0);
+            this.pPosterWrapper.Location = new System.Drawing.Point(446, 0);
             this.pPosterWrapper.Name = "pPosterWrapper";
-            this.pPosterWrapper.Size = new System.Drawing.Size(231, 387);
+            this.pPosterWrapper.Size = new System.Drawing.Size(243, 387);
             this.pPosterWrapper.TabIndex = 197;
             // 
             // pbCover
             // 
             this.pbCover.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pbCover.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbCover.Location = new System.Drawing.Point(1, 23);
+            this.pbCover.Location = new System.Drawing.Point(0, 23);
             this.pbCover.Name = "pbCover";
             this.pbCover.Size = new System.Drawing.Size(212, 318);
             this.pbCover.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;

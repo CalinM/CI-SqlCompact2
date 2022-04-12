@@ -1,4 +1,6 @@
-﻿using Utils.Properties;
+﻿using Common;
+using Common.ExtensionMethods;
+using DAL;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -6,18 +8,13 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-using Common.ExtensionMethods;
-
-using DAL;
-using Common;
-using Utils;
-
 namespace Utils
 {
     public partial class FrmEpisodeInfoFromFiles : EscapeForm
     {
         private int? _parentId;
         private List<SelectableElement> _seasons = new List<SelectableElement>();
+        private IniFile _iniFile = new IniFile();
 
         public FilesImportParams EpisodesImportParams;
 
@@ -46,7 +43,7 @@ namespace Utils
 
             if (Desene.DAL.SeriesType == SeriesType.Recordings)
             {
-                pRercordingSpecifics.Visible = true; 
+                pRercordingSpecifics.Visible = true;
 
                 cbLanguages.DataSource = Languages.Iso639;
                 cbLanguages.ValueMember = "Code";
@@ -80,12 +77,11 @@ namespace Utils
 
         private void btnFolderSelector_Click(object sender, EventArgs e)
         {
-            var selectedPath = Helpers.SelectFolder("Please select the episodes location (folder)", Settings.Default.LastPath);
+            var selectedPath = Helpers.SelectFolder("Please select the episodes location (folder)", _iniFile.ReadString("LastPath", "General"));
             if (string.IsNullOrEmpty(selectedPath))
                 return;
 
-            Settings.Default.LastPath = selectedPath;
-            Settings.Default.Save();
+            _iniFile.Write("LastPath", Path.GetFullPath(selectedPath), "General");
 
             tbFilesLocation.Text = selectedPath;
 
@@ -110,6 +106,11 @@ namespace Utils
         }
 
         private void btnOk_Click(object sender, EventArgs e)
+        {
+            SaveParamsAndClose();
+        }
+
+        private void SaveParamsAndClose()
         {
             if (tbFilesLocation.Text == string.Empty || /*tbYear.Text == string.Empty ||*/
                 cbFileExtensions.SelectedIndex == -1 || string.IsNullOrEmpty(tbSeason.Text))
@@ -156,6 +157,7 @@ namespace Utils
             DialogResult = DialogResult.OK;
             Close();
         }
+
         private void tbFilesLocation_TextChanged(object sender, EventArgs e)
         {
             lbLocation.ForeColor = SystemColors.WindowText;
@@ -174,6 +176,12 @@ namespace Utils
         private void cbSeason_SelectedIndexChanged(object sender, EventArgs e)
         {
             lbSeason.ForeColor = SystemColors.WindowText;
+        }
+
+        private void tbYear_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                SaveParamsAndClose();
         }
     }
 }

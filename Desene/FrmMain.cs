@@ -27,6 +27,9 @@ namespace Desene
         public event EventHandler OnAddButtonPress;
         public event EventHandler OnDeleteButtonPress;
         public event EventHandler OnCloseModule;
+        private IniFile _iniFile = new IniFile();
+        private Size _minSizeWithModule = new Size(1284, 514);
+        private Size _minSizeWithoutModule = new Size(500, 250);
 
         public FrmMain()
         {
@@ -37,7 +40,14 @@ namespace Desene
             separatorMainButtons.Visible = false;
             btnAdd.Visible = false;
             btnDelete.Visible = false;
-            ddbTools.Visible = false;
+            //ddbTools.Visible = false;
+
+            miCheckFiles.Visible = false;
+            miImportSynopsis.Visible = false;
+            miImportCommonSenseMediaData.Visible = false;
+            miSQLmanagement.Visible = true;
+
+            MinimumSize = _minSizeWithoutModule;
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
@@ -149,14 +159,12 @@ namespace Desene
 
         private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            // Copy window location to app settings
-            Settings.Default.WindowLocation = Location;
+            _iniFile.Write("Top", Location.Y.ToString(), "MainWindow");
+            _iniFile.Write("Left", Location.X.ToString(), "MainWindow");
 
-            // Copy window size to app settings
-            Settings.Default.WindowSize = WindowState == FormWindowState.Normal ? Size : RestoreBounds.Size;
-
-            // Save settings
-            Settings.Default.Save();
+            var xSize = WindowState == FormWindowState.Normal ? Size : RestoreBounds.Size;
+            _iniFile.Write("Width", xSize.Width.ToString(), "MainWindow");
+            _iniFile.Write("Height", xSize.Height.ToString(), "MainWindow");
         }
 
         private void miExit_Click(object sender, EventArgs e)
@@ -169,15 +177,14 @@ namespace Desene
 
         private void LoadMainWindowConfig()
         {
-            if (Helpers.IsOnScreen(Location, Size) && Settings.Default.WindowLocation.X > 0 && Settings.Default.WindowLocation.Y > 0) //to auto-correct bad configuration
+            if (_iniFile.KeyExists("Top", "MainWindow") && _iniFile.KeyExists("Left", "MainWindow"))
             {
-                Location = Settings.Default.WindowLocation;
+                Location = new Point(_iniFile.ReadInt("Left", "MainWindow"), _iniFile.ReadInt("Top", "MainWindow"));
             }
 
-            // Set window size
-            if (Settings.Default.WindowSize != null)
+            if (_iniFile.KeyExists("Width", "MainWindow") && _iniFile.KeyExists("Height", "MainWindow"))
             {
-                Size = Settings.Default.WindowSize;
+                Size = new Size(_iniFile.ReadInt("Width", "MainWindow"), _iniFile.ReadInt("Height", "MainWindow"));
             }
 
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
@@ -207,6 +214,12 @@ namespace Desene
                     _ucMovies = new ucMovies(this) { Dock = DockStyle.Fill };
 
                     pMainContainer.Controls.Add(_ucMovies);
+
+                    miCheckFiles.Visible = true;
+                    miImportSynopsis.Visible = true;
+                    miImportCommonSenseMediaData.Visible = true;
+
+                    MinimumSize = _minSizeWithModule;
                 }
                 else
                 {
@@ -219,12 +232,15 @@ namespace Desene
                     pMainContainer.Controls.Clear();
 
                     GetStatistics(false, Sections.Movies);
+
+                    miCheckFiles.Visible = false;
+                    miImportSynopsis.Visible = false;
+                    miImportCommonSenseMediaData.Visible = false;
+
+                    MinimumSize = _minSizeWithoutModule;
                 }
 
                 SetMainCrudButtonsState(senderItem.Checked, "Add movie");
-                ddbTools.Visible = true;
-                miCheckFiles.Visible = true;
-                miImportSynopsis.Visible = true;
 
                 //todo: check if necessary
                 GC.Collect();
@@ -256,6 +272,12 @@ namespace Desene
 
                     pMainContainer.Controls.Clear();
                     pMainContainer.Controls.Add(new ucMoviesList(this) { Dock = DockStyle.Fill });
+
+                    miCheckFiles.Visible = true;
+                    miImportSynopsis.Visible = true;
+                    miImportCommonSenseMediaData.Visible = true;
+
+                    MinimumSize = _minSizeWithModule;
                 }
                 else
                 {
@@ -267,10 +289,15 @@ namespace Desene
                     pMainContainer.Controls.Clear();
 
                     GetStatistics(false, Sections.Movies);
+
+                    miCheckFiles.Visible = false;
+                    miImportSynopsis.Visible = false;
+                    miImportCommonSenseMediaData.Visible = false;
+
+                    MinimumSize = _minSizeWithoutModule;
                 }
 
                 SetMainCrudButtonsState(senderItem.Checked, "Add movie");
-                ddbTools.Visible = true;
 
                 //todo: check if necessary
                 GC.Collect();
@@ -302,6 +329,12 @@ namespace Desene
 
                     pMainContainer.Controls.Clear();
                     pMainContainer.Controls.Add(new ucCollections(this) { Dock = DockStyle.Fill });
+
+                    miCheckFiles.Visible = false;
+                    miImportSynopsis.Visible = false;
+                    miImportCommonSenseMediaData.Visible = false;
+
+                    MinimumSize = _minSizeWithModule;
                 }
                 else
                 {
@@ -309,10 +342,15 @@ namespace Desene
 
                     senderItem.Checked = false;
                     pMainContainer.Controls.Clear();
+
+                    miCheckFiles.Visible = false;
+                    miImportSynopsis.Visible = false;
+                    miImportCommonSenseMediaData.Visible = false;
+
+                    MinimumSize = _minSizeWithoutModule;
                 }
 
                 SetMainCrudButtonsState(senderItem.Checked, "Add collection");
-                ddbTools.Visible = false;
 
                 //todo: check if necessary
                 GC.Collect();
@@ -356,6 +394,12 @@ namespace Desene
 
                     pMainContainer.Controls.Clear();
                     pMainContainer.Controls.Add(new ucSeries(this, st) { Dock = DockStyle.Fill });
+
+                    miCheckFiles.Visible = false;
+                    miImportSynopsis.Visible = false;
+                    miImportCommonSenseMediaData.Visible = true;
+
+                    MinimumSize = _minSizeWithModule;
                 }
                 else
                 {
@@ -363,12 +407,15 @@ namespace Desene
                     pMainContainer.Controls.Clear();
 
                     GetStatistics(false, st == SeriesType.Final ? Sections.Series : Sections.Recordings);
+
+                    miCheckFiles.Visible = false;
+                    miImportSynopsis.Visible = false;
+                    miImportCommonSenseMediaData.Visible = false;
+
+                    MinimumSize = _minSizeWithoutModule;
                 }
 
                 SetMainCrudButtonsState(senderItem.Checked, "Add " + (st == SeriesType.Final ? "series" : "recordings group"));
-                ddbTools.Visible = st == SeriesType.Final;
-                miCheckFiles.Visible = false;
-                miImportSynopsis.Visible = false;
 
                 //todo: check if necessary
                 GC.Collect();
@@ -408,6 +455,15 @@ namespace Desene
         {
             sslbStatistics.Visible = show;
             sslbStatistics.Text = text;
+
+            sslbInfo2.Visible = false;
+            sslbInfo2.Text = "";
+        }
+
+        public void SetInfo2(bool show, string text)
+        {
+            sslbInfo2.Visible = show;
+            sslbInfo2.Text = text;
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -442,6 +498,8 @@ namespace Desene
 
         void MarkCurrentCategory(ToolStripMenuItem currentSelected)
         {
+            miSQLmanagement.Checked = false;
+
             DAL.CachedMTDs = new Dictionary<int, MovieTechnicalDetails>();
 
             //var x1 = btnCategory.DropDownItems.Where<ToolStripDropDownItem>(x => x.GetType() is ToolStripSeparator);
@@ -881,7 +939,7 @@ namespace Desene
 
         private void btnGenerateHtml_Click(object sender, EventArgs e)
         {
-            var genParams = new FrmSiteGenParams(Settings.Default.LastPath) { Owner = this };
+            var genParams = new FrmSiteGenParams(_iniFile.ReadString("LastPath", "General")) { Owner = this };
 
             if (genParams.ShowDialog() != DialogResult.OK)
                 return;
@@ -890,9 +948,7 @@ namespace Desene
             {
                 Cursor.Current = Cursors.WaitCursor;
 
-                Settings.Default.LastPath = Path.GetFullPath(genParams.SiteGenParams.Location);
-                Settings.Default.Save();
-
+                _iniFile.Write("LastPath", Path.GetFullPath(genParams.SiteGenParams.Location), "General");
 
                 var opRes = SiteGenerator.GenerateSiteFiles(genParams.SiteGenParams, this.Handle);
 
@@ -1007,12 +1063,11 @@ namespace Desene
 
         private void btnFilesDetails_Click(object sender, EventArgs e)
         {
-            var selectedPath = Helpers.SelectFolder("Please select the files location", Settings.Default.LastPath);
+            var selectedPath = Helpers.SelectFolder("Please select the files location", _iniFile.ReadString("LastPath", "General"));
             if (string.IsNullOrEmpty(selectedPath))
                 return;
 
-            Settings.Default.LastPath = selectedPath;
-            Settings.Default.Save();
+            _iniFile.Write("LastPath", Path.GetFullPath(selectedPath), "General");
 
             Helpers.GetFilesDetails(selectedPath, this);
         }
@@ -1052,7 +1107,35 @@ namespace Desene
             }
             else
             {
-                opRes = Helpers.FixDiacriticsInTextFile(droppedObj);
+                var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                if (files.Count() > 1)
+                {
+                    MsgBox.Show("Handling multiple files is not yet supported!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var ext = Path.GetExtension(files[0]);
+
+                switch (ext)
+                {
+                    case ".mp4":
+                    case ".mkv":
+                    case ".avi":
+                        opRes = Helpers.GetFilesDetails(files, this);
+                        break;
+
+                    case ".txt":
+                    case ".srt":
+                    case ".sub":
+                    case ".vob":
+                        opRes = Helpers.FixDiacriticsInTextFile(droppedObj);
+                        break;
+
+                    default:
+                        MsgBox.Show(string.Format("The file extension ({0}) cannot be handled (lazy developer!) :)", ext), "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                }
             }
 
             if (!opRes.Success)
@@ -1159,9 +1242,11 @@ namespace Desene
 
         private void btnCheckFiles_Click(object sender, EventArgs e)
         {
-            var selectedPath = Helpers.SelectFolder("Please select the movies location (folder)", Settings.Default.LastPath);
+            var selectedPath = Helpers.SelectFolder("Please select the movies location (folder)", _iniFile.ReadString("LastPath", "General"));
             if (string.IsNullOrEmpty(selectedPath))
                 return;
+
+            _iniFile.Write("LastPath", Path.GetFullPath(selectedPath), "General");
 
             var d = new DirectoryInfo(selectedPath);
             var files = d.GetFiles("*.mkv");
@@ -1244,6 +1329,48 @@ namespace Desene
             {
                 MessageBox.Show("Done");
             }
+        }
+
+        private void miSQLmanagement_Click(object sender, EventArgs e)
+        {
+            if (!Utils.Helpers.ConfirmDiscardChanges())
+                return;
+
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                DrawingControl.SuspendDrawing(pMainContainer);
+                ClearAllDelegates();
+
+                var senderItem = (ToolStripMenuItem)sender;
+                senderItem.Checked = !senderItem.Checked;
+
+                pMainContainer.Controls.Clear();
+
+                if (senderItem.Checked)
+                {
+                    pMainContainer.Controls.Add(new ucSQLmanagement(this) { Dock = DockStyle.Fill });
+                }
+                else
+                {
+                }
+
+                //todo: check if necessary
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+            finally
+            {
+                DAL.EpisodeParentType = EpisodeParentType.Series;
+                DrawingControl.ResumeDrawing(pMainContainer);
+                Cursor = Cursors.Default;
+            }
+        }
+
+        private void miOptions_Click(object sender, EventArgs e)
+        {
+            var frmOptions = new FrmOptions() { Owner = this };
+            frmOptions.ShowDialog();
         }
 
 

@@ -1,4 +1,5 @@
-﻿using Desene.DetailFormsAndUserControls.Collections;
+﻿using Common;
+using Desene.DetailFormsAndUserControls.Collections;
 using Desene.Properties;
 using System;
 using System.IO;
@@ -67,13 +68,13 @@ namespace Desene
                         : string.Format("Choose a poster for collection '{0}'",  ucCollectionInfo.Title);
 
                 openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*";
-                openFileDialog.InitialDirectory = Settings.Default.LastCoverPath;
+
+                var iniFile = new IniFile();
+                openFileDialog.InitialDirectory = iniFile.ReadString("LastCoverPath", "General");
 
                 if (openFileDialog.ShowDialog() != DialogResult.OK) return;
 
-                Settings.Default.LastCoverPath = Path.GetFullPath(openFileDialog.FileName);
-                Settings.Default.Save();
-
+                iniFile.Write("LastCoverPath", Path.GetFullPath(openFileDialog.FileName), "General");
 
                 using (var file = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
                 {

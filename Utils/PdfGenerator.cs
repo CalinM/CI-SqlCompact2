@@ -52,7 +52,7 @@ namespace Utils
                         //var fillDoc = (Document)formProgressIndicator.Result.Result;
                         //MigraDoc.DocumentObjectModel.IO.DdlWriter.WriteToFile(document, "d:\\MigraDoc.pdf");
 
-                        var pdfRenderer = new PdfDocumentRenderer(false, PdfFontEmbedding.Always);
+                        var pdfRenderer = new PdfDocumentRenderer(false); //, PdfFontEmbedding.Always
                         pdfRenderer.Document = document;
                         pdfRenderer.RenderDocument();
 

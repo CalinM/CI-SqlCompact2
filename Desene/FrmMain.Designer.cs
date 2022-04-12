@@ -56,11 +56,15 @@ namespace Desene
             this.miCheckFiles = new System.Windows.Forms.ToolStripMenuItem();
             this.miImportSynopsis = new System.Windows.Forms.ToolStripMenuItem();
             this.miImportCommonSenseMediaData = new System.Windows.Forms.ToolStripMenuItem();
+            this.miSQLmanagement = new System.Windows.Forms.ToolStripMenuItem();
+            this.miOptions = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.sslbStatistics = new System.Windows.Forms.ToolStripStatusLabel();
             this.sslbAdditionalInfo1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.sslbClick = new System.Windows.Forms.ToolStripStatusLabel();
             this.sslbAdditionalInfo2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.sslbInfo2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.pMainContainer = new System.Windows.Forms.Panel();
             this.buttonEdit1 = new Utils.ButtonEdit();
             this.button5 = new System.Windows.Forms.Button();
@@ -261,7 +265,9 @@ namespace Desene
             this.ddbTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miCheckFiles,
             this.miImportSynopsis,
-            this.miImportCommonSenseMediaData});
+            this.miImportCommonSenseMediaData,
+            this.miSQLmanagement,
+            this.miOptions});
             this.ddbTools.Image = global::Desene.Properties.Resources.tools;
             this.ddbTools.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ddbTools.Name = "ddbTools";
@@ -291,6 +297,21 @@ namespace Desene
             this.miImportCommonSenseMediaData.Text = "Import CommonSenseMedia data";
             this.miImportCommonSenseMediaData.Click += new System.EventHandler(this.miImportCommonSenseMediaData_Click);
             // 
+            // miSQLmanagement
+            // 
+            this.miSQLmanagement.Name = "miSQLmanagement";
+            this.miSQLmanagement.Size = new System.Drawing.Size(271, 22);
+            this.miSQLmanagement.Text = "SQL Management";
+            this.miSQLmanagement.Click += new System.EventHandler(this.miSQLmanagement_Click);
+            // 
+            // miOptions
+            // 
+            this.miOptions.Name = "miOptions";
+            this.miOptions.Size = new System.Drawing.Size(271, 22);
+            this.miOptions.Text = "Options";
+            this.miOptions.Visible = false;
+            this.miOptions.Click += new System.EventHandler(this.miOptions_Click);
+            // 
             // statusStrip
             // 
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(28, 28);
@@ -298,7 +319,9 @@ namespace Desene
             this.sslbStatistics,
             this.sslbAdditionalInfo1,
             this.sslbClick,
-            this.sslbAdditionalInfo2});
+            this.sslbAdditionalInfo2,
+            this.toolStripStatusLabel1,
+            this.sslbInfo2});
             this.statusStrip.Location = new System.Drawing.Point(0, 539);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(1284, 22);
@@ -336,6 +359,17 @@ namespace Desene
             this.sslbAdditionalInfo2.Size = new System.Drawing.Size(71, 17);
             this.sslbAdditionalInfo2.Text = "for details ...";
             this.sslbAdditionalInfo2.Visible = false;
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(1269, 17);
+            this.toolStripStatusLabel1.Spring = true;
+            // 
+            // sslbInfo2
+            // 
+            this.sslbInfo2.Name = "sslbInfo2";
+            this.sslbInfo2.Size = new System.Drawing.Size(0, 17);
             // 
             // pMainContainer
             // 
@@ -487,6 +521,10 @@ namespace Desene
         private System.Windows.Forms.ToolStripMenuItem miCheckFiles;
         private System.Windows.Forms.ToolStripMenuItem miImportSynopsis;
         private System.Windows.Forms.ToolStripMenuItem miImportCommonSenseMediaData;
+        private System.Windows.Forms.ToolStripMenuItem miSQLmanagement;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel sslbInfo2;
+        private System.Windows.Forms.ToolStripMenuItem miOptions;
     }
 }
 

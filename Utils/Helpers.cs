@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Dynamic;
 using System.IO;
@@ -12,7 +13,6 @@ using Common.ExtensionMethods;
 using DAL;
 using Microsoft.Win32;
 using Ookii.Dialogs;
-using Utils.Properties;
 
 namespace Utils
 {
@@ -110,19 +110,19 @@ namespace Utils
 
         private static void ShowNotificationAutoExpandToSelection()
         {
-            if (Settings.Default.FolderCfgNotShown > 10)
-                return;
+            //if (Settings.Default.FolderCfgNotShown > 10)
+            //    return;
 
-            var currentConfig = GetCurrentFolderBehavior();
+            //var currentConfig = GetCurrentFolderBehavior();
 
-            if (currentConfig != null && currentConfig == 0)
-            {
-                ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "Folders behavior",
-                    "Change the 'NavPaneExpandToCurrentFolder' registry property to 1 in order to have the folder tree automatically expand to the current selection", 10000, Form.ActiveForm);
+            //if (currentConfig != null && currentConfig == 0)
+            //{
+            //    ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "Folders behavior",
+            //        "Change the 'NavPaneExpandToCurrentFolder' registry property to 1 in order to have the folder tree automatically expand to the current selection", 10000, Form.ActiveForm);
 
-                Settings.Default.FolderCfgNotShown = Settings.Default.FolderCfgNotShown + 1;
-                Settings.Default.Save();
-            }
+            //    Settings.Default.FolderCfgNotShown = Settings.Default.FolderCfgNotShown + 1;
+            //    Settings.Default.Save();
+            //}
         }
 
         private static int? GetCurrentFolderBehavior()
@@ -289,73 +289,104 @@ namespace Utils
 
         public static OperationResult GetFilesDetails(string path, Form parentForm)
         {
-            var result = new OperationResult();
-
             var files =
                  Directory.EnumerateFiles(path, "*.*", SearchOption.TopDirectoryOnly)
                      .Where(s => s.EndsWith(".mkv") || s.EndsWith(".mp4")).ToArray();
+           
+            return
+                files.ToList().DistinctBy(Path.GetExtension).Any()
+                    ? GetFilesDetails(files, parentForm)
+                    : new OperationResult().FailWithMessage(string.Format("The specified folder '{0}' is empty!", path));
+        }
 
-            Directory.GetFiles(path, "*.*");
+        public static OperationResult GetFilesDetails(string[] files, Form parentForm)
+        {
+            var result = new OperationResult();
 
-            if (!files.ToList().DistinctBy(Path.GetExtension).Any())
-                result.FailWithMessage(string.Format("The specified folder '{0}' is empty!", path));
-            else
+            var iniFile = new IniFile();
+
+            var param = new FilesImportParams
             {
-                var param = new FilesImportParams
+                //Location = path,
+                FilesExtension = "*.*",
+                DisplayInfoOnly = true,
+                MkvValidatorPath =
+                    iniFile.ReadBool("CheckMkvDuringFileDetails", "Configurations")
+                        ? Path.Combine(iniFile.ReadString("MkvValidatorPath", "Configurations"), "mkvalidator.exe")
+                        : string.Empty
+            };
+
+            var opRes = FilesMetaData.GetFilesTechnicalDetails(files, param);
+
+            if (opRes.AdditionalDataReturn == null)
+                result.FailWithMessage(string.Format("No details retrieved. {0}", opRes.CustomErrorMessage));
+
+            var filesInfoDeterminationResult = (KeyValuePair<List<MovieTechnicalDetails>, List<TechnicalDetailsImportError>>)opRes.AdditionalDataReturn;
+            var displayResult = new List<dynamic>();
+
+            foreach (var file in files)
+            {
+                var fileInfoObj = filesInfoDeterminationResult.Key.FirstOrDefault(f => f.InitialPath == file);
+                var dynamicObj = new ExpandoObject() as IDictionary<string, object>;
+                dynamicObj.Add("Filename", Path.GetFileName(file));
+                dynamicObj.Add("Resolution", string.Format("{0}x{1}", fileInfoObj.VideoStreams[0].Width, fileInfoObj.VideoStreams[0].Height));
+                dynamicObj.Add("FileVideo Title", fileInfoObj.HasTitle || fileInfoObj.VideoStreams.Any(vs => vs.HasTitle));
+
+                if (fileInfoObj != null)
                 {
-                    Location = path,
-                    FilesExtension = "*.*",
-                    DisplayInfoOnly = true
-                };
-
-                var opRes = FilesMetaData.GetFilesTechnicalDetails(files, param);
-
-                if (opRes.AdditionalDataReturn == null)
-                    result.FailWithMessage(string.Format("No details retrieved. {0}", opRes.CustomErrorMessage));
-
-                var filesInfoDeterminationResult = (KeyValuePair<List<MovieTechnicalDetails>, List<TechnicalDetailsImportError>>)opRes.AdditionalDataReturn;
-                var displayResult = new List<dynamic>();
-
-                foreach (var file in files)
-                {
-                    var fileInfoObj = filesInfoDeterminationResult.Key.FirstOrDefault(f => f.InitialPath == file);
-                    var dynamicObj = new ExpandoObject() as IDictionary<string, object>;
-                    dynamicObj.Add("Filename", Path.GetFileName(file));
-                    dynamicObj.Add("Resolution", string.Format("{0}x{1}", fileInfoObj.VideoStreams[0].Width, fileInfoObj.VideoStreams[0].Height));
-                    dynamicObj.Add("FileVideo Title", fileInfoObj.HasTitle || fileInfoObj.VideoStreams.Any(vs => vs.HasTitle));
-
-                    if (fileInfoObj != null)
+                    foreach (var audioObj in fileInfoObj.AudioStreams)
                     {
-                        foreach (var audioObj in fileInfoObj.AudioStreams)
-                        {
-                            dynamicObj.Add(string.Format("Audio {0}", audioObj.Index), audioObj.Language);
-                            dynamicObj.Add(string.Format("Channels {0}", audioObj.Index), audioObj.Channel);
-                            dynamicObj.Add(string.Format("Default {0}", audioObj.Index), audioObj.Default);
-                            dynamicObj.Add(string.Format("Forced {0}", audioObj.Index), audioObj.Forced);
-                            dynamicObj.Add(string.Format("Title {0}", audioObj.Index), audioObj.HasTitle);
-                        }
-
-                        dynamicObj.Add("Error", "");
-                    }
-                    else
-                    {
-                        var fileErrorObj = filesInfoDeterminationResult.Value.FirstOrDefault(f => f.FilePath == file);
-                        dynamicObj.Add("Error", fileInfoObj != null ? fileErrorObj.ErrorMesage : "Unknown error!");
+                        dynamicObj.Add(string.Format("Audio {0}", audioObj.Index), audioObj.Language);
+                        dynamicObj.Add(string.Format("Channels {0}", audioObj.Index), audioObj.Channel);
+                        dynamicObj.Add(string.Format("Default {0}", audioObj.Index), audioObj.Default);
+                        dynamicObj.Add(string.Format("Forced {0}", audioObj.Index), audioObj.Forced);
+                        dynamicObj.Add(string.Format("Title {0}", audioObj.Index), audioObj.HasTitle);
                     }
 
-                    dynamicObj.Add("Cover", !string.IsNullOrEmpty(fileInfoObj.Cover));
-
-                    displayResult.Add(dynamicObj);
+                    dynamicObj.Add("Error", "");
+                }
+                else
+                {
+                    var fileErrorObj = filesInfoDeterminationResult.Value.FirstOrDefault(f => f.FilePath == file);
+                    dynamicObj.Add("Error", fileInfoObj != null ? fileErrorObj.ErrorMesage : "Unknown error!");
                 }
 
-                if (!displayResult.Any())
-                    result.FailWithMessage("Something went wrong while processing the files details!");
+                dynamicObj.Add("Cover", !string.IsNullOrEmpty(fileInfoObj.Cover));
 
-                var frmFileDetails = new FrmFileDetails(displayResult) { Owner = parentForm };
-                frmFileDetails.Show();
+                displayResult.Add(dynamicObj);
             }
 
+            if (!displayResult.Any())
+                result.FailWithMessage("Something went wrong while processing the files details!");
+
+            var frmFileDetails = new FrmFileDetails(displayResult) { Owner = parentForm };
+            frmFileDetails.Show();
+ 
             return result;
+        }
+
+        public static void OpenBaseWebPages(string title, Sections section)
+        {
+            if (string.IsNullOrEmpty(title))
+            {
+                MsgBox.Show(string.Format("{0} name is mandatory!", section == Sections.Movies ? "Movie" : "Serie"), "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (section == Sections.Movies)
+            {
+                Process.Start("http://www.google.com/search?q=" + Uri.EscapeDataString(title + "+cinemagia"), "_blank");
+            }
+            else
+            {
+                Process.Start("https://www.imdb.com/find?q=" + Uri.EscapeDataString(title), "_blank");
+            }
+
+            Process.Start("https://thetvdb.com/search?query=" + Uri.EscapeDataString(title), "_blank");
+            Process.Start("http://www.google.com/search?q=" + Uri.EscapeDataString(title + "+imdb"), "_blank");
+
+            Process.Start("https://www.commonsensemedia.org/search/" + Uri.EscapeDataString(title), "_blank");
+            Process.Start("https://www.youtube.com/results?search_query=" + title.Replace(" ", "+") + "+trailer", "_blank");
         }
     }
 

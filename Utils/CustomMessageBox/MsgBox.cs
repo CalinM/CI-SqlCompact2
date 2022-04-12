@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -148,6 +149,11 @@ namespace Utils
 
 			// Get parent (Form) size & location
 			var hParent = Win32.GetParent(hChildWnd);
+			if (hParent == IntPtr.Zero)
+			{
+				//fallback to desktop? issue when drag drop
+				hParent = Win32.GetAncestor(hChildWnd, Win32.GetAncestorFlags.GetParent);
+			}
 			var rcParent = new Win32.RECT();
 			Win32.GetWindowRect(hParent, ref rcParent);
 			var cxParent = rcParent.right - rcParent.left;

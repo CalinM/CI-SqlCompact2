@@ -28,6 +28,7 @@ namespace Desene
         private string _lookupStartingWith = string.Empty;
         private string _currentSortField = "FileName COLLATE NOCASE ASC";
         private string _advancedFilter = string.Empty;
+        private IniFile _iniFile = new IniFile();
 
         public ucMovies(FrmMain parent)
         {
@@ -46,9 +47,9 @@ namespace Desene
             dgvMoviesList.GetType().GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(dgvMoviesList, true, null);
             dgvMoviesList.AutoGenerateColumns = false;
 
-            miHighlightNoPoster.Checked = Settings.Default.HighlightNoPoster;
-            miHighlightNoSynopsis.Checked = Settings.Default.HighlightNoSynopsis;
-            miHighlightNoCSM.Checked = Settings.Default.HighlightNoCSM;
+            miHighlightNoPoster.Checked = _iniFile.ReadBool("HighlightNoPoster", "MoviesSection");
+            miHighlightNoSynopsis.Checked = _iniFile.ReadBool("HighlightNoSynopsis", "MoviesSection");
+            miHighlightNoCSM.Checked = _iniFile.ReadBool("HighlightNoCSM", "MoviesSection");
         }
 
         private void ucMovies_Load(object sender, EventArgs e)
@@ -437,7 +438,7 @@ namespace Desene
             {
                 Title = string.Format("Choose a poster for movie '{0}'", selectedMovieData.FileName),
                 DialogType = DialogType.OpenFile,
-                InitialDirectory = Settings.Default.LastCoverPath,
+                InitialDirectory = _iniFile.ReadString("LastCoverPath", "General"),
                 Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*",
                 FileNameLabel = "FileName or URL",
                 //ConfirmButtonText = "Confirm"
@@ -445,8 +446,7 @@ namespace Desene
 
             if (!dialog.Show(Handle)) return;
 
-            Settings.Default.LastCoverPath = Path.GetFullPath(dialog.FileName);
-            Settings.Default.Save();
+            _iniFile.Write("LastCoverPath", Path.GetFullPath(dialog.FileName), "General");
 
             using (var file = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
             {
@@ -896,8 +896,7 @@ namespace Desene
         private void miHighlightNoPoster_Click(object sender, EventArgs e)
         {
             miHighlightNoPoster.Checked = !miHighlightNoPoster.Checked;
-            Settings.Default.HighlightNoPoster = miHighlightNoPoster.Checked;
-            Settings.Default.Save();
+            _iniFile.Write("HighlightNoPoster", miHighlightNoCSM.Checked.ToString(), "MoviesSection");
 
             dgvMoviesList.Invalidate();
         }
@@ -905,8 +904,7 @@ namespace Desene
         private void miHighlightNoSynopsis_Click(object sender, EventArgs e)
         {
             miHighlightNoSynopsis.Checked = !miHighlightNoSynopsis.Checked;
-            Settings.Default.HighlightNoSynopsis = miHighlightNoSynopsis.Checked;
-            Settings.Default.Save();
+            _iniFile.Write("HighlightNoSynopsis", miHighlightNoCSM.Checked.ToString(), "MoviesSection");
 
             dgvMoviesList.Invalidate();
         }
@@ -914,8 +912,7 @@ namespace Desene
         private void miHighlightNoCSM_Click(object sender, EventArgs e)
         {
             miHighlightNoCSM.Checked = !miHighlightNoCSM.Checked;
-            Settings.Default.HighlightNoCSM = miHighlightNoCSM.Checked;
-            Settings.Default.Save();
+            _iniFile.Write("HighlightNoCSM", miHighlightNoCSM.Checked.ToString(), "MoviesSection");
 
             dgvMoviesList.Invalidate();
         }

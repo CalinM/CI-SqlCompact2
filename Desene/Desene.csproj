@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Desene</RootNamespace>
     <AssemblyName>Desene</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -122,6 +122,12 @@
     <Compile Include="DetailFormsAndUserControls\Series\ucBulkEditFieldValue.Designer.cs">
       <DependentUpon>ucBulkEditFieldValue.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmOptions.Designer.cs">
+      <DependentUpon>FrmOptions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -202,6 +208,12 @@
     <Compile Include="ucSeries.Designer.cs">
       <DependentUpon>ucSeries.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucSQLmanagement.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucSQLmanagement.Designer.cs">
+      <DependentUpon>ucSQLmanagement.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="DetailFormsAndUserControls\Collections\FrmAddCollection.resx">
       <DependentUpon>FrmAddCollection.cs</DependentUpon>
     </EmbeddedResource>
@@ -259,6 +271,9 @@
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmOptions.resx">
+      <DependentUpon>FrmOptions.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -277,6 +292,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ucSeries.resx">
       <DependentUpon>ucSeries.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucSQLmanagement.resx">
+      <DependentUpon>ucSQLmanagement.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest">
       <SubType>Designer</SubType>
@@ -325,6 +343,7 @@
     <Content Include="Images\language.png" />
     <Content Include="Images\Merge.png" />
     <Content Include="Images\Options.png" />
+    <Content Include="Images\play.png" />
     <Content Include="Images\Plugin.png" />
     <Content Include="Images\positive_messages.png" />
     <Content Include="Images\positive_role_models.png" />

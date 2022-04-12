@@ -4,9 +4,21 @@ C:\Work\_Utils\CI SqlCompact2\Common\obj\Debug\Common.csprojAssemblyReference.ca
 C:\Work\_Utils\CI SqlCompact2\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
 C:\Work\_Utils\CI SqlCompact2\Common\obj\Debug\Common.dll
 C:\Work\_Utils\CI SqlCompact2\Common\obj\Debug\Common.pdb
+Z:\personal stuff\Personal\CI-SqlCompact2\Common\bin\Debug\Common.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Common\bin\Debug\Common.pdb
+Z:\personal stuff\Personal\CI-SqlCompact2\Common\obj\Debug\Common.csproj.AssemblyReference.cache
+Z:\personal stuff\Personal\CI-SqlCompact2\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
+Z:\personal stuff\Personal\CI-SqlCompact2\Common\obj\Debug\Common.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Common\obj\Debug\Common.pdb
+Z:\Personal\CI-SqlCompact2\Common\bin\Debug\Common.dll
+Z:\Personal\CI-SqlCompact2\Common\bin\Debug\Common.pdb
+Z:\Personal\CI-SqlCompact2\Common\obj\Debug\Common.csproj.AssemblyReference.cache
+Z:\Personal\CI-SqlCompact2\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
+Z:\Personal\CI-SqlCompact2\Common\obj\Debug\Common.dll
+Z:\Personal\CI-SqlCompact2\Common\obj\Debug\Common.pdb
 C:\Work\Personal\CI-SqlCompact2\Common\bin\Debug\Common.dll
 C:\Work\Personal\CI-SqlCompact2\Common\bin\Debug\Common.pdb
+C:\Work\Personal\CI-SqlCompact2\Common\obj\Debug\Common.csproj.AssemblyReference.cache
 C:\Work\Personal\CI-SqlCompact2\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
 C:\Work\Personal\CI-SqlCompact2\Common\obj\Debug\Common.dll
 C:\Work\Personal\CI-SqlCompact2\Common\obj\Debug\Common.pdb
-C:\Work\Personal\CI-SqlCompact2\Common\obj\Debug\Common.csproj.AssemblyReference.cache

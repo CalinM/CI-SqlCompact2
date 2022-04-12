@@ -29,21 +29,21 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pSeparator_Caption = new System.Windows.Forms.Panel();
+            this.ftbFilterEpisodes = new Utils.FilterTextBox();
             this.lbSeriesEpisodesCaption = new System.Windows.Forms.Label();
-            this.dgvEpisodes = new System.Windows.Forms.DataGridView();
             this.lbNoEpisodeWarning = new System.Windows.Forms.Label();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,6 +55,8 @@
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pEdpisodesGridWrapper = new System.Windows.Forms.Panel();
+            this.dgvEpisodes = new System.Windows.Forms.DataGridView();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSeason = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFIleName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -66,18 +68,31 @@
             this.colFrameRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAutio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pSeparator_Caption.SuspendLayout();
+            this.pEdpisodesGridWrapper.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEpisodes)).BeginInit();
             this.SuspendLayout();
             // 
             // pSeparator_Caption
             // 
             this.pSeparator_Caption.BackColor = System.Drawing.Color.DimGray;
+            this.pSeparator_Caption.Controls.Add(this.ftbFilterEpisodes);
             this.pSeparator_Caption.Controls.Add(this.lbSeriesEpisodesCaption);
             this.pSeparator_Caption.Dock = System.Windows.Forms.DockStyle.Top;
             this.pSeparator_Caption.Location = new System.Drawing.Point(0, 0);
             this.pSeparator_Caption.Name = "pSeparator_Caption";
             this.pSeparator_Caption.Size = new System.Drawing.Size(826, 25);
             this.pSeparator_Caption.TabIndex = 0;
+            // 
+            // ftbFilterEpisodes
+            // 
+            this.ftbFilterEpisodes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ftbFilterEpisodes.ForeColor = System.Drawing.Color.Silver;
+            this.ftbFilterEpisodes.Location = new System.Drawing.Point(587, 3);
+            this.ftbFilterEpisodes.Name = "ftbFilterEpisodes";
+            this.ftbFilterEpisodes.Size = new System.Drawing.Size(209, 20);
+            this.ftbFilterEpisodes.TabIndex = 2;
+            this.ftbFilterEpisodes.ButtonClick += new System.EventHandler(this.ftbFilterEpisodes_ButtonClick);
+            this.ftbFilterEpisodes.TextChanged += new System.EventHandler(this.ftbFilterEpisodes_TextChanged);
             // 
             // lbSeriesEpisodesCaption
             // 
@@ -90,75 +105,13 @@
             this.lbSeriesEpisodesCaption.TabIndex = 0;
             this.lbSeriesEpisodesCaption.Text = "Episodes";
             // 
-            // dgvEpisodes
-            // 
-            this.dgvEpisodes.AllowUserToAddRows = false;
-            this.dgvEpisodes.AllowUserToDeleteRows = false;
-            this.dgvEpisodes.AllowUserToResizeRows = false;
-            this.dgvEpisodes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvEpisodes.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dgvEpisodes.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.DimGray;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvEpisodes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvEpisodes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvEpisodes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Id,
-            this.colSeason,
-            this.colFIleName,
-            this.colYear,
-            this.colFileSize,
-            this.colDuration,
-            this.colQuality,
-            this.colBitRate,
-            this.colFrameRate,
-            this.colAutio});
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.Blue;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvEpisodes.DefaultCellStyle = dataGridViewCellStyle7;
-            this.dgvEpisodes.EnableHeadersVisualStyles = false;
-            this.dgvEpisodes.Location = new System.Drawing.Point(0, 31);
-            this.dgvEpisodes.MultiSelect = false;
-            this.dgvEpisodes.Name = "dgvEpisodes";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.DimGray;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvEpisodes.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
-            this.dgvEpisodes.RowHeadersVisible = false;
-            this.dgvEpisodes.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.dgvEpisodes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvEpisodes.Size = new System.Drawing.Size(795, 107);
-            this.dgvEpisodes.TabIndex = 1;
-            this.dgvEpisodes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEpisodes_CellClick);
-            this.dgvEpisodes.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEpisodes_CellDoubleClick);
-            this.dgvEpisodes.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvEpisodes_CellValueChanged);
-            this.dgvEpisodes.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.DgvEpisodes_CellValueNeeded);
-            this.dgvEpisodes.CellValuePushed += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.DgvEpisodes_CellValuePushed);
-            this.dgvEpisodes.CurrentCellDirtyStateChanged += new System.EventHandler(this.DgvEpisodes_CurrentCellDirtyStateChanged);
-            this.dgvEpisodes.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvEpisodes_DataBindingComplete);
-            // 
             // lbNoEpisodeWarning
             // 
+            this.lbNoEpisodeWarning.Dock = System.Windows.Forms.DockStyle.Top;
             this.lbNoEpisodeWarning.ForeColor = System.Drawing.Color.Gray;
-            this.lbNoEpisodeWarning.Location = new System.Drawing.Point(0, 31);
+            this.lbNoEpisodeWarning.Location = new System.Drawing.Point(0, 25);
             this.lbNoEpisodeWarning.Name = "lbNoEpisodeWarning";
-            this.lbNoEpisodeWarning.Size = new System.Drawing.Size(795, 19);
+            this.lbNoEpisodeWarning.Size = new System.Drawing.Size(826, 19);
             this.lbNoEpisodeWarning.TabIndex = 2;
             this.lbNoEpisodeWarning.Text = "The selected series doesn\'t have episodes added!";
             this.lbNoEpisodeWarning.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -177,8 +130,8 @@
             // dataGridViewTextBoxColumn2
             // 
             this.dataGridViewTextBoxColumn2.DataPropertyName = "Season";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewTextBoxColumn2.HeaderText = "Season";
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             this.dataGridViewTextBoxColumn2.ReadOnly = true;
@@ -188,8 +141,8 @@
             // 
             this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dataGridViewTextBoxColumn3.DataPropertyName = "FileName";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewTextBoxColumn3.HeaderText = "File name";
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
@@ -197,8 +150,8 @@
             // dataGridViewTextBoxColumn4
             // 
             this.dataGridViewTextBoxColumn4.DataPropertyName = "Year";
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridViewTextBoxColumn4.HeaderText = "Year";
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.ReadOnly = true;
@@ -207,8 +160,8 @@
             // dataGridViewTextBoxColumn5
             // 
             this.dataGridViewTextBoxColumn5.DataPropertyName = "FileSize2";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridViewTextBoxColumn5.HeaderText = "Size";
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.ReadOnly = true;
@@ -217,9 +170,9 @@
             // dataGridViewTextBoxColumn6
             // 
             this.dataGridViewTextBoxColumn6.DataPropertyName = "Duration";
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle13.Format = "HH:mm:ss";
-            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Format = "HH:mm:ss";
+            this.dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridViewTextBoxColumn6.HeaderText = "Duration";
             this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
             this.dataGridViewTextBoxColumn6.ReadOnly = true;
@@ -256,6 +209,80 @@
             this.dataGridViewTextBoxColumn10.ReadOnly = true;
             this.dataGridViewTextBoxColumn10.Width = 200;
             // 
+            // pEdpisodesGridWrapper
+            // 
+            this.pEdpisodesGridWrapper.Controls.Add(this.dgvEpisodes);
+            this.pEdpisodesGridWrapper.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pEdpisodesGridWrapper.Location = new System.Drawing.Point(0, 44);
+            this.pEdpisodesGridWrapper.Name = "pEdpisodesGridWrapper";
+            this.pEdpisodesGridWrapper.Padding = new System.Windows.Forms.Padding(0, 5, 30, 10);
+            this.pEdpisodesGridWrapper.Size = new System.Drawing.Size(826, 302);
+            this.pEdpisodesGridWrapper.TabIndex = 4;
+            // 
+            // dgvEpisodes
+            // 
+            this.dgvEpisodes.AllowUserToAddRows = false;
+            this.dgvEpisodes.AllowUserToDeleteRows = false;
+            this.dgvEpisodes.AllowUserToResizeRows = false;
+            this.dgvEpisodes.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dgvEpisodes.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgvEpisodes.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.DimGray;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvEpisodes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.dgvEpisodes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvEpisodes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Id,
+            this.colSeason,
+            this.colFIleName,
+            this.colYear,
+            this.colFileSize,
+            this.colDuration,
+            this.colQuality,
+            this.colBitRate,
+            this.colFrameRate,
+            this.colAutio});
+            this.dgvEpisodes.Cursor = System.Windows.Forms.Cursors.Default;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.Color.Blue;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvEpisodes.DefaultCellStyle = dataGridViewCellStyle12;
+            this.dgvEpisodes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvEpisodes.EnableHeadersVisualStyles = false;
+            this.dgvEpisodes.Location = new System.Drawing.Point(0, 5);
+            this.dgvEpisodes.MultiSelect = false;
+            this.dgvEpisodes.Name = "dgvEpisodes";
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.BackColor = System.Drawing.Color.DimGray;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle13.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvEpisodes.RowHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            this.dgvEpisodes.RowHeadersVisible = false;
+            this.dgvEpisodes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dgvEpisodes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvEpisodes.Size = new System.Drawing.Size(796, 287);
+            this.dgvEpisodes.TabIndex = 2;
+            this.dgvEpisodes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEpisodes_CellClick);
+            this.dgvEpisodes.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEpisodes_CellDoubleClick);
+            this.dgvEpisodes.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvEpisodes_CellValueChanged);
+            this.dgvEpisodes.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.DgvEpisodes_CellValueNeeded);
+            this.dgvEpisodes.CellValuePushed += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.DgvEpisodes_CellValuePushed);
+            this.dgvEpisodes.CurrentCellDirtyStateChanged += new System.EventHandler(this.DgvEpisodes_CurrentCellDirtyStateChanged);
+            this.dgvEpisodes.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvEpisodes_DataBindingComplete);
+            // 
             // Id
             // 
             this.Id.DataPropertyName = "Id";
@@ -269,8 +296,8 @@
             // colSeason
             // 
             this.colSeason.DataPropertyName = "Season";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colSeason.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colSeason.DefaultCellStyle = dataGridViewCellStyle7;
             this.colSeason.HeaderText = "Season";
             this.colSeason.Name = "colSeason";
             this.colSeason.ReadOnly = true;
@@ -280,8 +307,8 @@
             // 
             this.colFIleName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.colFIleName.DataPropertyName = "FileName";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.colFIleName.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.colFIleName.DefaultCellStyle = dataGridViewCellStyle8;
             this.colFIleName.HeaderText = "File name";
             this.colFIleName.Name = "colFIleName";
             this.colFIleName.ReadOnly = true;
@@ -289,8 +316,8 @@
             // colYear
             // 
             this.colYear.DataPropertyName = "Year";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colYear.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colYear.DefaultCellStyle = dataGridViewCellStyle9;
             this.colYear.HeaderText = "Year";
             this.colYear.Name = "colYear";
             this.colYear.ReadOnly = true;
@@ -299,8 +326,8 @@
             // colFileSize
             // 
             this.colFileSize.DataPropertyName = "FileSize2";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.colFileSize.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.colFileSize.DefaultCellStyle = dataGridViewCellStyle10;
             this.colFileSize.HeaderText = "Size";
             this.colFileSize.Name = "colFileSize";
             this.colFileSize.ReadOnly = true;
@@ -309,9 +336,9 @@
             // colDuration
             // 
             this.colDuration.DataPropertyName = "Duration";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "HH:mm:ss";
-            this.colDuration.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle11.Format = "HH:mm:ss";
+            this.colDuration.DefaultCellStyle = dataGridViewCellStyle11;
             this.colDuration.HeaderText = "Duration";
             this.colDuration.Name = "colDuration";
             this.colDuration.ReadOnly = true;
@@ -347,22 +374,22 @@
             this.colAutio.HeaderText = "Audio";
             this.colAutio.Name = "colAutio";
             this.colAutio.ReadOnly = true;
-            this.colAutio.Width = 200;
+            this.colAutio.Width = 70;
             // 
             // ucSeriesEpisodes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.Controls.Add(this.pEdpisodesGridWrapper);
             this.Controls.Add(this.lbNoEpisodeWarning);
-            this.Controls.Add(this.dgvEpisodes);
             this.Controls.Add(this.pSeparator_Caption);
             this.Name = "ucSeriesEpisodes";
-            this.Size = new System.Drawing.Size(826, 141);
+            this.Size = new System.Drawing.Size(826, 346);
             this.pSeparator_Caption.ResumeLayout(false);
             this.pSeparator_Caption.PerformLayout();
+            this.pEdpisodesGridWrapper.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvEpisodes)).EndInit();
             this.ResumeLayout(false);
 
@@ -372,7 +399,6 @@
 
         private System.Windows.Forms.Panel pSeparator_Caption;
         private System.Windows.Forms.Label lbSeriesEpisodesCaption;
-        private System.Windows.Forms.DataGridView dgvEpisodes;
         private System.Windows.Forms.Label lbNoEpisodeWarning;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
@@ -384,6 +410,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
+        private Utils.FilterTextBox ftbFilterEpisodes;
+        private System.Windows.Forms.Panel pEdpisodesGridWrapper;
+        private System.Windows.Forms.DataGridView dgvEpisodes;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSeason;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFIleName;

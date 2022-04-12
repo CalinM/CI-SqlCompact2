@@ -163,6 +163,7 @@
             this.tvSeries.TabIndex = 4;
             this.tvSeries.Text = "treeViewAdv1";
             this.tvSeries.SelectionChanged += new System.EventHandler(this.tvSeries_SelectionChanged);
+            this.tvSeries.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tvSeries_KeyPress);
             this.tvSeries.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tvSeries_MouseClick);
             // 
             // pFilters

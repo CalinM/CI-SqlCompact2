@@ -303,6 +303,7 @@ namespace DAL
         public bool DisplayInfoOnly { get; set; }
         public string RecordingAudio { get; set; }
         public bool SkipMultiVersion { get; set; }
+        public string MkvValidatorPath { get; set; }
     }
 
     public class CachedMovieStills
@@ -641,6 +642,13 @@ namespace DAL
             HighlightReason = highlightReason;
             Color = color;
         }
+    }
+
+    public class DbStructureModel
+    {
+        public string Name { get; set; }
+
+        public string ColumnType { get; set; }
     }
 }
 

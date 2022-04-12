@@ -146,146 +146,6 @@ C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.csproj.CoreCompileInputs.cac
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.csproj.CopyComplete
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.dll
 C:\Work\_Utils\CI SqlCompact2\Utils\obj\Debug\Utils.pdb
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\x64\SQLite.Interop.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\x86\SQLite.Interop.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.dll.config
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.pdb
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Microsoft.Win32.Primitives.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\netstandard.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.AppContext.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Collections.Concurrent.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Collections.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Collections.NonGeneric.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Collections.Specialized.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.ComponentModel.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.ComponentModel.EventBasedAsync.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.ComponentModel.Primitives.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.ComponentModel.TypeConverter.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Console.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Data.Common.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.Contracts.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.Debug.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.FileVersionInfo.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.Process.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.StackTrace.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.TextWriterTraceListener.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.Tools.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.TraceSource.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.Tracing.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Drawing.Primitives.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Dynamic.Runtime.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Globalization.Calendars.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Globalization.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Globalization.Extensions.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.Compression.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.Compression.ZipFile.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.FileSystem.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.FileSystem.DriveInfo.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.FileSystem.Primitives.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.FileSystem.Watcher.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.IsolatedStorage.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.MemoryMappedFiles.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.Pipes.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.UnmanagedMemoryStream.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Linq.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Linq.Expressions.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Linq.Parallel.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Linq.Queryable.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.Http.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.NameResolution.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.NetworkInformation.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.Ping.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.Primitives.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.Requests.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.Security.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.Sockets.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.WebHeaderCollection.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.WebSockets.Client.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.WebSockets.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.ObjectModel.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Reflection.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Reflection.Extensions.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Reflection.Primitives.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Resources.Reader.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Resources.ResourceManager.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Resources.Writer.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.CompilerServices.VisualC.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Extensions.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Handles.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.InteropServices.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.InteropServices.RuntimeInformation.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Numerics.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Serialization.Formatters.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Serialization.Json.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Serialization.Primitives.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Serialization.Xml.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Claims.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Cryptography.Algorithms.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Cryptography.Csp.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Cryptography.Encoding.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Cryptography.Primitives.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Cryptography.X509Certificates.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Principal.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.SecureString.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Text.Encoding.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Text.Encoding.Extensions.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Text.RegularExpressions.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.Overlapped.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.Tasks.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.Tasks.Parallel.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.Thread.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.ThreadPool.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.Timer.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.ValueTuple.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Xml.ReaderWriter.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Xml.XDocument.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Xml.XmlDocument.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Xml.XmlSerializer.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Xml.XPath.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Xml.XPath.XDocument.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\AngleSharp.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Common.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\MediaToolkit.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Microsoft.WindowsAPICodePack.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\MigraDoc.DocumentObjectModel-gdi.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\MigraDoc.Rendering-gdi.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\MigraDoc.RtfRendering-gdi.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\NUglify.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Ookii.Dialogs.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\PdfSharp-gdi.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\PdfSharp.Charting-gdi.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Text.Encoding.CodePages.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Data.SQLite.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Common.pdb
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.pdb
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.dll.config
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\AngleSharp.xml
-C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Data.SQLite.xml
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmElementsInfoFromFiles.resources
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmEpisodeInfoFromFiles.resources
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmFileDetails.resources
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmMoviesInfoFromFiles.resources
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmMTDFromFile.resources
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmImportErrors.resources
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmPDFCatalogGenParams.resources
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmProgressIndicator.resources
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmSiteGenParams.resources
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmNfNamesMix.resources
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmToast.resources
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.Properties.Resources.resources
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.SeparatorCombobox.resources
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.GenerateResource.cache
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.CoreCompileInputs.cache
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.CopyComplete
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.dll
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.pdb
-C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.AssemblyReference.cache
 Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\x64\SQLite.Interop.dll
 Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\x86\SQLite.Interop.dll
 Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.dll.config
@@ -426,3 +286,327 @@ Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.C
 Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.CopyComplete
 Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.dll
 Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.pdb
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\x64\SQLite.Interop.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\x86\SQLite.Interop.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.dll.config
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.pdb
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\Microsoft.Win32.Primitives.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\netstandard.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.AppContext.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Collections.Concurrent.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Collections.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Collections.NonGeneric.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Collections.Specialized.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.ComponentModel.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.ComponentModel.EventBasedAsync.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.ComponentModel.Primitives.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.ComponentModel.TypeConverter.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Console.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Data.Common.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.Contracts.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.Debug.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.FileVersionInfo.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.Process.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.StackTrace.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.TextWriterTraceListener.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.Tools.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.TraceSource.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.Tracing.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Drawing.Primitives.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Dynamic.Runtime.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Globalization.Calendars.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Globalization.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Globalization.Extensions.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.Compression.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.Compression.ZipFile.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.FileSystem.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.FileSystem.DriveInfo.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.FileSystem.Primitives.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.FileSystem.Watcher.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.IsolatedStorage.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.MemoryMappedFiles.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.Pipes.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.UnmanagedMemoryStream.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Linq.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Linq.Expressions.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Linq.Parallel.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Linq.Queryable.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.Http.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.NameResolution.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.NetworkInformation.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.Ping.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.Primitives.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.Requests.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.Security.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.Sockets.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.WebHeaderCollection.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.WebSockets.Client.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.WebSockets.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.ObjectModel.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Reflection.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Reflection.Extensions.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Reflection.Primitives.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Resources.Reader.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Resources.ResourceManager.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Resources.Writer.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.CompilerServices.VisualC.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Extensions.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Handles.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.InteropServices.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.InteropServices.RuntimeInformation.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Numerics.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Serialization.Formatters.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Serialization.Json.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Serialization.Primitives.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Serialization.Xml.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Claims.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Cryptography.Algorithms.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Cryptography.Csp.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Cryptography.Encoding.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Cryptography.Primitives.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Cryptography.X509Certificates.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Principal.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.SecureString.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Text.Encoding.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Text.Encoding.Extensions.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Text.RegularExpressions.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.Overlapped.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.Tasks.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.Tasks.Parallel.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.Thread.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.ThreadPool.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.Timer.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.ValueTuple.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Xml.ReaderWriter.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Xml.XDocument.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Xml.XmlDocument.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Xml.XmlSerializer.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Xml.XPath.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Xml.XPath.XDocument.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\AngleSharp.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\Common.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\MediaToolkit.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\Microsoft.WindowsAPICodePack.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\MigraDoc.DocumentObjectModel-gdi.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\MigraDoc.Rendering-gdi.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\MigraDoc.RtfRendering-gdi.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\NUglify.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\Ookii.Dialogs.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\PdfSharp-gdi.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\PdfSharp.Charting-gdi.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Text.Encoding.CodePages.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Data.SQLite.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\Common.pdb
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.pdb
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.dll.config
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\AngleSharp.xml
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Data.SQLite.xml
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.AssemblyReference.cache
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmElementsInfoFromFiles.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmEpisodeInfoFromFiles.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmFileDetails.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmMoviesInfoFromFiles.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmMTDFromFile.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmImportErrors.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmPDFCatalogGenParams.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmProgressIndicator.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmSiteGenParams.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmNfNamesMix.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmToast.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.Properties.Resources.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.SeparatorCombobox.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.GenerateResource.cache
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.CoreCompileInputs.cache
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.CopyComplete
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.pdb
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\x64\SQLite.Interop.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\x86\SQLite.Interop.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.dll.config
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.pdb
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\Microsoft.Win32.Primitives.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\netstandard.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.AppContext.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Collections.Concurrent.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Collections.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Collections.NonGeneric.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Collections.Specialized.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.ComponentModel.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.ComponentModel.EventBasedAsync.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.ComponentModel.Primitives.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.ComponentModel.TypeConverter.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Console.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Data.Common.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.Contracts.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.Debug.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.FileVersionInfo.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.Process.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.StackTrace.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.TextWriterTraceListener.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.Tools.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.TraceSource.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Diagnostics.Tracing.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Drawing.Primitives.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Dynamic.Runtime.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Globalization.Calendars.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Globalization.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Globalization.Extensions.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.Compression.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.Compression.ZipFile.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.FileSystem.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.FileSystem.DriveInfo.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.FileSystem.Primitives.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.FileSystem.Watcher.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.IsolatedStorage.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.MemoryMappedFiles.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.Pipes.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.IO.UnmanagedMemoryStream.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Linq.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Linq.Expressions.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Linq.Parallel.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Linq.Queryable.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.Http.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.NameResolution.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.NetworkInformation.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.Ping.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.Primitives.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.Requests.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.Security.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.Sockets.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.WebHeaderCollection.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.WebSockets.Client.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Net.WebSockets.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.ObjectModel.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Reflection.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Reflection.Extensions.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Reflection.Primitives.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Resources.Reader.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Resources.ResourceManager.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Resources.Writer.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.CompilerServices.VisualC.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Extensions.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Handles.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.InteropServices.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.InteropServices.RuntimeInformation.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Numerics.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Serialization.Formatters.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Serialization.Json.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Serialization.Primitives.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Runtime.Serialization.Xml.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Claims.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Cryptography.Algorithms.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Cryptography.Csp.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Cryptography.Encoding.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Cryptography.Primitives.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Cryptography.X509Certificates.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.Principal.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Security.SecureString.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Text.Encoding.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Text.Encoding.Extensions.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Text.RegularExpressions.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.Overlapped.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.Tasks.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.Tasks.Parallel.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.Thread.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.ThreadPool.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Threading.Timer.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.ValueTuple.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Xml.ReaderWriter.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Xml.XDocument.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Xml.XmlDocument.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Xml.XmlSerializer.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Xml.XPath.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Xml.XPath.XDocument.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\AngleSharp.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\Common.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\MediaToolkit.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\Microsoft.WindowsAPICodePack.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\MigraDoc.DocumentObjectModel-gdi.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\MigraDoc.Rendering-gdi.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\MigraDoc.RtfRendering-gdi.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\NUglify.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\Ookii.Dialogs.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\PdfSharp-gdi.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\PdfSharp.Charting-gdi.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Text.Encoding.CodePages.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Data.SQLite.dll
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\Common.pdb
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.pdb
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.dll.config
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\AngleSharp.xml
+Z:\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Data.SQLite.xml
+Z:\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.AssemblyReference.cache
+Z:\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmElementsInfoFromFiles.resources
+Z:\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmEpisodeInfoFromFiles.resources
+Z:\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmFileDetails.resources
+Z:\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmMoviesInfoFromFiles.resources
+Z:\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmMTDFromFile.resources
+Z:\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmImportErrors.resources
+Z:\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmPDFCatalogGenParams.resources
+Z:\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmProgressIndicator.resources
+Z:\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmSiteGenParams.resources
+Z:\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmNfNamesMix.resources
+Z:\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmToast.resources
+Z:\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.Properties.Resources.resources
+Z:\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.SeparatorCombobox.resources
+Z:\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.GenerateResource.cache
+Z:\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.CoreCompileInputs.cache
+Z:\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.CopyComplete
+Z:\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.dll
+Z:\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.pdb
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\x64\SQLite.Interop.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\x86\SQLite.Interop.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.dll.config
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Utils.pdb
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\AngleSharp.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Common.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\MediaToolkit.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Microsoft.WindowsAPICodePack.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\MigraDoc.DocumentObjectModel-gdi.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\MigraDoc.Rendering-gdi.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\MigraDoc.RtfRendering-gdi.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\NUglify.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Ookii.Dialogs.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\PdfSharp-gdi.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\PdfSharp.Charting-gdi.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Text.Encoding.CodePages.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Data.SQLite.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\Common.pdb
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.pdb
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\DAL.dll.config
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\AngleSharp.xml
+C:\Work\Personal\CI-SqlCompact2\Utils\bin\Debug\System.Data.SQLite.xml
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.AssemblyReference.cache
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmElementsInfoFromFiles.resources
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmEpisodeInfoFromFiles.resources
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmFileDetails.resources
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmMoviesInfoFromFiles.resources
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmMTDFromFile.resources
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmImportErrors.resources
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmPDFCatalogGenParams.resources
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmProgressIndicator.resources
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmSiteGenParams.resources
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmNfNamesMix.resources
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.FrmToast.resources
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.Properties.Resources.resources
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.SeparatorCombobox.resources
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.GenerateResource.cache
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.CoreCompileInputs.cache
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.csproj.CopyComplete
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.dll
+C:\Work\Personal\CI-SqlCompact2\Utils\obj\Debug\Utils.pdb

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Common.ExtensionMethods;
 
 using DAL;
+using Common;
 
 namespace Utils
 {
@@ -16,6 +17,7 @@ namespace Utils
     {
         private int? _parentId;
         private List<SelectableElement> _seasons = new List<SelectableElement>();
+        private IniFile _iniFile = new IniFile();
 
         public FilesImportParams ElementsImportParams;
 
@@ -43,12 +45,11 @@ namespace Utils
 
         private void btnFolderSelector_Click(object sender, EventArgs e)
         {
-            var selectedPath = Helpers.SelectFolder("Please select the episodes location (folder)", Settings.Default.LastPath);
+            var selectedPath = Helpers.SelectFolder("Please select the episodes location (folder)", _iniFile.ReadString("LastPath", "General"));
             if (string.IsNullOrEmpty(selectedPath))
                 return;
 
-            Settings.Default.LastPath = selectedPath;
-            Settings.Default.Save();
+            _iniFile.Write("LastPath", Path.GetFullPath(selectedPath), "General");
 
             tbFilesLocation.Text = selectedPath;
 

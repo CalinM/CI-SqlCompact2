@@ -66,11 +66,11 @@ namespace Common
             return this;
         }
 
-        public OperationResult FailWithMessage(Exception ex)
+        public OperationResult FailWithMessage(Exception ex, bool includeStackTrace = true)
         {
             Success = false;
             Exception = ex;
-            CustomErrorMessage = GetErrorMessage(ex);
+            CustomErrorMessage = GetErrorMessage(ex, includeStackTrace);
 
             return this;
         }

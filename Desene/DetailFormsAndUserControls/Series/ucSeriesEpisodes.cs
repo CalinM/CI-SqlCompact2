@@ -17,6 +17,10 @@ namespace Desene.DetailFormsAndUserControls
         private Dictionary<int, bool> _checkState;
         private CheckBox _headerColCheckBox;
         private int _lastSelectedRowIndex = -1;
+        private bool _forceHeightCalculation = true;
+        private List<EpisodeTechnicalDetails> _episodesInSeries;
+        private List<EpisodeTechnicalDetails> _episodesInSeriesOrig;
+        private Timer _genericTimer;
 
         public ucSeriesEpisodes()
         {
@@ -68,7 +72,7 @@ namespace Desene.DetailFormsAndUserControls
 
             result.Location = new Point(
                 ((header.Size.Width - result.Size.Width) / 2) + 2,
-                ((header.Size.Height - result.Size.Height) / 2) - 2);
+                ((header.Size.Height - result.Size.Height) / 2));
 
             /*
              * ContentBounds values are 0 due to missing header?
@@ -95,7 +99,7 @@ namespace Desene.DetailFormsAndUserControls
 
                 if (((CheckBox)sender).Checked)
                 {
-                    foreach (var episodeRow in (List<MovieTechnicalDetails>)_bsEpisodesGridData.DataSource)
+                    foreach (var episodeRow in (List<EpisodeTechnicalDetails>)_bsEpisodesGridData.DataSource)
                     {
                         //var epId = (int)episodeRow.ItemArray[0]; //0 is the checkbox column?
                         if (_checkState.ContainsKey(episodeRow.Id))
@@ -121,62 +125,57 @@ namespace Desene.DetailFormsAndUserControls
 
             SetBulkEditButtonStateInParent();
             _lastSelectedRowIndex = -1;
-            /*
-            var episodesInSeries = DAL.GetEpisodesInSeries(sesInfo);
 
-            if (episodesInSeries.Rows.Count > 0)
+            _episodesInSeries = DAL.GetEpisodesInSeries(sesInfo);
+            _episodesInSeriesOrig = null;
+
+            if (_episodesInSeries.Count > 0)
             {
-                lbSeriesEpisodesCaption.Text = string.Format("Episodes ({0})", episodesInSeries.Rows.Count);
+                lbSeriesEpisodesCaption.Text = string.Format("Episodes ({0})", _episodesInSeries.Count);
 
-                _bsEpisodesGridData.DataSource = episodesInSeries;
+                _bsEpisodesGridData.DataSource = _episodesInSeries;
                 _bsEpisodesGridData.ResetBindings(false);
 
                 //dgvEpisodes.ClearSelection();
 
                 dgvEpisodes.Visible = true;
+                ftbFilterEpisodes.Visible = true;
                 lbNoEpisodeWarning.Visible = false;
+                dgvEpisodes.Location = new Point(0, pSeparator_Caption.Height + 7);
+
+                //on first render the height is not correct
+                //selecting something will produce the desired results
+                if (_forceHeightCalculation)
+                {
+                    SetGridHeight();
+                    _forceHeightCalculation = false;
+                }
             }
             else
             {
                 lbSeriesEpisodesCaption.Text = "Episodes";
 
                 dgvEpisodes.Visible = false;
-                lbNoEpisodeWarning.Visible = true;
-            }*/
-
-            var episodesInSeries = DAL.GetEpisodesInSeries(sesInfo);
-
-            if (episodesInSeries.Count > 0)
-            {
-                lbSeriesEpisodesCaption.Text = string.Format("Episodes ({0})", episodesInSeries.Count);
-
-                _bsEpisodesGridData.DataSource = episodesInSeries;
-                _bsEpisodesGridData.ResetBindings(false);
-
-                //dgvEpisodes.ClearSelection();
-
-                dgvEpisodes.Visible = true;
-                lbNoEpisodeWarning.Visible = false;
-            }
-            else
-            {
-                lbSeriesEpisodesCaption.Text = "Episodes";
-
-                dgvEpisodes.Visible = false;
+                ftbFilterEpisodes.Visible = false;
                 lbNoEpisodeWarning.Visible = true;
             }
         }
 
         private void dgvEpisodes_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
-            //https://stackoverflow.com/questions/7412098/fit-datagridview-size-to-rows-and-columnss-total-size
-            dgvEpisodes.Height = dgvEpisodes.Rows.GetRowsHeight(DataGridViewElementStates.None) + dgvEpisodes.ColumnHeadersHeight + 6;
+            SetGridHeight();
+        }
 
-            Size = new Size
-            {
-                Height = dgvEpisodes.Height + dgvEpisodes.Location.Y + 10,
-                Width = 150
-            };
+        private void SetGridHeight()
+        {
+            ////https://stackoverflow.com/questions/7412098/fit-datagridview-size-to-rows-and-columnss-total-size
+            //dgvEpisodes.Height = dgvEpisodes.Rows.GetRowsHeight(DataGridViewElementStates.None) + dgvEpisodes.ColumnHeadersHeight;
+
+            //Size = new Size
+            //{
+            //    Height = dgvEpisodes.Height + dgvEpisodes.Location.Y + 10, //10 to have a space under grid
+            //    Width = 150
+            //};
         }
 
         private void dgvEpisodes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -330,6 +329,69 @@ namespace Desene.DetailFormsAndUserControls
             {
                 _lastSelectedRowIndex = e.RowIndex;
             }
+        }
+
+        private void ftbFilterEpisodes_TextChanged(object sender, EventArgs e)
+        {
+            if (_genericTimer != null)
+            {
+                _genericTimer.Enabled = false;
+                _genericTimer = null;
+            }
+
+            _genericTimer = new Timer
+            {
+                Interval = 1000
+            };
+
+            _genericTimer.Tick += FilterEpisodes;
+            _genericTimer.Enabled = true;
+        }
+
+        private void ftbFilterEpisodes_ButtonClick(object sender, EventArgs e)
+        {
+            ftbFilterEpisodes.Text = "";
+            ApplyFilter();
+        }
+
+        private void FilterEpisodes(object sender, EventArgs e)
+        {
+            ApplyFilter();
+        }
+
+        private void ApplyFilter()
+        {
+            if (_genericTimer != null)
+            {
+                _genericTimer.Enabled = false;
+                _genericTimer = null;
+            }
+
+            if (!string.IsNullOrEmpty(ftbFilterEpisodes.Text))
+            {
+                if (_episodesInSeriesOrig == null)
+                {
+                    _episodesInSeriesOrig = _episodesInSeries.ToList();
+                }
+
+                _episodesInSeries =
+                    _episodesInSeriesOrig
+                        .Where(x => x.FileName.IndexOf(ftbFilterEpisodes.Text, StringComparison.OrdinalIgnoreCase) >= 0)
+                        .ToList();
+
+                lbSeriesEpisodesCaption.Text = string.Format("Filtered episodes list ({0}/{1})", _episodesInSeries.Count, _episodesInSeriesOrig.Count);
+            }
+            else
+            {
+                _episodesInSeries = _episodesInSeriesOrig.ToList();
+                lbSeriesEpisodesCaption.Text = string.Format("Episodes ({0})", _episodesInSeries.Count);
+            }
+
+            _bsEpisodesGridData.DataSource = _episodesInSeries;
+            _bsEpisodesGridData.ResetBindings(false);
+
+            //SetGridHeight();
+            ///dgvEpisodes.Height = dgvEpisodes.Rows.GetRowsHeight(DataGridViewElementStates.None) + dgvEpisodes.ColumnHeadersHeight;
         }
     }
 }

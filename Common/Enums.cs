@@ -135,13 +135,28 @@ namespace Common
 
     public enum ALotOrAlittleElements
     {
+        [Description("Educational Value")]
         EducationalValue = 0,
+
+        [Description("Positive Messages")]
         PositiveMessages = 1,
+
+        [Description("Positive Role Models")]
         PositiveRoleModelsAndRepresentations = 2,
+
+        [Description("Violence & Scariness")]
         ViolenceAndScariness = 3,
+
+        [Description("Sexy Stuff")]
         SexyStuff = 4,
+
+        [Description("Language")]
         Language = 5,
+
+        [Description("Consumerism")]
         Consumerism = 6,
+
+        [Description("Drinking, Drugs & Smoking")]
         DrinkingDrugsAndSmoking = 7
     }
 

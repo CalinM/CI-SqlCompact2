@@ -49,4 +49,24 @@ namespace Desene
             return n != null && n.IsEpisode;
         }
     }
+
+    public class DbStructureTreeModel : TreeModelBase
+    {
+        //public DbStructureTreeModel()
+        //{
+        //}
+
+        public override System.Collections.IEnumerable GetChildren(TreePath treePath)
+        {
+            return
+                treePath.IsEmpty()
+                    ? DAL.ListTables2()
+                    : DAL.ListColumns2(((DbStructureModel)treePath.LastNode).Name);
+        }
+
+        public override bool IsLeaf(TreePath treePath)
+        {
+            return !string.IsNullOrEmpty(((DbStructureModel)treePath.LastNode).ColumnType);
+        }
+    }
 }

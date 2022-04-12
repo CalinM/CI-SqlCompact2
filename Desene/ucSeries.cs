@@ -26,6 +26,8 @@ namespace Desene
         private bool _preventEvent;
         private bool _isFiltered;
         private Timer _genericTimer;
+        private string _lookupStartingWith = string.Empty;
+        private IniFile _iniFile = new IniFile();
 
         public ucSeries(FrmMain parent, SeriesType st)
         {
@@ -123,7 +125,7 @@ namespace Desene
                     {
                         if (!_isFiltered)
                         {
-                            var ucSeriesEpisodes = new ucSeriesEpisodes(seShortInfo, this) { Dock = DockStyle.Top };
+                            var ucSeriesEpisodes = new ucSeriesEpisodes(seShortInfo, this) { Dock = DockStyle.Fill };
                             pSeriesDetailsContainer.Controls.Add(ucSeriesEpisodes);
                             ucSeriesEpisodes.BringToFront();
                         }
@@ -397,7 +399,9 @@ namespace Desene
                 MsgBox.Show(opRes.CustomErrorMessage, "Audio summary determination", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             ReloadTreeView(sesi.Id);
-            tvSeries.SelectedNode.ExpandAll();
+            tvSeries.SelectedNode.Expand();
+
+            tvSeries.SelectedNode = tvSeries.SelectedNode.Children.FirstOrDefault(x => ((SeriesEpisodesShortInfo)x.Tag).Season == iParams.EpisodesImportParams.Season);
 
             LoadSelectionDetails();
         }
@@ -448,7 +452,7 @@ namespace Desene
             {
                 Title = string.Format("Choose a poster for series '{0}'", selectedNodeData.FileName),
                 DialogType = DialogType.OpenFile,
-                InitialDirectory = Settings.Default.LastCoverPath,
+                InitialDirectory = _iniFile.ReadString("LastCoverPath", "General"),
                 Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*",
                 FileNameLabel = "FileName or URL",
                 //ConfirmButtonText = "Confirm"
@@ -456,8 +460,7 @@ namespace Desene
 
             if (!dialog.Show(Handle)) return;
 
-            Settings.Default.LastCoverPath = Path.GetFullPath(dialog.FileName);
-            Settings.Default.Save();
+            _iniFile.Write("LastCoverPath", Path.GetFullPath(dialog.FileName), "General");
 
             using (var file = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
             {
@@ -694,6 +697,43 @@ namespace Desene
                 }
             }
 
+        }
+
+        private void tvSeries_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (_genericTimer != null)
+            {
+                _genericTimer.Enabled = false;
+                _genericTimer = null;
+            }
+
+            _genericTimer = new Timer
+            {
+                Interval = 2000,
+            };
+
+            _genericTimer.Tick += ClearLookupTypedKeys;
+            _genericTimer.Enabled = true;
+
+            _lookupStartingWith += e.KeyChar;
+
+            var seriesObj = tvSeries.AllNodes.FirstOrDefault(f => ((SeriesEpisodesShortInfo)f.Tag).FileName.ToLower().StartsWith(_lookupStartingWith));
+            var index = seriesObj != null ? seriesObj.Index : -1;
+
+            if (index >= 0)
+            {
+                tvSeries.SelectedNode = seriesObj;
+                //dgvMoviesList.Rows[index].Selected = true;
+                //dgvMoviesList.FirstDisplayedScrollingRowIndex = index;
+            }
+        }
+
+        private void ClearLookupTypedKeys(object sender, EventArgs e)
+        {
+            _genericTimer.Enabled = false;
+            _genericTimer = null;
+
+            _lookupStartingWith = string.Empty;
         }
 
         #endregion

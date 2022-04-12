@@ -1,8 +1,6 @@
 ﻿using Common;
 using DAL;
-using Desene.Properties;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -13,6 +11,7 @@ namespace Desene.DetailFormsAndUserControls.Shared
     public partial class FrmRecommendedData : Form
     {
         private int _fileDetailsId;
+        private IniFile _iniFile = new IniFile();
 
         public FrmRecommendedData(int id)
         {
@@ -22,11 +21,11 @@ namespace Desene.DetailFormsAndUserControls.Shared
 
         private void LoadWindowConfig()
         {
-            if (Utils.Helpers.IsOnScreen(Location, Size) && Settings.Default.RecWindowLocation.X > 0 && Settings.Default.RecWindowLocation.Y > 0) //to auto-correct bad configuration
+            if (_iniFile.KeyExists("Top", "RecommendedWindow") && _iniFile.KeyExists("Left", "RecommendedWindow"))
             {
-                Location = Settings.Default.RecWindowLocation;
+                Location = new Point(_iniFile.ReadInt("Left", "RecommendedWindow"), _iniFile.ReadInt("Top", "RecommendedWindow"));
             }
-       }
+        }
 
         private void FrmRecommendedData_Load(object sender, EventArgs e)
         {
@@ -66,15 +65,15 @@ namespace Desene.DetailFormsAndUserControls.Shared
 
         private void FrmRecommendedData_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Settings.Default.RecWindowLocation = Location;
-            Settings.Default.Save();
+            _iniFile.Write("Top", Location.Y.ToString(), "RecommendedWindow");
+            _iniFile.Write("Left", Location.X.ToString(), "RecommendedWindow");
         }
 
         private void DataToControls(CSMScrapeResult csmData)
         {
             lbGreenAge.Text = csmData.GreenAge;
 
-           GraphicsHelpers.DrawRating(csmData.Rating, pbCSMRating, new Font("Microsoft Sans Serif", 24, FontStyle.Regular), "⋆");
+            GraphicsHelpers.DrawRating(csmData.Rating, pbCSMRating, new Font("Microsoft Sans Serif", 24, FontStyle.Regular), "⋆");
 
             var tt = new ToolTip();
             tt.IsBalloon = true;

@@ -55,32 +55,34 @@ namespace Desene
 
             NewId = (int)opRes.AdditionalDataReturn;
 
-            if (!ucEditSeriesBaseInfo.RecommendedLink.ToLower().Contains("commonsensemedia"))
+            if (ucEditSeriesBaseInfo.RecommendedLink.Trim().Length > 0)
             {
-                Utils.Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "Recommended data",
-                    "The 'recommended' data is from a site which doesn't have scraper and parser built!", 5000, this);
-            }
-            else
-            {
-                opRes = WebScraping.GetCommonSenseMediaData(ucEditSeriesBaseInfo.RecommendedLink);
-
-                if (!opRes.Success)
+                if (!ucEditSeriesBaseInfo.RecommendedLink.ToLower().Contains("commonsensemedia"))
                 {
                     Utils.Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "Recommended data",
-                        opRes.CustomErrorMessage, 5000, this);
+                        "The 'recommended' data is from a site which doesn't have scraper and parser built!", 5000, this);
                 }
                 else
                 {
-                    opRes = DAL.SaveCommonSenseMediaData(NewId, (CSMScrapeResult)opRes.AdditionalDataReturn);
+                    opRes = WebScraping.GetCommonSenseMediaData(ucEditSeriesBaseInfo.RecommendedLink);
 
                     if (!opRes.Success)
                     {
                         Utils.Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "Recommended data",
                             opRes.CustomErrorMessage, 5000, this);
                     }
+                    else
+                    {
+                        opRes = DAL.SaveCommonSenseMediaData(NewId, (CSMScrapeResult)opRes.AdditionalDataReturn);
+
+                        if (!opRes.Success)
+                        {
+                            Utils.Helpers.ShowToastForm(StartPosition2.BottomRight, MessageType.Warning, "Recommended data",
+                                opRes.CustomErrorMessage, 5000, this);
+                        }
+                    }
                 }
             }
-
 
             DialogResult = DialogResult.OK;
             Close();
@@ -93,11 +95,13 @@ namespace Desene
 
         private void btnLoadPoster_Click(object sender, EventArgs e)
         {
+            var iniFile = new IniFile();
+
             var dialog = new CustomDialogs
             {
                 Title = "Choose a poster",
                 DialogType = DialogType.OpenFile,
-                InitialDirectory = Settings.Default.LastCoverPath,
+                InitialDirectory = iniFile.ReadString("LastCoverPath", "General"),
                 Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*",
                 FileNameLabel = "FileName or URL",
                 //ConfirmButtonText = "Confirm"
@@ -105,8 +109,7 @@ namespace Desene
 
             if (!dialog.Show(Handle)) return;
 
-            Settings.Default.LastCoverPath = Path.GetFullPath(dialog.FileName);
-            Settings.Default.Save();
+            iniFile.Write("LastCoverPath", Path.GetFullPath(dialog.FileName), "General");
 
             using (var ms = new MemoryStream())
             {
@@ -119,6 +122,11 @@ namespace Desene
 
                 ucEditSeriesBaseInfo.SetPoster(ms.ToArray());
             }
+        }
+
+        private void btnOpenPages_Click(object sender, EventArgs e)
+        {
+            Utils.Helpers.OpenBaseWebPages(ucEditSeriesBaseInfo.Title, Sections.Series);
         }
     }
 }

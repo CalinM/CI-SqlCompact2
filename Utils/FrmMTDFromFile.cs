@@ -1,4 +1,5 @@
-﻿using DAL;
+﻿using Common;
+using DAL;
 using System;
 using System.Drawing;
 using System.IO;
@@ -12,6 +13,7 @@ namespace Utils
     {
         private string _filePath = string.Empty;
         private bool _isNew;
+        private IniFile _iniFile = new IniFile();
 
         public MovieTechnicalDetails mtd;
 
@@ -37,12 +39,11 @@ namespace Utils
             {
                 openFileDialog.Title = "Episode file";
                 openFileDialog.Filter = "Video files (*.mkv, *.mp4, *.m4v, *.avi)|*.mkv;*.mp4;*.m4v;*.avi|All files (*.*)|*.*";
-                openFileDialog.InitialDirectory = !string.IsNullOrEmpty(Settings.Default.LastPath) ? Path.GetDirectoryName(Settings.Default.LastPath) : "";
+                openFileDialog.InitialDirectory = _iniFile.ReadString("LastPath", "General");
 
                 if (openFileDialog.ShowDialog() != DialogResult.OK) return;
 
-                Settings.Default.LastPath = Path.GetFullPath(openFileDialog.FileName);
-                Settings.Default.Save();
+                _iniFile.Write("LastPath", Path.GetFullPath(openFileDialog.FileName), "General");
 
                 _filePath = Path.GetFullPath(openFileDialog.FileName);
                 toolTip.SetToolTip(tbFileName, _filePath);

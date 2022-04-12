@@ -8,11 +8,14 @@ using System.Windows.Forms;
 using DAL;
 
 using Utils.Properties;
+using Common;
 
 namespace Utils
 {
     public partial class FrmMoviesInfoFromFiles : EscapeForm
     {
+        private IniFile _iniFile = new IniFile();
+
         public FilesImportParams MoviesImportParams;
 
         public FrmMoviesInfoFromFiles()
@@ -22,12 +25,11 @@ namespace Utils
 
         private void btnFolderSelector_Click(object sender, EventArgs e)
         {
-            var selectedPath = Helpers.SelectFolder("Please select the movies location (folder)", Settings.Default.LastPath);
+            var selectedPath = Helpers.SelectFolder("Please select the movies location (folder)", _iniFile.ReadString("LastPath", "General"));
             if (string.IsNullOrEmpty(selectedPath))
                 return;
 
-            Settings.Default.LastPath = selectedPath;
-            Settings.Default.Save();
+            _iniFile.Write("LastPath", Path.GetFullPath(selectedPath), "General");
 
             tbFilesLocation.Text = selectedPath;
 

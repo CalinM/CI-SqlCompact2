@@ -19,7 +19,7 @@ namespace Desene.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -209,10 +209,16 @@ namespace Desene.Properties {
         /// <summary>
         ///   Looks up a localized string similar to $(document).ready(function () {
         ///    DisplayHome();
+        ///    //RenderWhatsNew();
         ///    ResizeMoviesSection();
         ///
         ///    BindSearchEvents();
         ///    BindNavigationMenuEvents();
+        ///
+        ///    if (isMobile()) {
+        ///        window.scrollTo(0,1);
+        ///        $(&quot;#rootNav span&quot;).css(&quot;font-size&quot;, &quot;40px&quot;);
+        ///    }
         ///});
         ///
         ///$(window).resize(function () {
@@ -221,13 +227,7 @@ namespace Desene.Properties {
         ///        ResizeMoviesSection();
         ///    }, 100, &quot;contentWrapper&quot;);
         ///
-        ///    //setTimeout(function () { ResizeMoviesSection(); }, 100);
-        ///});
-        ///
-        ///
-        ///function BindSearchEvents() {
-        ///	    $(&quot;#searchCtrl&quot;).on(&quot;focus&quot;, function () {
-        ///        $( [rest of string was truncated]&quot;;.
+        ///    //setTimeout(func [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string cr_mainJS {
             get {
@@ -305,7 +305,7 @@ namespace Desene.Properties {
         ///function DisplayHome() {
         ///	SoftCloseSearch();
         ///
-        ///	$(&quot;#moviesSections&quot;).css( [rest of string was truncated]&quot;;.
+        ///	//$(&quot;#moviesSections&quot;).cs [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string cr_sharedJS {
             get {
@@ -781,6 +781,16 @@ namespace Desene.Properties {
         internal static System.Drawing.Bitmap pixel {
             get {
                 object obj = ResourceManager.GetObject("pixel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap play {
+            get {
+                object obj = ResourceManager.GetObject("play", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

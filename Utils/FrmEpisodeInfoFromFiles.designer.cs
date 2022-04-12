@@ -43,9 +43,9 @@
             this.pRercordingSpecifics = new System.Windows.Forms.Panel();
             this.lbSkipMultiVersion = new System.Windows.Forms.Label();
             this.cbSkipMultiVersion = new System.Windows.Forms.CheckBox();
+            this.cbLanguages = new Utils.SeparatorComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tbSeason = new System.Windows.Forms.TextBox();
-            this.cbLanguages = new Utils.SeparatorComboBox();
             this.pRercordingSpecifics.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -113,6 +113,7 @@
             this.tbYear.Name = "tbYear";
             this.tbYear.Size = new System.Drawing.Size(89, 20);
             this.tbYear.TabIndex = 4;
+            this.tbYear.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbYear_KeyDown);
             // 
             // btnFolderSelector
             // 
@@ -175,7 +176,7 @@
             this.pRercordingSpecifics.Controls.Add(this.cbLanguages);
             this.pRercordingSpecifics.Controls.Add(this.label1);
             this.pRercordingSpecifics.Location = new System.Drawing.Point(371, 46);
-            this.pRercordingSpecifics.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pRercordingSpecifics.Margin = new System.Windows.Forms.Padding(2);
             this.pRercordingSpecifics.Name = "pRercordingSpecifics";
             this.pRercordingSpecifics.Size = new System.Drawing.Size(251, 75);
             this.pRercordingSpecifics.TabIndex = 18;
@@ -196,27 +197,11 @@
             this.cbSkipMultiVersion.Checked = true;
             this.cbSkipMultiVersion.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbSkipMultiVersion.Location = new System.Drawing.Point(147, 36);
-            this.cbSkipMultiVersion.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbSkipMultiVersion.Margin = new System.Windows.Forms.Padding(2);
             this.cbSkipMultiVersion.Name = "cbSkipMultiVersion";
             this.cbSkipMultiVersion.Size = new System.Drawing.Size(15, 14);
             this.cbSkipMultiVersion.TabIndex = 6;
             this.cbSkipMultiVersion.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 6);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(117, 13);
-            this.label1.TabIndex = 18;
-            this.label1.Text = "Default audio language";
-            // 
-            // tbSeason
-            // 
-            this.tbSeason.Location = new System.Drawing.Point(127, 77);
-            this.tbSeason.Name = "tbSeason";
-            this.tbSeason.Size = new System.Drawing.Size(89, 20);
-            this.tbSeason.TabIndex = 3;
             // 
             // cbLanguages
             // 
@@ -233,6 +218,23 @@
             this.cbLanguages.SeparatorWidth = 1;
             this.cbLanguages.Size = new System.Drawing.Size(96, 21);
             this.cbLanguages.TabIndex = 5;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 6);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(117, 13);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "Default audio language";
+            // 
+            // tbSeason
+            // 
+            this.tbSeason.Location = new System.Drawing.Point(127, 77);
+            this.tbSeason.Name = "tbSeason";
+            this.tbSeason.Size = new System.Drawing.Size(89, 20);
+            this.tbSeason.TabIndex = 3;
+            this.tbSeason.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbYear_KeyDown);
             // 
             // FrmEpisodeInfoFromFiles
             // 

@@ -25,6 +25,7 @@ namespace Desene
         private bool _preventEvent;
         private bool _isFiltered;
         private Timer _genericTimer;
+        private IniFile _iniFile = new IniFile();
 
         public ucCollections(FrmMain parent)
         {
@@ -626,7 +627,7 @@ namespace Desene
             {
                 Title = string.Format("Choose a poster for collection '{0}'", selectedNodeData.FileName),
                 DialogType = DialogType.OpenFile,
-                InitialDirectory = Settings.Default.LastCoverPath,
+                InitialDirectory = _iniFile.ReadString("LastCoverPath", "General"),
                 Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*",
                 FileNameLabel = "FileName or URL",
                 //ConfirmButtonText = "Confirm"
@@ -634,8 +635,7 @@ namespace Desene
 
             if (!dialog.Show(Handle)) return;
 
-            Settings.Default.LastCoverPath = Path.GetFullPath(dialog.FileName);
-            Settings.Default.Save();
+            _iniFile.Write("LastCoverPath", Path.GetFullPath(dialog.FileName), "General");
 
             using (var file = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read))
             {

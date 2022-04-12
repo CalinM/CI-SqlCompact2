@@ -23,7 +23,7 @@ namespace Utils
             {
                 return Uglify.Js(str).Code;
             }
-            catch (Exception ex)
+            catch
             {
                 //var error = OperationResult.GetErrorMessage(ex);
                 return str;

@@ -21,6 +21,13 @@ namespace Utils
 			public int bottom;
 		}
 
+		public enum GetAncestorFlags
+		{
+			GetParent = 1,
+			GetRoot = 2,
+			GetRootOwner = 3
+		}
+
 		#endregion Values & structs
 
 
@@ -63,9 +70,12 @@ namespace Utils
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
 
+		[DllImport("user32.dll")]
+		public static extern IntPtr GetAncestor(IntPtr hwnd, GetAncestorFlags gaFlags);
+
 		#endregion Stock P/Invokes
 
-        [DllImport("user32.dll")]
+		[DllImport("user32.dll")]
         public static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wp, IntPtr lp);
 
 		#region Simplified interfaces

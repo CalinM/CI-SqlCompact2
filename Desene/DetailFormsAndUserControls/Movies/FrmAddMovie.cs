@@ -78,11 +78,13 @@ namespace Desene
 
         private void btnLoadPoster_Click(object sender, EventArgs e)
         {
+            var iniFile = new IniFile();
+
             var dialog = new CustomDialogs
             {
                 Title = "Choose a poster",
                 DialogType = DialogType.OpenFile,
-                InitialDirectory = Settings.Default.LastCoverPath,
+                InitialDirectory = iniFile.ReadString("LastCoverPath", "General"),
                 Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp)|*.jpg;*.jpeg;*.png;*.bmp|All files (*.*)|*.*",
                 FileNameLabel = "FileName or URL",
                 //ConfirmButtonText = "Confirm"
@@ -90,8 +92,7 @@ namespace Desene
 
             if (!dialog.Show(Handle)) return;
 
-            Settings.Default.LastCoverPath = Path.GetFullPath(dialog.FileName);
-            Settings.Default.Save();
+            iniFile.Write("LastCoverPath", Path.GetFullPath(dialog.FileName), "General");
 
             ucMovieInfo1.SetNewPoster(dialog.FileName);
         }
@@ -166,18 +167,7 @@ namespace Desene
 
         private void btnOpenPages_Click(object sender, EventArgs e)
         {
-            var movieName = ucMovieInfo1.MovieTitle;
-
-            if (string.IsNullOrEmpty(movieName))
-            {
-                MsgBox.Show("Movie title is mandatory!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            Process.Start("http://www.google.com/search?q=" + Uri.EscapeDataString(movieName + "+cinemagia"), "_blank");
-            Process.Start("http://www.google.com/search?q=" + Uri.EscapeDataString(movieName + "+imdb"), "_blank");
-            Process.Start("https://www.commonsensemedia.org/search/" + Uri.EscapeDataString(movieName), "_blank");
-            Process.Start("https://www.youtube.com/results?search_query=" + movieName.Replace(" ", "+") + "+trailer", "_blank");
+            Utils.Helpers.OpenBaseWebPages(ucMovieInfo1.MovieTitle, Sections.Movies);
         }
     }
 }

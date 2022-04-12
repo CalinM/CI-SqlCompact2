@@ -31,7 +31,7 @@ namespace Utils
             var pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
             pi.SetValue(dgvFilesDetails, true, null);
 
-            _fileDetails = ToDataTable(fileDetails);
+            _fileDetails = Desene.DAL.ToDataTable(fileDetails);
 
             dgvFilesDetails.AutoGenerateColumns = false;
             dgvFilesDetails.DataSource = _fileDetails;
@@ -71,39 +71,6 @@ namespace Utils
                         });
                 }
             }
-        }
-
-        private static DataTable ToDataTable(/*this*/ IEnumerable<dynamic> items)
-        {
-            if (!items.Any()) return null;
-
-            var table = new DataTable { TableName = "FilesDetails" };
-
-            var keyCollection = new List<string>();
-
-            items.Cast<IDictionary<string, object>>().ToList().ForEach(x =>
-                {
-                    if (x.Keys.Count > keyCollection.Count)
-                        keyCollection = x.Keys.ToList();
-                });
-
-            keyCollection.Select(y => table.Columns.Add(y)).ToList();
-
-            foreach (var kv in items.Cast<IDictionary<string, object>>().ToList())
-            {
-                var row = table.NewRow();
-                foreach (var keyName in keyCollection)
-                {
-                    if (kv.Keys.Contains(keyName))
-                    {
-                        row[keyName] = kv[keyName];
-                    }
-                }
-
-                table.Rows.Add(row);
-            }
-
-            return table;
         }
 
         private void btnClose_Click(object sender, EventArgs e)

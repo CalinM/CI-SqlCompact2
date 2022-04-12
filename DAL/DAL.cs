@@ -9,6 +9,8 @@ using System.Linq;
 using DAL;
 using Common.ExtensionMethods;
 using System.Data.SQLite;
+using System.Collections;
+using System.Dynamic;
 
 namespace Desene
 {
@@ -43,6 +45,8 @@ namespace Desene
                             MovieThemes.Add(reader["Theme"].ToString());
                         }
                     }
+
+                    conn.Close();
                 }
 
                 return result;
@@ -105,6 +109,8 @@ namespace Desene
                         });
                     }
                 }
+
+                conn.Close();
             }
 
             return result;
@@ -185,6 +191,8 @@ namespace Desene
                         result.Add(msi);
                     }
                 }
+
+                conn.Close();
             }
 
             return result;
@@ -216,6 +224,8 @@ namespace Desene
                         });
                     }
                 }
+
+                conn.Close();
             }
 
             return result;
@@ -236,6 +246,8 @@ namespace Desene
                         return reader["FileName"].ToString();
                     }
                 }
+
+                conn.Close();
             }
 
             return "unknown!";
@@ -272,6 +284,8 @@ namespace Desene
                         });
                     }
                 }
+
+                conn.Close();
             }
 
             return result.OrderBy(o => o.FileName, new NaturalSortComparer<string>()).ToList();
@@ -309,6 +323,8 @@ namespace Desene
                         });
                     }
                 }
+
+                conn.Close();
             }
 
             return result;
@@ -377,6 +393,8 @@ namespace Desene
                         });
                     }
                 }
+
+                conn.Close();
             }
 
             return
@@ -429,6 +447,8 @@ namespace Desene
                         });
                     }
                 }
+
+                conn.Close();
             }
 
             return result;
@@ -529,6 +549,8 @@ namespace Desene
                         IsSeason = true
                     });
                 }
+
+                conn.Close();
             }
 
             return result.OrderBy(o => o.FileName).ThenBy(o => o.Season).ToList();
@@ -582,6 +604,8 @@ namespace Desene
                     cmd.CommandText = "SELECT last_insert_rowid()";
 
                     result.AdditionalDataReturn = (int)(long)cmd.ExecuteScalar();
+
+                    conn.Close();
                 }
             }
             catch (Exception ex)
@@ -914,6 +938,8 @@ namespace Desene
                     }
 
                     #endregion
+
+                    conn.Close();
                 }
             }
             catch (Exception ex)
@@ -1250,6 +1276,8 @@ namespace Desene
                     }
 
                     #endregion
+
+                    conn.Close();
                 }
             }
             catch (Exception ex)
@@ -1495,6 +1523,8 @@ namespace Desene
 
                         #endregion
                     }
+
+                    conn.Close();
                 }
 
                 if (!string.IsNullOrEmpty(CurrentMTD.Theme) && MovieThemes.IndexOf(CurrentMTD.Theme) == -1)
@@ -1662,6 +1692,8 @@ namespace Desene
                     cmd.CommandType = CommandType.Text;
 
                     mtd.HasRecommendedDataSaved = Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+
+                    conn.Close();
                 }
 
                 CurrentMTD = mtd;
@@ -1695,6 +1727,8 @@ namespace Desene
                         result.MovieStills.Add((byte[])reader["MovieStill"]);
                     }
                 }
+
+                conn.Close();
             }
 
             return result;
@@ -1746,6 +1780,7 @@ namespace Desene
                     }
 
                     result = RemoveData(string.Join(",", episodeIds), conn);
+                    conn.Close();
                 }
                 catch (Exception ex)
                 {
@@ -1779,6 +1814,7 @@ namespace Desene
                     }
 
                     result = RemoveData(string.Join(",", episodeIds), conn);
+                    conn.Close();
                 }
                 catch (Exception ex)
                 {
@@ -1800,6 +1836,8 @@ namespace Desene
                     conn.Open();
 
                     result = RemoveData(fileDetailId.ToString(), conn);
+
+                    conn.Close();
                 }
                 catch (Exception ex)
                 {
@@ -2021,6 +2059,7 @@ namespace Desene
                     }
 
                     result.AdditionalDataReturn = resultStr;
+                    conn.Close();
                 }
                 catch (Exception ex)
                 {
@@ -2123,6 +2162,8 @@ namespace Desene
                         result.Add(mfw);
                     }
                 }
+
+                conn.Close();
             }
 
             var tempSortList = result.OrderBy(o => o.InsertedDate).ToList();
@@ -2319,6 +2360,8 @@ namespace Desene
                         result.Add(mDet2);
                     }
                 }
+
+                conn.Close();
             }
 
             return result;
@@ -2346,6 +2389,8 @@ namespace Desene
                         break;
                     }
                 }
+
+                conn.Close();
             }
 
             return result;
@@ -2408,6 +2453,8 @@ namespace Desene
                         result.Add(sfw);
                     }
                 }
+
+                conn.Close();
             }
 
             return result;
@@ -2518,6 +2565,8 @@ namespace Desene
                         result.Add(efw);
                     }
                 }
+
+                conn.Close();
             }
 
             return result;
@@ -2754,6 +2803,8 @@ namespace Desene
                         result.Add(efw);
                     }
                 }
+
+                conn.Close();
             }
 
             return result;
@@ -2793,6 +2844,8 @@ namespace Desene
                         });
                     }
                 }
+
+                conn.Close();
             }
 
             return result;
@@ -2860,6 +2913,8 @@ namespace Desene
                     result.AdditionalDataReturn = newFileDetailId;
 
                     #endregion
+
+                    conn.Close();
                 }
             }
             catch (Exception ex)
@@ -2874,7 +2929,7 @@ namespace Desene
             byte[] poster)
         {
             var result = new OperationResult();
-            const int parentId = -10;
+            //const int parentId = -10;
 
             try
             {
@@ -2899,6 +2954,8 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@Id", id);
 
                     cmd.ExecuteNonQuery();
+
+                    conn.Close();
                 }
             }
             catch (Exception ex)
@@ -2939,6 +2996,8 @@ namespace Desene
                         });
                     }
                 }
+
+                conn.Close();
             }
 
             return result;
@@ -3053,6 +3112,8 @@ namespace Desene
                 finally
                 {
                     tx.Commit();
+
+                    conn.Close();
                 }
             }
 
@@ -3189,6 +3250,8 @@ namespace Desene
                 //        s.B = episodesForSeries.Count().ToString();
                 //    }
                 //}
+
+                conn.Close();
             }
 
             return result;
@@ -3230,6 +3293,8 @@ namespace Desene
                             return (int)(long)reader["CNT"];
                         }
                     }
+
+                    conn.Close();
                 }
             }
             catch (Exception)
@@ -3277,6 +3342,8 @@ namespace Desene
                                 });
                         }
                     }
+
+                    conn.Close();
                 }
 
                 result.AdditionalDataReturn = returnData;
@@ -3309,6 +3376,8 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@Id", movieId);
 
                     cmd.ExecuteNonQuery();
+
+                    conn.Close();
                 }
             }
             catch (Exception ex)
@@ -3362,6 +3431,8 @@ namespace Desene
                                 });
                         }
                     }
+
+                    conn.Close();
                 }
 
                 result.AdditionalDataReturn = returnData;
@@ -3488,6 +3559,8 @@ namespace Desene
                             cmd.ExecuteNonQuery();
                         }
                     }
+
+                    conn.Close();
                 }
             }
             catch (Exception ex)
@@ -3547,7 +3620,9 @@ namespace Desene
                         cmd.Parameters.AddWithValue("@audios", audios);
                         cmd.Parameters.AddWithValue("@seriesId", seriesId);
 
-                        cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
+
+                    conn.Close();
                 }
 
                 result.AdditionalDataReturn = audios;
@@ -3582,6 +3657,8 @@ namespace Desene
                     cmd.Parameters.AddWithValue("@oldName", oldName);
 
                     cmd.ExecuteNonQuery();
+
+                    conn.Close();
                 }
             }
             catch (Exception ex)
@@ -3657,6 +3734,7 @@ namespace Desene
                     }
 
                     result.AdditionalDataReturn = resultObj;
+                    conn.Close();
                 }
             }
             catch (Exception ex)
@@ -3665,6 +3743,204 @@ namespace Desene
             }
 
             return result;
+        }
+        
+        public static ArrayList ListTables()
+        {
+            var result = new ArrayList();
+
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                var sqlString = "SELECT name FROM sqlite_master WHERE type ='table' AND name NOT LIKE 'sqlite_%'";
+                var cmd = new SQLiteCommand(sqlString, conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if (!reader.IsDBNull(0))
+                        {
+                            string table_name = reader.GetString(0);
+                            result.Add(table_name);
+                        }
+                    }
+                }
+
+                conn.Close();
+            }
+
+            return result;
+        }
+
+        public static ArrayList ListColumns(string table)
+        {
+            var result = new ArrayList();
+
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                var sqlString = "SELECT * FROM " + table;
+                var cmd = new SQLiteCommand(sqlString, conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    for (var i = 0; i < reader.FieldCount; i++)
+                    {
+                        result.Add(reader.GetName(i) + " : " + reader.GetFieldType(i));
+                    }
+                }
+
+                conn.Close();
+            }
+
+            return result;
+        }
+
+        public static List<DbStructureModel> ListTables2()
+        {
+            var result = new List<DbStructureModel>();
+
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                var sqlString = "SELECT name FROM sqlite_master WHERE type ='table' AND name NOT LIKE 'sqlite_%'";
+                var cmd = new SQLiteCommand(sqlString, conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if (!reader.IsDBNull(0))
+                        {
+                            result.Add(new DbStructureModel() { Name = reader.GetString(0) });
+                        }
+                    }
+                }
+
+                conn.Close();
+            }
+
+            return result;
+        }
+
+        public static List<DbStructureModel> ListColumns2(string table)
+        {
+            var result = new List<DbStructureModel>();
+
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                var sqlString = "SELECT * FROM " + table;
+                var cmd = new SQLiteCommand(sqlString, conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    for (var i = 0; i < reader.FieldCount; i++)
+                    {
+                        result.Add(
+                            new DbStructureModel()
+                            {
+                                Name = reader.GetName(i),
+                                ColumnType = reader.GetFieldType(i).ToString().Replace("System.", "")
+                            });
+                    }
+                }
+
+                conn.Close();
+            }
+
+            return result;
+        }
+
+        public static OperationResult ExecuteSQLcommand(string toExecute)
+        {
+            var result = new OperationResult();
+
+            try
+            {
+                using (var conn = new SQLiteConnection(Constants.ConnectionString))
+                {
+                    conn.Open();
+
+                    var cmd = new SQLiteCommand(toExecute, conn);
+
+                    if (toExecute.ToLower().StartsWith("select"))
+                    {
+                        var resultData = new List<object>();
+
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                while (reader.Read())
+                                {
+                                    var dynamicObj = new ExpandoObject() as IDictionary<string, object>;
+                                    for (var i = 0; i < reader.FieldCount; i++)
+                                    {
+                                        if (reader[i].GetType() == typeof(byte[])) continue;
+                                        dynamicObj.Add(reader.GetName(i), reader[i]);
+                                    }
+
+                                    resultData.Add(dynamicObj);
+                                }
+                            }
+                        }
+
+                        result.AdditionalDataReturn = resultData;
+                    }
+                    else
+                    {
+                        var affectedEntities = cmd.ExecuteNonQuery();
+                        result.AdditionalDataReturn = affectedEntities;
+                    }                
+
+                    conn.Close();
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return result.FailWithMessage(ex, false);
+            }
+        }
+
+        public static DataTable ToDataTable(/*this*/ IEnumerable<dynamic> items)
+        {
+            if (!items.Any()) return null;
+
+            var table = new DataTable { TableName = "FilesDetails" };
+
+            var keyCollection = new List<string>();
+
+            items.Cast<IDictionary<string, object>>().ToList().ForEach(x =>
+            {
+                if (x.Keys.Count > keyCollection.Count)
+                    keyCollection = x.Keys.ToList();
+            });
+
+            keyCollection.Select(y => table.Columns.Add(y)).ToList();
+
+            foreach (var kv in items.Cast<IDictionary<string, object>>().ToList())
+            {
+                var row = table.NewRow();
+                foreach (var keyName in keyCollection)
+                {
+                    if (kv.Keys.Contains(keyName))
+                    {
+                        row[keyName] = kv[keyName];
+                    }
+                }
+
+                table.Rows.Add(row);
+            }
+
+            return table;
         }
     }
 }

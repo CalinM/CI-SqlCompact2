@@ -75,79 +75,6 @@ C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.csproj.CoreCompileInputs.c
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.csproj.CopyComplete
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.exe
 C:\Work\_Utils\CI SqlCompact2\Desene\obj\Debug\Desene.pdb
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\x64\SQLite.Interop.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\x86\SQLite.Interop.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Desene.exe.config
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Desene.exe
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Desene.pdb
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Data.Common.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Diagnostics.StackTrace.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Diagnostics.Tracing.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Globalization.Extensions.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.IO.Compression.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Net.Http.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Net.Sockets.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Runtime.Serialization.Primitives.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Security.Cryptography.Algorithms.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Security.SecureString.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Threading.Overlapped.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Xml.XPath.XDocument.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Aga.Controls.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\AngleSharp.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Common.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\DAL.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Text.Encoding.CodePages.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Data.SQLite.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\MigraDoc.DocumentObjectModel-gdi.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\PdfSharp-gdi.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\NReco.VideoConverter.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\MediaToolkit.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Ookii.Dialogs.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\MigraDoc.Rendering-gdi.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\NUglify.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Microsoft.WindowsAPICodePack.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\PdfSharp.Charting-gdi.dll
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Aga.Controls.pdb
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Common.pdb
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\DAL.pdb
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\DAL.dll.config
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.pdb
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.dll.config
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\AngleSharp.xml
-C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Data.SQLite.xml
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.exe.config
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmAddCollection.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Collections.ucCollectionInfo.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.ucCollectionElements.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmAddMovie.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Shared.FrmALotOrALittle_Explanation.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Shared.FrmRecommendedData.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.ucMovieInfo.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Movies.ucMoviesList.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Series.FrmBulkEpisodeEdit.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Series.ucBulkEditFieldValue.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Shared.ucSubtitleStreamDetail.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Shared.ucAudioStreamDetail.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Shared.ucVideoStreamDetail.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Shared.ucGenericStreamsWrapper.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmEditSeriesBaseInfo.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.EditUserControls.ucEditSeriesBaseInfo.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.ucEpisodeDetails.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.ucSeriesEpisodes.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmMain.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.Properties.Resources.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.ucMovies.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.ucCollections.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.ucSeries.resources
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.GenerateResource.cache
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.CoreCompileInputs.cache
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.CopyComplete
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.exe
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.pdb
-C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.AssemblyReference.cache
 Z:\Personal\CI-SqlCompact2\Desene\bin\Debug\x64\SQLite.Interop.dll
 Z:\Personal\CI-SqlCompact2\Desene\bin\Debug\x86\SQLite.Interop.dll
 Z:\Personal\CI-SqlCompact2\Desene\bin\Debug\Desene.exe.config
@@ -292,3 +219,139 @@ Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj
 Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.CopyComplete
 Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.exe
 Z:\win10VM\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.pdb
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\x64\SQLite.Interop.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\x86\SQLite.Interop.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\Desene.exe.config
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\Desene.exe
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\Desene.pdb
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Data.Common.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Diagnostics.StackTrace.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Diagnostics.Tracing.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Globalization.Extensions.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\System.IO.Compression.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Net.Http.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Net.Sockets.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Runtime.Serialization.Primitives.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Security.Cryptography.Algorithms.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Security.SecureString.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Threading.Overlapped.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Xml.XPath.XDocument.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\Aga.Controls.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\AngleSharp.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\Common.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\DAL.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Text.Encoding.CodePages.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Data.SQLite.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\MigraDoc.DocumentObjectModel-gdi.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\PdfSharp-gdi.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\NReco.VideoConverter.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\MediaToolkit.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\Ookii.Dialogs.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\MigraDoc.Rendering-gdi.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\NUglify.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\Microsoft.WindowsAPICodePack.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\PdfSharp.Charting-gdi.dll
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\Aga.Controls.pdb
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\Common.pdb
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\DAL.pdb
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\DAL.dll.config
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.pdb
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.dll.config
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\AngleSharp.xml
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Data.SQLite.xml
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.AssemblyReference.cache
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.exe.config
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmAddCollection.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Collections.ucCollectionInfo.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.ucCollectionElements.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmAddMovie.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Shared.FrmALotOrALittle_Explanation.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Shared.FrmRecommendedData.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.ucMovieInfo.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Movies.ucMoviesList.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Series.FrmBulkEpisodeEdit.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Series.ucBulkEditFieldValue.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Shared.ucSubtitleStreamDetail.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Shared.ucAudioStreamDetail.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Shared.ucVideoStreamDetail.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Shared.ucGenericStreamsWrapper.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmEditSeriesBaseInfo.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.EditUserControls.ucEditSeriesBaseInfo.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.ucEpisodeDetails.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.ucSeriesEpisodes.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmMain.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.Properties.Resources.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.ucMovies.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.ucCollections.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.ucSeries.resources
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.GenerateResource.cache
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.CoreCompileInputs.cache
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.CopyComplete
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.exe
+Z:\personal stuff\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.pdb
+Z:\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.ucSQLmanagement.resources
+Z:\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmOptions.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\x64\SQLite.Interop.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\x86\SQLite.Interop.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Desene.exe.config
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Desene.exe
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Desene.pdb
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Aga.Controls.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\AngleSharp.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Common.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\DAL.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Text.Encoding.CodePages.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Data.SQLite.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\MigraDoc.DocumentObjectModel-gdi.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\PdfSharp-gdi.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\NReco.VideoConverter.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\MediaToolkit.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Ookii.Dialogs.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\MigraDoc.Rendering-gdi.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\NUglify.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Microsoft.WindowsAPICodePack.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\PdfSharp.Charting-gdi.dll
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Aga.Controls.pdb
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Common.pdb
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\DAL.pdb
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\DAL.dll.config
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.pdb
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\Utils.dll.config
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\AngleSharp.xml
+C:\Work\Personal\CI-SqlCompact2\Desene\bin\Debug\System.Data.SQLite.xml
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.AssemblyReference.cache
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.SuggestedBindingRedirects.cache
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmAddCollection.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Collections.ucCollectionInfo.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.ucCollectionElements.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmAddMovie.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Shared.FrmALotOrALittle_Explanation.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Shared.FrmRecommendedData.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.ucMovieInfo.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Movies.ucMoviesList.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Series.FrmBulkEpisodeEdit.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Series.ucBulkEditFieldValue.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Shared.ucSubtitleStreamDetail.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Shared.ucAudioStreamDetail.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Shared.ucVideoStreamDetail.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.Shared.ucGenericStreamsWrapper.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmEditSeriesBaseInfo.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.EditUserControls.ucEditSeriesBaseInfo.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.ucEpisodeDetails.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.DetailFormsAndUserControls.ucSeriesEpisodes.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmMain.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.FrmOptions.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.Properties.Resources.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.ucMovies.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.ucCollections.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.ucSeries.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.ucSQLmanagement.resources
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.GenerateResource.cache
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.CoreCompileInputs.cache
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.csproj.CopyComplete
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.exe
+C:\Work\Personal\CI-SqlCompact2\Desene\obj\Debug\Desene.pdb

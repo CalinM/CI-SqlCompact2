@@ -60,7 +60,7 @@ function RenderWhatsNew() {
 							"<li data-type='0'>New movies</li>" + 
 							"<li data-type='1'>Updated movies</li>" + 
 							"<li data-type='2'>New series/episodes</li>" + 
-							"<li data-type='3'>New recordings/episodes</li>" + 
+							//"<li data-type='3'>New recordings/episodes</li>" + 
 							"<li data-type='4'>New collections/elements</li>" + 
 						"</ul>" + 
 

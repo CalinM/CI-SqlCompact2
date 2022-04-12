@@ -1,8 +1,4 @@
-﻿using Desene.Properties;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows.Forms;
 
 namespace Desene
@@ -18,8 +14,8 @@ namespace Desene
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            //https://stackoverflow.com/questions/534261/how-do-you-keep-user-config-settings-across-different-assembly-versions-in-net/534335#534335
-            Settings.Default.Upgrade();
+            ////https://stackoverflow.com/questions/534261/how-do-you-keep-user-config-settings-across-different-assembly-versions-in-net/534335#534335
+            //Settings.Default.Upgrade();
 
             Application.Run(new FrmMain());
         }
