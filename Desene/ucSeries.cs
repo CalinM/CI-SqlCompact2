@@ -501,11 +501,17 @@ namespace Desene
                 Helpers.UnsavedChanges = false; //this setter takes care of the buttons states!
 
                 ReloadTreeView(sesi.SeriesId);
+                tvSeries.SelectedNode.Expand();
 
                 if (!sesi.IsSeason)
-                    tvSeries.SelectedNode.ExpandAll();
-                else
-                    _prevSelectedSeriesId = -2;
+                    tvSeries.SelectedNode = tvSeries.SelectedNode.Children.FirstOrDefault(x => ((SeriesEpisodesShortInfo)x.Tag).Season == sesi.Season);
+
+
+
+                //if (!sesi.IsSeason)
+                //    tvSeries.SelectedNode.ExpandAll();
+                //else
+                //    _prevSelectedSeriesId = -2;
 
                 LoadSelectionDetails();
             }

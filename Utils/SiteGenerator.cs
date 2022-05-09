@@ -365,8 +365,8 @@ namespace Utils
 
             var collectionsDetails2 =
                 string.Format("var collectionsData2 = {0};",
-                    jsS.Serialize(Desene.DAL.GetMoviesDetails2ForWeb(true)
-                ));
+                    jsS.Serialize(Desene.DAL.GetMoviesDetails2ForWeb(true))
+                );
 
             #endregion
 
@@ -475,7 +475,18 @@ namespace Utils
             #endregion
 
 
-            result.AdditionalDataReturn = new GeneratedJSData(detMovieInfo, detSerialeInfo, detRecordingsInfo, moviesDetails2, detCollectionsInfo, collectionsDetails2);
+            #region ****** Common Sense Media ******
+
+            var csmDataClientData =
+                string.Format("var allCsmData = {0};",
+                    jsS.Serialize(Desene.DAL.GetCSMclient())
+                );
+
+            #endregion
+
+
+            result.AdditionalDataReturn = new GeneratedJSData(detMovieInfo, detSerialeInfo, detRecordingsInfo, moviesDetails2,
+                detCollectionsInfo, collectionsDetails2, csmDataClientData);
             return result;
         }
 

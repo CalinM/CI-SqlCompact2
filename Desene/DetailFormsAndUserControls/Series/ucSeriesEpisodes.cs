@@ -136,6 +136,16 @@ namespace Desene.DetailFormsAndUserControls
                 _bsEpisodesGridData.DataSource = _episodesInSeries;
                 _bsEpisodesGridData.ResetBindings(false);
 
+                var maxBitRateObj = _episodesInSeries.OrderByDescending(s => s.BitRate.Length).FirstOrDefault();
+                var bitRateColWidth =
+                    maxBitRateObj == null
+                        ? 70
+                        : maxBitRateObj.BitRate.Length > 15
+                            ? 130
+                            : 70;
+
+                dgvEpisodes.Columns["colBitRate"].Width = bitRateColWidth;
+
                 //dgvEpisodes.ClearSelection();
 
                 dgvEpisodes.Visible = true;
@@ -314,7 +324,16 @@ namespace Desene.DetailFormsAndUserControls
 
                     for (var i = fromindex; i <= toIndex; i++)
                     {
-                        _checkState.Add((int)dgvEpisodes.Rows[i].Cells["Id"].Value, true);
+                        var id = (int)dgvEpisodes.Rows[i].Cells["Id"].Value;
+
+                        if (_checkState.ContainsKey(id))
+                        {
+                            _checkState[id] = !_checkState[id];
+                        }
+                        else
+                        {
+                            _checkState.Add(id, true);
+                        } 
                     }
                 }
                 finally

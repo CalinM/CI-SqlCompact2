@@ -23,7 +23,7 @@ namespace Utils
             if (!Common.Helpers.UnsavedChanges)
                 return true;
 
-            if (MsgBox.Show("There are unsaved changes. You you want to continue and discard those changes?", "Confirm",
+            if (MsgBox.Show("There are unsaved changes. Do you want to continue and discard those changes?", "Confirm",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 Common.Helpers.UnsavedChanges = false;
@@ -330,6 +330,7 @@ namespace Utils
                 var dynamicObj = new ExpandoObject() as IDictionary<string, object>;
                 dynamicObj.Add("Filename", Path.GetFileName(file));
                 dynamicObj.Add("Resolution", string.Format("{0}x{1}", fileInfoObj.VideoStreams[0].Width, fileInfoObj.VideoStreams[0].Height));
+                dynamicObj.Add("BitRate", fileInfoObj.VideoStreams[0].BitRate);
                 dynamicObj.Add("FileVideo Title", fileInfoObj.HasTitle || fileInfoObj.VideoStreams.Any(vs => vs.HasTitle));
 
                 if (fileInfoObj != null)
@@ -343,12 +344,12 @@ namespace Utils
                         dynamicObj.Add(string.Format("Title {0}", audioObj.Index), audioObj.HasTitle);
                     }
 
-                    dynamicObj.Add("Error", "");
+                    //dynamicObj.Add("Error", "");
                 }
                 else
                 {
-                    var fileErrorObj = filesInfoDeterminationResult.Value.FirstOrDefault(f => f.FilePath == file);
-                    dynamicObj.Add("Error", fileInfoObj != null ? fileErrorObj.ErrorMesage : "Unknown error!");
+                    //var fileErrorObj = filesInfoDeterminationResult.Value.FirstOrDefault(f => f.FilePath == file);
+                    //dynamicObj.Add("Error", fileInfoObj != null ? fileErrorObj.ErrorMesage : "Unknown error!");
                 }
 
                 dynamicObj.Add("Cover", !string.IsNullOrEmpty(fileInfoObj.Cover));

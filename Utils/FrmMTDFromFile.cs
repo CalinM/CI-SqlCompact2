@@ -43,7 +43,7 @@ namespace Utils
 
                 if (openFileDialog.ShowDialog() != DialogResult.OK) return;
 
-                _iniFile.Write("LastPath", Path.GetFullPath(openFileDialog.FileName), "General");
+                _iniFile.Write("LastPath", Path.GetDirectoryName(openFileDialog.FileName), "General");
 
                 _filePath = Path.GetFullPath(openFileDialog.FileName);
                 toolTip.SetToolTip(tbFileName, _filePath);

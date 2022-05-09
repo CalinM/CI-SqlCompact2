@@ -3846,7 +3846,8 @@ namespace Desene
                             new DbStructureModel()
                             {
                                 Name = reader.GetName(i),
-                                ColumnType = reader.GetFieldType(i).ToString().Replace("System.", "")
+                                ColumnType = reader.GetFieldType(i).ToString().Replace("System.", ""),
+                                
                             });
                     }
                 }
@@ -3941,6 +3942,80 @@ namespace Desene
             }
 
             return table;
+        }
+
+        public static List<CSMclientData> GetCSMclient()
+        {
+            var result = new List<CSMclientData>();
+
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                var cmd = new SQLiteCommand(@"
+                    SELECT
+                        csmd.*
+                    FROM FileDetail fd
+                        LEFT OUTER JOIN CommonSenseMediaDetail csmd ON fd.Id = csmd.FileDetailId 
+                    WHERE csmd.Id IS NOT NULL AND csmd.Rating IS NOT NULL", conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var csmClientData = new CSMclientData();
+                        csmClientData.id = (int)(long)reader["FileDetailId"];
+
+                        csmClientData.csm = new CSMScrapeResultClient();
+                        csmClientData.csm.ga = reader["GreenAge"].ToString();
+                        csmClientData.csm.rt = reader["Rating"] == DBNull.Value ? 0 : (int)reader["Rating"];
+                        csmClientData.csm.sd = reader["ShortDescription"].ToString();
+                        csmClientData.csm.r = reader["Review"].ToString();
+                        csmClientData.csm.aa = reader["AdultRecomendedAge"].ToString();
+                        csmClientData.csm.rta = reader["AdultRating"] == DBNull.Value ? 0 : (int)reader["AdultRating"];
+                        csmClientData.csm.ka = reader["ChildRecomendedAge"].ToString();
+                        csmClientData.csm.rtk = reader["ChildRating"] == DBNull.Value ? 0 : (int)reader["ChildRating"];
+                        csmClientData.csm.s = reader["Story"].ToString();
+                        csmClientData.csm.g = reader["IsItAnyGood"].ToString();
+
+                        var csmId = (long)reader["Id"];
+
+                        var cmd2 = new SQLiteCommand(
+                            string.Format("select * from CommonSenseMediaDetail_ALotOrALittle where CSMDetailId = {0}", csmId), conn);
+
+                        using (var reader2 = cmd2.ExecuteReader())
+                        {
+                            while (reader2.Read())
+                            {
+                                csmClientData.csm.aloal.Add(
+                                    new ALotOrAlittleClient
+                                    {
+                                        c = (int)reader2["Category"],
+                                        r = (int)reader2["Rating"],
+                                        d = reader2["Description"].ToString(),
+                                    });
+                            }
+                        }
+
+                        cmd2 = new SQLiteCommand(
+                            string.Format("select * from CommonSenseMediaDetail_TalkAbout where CSMDetailId = {0}", csmId), conn);
+
+                        using (var reader2 = cmd2.ExecuteReader())
+                        {
+                            while (reader2.Read())
+                            {
+                                csmClientData.csm.ta.Add(reader2["SummaryPoint"].ToString());
+                            }
+                        }
+
+                        result.Add(csmClientData);
+                    }
+                }
+
+                conn.Close();
+            }
+
+            return result;
         }
     }
 }

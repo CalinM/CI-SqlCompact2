@@ -17,7 +17,7 @@ using Utils;
 using Helpers = Utils.Helpers;
 using System.Text;
 using System.Drawing.Text;
-
+using System.Reflection;
 
 namespace Desene
 {
@@ -939,7 +939,7 @@ namespace Desene
 
         private void btnGenerateHtml_Click(object sender, EventArgs e)
         {
-            var genParams = new FrmSiteGenParams(_iniFile.ReadString("LastPath", "General")) { Owner = this };
+            var genParams = new FrmSiteGenParams(_iniFile.ReadString("DeployPath", "General")) { Owner = this };
 
             if (genParams.ShowDialog() != DialogResult.OK)
                 return;
@@ -948,7 +948,7 @@ namespace Desene
             {
                 Cursor.Current = Cursors.WaitCursor;
 
-                _iniFile.Write("LastPath", Path.GetFullPath(genParams.SiteGenParams.Location), "General");
+                _iniFile.Write("DeployPath", genParams.SiteGenParams.Location, "General");
 
                 var opRes = SiteGenerator.GenerateSiteFiles(genParams.SiteGenParams, this.Handle);
 
@@ -987,6 +987,17 @@ namespace Desene
                 new Bitmap(Resources.settings16_n).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\settings16_n.png"), ImageFormat.Png);
                 new Bitmap(Resources.settings24_n).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\settings24_n.png"), ImageFormat.Png);
 
+                new Bitmap(Resources.consumerism).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\consumerism.png"), ImageFormat.Png);
+                new Bitmap(Resources.csm_recommended_age).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\csm_recommended_age.png"), ImageFormat.Png);
+                new Bitmap(Resources.drinking_druge_smoking).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\drinking_druge_smoking.png"), ImageFormat.Png);
+                new Bitmap(Resources.educational_value).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\educational_value.png"), ImageFormat.Png);
+                new Bitmap(Resources.info2).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\info2.png"), ImageFormat.Png);
+                new Bitmap(Resources.language).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\language.png"), ImageFormat.Png);
+                new Bitmap(Resources.positive_messages).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\positive_messages.png"), ImageFormat.Png);
+                new Bitmap(Resources.positive_role_models).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\positive_role_models.png"), ImageFormat.Png);
+                new Bitmap(Resources.sexy_stuff).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\sexy_stuff.png"), ImageFormat.Png);
+                new Bitmap(Resources.violence).Save(Path.Combine(genParams.SiteGenParams.Location, "Images\\violence.png"), ImageFormat.Png);
+
                 #endregion
 
                 var genUniqueId = string.Empty;//DateTime.Now.ToString("yyyyMMddhhmmss");
@@ -1007,6 +1018,7 @@ namespace Desene
                 File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\moviesDetails2.js"), serializedData.MoviesDetails2);
                 File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\collectionDetails.js"), serializedData.CollectionsData);
                 File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\collectionDetails2.js"), serializedData.CollectionsDetails2);
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, $"Scripts\\CSMdetails.js"), serializedData.CSMdetails);
 
                 File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery-2.2.4.min.js"), Resources.jquery_2_2_4_min);
                 File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\jquery.contextMenu.min.js"), Resources.jquery_contextMenu_minJS);
@@ -1343,16 +1355,19 @@ namespace Desene
                 ClearAllDelegates();
 
                 var senderItem = (ToolStripMenuItem)sender;
-                senderItem.Checked = !senderItem.Checked;
+                //senderItem.Checked = !senderItem.Checked;
+                MarkCurrentCategory(senderItem);
 
                 pMainContainer.Controls.Clear();
 
                 if (senderItem.Checked)
                 {
+                    MarkCurrentCategory(senderItem);
                     pMainContainer.Controls.Add(new ucSQLmanagement(this) { Dock = DockStyle.Fill });
                 }
                 else
                 {
+                    senderItem.Checked = false;
                 }
 
                 //todo: check if necessary

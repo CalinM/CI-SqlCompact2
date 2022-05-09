@@ -112,11 +112,27 @@ namespace Utils
 
                 for (var i = 0; i < vc; i++)
                 {
+                    //var bitRate = mi.Get(StreamKind.Video, i, "BitRate/String");
+                    //if (string.IsNullOrEmpty(bitRate))
+                    //    bitRate = mi.Get(StreamKind.Video, i, "BitRate_Maximum/String");
+                    //if (string.IsNullOrEmpty(bitRate))
+                    //    bitRate = "unknown";
+
                     var bitRate = mi.Get(StreamKind.Video, i, "BitRate/String");
-                    if (string.IsNullOrEmpty(bitRate))
-                        bitRate = mi.Get(StreamKind.Video, i, "BitRate_Maximum/String");
-                    if (string.IsNullOrEmpty(bitRate))
+
+                    if (!string.IsNullOrEmpty(bitRate))
+                    {
+                        var maxBitRate = mi.Get(StreamKind.Video, i, "BitRate_Maximum/String");
+
+                        if (!string.IsNullOrEmpty(maxBitRate))
+                        {
+                            bitRate += " - " + maxBitRate;
+                        }
+                    }
+                    else
+                    {
                         bitRate = "unknown";
+                    }
 
                     var delay =
                         Desene.DAL.SeriesType == SeriesType.Recordings
@@ -332,7 +348,9 @@ namespace Utils
 
                     if (!arguments.Key.DisplayInfoOnly)
                     {
-                        var opRes2 = GetMovieStills(mtdObj, ffMpegConverter);
+                        var opRes2 = arguments.Key.GenerateThumbnail
+                            ? GetMovieStills(mtdObj, ffMpegConverter)
+                            : new OperationResult();
 
                         if (!opRes2.Success)
                         {
@@ -432,7 +450,8 @@ namespace Utils
                     if (Desene.DAL.SeriesType == SeriesType.Recordings)
                         mtdObj.AudioStreams[0].Language = arguments.Key.RecordingAudio;
 
-                    GetMovieStills(mtdObj, ffMpegConverter);
+                    if (arguments.Key.GenerateThumbnail)
+                        GetMovieStills(mtdObj, ffMpegConverter);
 
                     movieTechnicalDetailsBgw.Add(mtdObj);
                 }

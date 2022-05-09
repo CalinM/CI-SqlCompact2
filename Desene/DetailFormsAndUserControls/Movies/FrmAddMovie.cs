@@ -162,7 +162,10 @@ namespace Desene
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            Close();
+            if (Utils.Helpers.ConfirmDiscardChanges())
+            {
+                this.Close();
+            }
         }
 
         private void btnOpenPages_Click(object sender, EventArgs e)

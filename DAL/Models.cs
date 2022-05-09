@@ -555,10 +555,12 @@ namespace DAL
         public string CollectionsData { get; set; }
         public string CollectionsDetails2 { get; set; }
 
+        public string CSMdetails { get; set; }
+
         public GeneratedJSData() { }
 
         public GeneratedJSData(string moviesData, string seriesData, string recordingsData, string moviesDetails2,
-            string collectionsData, string collectionsDetails2)
+            string collectionsData, string collectionsDetails2, string cSMdetails)
         {
             MoviesData = moviesData;
             SeriesData = seriesData;
@@ -566,6 +568,7 @@ namespace DAL
             MoviesDetails2 = moviesDetails2;
             CollectionsData = collectionsData;
             CollectionsDetails2 = collectionsDetails2;
+            CSMdetails = cSMdetails;
         }
     }
 
@@ -649,6 +652,36 @@ namespace DAL
         public string Name { get; set; }
 
         public string ColumnType { get; set; }
+    }
+
+    public class CSMclientData
+    {
+        public int id { get; set; }
+
+        public CSMScrapeResultClient csm { get; set; }
+    }
+
+    public class CSMScrapeResultClient
+    {
+        public string ga { get; set; }
+        public int rt { get; set; }
+        public string sd { get; set; }
+        public string r { get; set; }
+        public string aa { get; set; }
+        public int rta { get; set; }
+        public string ka { get; set; }
+        public int rtk { get; set; }
+        public string s { get; set; }
+        public string g { get; set; }
+        public List<ALotOrAlittleClient> aloal { get; set; } = new List<ALotOrAlittleClient>();
+        public List<string> ta = new List<string>();
+    }
+
+    public class ALotOrAlittleClient
+    {
+        public int c { get; set; }
+        public int r { get; set; }
+        public string d { get; set; }
     }
 }
 

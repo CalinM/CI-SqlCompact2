@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -39,9 +40,27 @@ namespace Utils
             var x = fileDetails.Where(x2 => x2.StartsWith("Audio"));
             foreach (DataColumn tCol in _fileDetails.Columns)
             {
+                var colWidth = 50;
+
+                switch (tCol.ColumnName)
+                {
+                    case "Filename":
+                        colWidth = 300;
+                        break;
+
+                    case "Resolution":
+                        colWidth = 70;
+                        break;
+
+                   case "BitRate":
+                        colWidth = 120;
+                        break;
+                }
+
                 if (tCol.ColumnName == "Filename"
                     || tCol.ColumnName == "Resolution"
-                    || tCol.ColumnName == "Error"
+                    || tCol.ColumnName == "BitRate"
+                    || tCol.ColumnName == "Error" //no longer provided here
                     || tCol.ColumnName.StartsWith("Audio")
                     || tCol.ColumnName.StartsWith("Channels"))
                 {
@@ -53,7 +72,7 @@ namespace Utils
                             DataPropertyName = tCol.ColumnName,
                             Name = "col" + tCol.ColumnName.Replace(" ", ""),
                             HeaderText = tCol.ColumnName,
-                            Width = tCol.ColumnName == "Filename" ? 300 : tCol.ColumnName == "Error" ? 100 : 50
+                            Width = colWidth
                         });
                 }
                 else
@@ -139,6 +158,11 @@ namespace Utils
 
         private void DgvFilesDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
+            //if (dgvFilesDetails.Columns[e.ColumnIndex].DataPropertyName == "BitRate")
+            //{
+            //    SetDGVTextBoxColumnWidth(dgvFilesDetails.Columns[e.ColumnIndex] as DataGridViewTextBoxColumn);
+            //}
+
             var numericPartOfFieldName = new string(dgvFilesDetails.Columns[e.ColumnIndex].DataPropertyName.Where(c => char.IsDigit(c)).ToArray());
 
             if (numericPartOfFieldName.Length == 0) return;
@@ -152,5 +176,59 @@ namespace Utils
                         : System.Drawing.Color.FromArgb(229, 228, 228);
             }
         }
+
+        //private void SetDGVTextBoxColumnWidth(DataGridViewTextBoxColumn column)
+        //{
+        //    if (column != null)
+        //    {
+        //        DataGridView dgv = column.DataGridView;
+        //        Graphics g = dgv.CreateGraphics();
+        //        Font font = dgv.Font;
+
+        //        // Acquire all the relevant cells - the whole column's collection of cells:
+        //        List<DataGridViewTextBoxCell> cells = new List<DataGridViewTextBoxCell>();
+        //        foreach (DataGridViewRow row in column.DataGridView.Rows)
+        //        {
+        //            cells.Add(row.Cells[column.Index] as DataGridViewTextBoxCell);
+        //        }
+
+        //        // Now find the widest cell:
+        //        int widestCellWidth = g.MeasureString(column.HeaderText, font).ToSize().Width;  // Start with the header text, but for some reason this seems a bit short.
+        //        bool foundNewline = false;
+        //        foreach (DataGridViewTextBoxCell cell in cells)
+        //        {
+        //            font = ((cell.Style.Font != null) ? cell.Style.Font : dgv.Font);  // The font may change between cells.
+        //            string cellText = cell.Value.ToString().Replace("\r", "");  // Ignore any carriage return characters.  
+        //            //if (cellText.Contains('\n'))
+        //            if (cellText.Contains(" - "))
+        //            {
+        //                foundNewline = true;
+        //                cell.Style.WrapMode = DataGridViewTriState.True;  // This allows newlines in the cell's text to be recognised.
+
+        //                string[] lines = cellText.Split(new[] { " - " }, StringSplitOptions.None);
+        //                foreach (string line in lines)
+        //                {
+        //                    int textWidth = g.MeasureString(line + "_", font).ToSize().Width;  // A simple way to ensure that there is room for this text.
+        //                    widestCellWidth = Math.Max(widestCellWidth, textWidth);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                int textWidth = g.MeasureString(cellText + "_", font).ToSize().Width;
+        //                widestCellWidth = Math.Max(widestCellWidth, textWidth);
+        //            }
+        //        }
+        //        if (foundNewline)
+        //        {
+        //            column.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;  // Allows us to programatically modify the column width.
+        //            column.Width = widestCellWidth;  // Simply set the desired width.
+        //        }
+        //        else
+        //        {
+        //            column.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;  // Allow the system to do the work for us.  This does a better job with cell headers.
+        //        }
+        //        column.Resizable = DataGridViewTriState.False;  // We don't wish the User to modify the width of this column manually.
+        //    }
+        //}
     }
 }

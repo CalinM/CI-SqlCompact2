@@ -331,9 +331,9 @@ function RebindSeriesEventsM() {
                         "<tr>" +
                             "<td class='episode-title-cell-m' data-episodeId='" + episode.Id + "'>" + //only on episode name, to avoid triggering th efunctionality while scrolling
                                episode.FN + (episode.T == "Christmas"
-                               ? " 🎅" //🎄
+                               ? " ðŸŽ…" //ðŸŽ„
                                : episode.T == "Helloween"
-                                   ? " 🎃"
+                                   ? " ðŸŽƒ"
                                    : "") +
                             "</td>" +
                             "<td class='episodes-audio-m'>" +

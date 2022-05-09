@@ -50,7 +50,10 @@ namespace Desene
 
         private void BtnCancel_Click(object sender, System.EventArgs e)
         {
-            Close();
+            if (Utils.Helpers.ConfirmDiscardChanges())
+            {
+                this.Close();
+            }
         }
 
         private void FrmAddCollection_FormClosed(object sender, FormClosedEventArgs e)
@@ -74,7 +77,7 @@ namespace Desene
 
                 if (openFileDialog.ShowDialog() != DialogResult.OK) return;
 
-                iniFile.Write("LastCoverPath", Path.GetFullPath(openFileDialog.FileName), "General");
+                iniFile.Write("LastCoverPath", Path.GetDirectoryName(openFileDialog.FileName), "General");
 
                 using (var file = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read))
                 {

@@ -14,6 +14,18 @@ var waitForFinalEvent = (function () {
     };
 })();
 
+var aloalCateg =
+[
+    { Name: "Educational Value", Img: "Images\\educational_value.png" },
+    { Name: "Positive Messages", Img: "Images\\positive_messages.png" },
+    { Name: "Positive Role Models & Representations", Img: "Images\\positive_role_models.png" },
+    { Name: "Violence & Scariness", Img: "Images\\violence.png" },
+    { Name: "Sexy Stuff", Img: "Images\\sexy_stuff.png" },
+    { Name: "Language", Img: "Images\\language.png" },
+    { Name: "Consumerism", Img: "Images\\consumerism.png" },
+    { Name: "Drinking, Drugs & Smoking", Img: "Images\\drinking_druge_smoking.png" },
+]
+
 function DisplayHome() {
 	SoftCloseSearch();
 
@@ -643,13 +655,21 @@ function BuildMoviesSection(moviesInSection_, outputToElement, isSearchResult, i
 
 			"<div class=\"movie-detail\">" +
 			(
+				// el.R != ""
+				// 	? (
+				// 		el.RL != ""
+				// 			? "<a class='recommended recommendedWithLink' title='Recommended: " + el.R + "\nClick for details ... (external link!)' href='" + el.RL + "' target='_blank'>" + getRecommendedVal(el.R) + "</a>"
+				// 			: "<div class='recommended'title='Recommended: " + el.R +"'>" + getRecommendedVal(el.R) + "</div>"
+				// 	  )
+				// 	: "<div class='recommended' title='Recomandare necunoscuta'>?</div>"
+
 				el.R != ""
 					? (
 						el.RL != ""
-							? "<a class='recommended recommendedWithLink' title='Recommended: " + el.R + "\nClick for details ... (external link!)' href='" + el.RL + "' target='_blank'>" + getRecommendedVal(el.R) + "</a>"
+							? "<a class='recommended recommendedWithLink' title='Recommended: " + el.R + "\nClick for details ...'>" + getRecommendedVal(el.R) + "</a>"
 							: "<div class='recommended'title='Recommended: " + el.R +"'>" + getRecommendedVal(el.R) + "</div>"
 					  )
-					: "<div class='recommended' title='Recomandare necunoscuta'>?</div>"
+					: "<div class='recommended' title='Recomandare necunoscuta'>?</div>"				
 			) +
 
 			"<a class='recommended info recommendedWithLink' title='Theme: " + (el.T == "" ? "-" : el.T) + "\nYear: " + el.Y + "\nDuration: " + (el.L == "" || el.L == "00:00:00" ? "?" : el.L) + "\nClick for details ... (external link!)' href='" + el.DL + "' target='_blank'>i</a>" +
@@ -708,6 +728,34 @@ function BuildMoviesSection(moviesInSection_, outputToElement, isSearchResult, i
 	}, 100);
 
 	$(".about-message-img").css("display", "none");
+
+	$(".recommendedWithLink").off("click").on("click", function (e) {
+		e.stopPropagation();
+
+		if (!GetCSMdetails($(this).closest(".movie-detail-wrapper").data("movieid")))
+			alert("Something went wrong!")
+		else {
+			setTimeout(function() {
+				$('.popup').fadeIn(100);
+	 
+				$('.rating').each(function (event) {			
+					var rating = $(this).attr('rating');
+					var i;
+					for(i = 0; (i < rating); i++)
+					{
+						$(this).find('span.star').eq(i).addClass('filled');
+						$(this).find('span.bullet').eq(i).addClass('filled');
+					}
+				});
+
+				$(".close-button").off("click").on("click", function() {
+					$('.popup').fadeOut(100);
+				});
+			}, 100);
+		}
+		
+
+	});
 
 	//if (outputToElement != "#searchResult_movies")	
 	if (!isSearchResultSeries)
@@ -1013,6 +1061,265 @@ function fieldSorter(fields) {
     };
 }
 
+function GetCSMdetails(id) {
+	var csmObj = $.grep(allCsmData, function(e){ return e.id == id; });
+	var csmData;
+
+	$(".popup-content").empty();
+
+	if (csmObj.length == 0) {
+		return false;
+	} else {
+		csmData = csmObj[0].csm;
+
+		var addMainRatings = function(isCms, rating) {
+			return "<span class='rating " + (isCms ? "mainRating" : "pkRating") + "' rating='" + rating + "'>" +
+						"<span class='star'></span>" +
+						"<span class='star'></span>" +
+						"<span class='star'></span>" +
+						"<span class='star'></span>" +
+						"<span class='star'></span>" +
+					"</span>";
+		}
+
+		var addAloAlRatings = function(rating) {
+			return "<span class='rating llRating' rating='" + rating + "'>" +
+						"<span class='bullet'></span>" +
+						"<span class='bullet'></span>" +
+						"<span class='bullet'></span>" +
+						"<span class='bullet'></span>" +
+						"<span class='bullet'></span>" +
+					"</span>";
+		}
+		
+		var addAlotOrAlittle = function(startIndex, endIndex) {
+			var result = "";
+
+			for (let index = startIndex; index < endIndex; index++) {
+				const element = csmData.aloal[index];
+				if (element == null) 
+				{
+					result +=
+						"<td style='padding: 10px; padding-bottom: 5px; width: 33.33%;'> " +
+						"</td>";
+					
+					continue;
+				};
+
+				const elCateg = aloalCateg[index];
+
+				result +=
+						"<td style='padding: 10px; padding-bottom: 5px; width: 33.33%;'> " +
+							"<div class='lotLittleEl'> "+
+							"<table>" +
+								"<tr>" +
+									"<td class='topRowCells'>" +
+										"<img src='" + elCateg.Img + "'>" +
+									"</td>" +
+									"<td class='topRowCells notPresent'>" +
+										(element.r == 0 ? "not present" : addAloAlRatings(element.r)) +
+									"</td>" +
+									"<td rowspan='2' class='detailsIndicatorCell'>";
+
+				if (element.d != null && element.d.trim() != "")
+				{
+					result +=
+										"<span class='indicator' title='" + element.d + "''>›</span>";
+				}
+				
+				result += 
+									"</td>" +				
+								"</tr>" +
+								"<tr>" +
+									"<td colspan='2' class='bottomRowCells'>" +
+										elCateg.Name +
+									"</td>" +
+								"</tr>" +
+							"</table>" +
+							"</div>" +
+						"</td>";
+			}
+
+			return result;
+		}
+
+		var movieTitle = $.grep(moviesData, function (x) { return x.Id == id; })[0].FN;
+
+		var csmPopupData =
+			"<div class='popup-caption'>" + movieTitle + "</div>" +
+			"<div class='popup-innerContent-wrapper'>" +
+				"<table class='popup-innerContent'>" +
+        			"<tr class='sectionTitle-row'>" +
+						"<td style='padding: 5px; border-right: solid thin darkgray;'>" +
+							"Common Sense says" +
+            			"</td>" +
+            			"<td style='padding: 5px; width: 100px; border-right: solid thin darkgray;'>" +
+                			"Parents say" +
+            			"</td>" +
+            			"<td style='padding: 5px; width: 100px;'>" +
+                			"Kids say" +
+            			"</td>" +
+        			"</tr>" +
+					"<tr style='background-color: rgb(240,240, 240);'>" +
+            			"<td style='padding: 5px; padding-left: 8px; border-right: solid thin darkgray;'>" +
+                			"<div style='width: 100%; display: flex;'>" +
+                				"<div style='flex: 0 0 auto;padding: 3px;'>" +
+                    				"<img src='Images\\csm_recommended_age.png'>" +
+                				"</div>" +
+                				"<div style='flex: 0 0 auto;padding: 3px; font-size: 14pt; display: flex; align-items: center;'>" +
+									csmData.ga +
+                				"</div>" +
+                				"<div style='flex: 1; text-align: center;'>" +
+                    				"<div style='display:inline-block;'>" +
+										addMainRatings(true, csmData.rt) +
+									"</div>" +
+								"</div>" +
+                				"<div style='width: 75px; display: flex; align-items: center; text-align: center;'>" +
+                    				"<img src='Images\\info2.png' style='margin: 0 auto; cursor: pointer;'>" +
+								"</div>" +
+							"</div>" +
+                			"<div style='width: 100%; padding-top: 10px;padding-bottom: 10px; font-size: 10pt; overflow: hidden; box-sizing: border-box;'>" +
+                    			csmData.sd +
+							"</div>" +
+						"</td>" +
+
+            			"<td  style='padding: 5px; width: 100px; border-right: solid thin darkgray;vertical-align: top;'>";
+			
+		if (csmData.aa != "")
+		{
+			csmPopupData +=
+							"<div style='font-size: 11pt; padding-top: 5px;'>" +
+								csmData.aa +
+							"</div>" +
+
+							"<div style='width: 100%'>" +
+								"<div style='display:inline-block;'>" +
+									addMainRatings(false, csmData.rta) +
+								"</div>" +
+							"</div>";
+		}
+		else
+		{
+			csmPopupData +=
+							"<div style='font-size: 11pt; padding-top: 5px;'>" +
+								"No reviews yet" +
+							"</div>";
+		}
+
+		csmPopupData +=
+						"</td>" +
+						"<td  style='padding: 5px; width: 100px;vertical-align: top;'>";
+
+		if (csmData.ka != "")
+		{
+			csmPopupData +=
+							"<div style='font-size: 11pt; padding-top: 5px;'>" +
+								csmData.ka +
+							"</div>" +
+
+							"<div style='width: 100%'>" +
+								"<div style='display:inline-block;'>" +
+									addMainRatings(false, csmData.rtk) +
+								"</div>" +
+							"</div>";
+		}
+		else
+		{
+			csmPopupData +=
+							"<div style='font-size: 11pt; padding-top: 5px;'>" +
+								"No reviews yet" +
+							"</div>";
+	}
+
+		csmPopupData +=
+						"</td>" +
+					"</tr>" +
+				"</table>" +
+
+				"<table class='popup-innerContent'>" +
+					"<tr class='sectionTitle-row'>" +
+						"<td colspan='3' style='padding: 5px;'>" +
+							"A lot or a little" +
+						"</td>" +
+					"</tr>" +
+					"<tr style='background-color: rgb(240,240, 240);'>" +
+						addAlotOrAlittle(0, 3) +
+					"</tr>" +
+					"<tr style='background-color: rgb(240,240, 240);'>" +
+						addAlotOrAlittle(3, 6) +
+					"</tr>" +
+					"<tr style='background-color: rgb(240,240, 240);'>" +
+						addAlotOrAlittle(7, 10) +
+					"</tr>"	+
+				"</table>"
+		;
+
+		csmPopupData +=
+				"<table class='popup-innerContent'>" +
+					"<tr class='sectionTitle-row'>" +
+						"<td colspan='3' style='padding: 5px;'>" +
+							"What parents need to know" +
+						"</td>" +
+					"</tr>" +
+					"<tr style='background-color: rgb(240,240, 240);'>" +
+						"<td style='padding: 5px; padding-bottom: 10px;'>" +
+							"<div>" +
+								csmData.r +
+							"</div>" +
+						"</td>" +
+					"</tr>" +
+
+					"<tr class='sectionTitle-row'>" +
+						"<td colspan='3' style='padding: 5px;'>" +
+							"What's the story" +
+						"</td>" +
+					"</tr>" +
+					"<tr style='background-color: rgb(240,240, 240);'>" +
+						"<td style='padding: 5px; padding-bottom: 10px;'>" +
+							"<div>" +
+								csmData.s +
+							"</div>" +
+						"</td>" +
+					"</tr>" +				
+					
+					"<tr class='sectionTitle-row'>" +
+						"<td colspan='3' style='padding: 5px;'>" +
+							"Is it any good?" +
+						"</td>" +
+					"</tr>" +
+					"<tr style='background-color: rgb(240,240, 240);'>" +
+						"<td style='padding: 5px; padding-bottom: 10px;'>" +
+							"<div>" +
+								csmData.g +
+							"</div>" +
+						"</td>" +
+					"</tr>" +
+
+					"<tr class='sectionTitle-row'>" +
+						"<td colspan='3' style='padding: 5px;'>" +
+							"Talk to Your Kids About ..." +
+						"</td>" +
+					"</tr>" +
+					"<tr style='background-color: rgb(240,240, 240);'>" +
+						"<td style='padding: 5px; padding-bottom: 10px;'>";
+
+		for (let index = 0; index < csmData.ta.length; index++) {
+			csmPopupData +=
+				"<li>" + csmData.ta[index] + "</li>"
+		}
+
+		csmPopupData +=
+						"</td>" +
+					"</tr>" +					
+				"</table>" +
+			"</div>" +
+		"</div> " +
+		"<a class='close-button' href='javascript:void(0)'>x</a>";
+
+		$(".popup-content").html(csmPopupData);
+		return true;
+	}	
+}
 
 /*
 function checkImage(src, good, bad, colId) {
