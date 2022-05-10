@@ -207,6 +207,31 @@ namespace Desene.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to var currentSeriesTypeViewDataM;
+        ///var currentSeriesTypeViewDataD;
+        ///var showingSeries;
+        ///
+        ///function RenderSeriesTypeView() {
+        ///    var sectionHtml;
+        ///
+        ///    if (isMobile())
+        ///    {
+        ///        sectionHtml =
+        ///            &quot;&lt;div class=\&quot;container\&quot;&gt;&quot; +
+        ///                &quot;&lt;div class=\&quot;cards\&quot;&gt;&quot;;
+        ///
+        ///        currentSeriesTypeViewDataM.forEach(function (el) {
+        ///            sectionHtml +=
+        ///                    &quot;&lt;div class=\&quot;cardM\&quot;&gt;&quot; +
+        ///                        &quot;&lt;div class=\&quot;movie-detail-wrapper\&quot; data-movieId=\&quot;&quot; + el.Id + &quot;\&quot;&gt; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string cr_constants {
+            get {
+                return ResourceManager.GetString("cr_constants", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to $(document).ready(function () {
         ///    DisplayHome();
         ///    //RenderWhatsNew();
@@ -302,10 +327,9 @@ namespace Desene.Properties {
         ///    };
         ///})();
         ///
-        ///function DisplayHome() {
-        ///	SoftCloseSearch();
-        ///
-        ///	//$(&quot;#moviesSections&quot;).cs [rest of string was truncated]&quot;;.
+        ///var aloalCateg =
+        ///[
+        ///    { Name: &quot;Educational Value&quot;, Img: &quot;Images\\educati [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string cr_sharedJS {
             get {

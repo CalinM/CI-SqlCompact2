@@ -83,7 +83,7 @@ function RenderSeriesTypeView() {
                 : "";
 
             sectionHtml +=
-                "<tr class=\"seriesLine noselect lineWithDetails" + alternateRowClass + "\">" +
+                "<tr class=\"seriesLine noselect lineWithDetails" + alternateRowClass + "\" data-serialId=\"" + serial.Id + "\">" +
                     "<td class=\"markerCol\">" +
                         "<div class=\"markerSymbol serialExpander collapsed\" data-serialId=\"" + serial.Id + "\" alt=\">\"></div>" +
                     "</td>" +
@@ -100,10 +100,10 @@ function RenderSeriesTypeView() {
                             serial.R != ""
                             ? (
                                 serial.RL != ""
-                                    ? "<a class='recommended recommendedWithLink' title='Recomandat: " + serial.R + "\nClick for details ... (external link!)' href='" + serial.RL + "' target='_blank'>" + getRecommendedVal(serial.R) + "</a>"
-                                    : "<div class='recommended'title='Recomandat: " + serial.R +"'>" + getRecommendedVal(serial.R) + "</div>"
-                            )
-                            : "<div class='recommended' title='Recomandare necunoscuta'>?</div>"
+                                    ? "<a class='recommended recommendedWithLink' title='Recommended: " + serial.R + "\nClick for details ...'>" + getRecommendedVal(serial.R) + "</a>"
+                                    : "<div class='recommended'title='Recommended: " + serial.R +"'>" + getRecommendedVal(serial.R) + "</div>"
+                              )
+                            : "<div class='recommended' title='Recomandare necunoscuta'>?</div>"	                            
                         ) +
                     "</td>" +
                     "<td class=\"detailCell w80\">" +
@@ -164,7 +164,7 @@ function RenderSeriesTypeView() {
 
                     movieCard.html($("#posterNotFound").html());
 
-                    var movieWithoutPoster = $.grep(moviesInSection, function (el) { return el.Id == movieId });
+                    var movieWithoutPoster = $.grep(currentSeriesTypeViewDataM, function (el) { return el.Id == movieId });
                     movieCard.find(".movieTitle-posterNotFound:first").text(movieWithoutPoster.length != 1
                         ? "Error retrieving movie title!"
                         : movieWithoutPoster[0].FN);
@@ -246,6 +246,33 @@ function RebindSeriesEvents() {
             }
         }
     });
+
+	$(".recommendedWithLink").off("click").on("click", function (e) {
+		
+        e.stopPropagation();
+
+		if (!GetCSMdetails($(this).closest("tr").data("serialid"), true))
+			alert("Something went wrong!")
+		else {
+			setTimeout(function() {
+				$('.popup').fadeIn(100);
+	 
+				$('.rating').each(function (event) {			
+					var rating = $(this).attr('rating');
+					var i;
+					for(i = 0; (i < rating); i++)
+					{
+						$(this).find('span.star').eq(i).addClass('filled');
+						$(this).find('span.bullet').eq(i).addClass('filled');
+					}
+				});
+
+				$(".close-button").off("click").on("click", function() {
+					$('.popup').fadeOut(100);
+				});
+			}, 100);
+		}	
+	});    
 }
 
 function RebindSeriesEventsM() {
@@ -330,11 +357,11 @@ function RebindSeriesEventsM() {
                     detailLine +=
                         "<tr>" +
                             "<td class='episode-title-cell-m' data-episodeId='" + episode.Id + "'>" + //only on episode name, to avoid triggering th efunctionality while scrolling
-                               episode.FN + (episode.T == "Christmas"
-                               ? " ðŸŽ…" //ðŸŽ„
-                               : episode.T == "Helloween"
-                                   ? " ðŸŽƒ"
-                                   : "") +
+                            episode.FN + (episode.T == "Christmas"
+                                ? christmasSymbol
+                                : episode.T == "Helloween"
+                                    ? helloweenSymbol
+                                    : "") +
                             "</td>" +
                             "<td class='episodes-audio-m'>" +
                                episode.A +

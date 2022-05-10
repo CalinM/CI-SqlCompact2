@@ -351,6 +351,7 @@
     <Content Include="Images\sexy_stuff.png" />
     <Content Include="Images\tools.png" />
     <Content Include="Images\violence.png" />
+    <None Include="Resources\cr_constants.js" />
     <Content Include="Resources\jquery.contextMenu.min.css" />
     <Content Include="Resources\jquery.contextMenu.min.js" />
     <Content Include="Resources\jquery.ui.position.min.js" />

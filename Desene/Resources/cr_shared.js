@@ -752,9 +752,7 @@ function BuildMoviesSection(moviesInSection_, outputToElement, isSearchResult, i
 					$('.popup').fadeOut(100);
 				});
 			}, 100);
-		}
-		
-
+		}	
 	});
 
 	//if (outputToElement != "#searchResult_movies")	
@@ -1061,7 +1059,7 @@ function fieldSorter(fields) {
     };
 }
 
-function GetCSMdetails(id) {
+function GetCSMdetails(id, isSeries) {
 	var csmObj = $.grep(allCsmData, function(e){ return e.id == id; });
 	var csmData;
 
@@ -1143,7 +1141,7 @@ function GetCSMdetails(id) {
 			return result;
 		}
 
-		var movieTitle = $.grep(moviesData, function (x) { return x.Id == id; })[0].FN;
+		var movieTitle = $.grep(isSeries ? seriesData : moviesData, function (x) { return x.Id == id; })[0].FN;
 
 		var csmPopupData =
 			"<div class='popup-caption'>" + movieTitle + "</div>" +

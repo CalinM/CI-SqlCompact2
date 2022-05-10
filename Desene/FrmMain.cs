@@ -1033,6 +1033,7 @@ namespace Desene
                 File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_collections.js"), SiteGenerator.MinifyScript(genParams.SiteGenParams, Resources.cr_collectionsJS));
                 File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_movies.js"), SiteGenerator.MinifyScript(genParams.SiteGenParams, Resources.cr_moviesJS));
                 File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_series.js"), SiteGenerator.MinifyScript(genParams.SiteGenParams, Resources.cr_seriesJS));
+                File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\cr_constants.js"), Resources.cr_constants, Encoding.Default);
 
                 //File.WriteAllText(Path.Combine(genParams.SiteGenParams.Location, "Scripts\\YouTubePopUp.jquery.js"), Resources.YouTubePopUp_jquery);
 

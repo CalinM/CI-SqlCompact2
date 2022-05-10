@@ -722,6 +722,12 @@ namespace Desene
             _genericTimer.Enabled = true;
 
             _lookupStartingWith += e.KeyChar;
+        }
+
+        private void ClearLookupTypedKeys(object sender, EventArgs e)
+        {
+            _genericTimer.Enabled = false;
+            _genericTimer = null;
 
             var seriesObj = tvSeries.AllNodes.FirstOrDefault(f => ((SeriesEpisodesShortInfo)f.Tag).FileName.ToLower().StartsWith(_lookupStartingWith));
             var index = seriesObj != null ? seriesObj.Index : -1;
@@ -732,12 +738,6 @@ namespace Desene
                 //dgvMoviesList.Rows[index].Selected = true;
                 //dgvMoviesList.FirstDisplayedScrollingRowIndex = index;
             }
-        }
-
-        private void ClearLookupTypedKeys(object sender, EventArgs e)
-        {
-            _genericTimer.Enabled = false;
-            _genericTimer = null;
 
             _lookupStartingWith = string.Empty;
         }
