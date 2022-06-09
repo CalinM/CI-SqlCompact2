@@ -351,6 +351,7 @@ namespace Desene
                                 fd.Season,
                                 fd.FileName,
                                 fd.Year,
+                                fd.FileSize,
                                 fd.FileSize2,
                                 fd.Duration,
                                 fd.Quality,
@@ -381,6 +382,7 @@ namespace Desene
                                 Season2 = int.TryParse(reader["Season"].ToString(), out i) ? string.Format("Season {0}", i) : reader["Season"].ToString(),
                                 FileName = reader["FileName"].ToString(),
                                 Year = reader["Year"].ToString(),
+                                FileSize = reader["FileSize"].ToString(),
                                 FileSize2 = reader["FileSize2"].ToString(),
                                 Duration = reader["Duration"] == DBNull.Value
                                                         ? "<not set>"
@@ -397,11 +399,59 @@ namespace Desene
                 conn.Close();
             }
 
-            return
+            result =
                 result
                     .OrderBy(o => o.Season2, new NaturalSortComparer<string>())
                     .ThenBy(o => o.FileName)
                     .ToList();
+
+            if (result.Any())
+            {
+                foreach (var sumSeason in
+                         result
+                             .GroupBy(x => x.Season2)
+                             .Select(grp =>
+                                 new KeyValuePair<string, decimal>(grp.Key, grp.Sum(y => decimal.TryParse(y.FileSize, out var val) ? val : 0)))
+                             .OrderByDescending(_ => _.Key)
+                        )
+                {
+                    var idx = result.FindLastIndex(_ => _.Season2 == sumSeason.Key);
+                    result.Insert(
+                        idx + 1,
+                        new EpisodeTechnicalDetails()
+                        {
+                            Id = -1,
+                            FileName = "Total " + sumSeason.Key,
+                            Season2 = sumSeason.Key,
+                            Quality = string.Empty,
+                            FileSize2 =
+                                sumSeason.Value / 1024 / 1024 > 1024
+                                    ? (sumSeason.Value / 1024 / 1024 / 1024).ToString("0.00") + " Gb"
+                                    : (sumSeason.Value / 1024 / 1024).ToString("0.00") + " Mb"
+                        });
+                }
+
+                if (sesInfo.IsSeries)
+                {
+                    var grandTotal = result.Sum(_ => decimal.TryParse(_.FileSize, out var val) ? val : 0);
+
+                    result.Insert(
+                        result.Count(),
+                        new EpisodeTechnicalDetails()
+                        {
+                            Id = -2,
+                            FileName = "Total",
+                            Season2 = sesInfo.FileName,
+                            Quality = string.Empty,
+                            FileSize2 =
+                                grandTotal / 1024 / 1024 > 1024
+                                    ? (grandTotal / 1024 / 1024 / 1024).ToString("0.00") + " Gb"
+                                    : (grandTotal / 1024 / 1024).ToString("0.00") + " Mb"
+                        });
+                }
+            }
+
+            return result;
         }
 
         public static List<MovieTechnicalDetails> GetCollectionElements(SeriesEpisodesShortInfo sesInfo)
@@ -1890,7 +1940,7 @@ namespace Desene
         private static OperationResult RemoveData(string episodeIds, SQLiteConnection conn)
         {
             var result = new OperationResult();
-
+            
             try
             {
                 SQLiteCommand cmd;
@@ -1922,6 +1972,29 @@ namespace Desene
             catch (Exception ex)
             {
                 return result.FailWithMessage(ex);
+            }
+
+            return result;
+        }
+
+        public static OperationResult RemoveData(List<int> episodeIds)
+        {
+            var result = new OperationResult();
+
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    result = RemoveData(string.Join(",", episodeIds), conn);
+
+                    conn.Close();
+                }
+                catch (Exception ex)
+                {
+                    return result.FailWithMessage(ex);
+                }
             }
 
             return result;
@@ -3847,7 +3920,6 @@ namespace Desene
                             {
                                 Name = reader.GetName(i),
                                 ColumnType = reader.GetFieldType(i).ToString().Replace("System.", ""),
-                                
                             });
                     }
                 }

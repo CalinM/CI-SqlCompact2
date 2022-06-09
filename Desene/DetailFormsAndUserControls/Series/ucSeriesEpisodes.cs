@@ -21,6 +21,8 @@ namespace Desene.DetailFormsAndUserControls
         private List<EpisodeTechnicalDetails> _episodesInSeries;
         private List<EpisodeTechnicalDetails> _episodesInSeriesOrig;
         private Timer _genericTimer;
+        private bool _preventHeaderCode = false;
+
 
         public ucSeriesEpisodes()
         {
@@ -90,6 +92,8 @@ namespace Desene.DetailFormsAndUserControls
 
         private void HeaderColCheckBox_CheckedChanged(object sender, EventArgs e)
         {
+            if (_preventHeaderCode) return;
+
             try
             {
                 dgvEpisodes.SuspendLayout();
@@ -136,7 +140,7 @@ namespace Desene.DetailFormsAndUserControls
                 _bsEpisodesGridData.DataSource = _episodesInSeries;
                 _bsEpisodesGridData.ResetBindings(false);
 
-                var maxBitRateObj = _episodesInSeries.OrderByDescending(s => s.BitRate.Length).FirstOrDefault();
+                var maxBitRateObj = _episodesInSeries.Where(s => !string.IsNullOrEmpty(s.BitRate)).OrderByDescending(s => s.BitRate.Length).FirstOrDefault();
                 var bitRateColWidth =
                     maxBitRateObj == null
                         ? 70
@@ -194,7 +198,7 @@ namespace Desene.DetailFormsAndUserControls
             {
                 var mtd = (MovieTechnicalDetails)dgvEpisodes.Rows[e.RowIndex].DataBoundItem;
 
-                if (mtd != null)
+                if (mtd != null && mtd.Id > 0)
                 {
                     _parent.TryLocateEpisodeInTree(mtd.Id);
                 }
@@ -203,12 +207,12 @@ namespace Desene.DetailFormsAndUserControls
 
         private void DgvEpisodes_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 0 && e.RowIndex != -1 /*&& dgvEpisodes.Rows[e.RowIndex].Cells["Id"].Value != null*/)
-            {
-                // Get the episodeId
-                var episodeId = (int)dgvEpisodes.Rows[e.RowIndex].Cells["Id"].Value;
-                _checkState[episodeId] = (bool)dgvEpisodes.Rows[e.RowIndex].Cells[0].Value;
-            }
+            //if (e.ColumnIndex == 0 && e.RowIndex != -1 /*&& dgvEpisodes.Rows[e.RowIndex].Cells["Id"].Value != null*/)
+            //{
+            //    // Get the episodeId
+            //    var episodeId = (int)dgvEpisodes.Rows[e.RowIndex].Cells["Id"].Value;
+            //    _checkState[episodeId] = (bool)dgvEpisodes.Rows[e.RowIndex].Cells[0].Value;
+            //}
         }
 
         private void DgvEpisodes_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
@@ -236,17 +240,30 @@ namespace Desene.DetailFormsAndUserControls
             if (e.ColumnIndex == 0/* && dgvEpisodes.Rows[e.RowIndex].Cells["Id"].Value != null*/)
             {
                 // Get the episodeId
-                int episodeId = (int)dgvEpisodes.Rows[e.RowIndex].Cells["Id"].Value;
+                var episodeId = (int)dgvEpisodes.Rows[e.RowIndex].Cells["Id"].Value;
+                var b = (bool)e.Value;
 
                 // Add or update the checked value to the dictionary depending on if the key already exists.
                 if (!_checkState.ContainsKey(episodeId))
                 {
-                    _checkState.Add(episodeId, (bool)e.Value);
+                    _checkState.Add(episodeId, b);
                 }
                 else
-                    _checkState[episodeId] = (bool)e.Value;
+                {
+                    _checkState.Remove(episodeId);
+                }
 
                 SetBulkEditButtonStateInParent();
+
+                _preventHeaderCode = true;
+                if (_checkState.Count(x => x.Value && x.Key > 0) == _episodesInSeries.Count(x => x.Id > 0))
+                    _headerColCheckBox.CheckState = CheckState.Checked;
+                else
+                if (_checkState.Count(x => !x.Value) == _episodesInSeries.Count(x => x.Id > 0))
+                    _headerColCheckBox.CheckState = CheckState.Unchecked;
+                else
+                    _headerColCheckBox.CheckState = CheckState.Indeterminate;
+                _preventHeaderCode = false;
             }
         }
 
@@ -411,6 +428,60 @@ namespace Desene.DetailFormsAndUserControls
 
             //SetGridHeight();
             ///dgvEpisodes.Height = dgvEpisodes.Rows.GetRowsHeight(DataGridViewElementStates.None) + dgvEpisodes.ColumnHeadersHeight;
+        }
+
+        private void dgvEpisodes_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if ((e.ColumnIndex == 0) && (e.RowIndex > -1))
+            {
+                if ((int)dgvEpisodes.Rows[e.RowIndex].Cells[1].Value < 0)
+                {
+                    e.Paint(e.ClipBounds, DataGridViewPaintParts.Border | DataGridViewPaintParts.Background);  //put what to draw
+                    e.Handled = true;   //skip rest of painting event
+                }
+            }
+        }
+
+        private void dgvEpisodes_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            var currentRow = dgvEpisodes.Rows[e.RowIndex];
+
+            try
+            {
+                Color bgColor;
+                Color seltextColor;
+                Color selbgColor;
+
+                switch ((int)currentRow.Cells[1].Value)
+                {
+                    case -1:
+                        bgColor = Color.AliceBlue;
+                        selbgColor = bgColor;
+                        seltextColor = Color.Black;
+                        break;
+
+                    case -2:
+                        bgColor = Color.FromArgb(255, 255, 238, 198);
+                        selbgColor = bgColor;
+                        seltextColor = Color.Black;
+                        break;
+
+                    default:
+                        bgColor = Color.White;
+                        selbgColor = Color.FromArgb(255, 197, 224, 229); 
+                        seltextColor = Color.Black;
+                        break;
+                }
+
+                currentRow.DefaultCellStyle.BackColor = bgColor;
+                //currentRow.DefaultCellStyle.Font = new Font(dgvEpisodes.Font, FontStyle.Bold);
+                currentRow.DefaultCellStyle.SelectionBackColor = selbgColor;
+                currentRow.DefaultCellStyle.SelectionForeColor = seltextColor;
+            }
+            catch (Exception exception)
+            {
+                //onLogs?.Invoke(exception.Message, EventArgs.Empty);
+            }
         }
     }
 }

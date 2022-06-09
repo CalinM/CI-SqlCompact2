@@ -200,7 +200,7 @@ namespace Desene
             btnLoadPoster.Enabled = btnImportEpisodes.Enabled;
 
             //btnRefreshEpisodeData.Enabled = sesi != null && !sesi.IsSeries;
-            btnDeleteSeasonEpisode.Enabled = sesi != null && !sesi.IsSeries;
+            //btnDeleteSeasonEpisode.Enabled = sesi != null && !sesi.IsSeries;
         }
 
         #endregion
@@ -263,15 +263,18 @@ namespace Desene
         {
             if (tvSeries.AllNodes.Count() == 0) return;
 
-            var selectedNodeData = (SeriesEpisodesShortInfo)tvSeries.SelectedNode.Tag;
+            DeleteSeries((SeriesEpisodesShortInfo)tvSeries.SelectedNode.Tag);
+        }
 
+        private void DeleteSeries(SeriesEpisodesShortInfo sesi)
+        {
             if (MsgBox.Show(
                     string.Format("Are you sure you want to remove the Series{0}{0}{1}{0}{0}with all it's Episodes?",
-                        Environment.NewLine, DAL.GetSeriesTitleFromId(selectedNodeData.SeriesId)),
+                        Environment.NewLine, DAL.GetSeriesTitleFromId(sesi.SeriesId)),
                     "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 return;
 
-            var opRes = DAL.RemoveSeries(selectedNodeData.SeriesId);
+            var opRes = DAL.RemoveSeries(sesi.SeriesId);
 
             if (!opRes.Success)
             {
@@ -477,18 +480,41 @@ namespace Desene
         {
             var sesi = (SeriesEpisodesShortInfo)tvSeries.SelectedNode.Tag;
 
-            var msg =
-                sesi.IsSeason
-                    ? "Are you sure you want to remove all episodes in the selected season?"
-                    : "Are you sure you want to remove the selected episode?";
+            var selectedEpisodes = (List<int>)btnBulkEdit.Tag;
+            var multiSelectedEpisodes = selectedEpisodes != null && selectedEpisodes.Any();
 
-            if (MsgBox.Show(msg, "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            if (sesi.IsSeries && !multiSelectedEpisodes)
+            {
+                DeleteSeries(sesi);
                 return;
+            }
 
-            var opRes =
-                sesi.IsSeason
-                    ? DAL.RemoveSeason(sesi.Id, sesi.Season)
-                    : DAL.RemoveMovieOrEpisode(sesi.Id);
+            var msg = string.Empty;
+
+            OperationResult opRes = null;
+
+            if (multiSelectedEpisodes)
+            {
+                if (MsgBox.Show("Are you sure you want to remove the selected episodes?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    return;
+
+                opRes = DAL.RemoveData(selectedEpisodes);
+            }
+            else
+            {
+               msg =
+                   sesi.IsSeason
+                        ? "Are you sure you want to remove all episodes in the selected season?"
+                        : "Are you sure you want to remove the selected episode?";
+
+               if (MsgBox.Show(msg, "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                   return;
+
+               opRes =
+                   sesi.IsSeason
+                       ? DAL.RemoveSeason(sesi.Id, sesi.Season)
+                       : DAL.RemoveMovieOrEpisode(sesi.Id);
+            }
 
             if (!opRes.Success)
             {
@@ -505,13 +531,6 @@ namespace Desene
 
                 if (!sesi.IsSeason)
                     tvSeries.SelectedNode = tvSeries.SelectedNode.Children.FirstOrDefault(x => ((SeriesEpisodesShortInfo)x.Tag).Season == sesi.Season);
-
-
-
-                //if (!sesi.IsSeason)
-                //    tvSeries.SelectedNode.ExpandAll();
-                //else
-                //    _prevSelectedSeriesId = -2;
 
                 LoadSelectionDetails();
             }

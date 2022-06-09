@@ -179,7 +179,13 @@ namespace Desene
         {
             if (_iniFile.KeyExists("Top", "MainWindow") && _iniFile.KeyExists("Left", "MainWindow"))
             {
-                Location = new Point(_iniFile.ReadInt("Left", "MainWindow"), _iniFile.ReadInt("Top", "MainWindow"));
+                var left = _iniFile.ReadInt("Left", "MainWindow");
+                if (left < 100) left = 0;
+
+                var top = _iniFile.ReadInt("Top", "MainWindow");
+                if (top < 100) top = 0;
+
+                Location = new Point(left, top);
             }
 
             if (_iniFile.KeyExists("Width", "MainWindow") && _iniFile.KeyExists("Height", "MainWindow"))

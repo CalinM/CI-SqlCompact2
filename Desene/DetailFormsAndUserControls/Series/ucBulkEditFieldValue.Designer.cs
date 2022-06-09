@@ -76,6 +76,7 @@
             this.tbNewValue.Name = "tbNewValue";
             this.tbNewValue.Size = new System.Drawing.Size(195, 20);
             this.tbNewValue.TabIndex = 4;
+            this.tbNewValue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbNewValue_KeyDown);
             // 
             // ucBulkEditFieldValue
             // 
@@ -88,6 +89,7 @@
             this.Controls.Add(this.lbField);
             this.Name = "ucBulkEditFieldValue";
             this.Size = new System.Drawing.Size(460, 52);
+            this.Load += new System.EventHandler(this.ucBulkEditFieldValue_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

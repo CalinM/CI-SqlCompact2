@@ -35,6 +35,11 @@ namespace Desene.DetailFormsAndUserControls.Series
             _allBulkEditFields.Add(new BulkEditField { Caption = "First audio language", FieldName = "Language", RequireRefresh = true });
         }
 
+        private void FrmBulkEpisodeEdit_Load(object sender, EventArgs e)
+        {
+            AddNewFieldElement();
+        }
+
         private void BtnAddChange_Click(object sender, EventArgs e)
         {
             if (_fieldValuesControls.Any(x => x.NewValue is null))
@@ -45,6 +50,11 @@ namespace Desene.DetailFormsAndUserControls.Series
                 return;
             }
 
+            AddNewFieldElement();
+        }
+
+        private void AddNewFieldElement()
+        {
             try
             {
                 Cursor = Cursors.WaitCursor;
@@ -59,13 +69,14 @@ namespace Desene.DetailFormsAndUserControls.Series
                     availableFields.Add(abef);
                 }
 
-                var befv = new ucBulkEditFieldValue(availableFields) { Dock = DockStyle.Top };
+                var befv = new ucBulkEditFieldValue(this, availableFields) { Dock = DockStyle.Top };
                 _fieldValuesControls.Add(befv);
                 pBulkChangeControlsContainer.Controls.Add(befv);
                 befv.BringToFront();
             }
             finally
             {
+                
                 pBulkChangeControlsContainer.ResumeLayout();
                 Cursor = Cursors.Default;
             }
@@ -78,6 +89,11 @@ namespace Desene.DetailFormsAndUserControls.Series
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
+        {
+            DoClose();
+        }
+
+        public void DoClose()
         {
             var updates = _fieldValuesControls.Where(x => x.NewValue != null && !string.IsNullOrEmpty(x.NewValue.FieldName)).ToList();
 

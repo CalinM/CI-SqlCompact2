@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Aga.Controls.Tree;
 using Aga.Controls.Tree.NodeControls;
+using DAL;
 
 namespace Desene
 {
@@ -111,6 +112,44 @@ namespace Desene
                         richTextBox1.Text = opRes.AdditionalDataReturn.ToString();
                     }
                 }
+            }
+        }
+
+        private void tvDbStructure_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left) return;
+
+            var clickPoint = new Point(e.X, e.Y);
+            var clickNode = tvDbStructure.GetNodeAt(clickPoint);
+            if (clickNode == null || clickNode.Level > 1) return;
+
+            // Convert from Tree coordinates to Screen coordinates    
+            var screenPoint = tvDbStructure.PointToScreen(clickPoint);
+            // Convert from Screen coordinates to Form coordinates    
+            var formPoint = this.PointToClient(screenPoint);
+            
+            // Show context menu   
+            pmTreeView.Show(this, formPoint);
+        }
+
+        private void pmTreeView_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            switch (e.ClickedItem.Name)
+            {
+                case "miGenerateSelect":
+
+                    var tableName = ((DbStructureModel)tvDbStructure.SelectedNode.Tag).Name;
+                    var columns = DAL.ListColumns2(tableName);
+                    var selectStatement =
+                        string.Format("select [{0}] from {1}",
+                            string.Join("], [", columns.Where(x => x.ColumnType != "Byte[]").Select(x => x.Name)),
+                            tableName);
+
+                    eSqlEdit.AppendText(
+                        (eSqlEdit.Text.Trim() == string.Empty ? string.Empty : (Environment.NewLine + Environment.NewLine)) +
+                        selectStatement);
+
+                    break;
             }
         }
     }

@@ -266,7 +266,7 @@
             this.btnDeleteSeasonEpisode});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(24, 540);
+            this.toolStrip1.Size = new System.Drawing.Size(32, 540);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -277,7 +277,7 @@
             this.btnImportEpisodes.Image = global::Desene.Properties.Resources.import;
             this.btnImportEpisodes.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImportEpisodes.Name = "btnImportEpisodes";
-            this.btnImportEpisodes.Size = new System.Drawing.Size(21, 20);
+            this.btnImportEpisodes.Size = new System.Drawing.Size(29, 20);
             this.btnImportEpisodes.Text = "Import episodes data from files";
             this.btnImportEpisodes.Click += new System.EventHandler(this.btnImportEpisodes_Click);
             // 
@@ -289,14 +289,14 @@
             this.btnLoadPoster.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoadPoster.Margin = new System.Windows.Forms.Padding(0, 5, 0, 2);
             this.btnLoadPoster.Name = "btnLoadPoster";
-            this.btnLoadPoster.Size = new System.Drawing.Size(21, 20);
+            this.btnLoadPoster.Size = new System.Drawing.Size(29, 20);
             this.btnLoadPoster.Text = "Load Series poster";
             this.btnLoadPoster.Click += new System.EventHandler(this.btnLoadPoster_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(21, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(29, 6);
             // 
             // btnSaveChanges
             // 
@@ -306,7 +306,7 @@
             this.btnSaveChanges.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnSaveChanges.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSaveChanges.Name = "btnSaveChanges";
-            this.btnSaveChanges.Size = new System.Drawing.Size(21, 20);
+            this.btnSaveChanges.Size = new System.Drawing.Size(29, 20);
             this.btnSaveChanges.Text = "Save changes";
             this.btnSaveChanges.ToolTipText = "Save changes\r\nCTRL+S";
             this.btnSaveChanges.Click += new System.EventHandler(this.btnSaveChanges_Click);
@@ -318,7 +318,7 @@
             this.btnUndo.Image = global::Desene.Properties.Resources.undo;
             this.btnUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnUndo.Name = "btnUndo";
-            this.btnUndo.Size = new System.Drawing.Size(21, 20);
+            this.btnUndo.Size = new System.Drawing.Size(29, 20);
             this.btnUndo.Text = "Undo";
             this.btnUndo.ToolTipText = "Undo changes\r\nCTRL+Z";
             this.btnUndo.Click += new System.EventHandler(this.btnUndo_Click);
@@ -330,7 +330,7 @@
             this.btnRefreshEpisodeData.Image = global::Desene.Properties.Resources.refresh;
             this.btnRefreshEpisodeData.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRefreshEpisodeData.Name = "btnRefreshEpisodeData";
-            this.btnRefreshEpisodeData.Size = new System.Drawing.Size(21, 20);
+            this.btnRefreshEpisodeData.Size = new System.Drawing.Size(29, 20);
             this.btnRefreshEpisodeData.Text = "Refresh episode data from file";
             this.btnRefreshEpisodeData.Click += new System.EventHandler(this.btnRefreshEpisodeData_Click);
             // 
@@ -341,7 +341,7 @@
             this.btnBulkEdit.Image = global::Desene.Properties.Resources.bulkEdit;
             this.btnBulkEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnBulkEdit.Name = "btnBulkEdit";
-            this.btnBulkEdit.Size = new System.Drawing.Size(21, 20);
+            this.btnBulkEdit.Size = new System.Drawing.Size(29, 20);
             this.btnBulkEdit.Text = "Bulk Edit";
             this.btnBulkEdit.ToolTipText = "Bulk Edit\r\n(must have more than one episode selected)";
             this.btnBulkEdit.Click += new System.EventHandler(this.BtnBulkEdit_Click);
@@ -349,16 +349,15 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(21, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(29, 6);
             // 
             // btnDeleteSeasonEpisode
             // 
             this.btnDeleteSeasonEpisode.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnDeleteSeasonEpisode.Enabled = false;
             this.btnDeleteSeasonEpisode.Image = global::Desene.Properties.Resources.delete;
             this.btnDeleteSeasonEpisode.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDeleteSeasonEpisode.Name = "btnDeleteSeasonEpisode";
-            this.btnDeleteSeasonEpisode.Size = new System.Drawing.Size(21, 20);
+            this.btnDeleteSeasonEpisode.Size = new System.Drawing.Size(29, 20);
             this.btnDeleteSeasonEpisode.Text = "Delete";
             this.btnDeleteSeasonEpisode.ToolTipText = "Delete the selected Season/Episode";
             this.btnDeleteSeasonEpisode.Click += new System.EventHandler(this.btnDeleteSeasonEpisode_Click);
