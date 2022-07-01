@@ -141,7 +141,8 @@ namespace Desene
                     var tableName = ((DbStructureModel)tvDbStructure.SelectedNode.Tag).Name;
                     var columns = DAL.ListColumns2(tableName);
                     var selectStatement =
-                        string.Format("select [{0}] from {1}",
+                        string.Format("select{0}[{1}]{0}from {2}",
+                            Environment.NewLine,
                             string.Join("], [", columns.Where(x => x.ColumnType != "Byte[]").Select(x => x.Name)),
                             tableName);
 

@@ -1395,6 +1395,51 @@ namespace Desene
             frmOptions.ShowDialog();
         }
 
+        private void miCleanupOrphanFiles_Click(object sender, EventArgs e)
+        {
+            var selectedPath = Helpers.SelectFolder("Please select the images location (folder)", _iniFile.ReadString("LastPath", "General"));
+            if (string.IsNullOrEmpty(selectedPath))
+                return;
+
+            _iniFile.Write("LastPath", Path.GetFullPath(selectedPath), "General");
+
+            var d = new DirectoryInfo(selectedPath);
+            var files = d.GetFiles("*.jpg");
+
+            var opRes = DAL.LoadAllIds();
+            if (!opRes.Success)
+            {
+                MsgBox.Show(opRes.CustomErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var fileDetailsIds = (List<int>)opRes.AdditionalDataReturn;
+            var orphanFiles = files.Where(_ => !fileDetailsIds.Contains(int.Parse(Path.GetFileNameWithoutExtension(_.Name).Split('-')[1]))).ToList();
+
+            if (orphanFiles.Count == 0)
+            {
+                MsgBox.Show("There are no orphan files in the selected folder", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            
+            if (MsgBox.Show(
+                    string.Format("There are {0} orphan files in the selected folder. Are you sure you want to delete them?", orphanFiles.Count),
+                    "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                return;
+
+            try
+            {
+                //todo: https://github.com/chinhdo/txFileManager
+                orphanFiles.ForEach(_ => _.Delete());
+
+                MsgBox.Show("The orphan files have been removed!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MsgBox.Show(OperationResult.GetErrorMessage(ex), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }            
+        }
+
 
 
         //public Encoding GetEncoding(string filename)

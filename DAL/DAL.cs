@@ -57,6 +57,40 @@ namespace Desene
             }
         }
 
+        public static OperationResult LoadAllIds()
+        {
+            var result = new OperationResult();
+            var ids = new List<int>();
+
+            try
+            {
+                using (var conn = new SQLiteConnection(Constants.ConnectionString))
+                {
+                    conn.Open();
+
+                    var commandSource = new SQLiteCommand("SELECT Id FROM FileDetail", conn);
+
+                    using (var reader = commandSource.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ids.Add((int)(long)reader["Id"]);
+                        }
+                    }
+
+                    conn.Close();
+                }
+
+                result.AdditionalDataReturn = ids;
+            }
+            catch (Exception ex)
+            {
+                return result.FailWithMessage(ex);
+            }
+
+            return result;
+        }
+
         public static BindingList<MovieShortInfo> GetMoviesGridData2(string sortField, string simpleFilter)
         {
             var result = new BindingList<MovieShortInfo>();
@@ -431,7 +465,7 @@ namespace Desene
                         });
                 }
 
-                if (sesInfo.IsSeries)
+                if (sesInfo.IsSeries && result.DistinctBy(_ => _.Season2).Count() > 1)
                 {
                     var grandTotal = result.Sum(_ => decimal.TryParse(_.FileSize, out var val) ? val : 0);
 

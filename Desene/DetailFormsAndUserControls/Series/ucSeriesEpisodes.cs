@@ -135,7 +135,7 @@ namespace Desene.DetailFormsAndUserControls
 
             if (_episodesInSeries.Count > 0)
             {
-                lbSeriesEpisodesCaption.Text = string.Format("Episodes ({0})", _episodesInSeries.Count);
+                lbSeriesEpisodesCaption.Text = string.Format("Episodes ({0})", _episodesInSeries.Count(_ => _.Id > 0));
 
                 _bsEpisodesGridData.DataSource = _episodesInSeries;
                 _bsEpisodesGridData.ResetBindings(false);
