@@ -451,7 +451,7 @@ namespace Desene
                 {
                     var idx = result.FindLastIndex(_ => _.Season2 == sumSeason.Key);
                     result.Insert(
-                        idx + 1,
+                        idx + 1,//sadadadsa
                         new EpisodeTechnicalDetails()
                         {
                             Id = -1,
