@@ -199,3 +199,17 @@ C:\Work\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
 C:\Work\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.csproj.CopyComplete
 C:\Work\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.dll
 C:\Work\Personal\CI-SqlCompact2\DAL\obj\Debug\DAL.pdb
+D:\Work\CI-SqlCompact2\DAL\bin\Debug\x64\SQLite.Interop.dll
+D:\Work\CI-SqlCompact2\DAL\bin\Debug\x86\SQLite.Interop.dll
+D:\Work\CI-SqlCompact2\DAL\bin\Debug\DAL.dll.config
+D:\Work\CI-SqlCompact2\DAL\bin\Debug\DAL.dll
+D:\Work\CI-SqlCompact2\DAL\bin\Debug\DAL.pdb
+D:\Work\CI-SqlCompact2\DAL\bin\Debug\Common.dll
+D:\Work\CI-SqlCompact2\DAL\bin\Debug\System.Data.SQLite.dll
+D:\Work\CI-SqlCompact2\DAL\bin\Debug\Common.pdb
+D:\Work\CI-SqlCompact2\DAL\bin\Debug\System.Data.SQLite.xml
+D:\Work\CI-SqlCompact2\DAL\obj\Debug\DAL.csproj.AssemblyReference.cache
+D:\Work\CI-SqlCompact2\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+D:\Work\CI-SqlCompact2\DAL\obj\Debug\DAL.csproj.CopyComplete
+D:\Work\CI-SqlCompact2\DAL\obj\Debug\DAL.dll
+D:\Work\CI-SqlCompact2\DAL\obj\Debug\DAL.pdb

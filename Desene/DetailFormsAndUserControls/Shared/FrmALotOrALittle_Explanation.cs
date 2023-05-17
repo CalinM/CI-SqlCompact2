@@ -59,6 +59,11 @@ namespace Desene.DetailFormsAndUserControls.Shared
                     lbSectionTitle.Text = "Drinking, Drugs && Smoking";
                     pbCategory.Image = Properties.Resources.drinking_druge_smoking;
                     break;
+
+                case ALotOrAlittleElements.DiverseRepresentations:
+                    lbSectionTitle.Text = "Diverse Representations";
+                    pbCategory.Image = Properties.Resources.positive_role_models;
+                    break;
             }
 
             if (data.Rating > 0)

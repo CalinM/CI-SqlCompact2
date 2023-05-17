@@ -147,17 +147,20 @@ namespace Common
         [Description("Violence & Scariness")]
         ViolenceAndScariness = 3,
 
-        [Description("Sexy Stuff")]
+        [Description("Sex, Romance & Nudity")]
         SexyStuff = 4,
 
         [Description("Language")]
         Language = 5,
 
-        [Description("Consumerism")]
+        [Description("Products & Purchases")]
         Consumerism = 6,
 
         [Description("Drinking, Drugs & Smoking")]
-        DrinkingDrugsAndSmoking = 7
+        DrinkingDrugsAndSmoking = 7,
+
+        [Description("Diverse Representations")]
+        DiverseRepresentations = 8
     }
 
     public enum MoviesGridsHighlights

@@ -125,6 +125,12 @@
             this.pError = new System.Windows.Forms.Panel();
             this.lbError2 = new System.Windows.Forms.Label();
             this.lbError1 = new System.Windows.Forms.Label();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.pbDiverseRepresentation_Rating = new System.Windows.Forms.PictureBox();
+            this.lbDiverseRepresentation_Expl = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.pbDiverseRepresentation = new System.Windows.Forms.PictureBox();
             this.cpScrapedData.SuspendLayout();
             this.pTalkAbout_Title.SuspendLayout();
             this.pIsItAnyGood.SuspendLayout();
@@ -174,6 +180,9 @@
             this.panel6.SuspendLayout();
             this.customPanel1.SuspendLayout();
             this.pError.SuspendLayout();
+            this.panel7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbDiverseRepresentation_Rating)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbDiverseRepresentation)).BeginInit();
             this.SuspendLayout();
             // 
             // cpScrapedData
@@ -243,7 +252,7 @@
             this.lbIsItAnyGood.Location = new System.Drawing.Point(12, 8);
             this.lbIsItAnyGood.MaximumSize = new System.Drawing.Size(580, 0);
             this.lbIsItAnyGood.Name = "lbIsItAnyGood";
-            this.lbIsItAnyGood.Size = new System.Drawing.Size(578, 64);
+            this.lbIsItAnyGood.Size = new System.Drawing.Size(580, 64);
             this.lbIsItAnyGood.TabIndex = 0;
             this.lbIsItAnyGood.Text = resources.GetString("lbIsItAnyGood.Text");
             // 
@@ -285,7 +294,7 @@
             this.lbWhatsTheStory.Location = new System.Drawing.Point(12, 8);
             this.lbWhatsTheStory.MaximumSize = new System.Drawing.Size(580, 0);
             this.lbWhatsTheStory.Name = "lbWhatsTheStory";
-            this.lbWhatsTheStory.Size = new System.Drawing.Size(578, 64);
+            this.lbWhatsTheStory.Size = new System.Drawing.Size(580, 64);
             this.lbWhatsTheStory.TabIndex = 0;
             this.lbWhatsTheStory.Text = resources.GetString("lbWhatsTheStory.Text");
             // 
@@ -327,7 +336,7 @@
             this.lbWhatParentsNeedToKnow.Location = new System.Drawing.Point(12, 8);
             this.lbWhatParentsNeedToKnow.MaximumSize = new System.Drawing.Size(580, 0);
             this.lbWhatParentsNeedToKnow.Name = "lbWhatParentsNeedToKnow";
-            this.lbWhatParentsNeedToKnow.Size = new System.Drawing.Size(578, 64);
+            this.lbWhatParentsNeedToKnow.Size = new System.Drawing.Size(580, 64);
             this.lbWhatParentsNeedToKnow.TabIndex = 0;
             this.lbWhatParentsNeedToKnow.Text = resources.GetString("lbWhatParentsNeedToKnow.Text");
             // 
@@ -357,6 +366,7 @@
             this.tlpALotOrALittle.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
             this.tlpALotOrALittle.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.34F));
             this.tlpALotOrALittle.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
+            this.tlpALotOrALittle.Controls.Add(this.panel7, 0, 2);
             this.tlpALotOrALittle.Controls.Add(this.panel15, 0, 2);
             this.tlpALotOrALittle.Controls.Add(this.panel14, 0, 2);
             this.tlpALotOrALittle.Controls.Add(this.panel13, 2, 1);
@@ -385,7 +395,7 @@
             this.panel15.Controls.Add(this.lbConsumerism_Expl);
             this.panel15.Controls.Add(this.label27);
             this.panel15.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel15.Location = new System.Drawing.Point(10, 184);
+            this.panel15.Location = new System.Drawing.Point(210, 184);
             this.panel15.Margin = new System.Windows.Forms.Padding(10);
             this.panel15.Name = "panel15";
             this.panel15.Size = new System.Drawing.Size(180, 69);
@@ -407,7 +417,7 @@
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label20.Location = new System.Drawing.Point(6, 30);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(90, 16);
+            this.label20.Size = new System.Drawing.Size(89, 16);
             this.label20.TabIndex = 17;
             this.label20.Text = "Consumerism";
             // 
@@ -444,7 +454,7 @@
             this.label27.ForeColor = System.Drawing.Color.Gray;
             this.label27.Location = new System.Drawing.Point(33, 10);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(74, 16);
+            this.label27.Size = new System.Drawing.Size(73, 16);
             this.label27.TabIndex = 10;
             this.label27.Text = "not present";
             // 
@@ -458,10 +468,10 @@
             this.panel14.Controls.Add(this.label24);
             this.panel14.Controls.Add(this.pbDrinkingSmoking);
             this.panel14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel14.Location = new System.Drawing.Point(210, 184);
+            this.panel14.Location = new System.Drawing.Point(410, 184);
             this.panel14.Margin = new System.Windows.Forms.Padding(10);
             this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(180, 69);
+            this.panel14.Size = new System.Drawing.Size(182, 69);
             this.panel14.TabIndex = 6;
             // 
             // pbDrinkingSmoking_Rating
@@ -479,7 +489,7 @@
             this.lbDrinkingSmoking_Expl.Dock = System.Windows.Forms.DockStyle.Right;
             this.lbDrinkingSmoking_Expl.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbDrinkingSmoking_Expl.ForeColor = System.Drawing.Color.DarkGray;
-            this.lbDrinkingSmoking_Expl.Location = new System.Drawing.Point(157, 0);
+            this.lbDrinkingSmoking_Expl.Location = new System.Drawing.Point(159, 0);
             this.lbDrinkingSmoking_Expl.Name = "lbDrinkingSmoking_Expl";
             this.lbDrinkingSmoking_Expl.Size = new System.Drawing.Size(21, 67);
             this.lbDrinkingSmoking_Expl.TabIndex = 16;
@@ -495,7 +505,7 @@
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label23.Location = new System.Drawing.Point(6, 30);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(111, 32);
+            this.label23.Size = new System.Drawing.Size(110, 32);
             this.label23.TabIndex = 15;
             this.label23.Text = "Drinking, Drugs &&\r\nSmoking";
             // 
@@ -506,7 +516,7 @@
             this.label24.ForeColor = System.Drawing.Color.Gray;
             this.label24.Location = new System.Drawing.Point(30, 10);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(74, 16);
+            this.label24.Size = new System.Drawing.Size(73, 16);
             this.label24.TabIndex = 14;
             this.label24.Text = "not present";
             // 
@@ -553,7 +563,7 @@
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.Location = new System.Drawing.Point(6, 30);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(69, 16);
+            this.label17.Size = new System.Drawing.Size(68, 16);
             this.label17.TabIndex = 18;
             this.label17.Text = "Language";
             // 
@@ -590,7 +600,7 @@
             this.label21.ForeColor = System.Drawing.Color.Gray;
             this.label21.Location = new System.Drawing.Point(30, 10);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(74, 16);
+            this.label21.Size = new System.Drawing.Size(73, 16);
             this.label21.TabIndex = 14;
             this.label21.Text = "not present";
             // 
@@ -626,7 +636,7 @@
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.Location = new System.Drawing.Point(6, 30);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(66, 16);
+            this.label14.Size = new System.Drawing.Size(65, 16);
             this.label14.TabIndex = 18;
             this.label14.Text = "Sexy Stuff";
             // 
@@ -663,7 +673,7 @@
             this.label18.ForeColor = System.Drawing.Color.Gray;
             this.label18.Location = new System.Drawing.Point(30, 10);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(74, 16);
+            this.label18.Size = new System.Drawing.Size(73, 16);
             this.label18.TabIndex = 14;
             this.label18.Text = "not present";
             // 
@@ -699,7 +709,7 @@
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(6, 30);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(136, 16);
+            this.label11.Size = new System.Drawing.Size(135, 16);
             this.label11.TabIndex = 18;
             this.label11.Text = "Violence && Scariness";
             // 
@@ -736,7 +746,7 @@
             this.label15.ForeColor = System.Drawing.Color.Gray;
             this.label15.Location = new System.Drawing.Point(30, 10);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(74, 16);
+            this.label15.Size = new System.Drawing.Size(73, 16);
             this.label15.TabIndex = 14;
             this.label15.Text = "not present";
             // 
@@ -808,7 +818,7 @@
             this.label12.ForeColor = System.Drawing.Color.Gray;
             this.label12.Location = new System.Drawing.Point(30, 10);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(74, 16);
+            this.label12.Size = new System.Drawing.Size(73, 16);
             this.label12.TabIndex = 14;
             this.label12.Text = "not present";
             // 
@@ -847,7 +857,7 @@
             this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label26.Location = new System.Drawing.Point(6, 30);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(123, 16);
+            this.label26.Size = new System.Drawing.Size(122, 16);
             this.label26.TabIndex = 17;
             this.label26.Text = "Positive Messages";
             // 
@@ -879,7 +889,7 @@
             this.label9.ForeColor = System.Drawing.Color.Gray;
             this.label9.Location = new System.Drawing.Point(35, 10);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(74, 16);
+            this.label9.Size = new System.Drawing.Size(73, 16);
             this.label9.TabIndex = 14;
             this.label9.Text = "not present";
             // 
@@ -905,7 +915,7 @@
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(6, 30);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(117, 16);
+            this.label6.Size = new System.Drawing.Size(116, 16);
             this.label6.TabIndex = 11;
             this.label6.Text = "Educational Value";
             // 
@@ -941,7 +951,7 @@
             this.label5.ForeColor = System.Drawing.Color.Gray;
             this.label5.Location = new System.Drawing.Point(33, 10);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(74, 16);
+            this.label5.Size = new System.Drawing.Size(73, 16);
             this.label5.TabIndex = 10;
             this.label5.Text = "not present";
             // 
@@ -1293,6 +1303,77 @@
             this.lbError1.TabIndex = 0;
             this.lbError1.Text = "An error has ocurred while loading the data!";
             // 
+            // panel7
+            // 
+            this.panel7.BackColor = System.Drawing.Color.White;
+            this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel7.Controls.Add(this.pbDiverseRepresentation_Rating);
+            this.panel7.Controls.Add(this.lbDiverseRepresentation_Expl);
+            this.panel7.Controls.Add(this.label2);
+            this.panel7.Controls.Add(this.label3);
+            this.panel7.Controls.Add(this.pbDiverseRepresentation);
+            this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel7.Location = new System.Drawing.Point(10, 184);
+            this.panel7.Margin = new System.Windows.Forms.Padding(10);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(180, 69);
+            this.panel7.TabIndex = 8;
+            // 
+            // pbDiverseRepresentation_Rating
+            // 
+            this.pbDiverseRepresentation_Rating.BackColor = System.Drawing.Color.White;
+            this.pbDiverseRepresentation_Rating.Location = new System.Drawing.Point(32, 4);
+            this.pbDiverseRepresentation_Rating.Name = "pbDiverseRepresentation_Rating";
+            this.pbDiverseRepresentation_Rating.Size = new System.Drawing.Size(115, 26);
+            this.pbDiverseRepresentation_Rating.TabIndex = 20;
+            this.pbDiverseRepresentation_Rating.TabStop = false;
+            this.pbDiverseRepresentation_Rating.Visible = false;
+            // 
+            // lbDiverseRepresentation_Expl
+            // 
+            this.lbDiverseRepresentation_Expl.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lbDiverseRepresentation_Expl.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbDiverseRepresentation_Expl.ForeColor = System.Drawing.Color.DarkGray;
+            this.lbDiverseRepresentation_Expl.Location = new System.Drawing.Point(157, 0);
+            this.lbDiverseRepresentation_Expl.Name = "lbDiverseRepresentation_Expl";
+            this.lbDiverseRepresentation_Expl.Size = new System.Drawing.Size(21, 67);
+            this.lbDiverseRepresentation_Expl.TabIndex = 16;
+            this.lbDiverseRepresentation_Expl.Text = "❯";
+            this.lbDiverseRepresentation_Expl.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbDiverseRepresentation_Expl.Visible = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(6, 30);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(149, 16);
+            this.label2.TabIndex = 15;
+            this.label2.Text = "Diverse Representation";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.Gray;
+            this.label3.Location = new System.Drawing.Point(30, 10);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(73, 16);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "not present";
+            // 
+            // pbDiverseRepresentation
+            // 
+            this.pbDiverseRepresentation.Image = global::Desene.Properties.Resources.positive_role_models;
+            this.pbDiverseRepresentation.InitialImage = null;
+            this.pbDiverseRepresentation.Location = new System.Drawing.Point(9, 8);
+            this.pbDiverseRepresentation.Name = "pbDiverseRepresentation";
+            this.pbDiverseRepresentation.Size = new System.Drawing.Size(20, 20);
+            this.pbDiverseRepresentation.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbDiverseRepresentation.TabIndex = 13;
+            this.pbDiverseRepresentation.TabStop = false;
+            // 
             // FrmRecommendedData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1381,6 +1462,10 @@
             this.customPanel1.PerformLayout();
             this.pError.ResumeLayout(false);
             this.pError.PerformLayout();
+            this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbDiverseRepresentation_Rating)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbDiverseRepresentation)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1482,5 +1567,11 @@
         private System.Windows.Forms.Panel pError;
         private System.Windows.Forms.Label lbError2;
         private System.Windows.Forms.Label lbError1;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.PictureBox pbDiverseRepresentation_Rating;
+        private System.Windows.Forms.Label lbDiverseRepresentation_Expl;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.PictureBox pbDiverseRepresentation;
     }
 }

@@ -159,6 +159,12 @@ namespace Desene.DetailFormsAndUserControls.Shared
                 SetDataToControls(scrapedDataObj, pbDrinkingSmoking_Rating, lbDrinkingSmoking_Expl);
             }
 
+            scrapedDataObj = csmData.ALotOrALittle.FirstOrDefault(_ => _.Category == ALotOrAlittleElements.DiverseRepresentations);
+            if (scrapedDataObj != null)
+            {
+                SetDataToControls(scrapedDataObj, pbDiverseRepresentation_Rating, lbDiverseRepresentation_Expl);
+            }
+
 
             void SetDataToControls(ALotOrALittle dataObj, PictureBox pbCtrl, Label detailsLabelCtrl)
             {

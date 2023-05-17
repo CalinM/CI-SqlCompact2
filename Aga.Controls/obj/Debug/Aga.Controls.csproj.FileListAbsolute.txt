@@ -41,3 +41,12 @@ C:\Work\Personal\CI-SqlCompact2\Aga.Controls\obj\Debug\Aga.Controls.csproj.Gener
 C:\Work\Personal\CI-SqlCompact2\Aga.Controls\obj\Debug\Aga.Controls.csproj.CoreCompileInputs.cache
 C:\Work\Personal\CI-SqlCompact2\Aga.Controls\obj\Debug\Aga.Controls.dll
 C:\Work\Personal\CI-SqlCompact2\Aga.Controls\obj\Debug\Aga.Controls.pdb
+D:\Work\CI-SqlCompact2\Aga.Controls\bin\Debug\Aga.Controls.dll
+D:\Work\CI-SqlCompact2\Aga.Controls\bin\Debug\Aga.Controls.pdb
+D:\Work\CI-SqlCompact2\Aga.Controls\obj\Debug\Aga.Controls.csproj.AssemblyReference.cache
+D:\Work\CI-SqlCompact2\Aga.Controls\obj\Debug\Aga.Controls.Properties.Resources.resources
+D:\Work\CI-SqlCompact2\Aga.Controls\obj\Debug\Aga.Controls.Tree.TreeViewAdv.resources
+D:\Work\CI-SqlCompact2\Aga.Controls\obj\Debug\Aga.Controls.csproj.GenerateResource.cache
+D:\Work\CI-SqlCompact2\Aga.Controls\obj\Debug\Aga.Controls.csproj.CoreCompileInputs.cache
+D:\Work\CI-SqlCompact2\Aga.Controls\obj\Debug\Aga.Controls.dll
+D:\Work\CI-SqlCompact2\Aga.Controls\obj\Debug\Aga.Controls.pdb

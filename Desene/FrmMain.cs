@@ -1404,7 +1404,7 @@ namespace Desene
             _iniFile.Write("LastPath", Path.GetFullPath(selectedPath), "General");
 
             var d = new DirectoryInfo(selectedPath);
-            var files = d.GetFiles("*.jpg");
+            var files = d.GetFiles("*.jpg", SearchOption.AllDirectories);
 
             var opRes = DAL.LoadAllIds();
             if (!opRes.Success)

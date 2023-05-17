@@ -1,5 +1,8 @@
-﻿using AngleSharp.Html.Dom;
+﻿using AngleSharp;
+using AngleSharp.Dom;
+using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
+using AngleSharp.Io;
 using Common;
 using DAL;
 using System;
@@ -8,6 +11,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Utils
@@ -633,10 +639,82 @@ namespace Utils
         }
         */
 
+
+        private static IElement GetLastElement(IHtmlDocument document, string[] path)
+        {
+            IElement lastEl = null;
+
+            for (int i = 0; i < path.Length; i++)
+            {
+                string elName = path[i];
+                lastEl = lastEl == null
+                    ? document.GetElementsByClassName(elName).FirstOrDefault()
+                    : lastEl.GetElementsByClassName(elName).FirstOrDefault();
+
+                if (lastEl == null)
+                {
+                    return null;
+                }
+            }
+
+            return lastEl;
+        }
+        private static string GetElementText(IHtmlDocument document, string[] path)
+        {
+            var el = GetLastElement(document, path);
+            return el?.TextContent;
+        }
+
+        private static int? GetRatingScore(IHtmlDocument document, string[] path)
+        {
+            var el = GetLastElement(document, path);
+            return el?.QuerySelectorAll("i").Count(x => x.ClassName == "icon-star-rating active");
+        }
+
+        private static string GetElementText(IHtmlDocument document, string parentId, string ratingClass)
+        {
+            var el =
+                document
+                    .GetElementById(parentId)?
+                    .GetElementsByClassName(ratingClass)?
+                    .FirstOrDefault();
+
+            return el == null ? string.Empty : SanitizeText(el.TextContent);
+        }
+
+        private static int? GetRatingScore(IHtmlDocument document, string parentId, string ratingClass)
+        {
+            var el =
+                document
+                    .GetElementById(parentId)?
+                    .GetElementsByClassName(ratingClass)?
+                    .FirstOrDefault();
+            
+            return el == null ? 0 : el.QuerySelectorAll("i").Count(x => x.ClassName == "icon-star-rating active");
+        }
+
+        private static string SanitizeText(string str)
+        {
+            return str.Replace("\n", "").Trim();
+        }
+
+        private static string GetElementText2(IHtmlDocument document, string parentId, string contentClass)
+        {
+            var el =
+                document
+                    .GetElementById(parentId)?
+                    .ParentElement?
+                    .GetElementsByClassName(contentClass)
+                    .FirstOrDefault();
+
+            return el == null ? string.Empty : SanitizeText(el.TextContent);
+        }
+
         public static OperationResult GetCommonSenseMediaData(string recommendedLink)
         {
             var result = new OperationResult();
             CSMScrapeResult csmData = null;
+
 
             using (var client = new HttpClient())
             {
@@ -656,31 +734,30 @@ namespace Utils
                     if (response == null || response.Length == 0)
                         return result.FailWithMessage("Invalid response!");
 
+                    //var config = Configuration.Default.WithDefaultLoader(new LoaderOptions
+                    //{
+                    //    IsResourceLoadingEnabled = true,
+                    //    IsNavigationDisabled = false,
+                    //}).WithJs();
+
+                    //var context = BrowsingContext.New(config);
+
                     csmData = new CSMScrapeResult();
+                    //var parser = new HtmlParser(new HtmlParserOptions(), context);
                     var parser = new HtmlParser();
                     var document = parser.ParseDocument(response);
 
-                    //var expandableSinopsis1 = document.GetElementsByClassName("field-name-field-review-recommended-age");
+                    csmData.GreenAge = SanitizeText(GetElementText(document, new string[] { "review-view-summary", "rating__age" }));
 
-                    var greenAge = document.GetElementsByClassName("rating__age").FirstOrDefault();
-                    csmData.GreenAge = greenAge == null ? null : greenAge.TextContent;
-
-                    var csmRatingL0 = document.GetElementsByClassName("rating__score").FirstOrDefault();
-
-                    if (csmRatingL0 != null)
-                    {
-                        csmData.Rating = csmRatingL0.QuerySelectorAll("i").Count(x => x.ClassName == "icon-star-rating active");
-                    }
+                    csmData.Rating = GetRatingScore(document, new string[] { "review-view-summary", "rating__score" });
 
                     var shortDescriptionObj = document.GetElementsByClassName("review-view-summary-oneliner").FirstOrDefault();
                     if (shortDescriptionObj != null)
                     {
-                        //var metaElement = (AngleSharp.Html.Dom.IHtmlMetaElement)shortDescriptionObj;
-                        //csmData.ShortDescription = metaElement.Content;
                         csmData.ShortDescription = shortDescriptionObj.TextContent;
                     }
 
-                    var reviewObj = document.GetElementsByTagName("review-view-parents-need-know").FirstOrDefault();
+                    var reviewObj = document.GetElementById("content-grid-item-parents-need-know").GetElementsByClassName("rating__teaser-long").FirstOrDefault();
                     if (reviewObj != null)
                     {
                         var reviewTextObj = reviewObj.QuerySelectorAll("p").FirstOrDefault();
@@ -691,65 +768,27 @@ namespace Utils
                         }
                     }
 
-                    var statisticParent = document.GetElementsByClassName("user-reviews-statistics row").FirstOrDefault();
-                    if (statisticParent != null)
-                    {
-                        var statisticsAdult = statisticParent.Children[0];
+                    csmData.AdultRecomendedAge = GetElementText(document, "user-reviews-reviews-tab-adult", "rating__age");
+                    csmData.AdultRating = GetRatingScore(document, "user-reviews-reviews-tab-adult", "rating__score");
 
-                        if (statisticsAdult.GetElementsByClassName("user-reviews-statistics-empty").FirstOrDefault() == null)
-                        {
-                            var adultAge = statisticsAdult.GetElementsByClassName("rating__age").FirstOrDefault();
-                            csmData.AdultRecomendedAge = adultAge == null ? null : adultAge.TextContent;
+                    /*
+                    IHtmlElement childTabLink = (IHtmlElement)document.QuerySelectorAll("#tab-1").FirstOrDefault();
+                    childTabLink.DoClick();
 
-                            var adultRatingObj = statisticsAdult.GetElementsByClassName("rating__score").FirstOrDefault();
-                            if (adultRatingObj != null)
-                            {
-                                csmData.AdultRating = adultRatingObj.QuerySelectorAll("i").Count(x => x.ClassName == "icon-star-rating active");
-                            }
-                        }
+                    Thread.Sleep(2000);
 
-                        var statisticsChild = statisticParent.Children[1];
+                    csmData.ChildRecomendedAge = GetElementText(document, "user-reviews-reviews-tab-child", "rating__score").Replace("\n", "").Trim();
+                    csmData.ChildRating = GetRatingScore(document, "user-reviews-reviews-tab-child", "rating__score");
+                    */
 
-                        if (statisticsChild.GetElementsByClassName("user-reviews-statistics-empty").FirstOrDefault() == null)
-                        {
-                            var childAge = statisticsChild.GetElementsByClassName("rating__age").FirstOrDefault();
-                            csmData.ChildRecomendedAge = childAge == null ? null : childAge.TextContent;
+                    csmData.Story = GetElementText2(document, "plot-summary", "reveal__content");
+                    csmData.IsItAnyGood = GetElementText2(document, "summary-review", "reveal__content");
 
-                            var childRatingObj = statisticsChild.GetElementsByClassName("rating__score").FirstOrDefault();
-                            if (childRatingObj != null)
-                            {
-                                csmData.ChildRating = childRatingObj.QuerySelectorAll("i").Count(x => x.ClassName == "icon-star-rating active");
-                            }
-                        }
-                    }
+                    var talkWithKidsAboutObj = document.GetElementById("family-talk").ParentElement.GetElementsByClassName("reveal__content").FirstOrDefault();
 
-
-                    var storyObj = document.GetElementsByTagName("review-view-what-is-story").FirstOrDefault();
-                    if (storyObj != null)
-                    {
-                        var storyTextObj = storyObj.QuerySelectorAll("p").FirstOrDefault();
-
-                        if (storyTextObj != null)
-                        {
-                            csmData.Story = storyTextObj == null ? null : storyTextObj.TextContent;
-                        }
-                    }
-
-                    var anyGoodObj = document.GetElementsByTagName("review-view-is-any-good").FirstOrDefault();
-                    if (anyGoodObj != null)
-                    {
-                        var anyGoodTextObj = anyGoodObj.QuerySelectorAll("p").FirstOrDefault();
-
-                        if (anyGoodTextObj != null)
-                        {
-                            csmData.IsItAnyGood = anyGoodTextObj == null ? null : anyGoodTextObj.TextContent;
-                        }
-                    }
-
-                    var talkWithKidsAboutObj = document.GetElementsByTagName("review-view-families-can-talk").FirstOrDefault();
                     if (talkWithKidsAboutObj != null)
                     {
-                        var talkWithKidsAboutEl = talkWithKidsAboutObj.QuerySelectorAll("p");
+                        var talkWithKidsAboutEl = talkWithKidsAboutObj.QuerySelectorAll("li");
 
                         if (talkWithKidsAboutEl.Any())
                         {
@@ -757,12 +796,12 @@ namespace Utils
 
                             foreach (var item in talkWithKidsAboutEl)
                             {
-                                csmData.TalkWithKidsAbout.Add(item.TextContent);
+                                csmData.TalkWithKidsAbout.Add(SanitizeText(item.TextContent));
                             }
                         }
                     }
 
-                    foreach (ALotOrAlittleElements aLotOrALittle in (ALotOrAlittleElements[]) Enum.GetValues(typeof(ALotOrAlittleElements)))
+                    foreach (ALotOrAlittleElements aLotOrALittle in (ALotOrAlittleElements[])Enum.GetValues(typeof(ALotOrAlittleElements)))
                     {
                         var tmp = Get_ALotOrALittle(document, aLotOrALittle);
 
@@ -808,6 +847,8 @@ namespace Utils
                         var rx = new System.Text.RegularExpressions.Regex("<[^>]*>");
                         description = rx.Replace(descriptionAttributeObj, "");
                     }
+
+                    result2 = new ALotOrALittle() { Rating = stars, Description = description, Category = category };
                 }
 
                 return result2;
