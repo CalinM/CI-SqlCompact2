@@ -683,5 +683,13 @@ namespace DAL
         public int r { get; set; }
         public string d { get; set; }
     }
+
+    public class SQLExecutionHistory
+    {
+        public int Id { get; set; }
+        public DateTime DateTimeStamp { get; set; }
+        public string SQLExecuted { get; set; }
+        public string ErrorMessage { get; set; }
+    }
 }
 

@@ -210,6 +210,6 @@ D:\Work\CI-SqlCompact2\DAL\bin\Debug\Common.pdb
 D:\Work\CI-SqlCompact2\DAL\bin\Debug\System.Data.SQLite.xml
 D:\Work\CI-SqlCompact2\DAL\obj\Debug\DAL.csproj.AssemblyReference.cache
 D:\Work\CI-SqlCompact2\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
-D:\Work\CI-SqlCompact2\DAL\obj\Debug\DAL.csproj.CopyComplete
+D:\Work\CI-SqlCompact2\DAL\obj\Debug\DAL.csproj.Up2Date
 D:\Work\CI-SqlCompact2\DAL\obj\Debug\DAL.dll
 D:\Work\CI-SqlCompact2\DAL\obj\Debug\DAL.pdb

@@ -29,11 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pSqlManagement = new System.Windows.Forms.SplitContainer();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.lbSQLHistoryCaption = new System.Windows.Forms.Label();
             this.tvDbStructure = new Aga.Controls.Tree.TreeViewAdv();
+            this.dgvSQLHistory = new System.Windows.Forms.DataGridView();
             this.pSeparator_Caption = new System.Windows.Forms.Panel();
             this.lbSeriesEpisodesCaption = new System.Windows.Forms.Label();
             this.customPanel1 = new Utils.CustomPanel();
@@ -55,6 +58,8 @@
             this.pSqlManagement.Panel1.SuspendLayout();
             this.pSqlManagement.Panel2.SuspendLayout();
             this.pSqlManagement.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSQLHistory)).BeginInit();
             this.pSeparator_Caption.SuspendLayout();
             this.customPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scSQLwork)).BeginInit();
@@ -78,7 +83,9 @@
             // 
             // pSqlManagement.Panel1
             // 
+            this.pSqlManagement.Panel1.Controls.Add(this.panel1);
             this.pSqlManagement.Panel1.Controls.Add(this.tvDbStructure);
+            this.pSqlManagement.Panel1.Controls.Add(this.dgvSQLHistory);
             this.pSqlManagement.Panel1.Controls.Add(this.pSeparator_Caption);
             // 
             // pSqlManagement.Panel2
@@ -87,6 +94,28 @@
             this.pSqlManagement.Size = new System.Drawing.Size(939, 514);
             this.pSqlManagement.SplitterDistance = 313;
             this.pSqlManagement.TabIndex = 0;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.panel1.Controls.Add(this.lbSQLHistoryCaption);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.ForeColor = System.Drawing.Color.Cornsilk;
+            this.panel1.Location = new System.Drawing.Point(0, 358);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(311, 25);
+            this.panel1.TabIndex = 115;
+            // 
+            // lbSQLHistoryCaption
+            // 
+            this.lbSQLHistoryCaption.AutoSize = true;
+            this.lbSQLHistoryCaption.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSQLHistoryCaption.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lbSQLHistoryCaption.Location = new System.Drawing.Point(9, 6);
+            this.lbSQLHistoryCaption.Name = "lbSQLHistoryCaption";
+            this.lbSQLHistoryCaption.Size = new System.Drawing.Size(131, 13);
+            this.lbSQLHistoryCaption.TabIndex = 0;
+            this.lbSQLHistoryCaption.Text = "SQL execution history";
             // 
             // tvDbStructure
             // 
@@ -100,10 +129,25 @@
             this.tvDbStructure.Model = null;
             this.tvDbStructure.Name = "tvDbStructure";
             this.tvDbStructure.SelectedNode = null;
-            this.tvDbStructure.Size = new System.Drawing.Size(311, 487);
-            this.tvDbStructure.TabIndex = 111;
+            this.tvDbStructure.Size = new System.Drawing.Size(311, 358);
+            this.tvDbStructure.TabIndex = 113;
             this.tvDbStructure.Text = "treeViewAdv1";
-            this.tvDbStructure.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tvDbStructure_MouseUp);
+            // 
+            // dgvSQLHistory
+            // 
+            this.dgvSQLHistory.AllowUserToAddRows = false;
+            this.dgvSQLHistory.AllowUserToDeleteRows = false;
+            this.dgvSQLHistory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvSQLHistory.BackgroundColor = System.Drawing.Color.WhiteSmoke;
+            this.dgvSQLHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSQLHistory.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dgvSQLHistory.Location = new System.Drawing.Point(0, 383);
+            this.dgvSQLHistory.Name = "dgvSQLHistory";
+            this.dgvSQLHistory.ReadOnly = true;
+            this.dgvSQLHistory.RowHeadersVisible = false;
+            this.dgvSQLHistory.Size = new System.Drawing.Size(311, 129);
+            this.dgvSQLHistory.TabIndex = 112;
+            this.dgvSQLHistory.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSQLHistory_CellDoubleClick);
             // 
             // pSeparator_Caption
             // 
@@ -227,35 +271,35 @@
             this.dvgQueryResult.AllowUserToDeleteRows = false;
             this.dvgQueryResult.AllowUserToResizeRows = false;
             this.dvgQueryResult.BackgroundColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dvgQueryResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dvgQueryResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dvgQueryResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dvgQueryResult.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dvgQueryResult.DefaultCellStyle = dataGridViewCellStyle2;
             this.dvgQueryResult.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dvgQueryResult.Location = new System.Drawing.Point(3, 3);
             this.dvgQueryResult.Name = "dvgQueryResult";
             this.dvgQueryResult.ReadOnly = true;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dvgQueryResult.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dvgQueryResult.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dvgQueryResult.RowHeadersVisible = false;
             this.dvgQueryResult.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dvgQueryResult.Size = new System.Drawing.Size(606, 208);
@@ -311,7 +355,7 @@
             this.pmTreeView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miGenerateSelect});
             this.pmTreeView.Name = "pmTreeView";
-            this.pmTreeView.Size = new System.Drawing.Size(181, 48);
+            this.pmTreeView.Size = new System.Drawing.Size(155, 26);
             this.pmTreeView.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.pmTreeView_ItemClicked);
             // 
             // miGenerateSelect
@@ -333,6 +377,9 @@
             this.pSqlManagement.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pSqlManagement)).EndInit();
             this.pSqlManagement.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSQLHistory)).EndInit();
             this.pSeparator_Caption.ResumeLayout(false);
             this.pSeparator_Caption.PerformLayout();
             this.customPanel1.ResumeLayout(false);
@@ -360,7 +407,6 @@
         private Utils.CustomPanel customPanel1;
         private System.Windows.Forms.ToolStrip mainMenu2;
         private System.Windows.Forms.ToolStripButton btnExecute;
-        private Aga.Controls.Tree.TreeViewAdv tvDbStructure;
         private System.Windows.Forms.SplitContainer scSQLwork;
         private System.Windows.Forms.TabControl tcResult;
         private System.Windows.Forms.TabPage tabPage1;
@@ -373,5 +419,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ContextMenuStrip pmTreeView;
         private System.Windows.Forms.ToolStripMenuItem miGenerateSelect;
+        private Aga.Controls.Tree.TreeViewAdv tvDbStructure;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label lbSQLHistoryCaption;
+        private System.Windows.Forms.DataGridView dgvSQLHistory;
     }
 }

@@ -4123,5 +4123,69 @@ namespace Desene
 
             return result;
         }
+
+        public static void PersistExecution(string toExecute, string errorMessage)
+        {
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                SQLiteCommand cmd;
+                var sqlString = @"
+                    INSERT INTO SQLExecutionHistory (
+                        DateTimeStamp,
+                        SQLExecuted,
+                        ErrorMessage
+                    )
+                    VALUES (
+                        @DateTimeStamp,
+                        @SQLExecuted,
+                        @ErrorMessage
+                    );";
+
+                cmd = new SQLiteCommand(sqlString, conn);
+                cmd.Parameters.AddWithValue("@DateTimeStamp", DateTime.Now);
+                cmd.Parameters.AddWithValue("@SQLExecuted", toExecute);
+                cmd.Parameters.AddWithValue("@ErrorMessage", errorMessage);
+                cmd.ExecuteNonQuery();              
+
+                conn.Close();
+            }
+        }
+
+        public static List<SQLExecutionHistory> GetSqlHistory()
+        {
+            var result = new List<SQLExecutionHistory>();
+
+            using (var conn = new SQLiteConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                var cmd = new SQLiteCommand(@"
+                    SELECT
+                        *
+                    FROM SQLExecutionHistory
+                    ORDER BY Id DESC", conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var sqlHistoryItem = new SQLExecutionHistory();
+                        sqlHistoryItem.Id = (int)(long)reader["Id"];
+                        sqlHistoryItem.DateTimeStamp = (DateTime)reader["DateTimeStamp"];
+                        sqlHistoryItem.SQLExecuted = reader["SQLExecuted"].ToString();
+                        sqlHistoryItem.ErrorMessage = reader["ErrorMessage"].ToString();
+
+
+                        result.Add(sqlHistoryItem);
+                    }
+                }
+
+                conn.Close();
+            }
+
+            return result;    
+        }
     }
 }

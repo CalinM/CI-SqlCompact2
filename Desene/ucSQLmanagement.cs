@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Aga.Controls.Tree;
+using Aga.Controls.Tree.NodeControls;
+using Common;
+using DAL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,9 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Aga.Controls.Tree;
-using Aga.Controls.Tree.NodeControls;
-using DAL;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Desene
 {
@@ -63,6 +65,8 @@ namespace Desene
             _parent.SetInfo2(false, "");
 
             eSqlEdit.SelectionIndent = 5;
+
+            RefreshSQLHistory();
         }
 
         private void btnExecute_Click(object sender, EventArgs e)
@@ -112,9 +116,52 @@ namespace Desene
                         richTextBox1.Text = opRes.AdditionalDataReturn.ToString();
                     }
                 }
+
+                WriteSqlExecution(toExecute, opRes.CustomErrorMessage);
             }
         }
 
+        private void RefreshSQLHistory()
+        {
+            try
+            {
+                var sqlHistory = DAL.GetSqlHistory();
+                if (sqlHistory != null && sqlHistory.Count > 0)
+                {
+                    dgvSQLHistory.DataSource = sqlHistory;
+                    dgvSQLHistory.Columns["Id"].Visible = false;
+                    dgvSQLHistory.Columns["DateTimeStamp"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
+                    dgvSQLHistory.Columns["SQLExecuted"].HeaderText = "Execution Date";
+                    dgvSQLHistory.Columns["ErrorMessage"].HeaderText = "Error Message";
+                }
+                else
+                {
+                    dgvSQLHistory.DataSource = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    string.Format("The following error occurred while loading the SQL history:{0}{0}{1}", Environment.NewLine, OperationResult.GetErrorMessage(ex, false)),
+                    "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void WriteSqlExecution(string toExecute, string errorMessage)
+        {
+            try
+            {
+                DAL.PersistExecution(toExecute, errorMessage);
+                RefreshSQLHistory();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    string.Format("The following error occurred while persisting the SQL history:{0}{0}{1}", Environment.NewLine, OperationResult.GetErrorMessage(ex, false)),
+                    "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }            
+        }
+            
         private void tvDbStructure_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left) return;
@@ -152,6 +199,19 @@ namespace Desene
 
                     break;
             }
+        }
+
+        private void dgvSQLHistory_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+            {
+                return;
+            }
+
+            var row = dgvSQLHistory.Rows[e.RowIndex];
+            var textValue = row.Cells["SQLExecuted"].Value?.ToString() ?? "";
+        
+            eSqlEdit.Text = textValue;
         }
     }
 }

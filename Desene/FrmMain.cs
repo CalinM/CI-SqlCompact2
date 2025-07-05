@@ -131,6 +131,14 @@ namespace Desene
                     CSMDetailId ASC
                 );");
 
+            DatabaseOperations.ExecuteSqlString(@"
+                CREATE TABLE IF NOT EXISTS SQLExecutionHistory (
+                    Id                 INTEGER        PRIMARY KEY AUTOINCREMENT,
+                    DateTimeStamp      DATETIME,
+                    SQLExecuted        TEXT,
+                    ErrorMessage       TEXT
+                );");
+
             pMainContainer.Controls.Clear();
 
             DAL.LoadBaseDbValues();
